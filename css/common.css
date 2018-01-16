@@ -1149,9 +1149,6 @@ body.VI #trading_socket_container #contract_form_name_nav {
 body.VI #trading_socket_container #contract_form_name_nav > li a.tm-a {
   font-size: 0.6575162324rem;
 }
-body.VI #trading_socket_container_beta #contract_symbol_container {
-  font-size: 1rem;
-}
 
 /*French Language */
 body.FR a, body.FR button, body.FR .button, body.FR span, body.FR input {
