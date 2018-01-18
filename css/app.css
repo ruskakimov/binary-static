@@ -719,9 +719,6 @@ a.previous-wrapper:hover {
   background: no-repeat center;
   background-size: 60px;
 }
-#mt_account_management #account_details #acc_icon.cent {
-  background-image: url("../images/pages/metatrader/icons/acc_cent.svg");
-}
 #mt_account_management #account_details #acc_icon.standard {
   background-image: url("../images/pages/metatrader/icons/acc_standard.svg");
 }
