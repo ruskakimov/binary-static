@@ -681,34 +681,34 @@ div.kineticjs-content {
   font-style: italic;
 }
 
-#content.home-beta-content .go-left:hover, #content.home-beta-content .go-right:hover {
+#content.home-content .go-left:hover, #content.home-content .go-right:hover {
   cursor: pointer;
 }
-#content.home-beta-content h3 {
+#content.home-content h3 {
   line-height: 30px;
 }
-#content.home-beta-content .border-right {
+#content.home-content .border-right {
   border-right: 2px solid #dedede;
 }
-#content.home-beta-content .tab-circles {
+#content.home-content .tab-circles {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-#content.home-beta-content .tab-circles .tab-circle {
+#content.home-content .tab-circles .tab-circle {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   border: 1px solid #e98024;
   margin: 0 3px;
 }
-#content.home-beta-content .tab-circles .tab-circle.selected {
+#content.home-content .tab-circles .tab-circle.selected {
   background-color: #e98024;
 }
-#content.home-beta-content .tab-circles .tab-circle:first-child {
+#content.home-content .tab-circles .tab-circle:first-child {
   margin-left: auto;
 }
-#content.home-beta-content .tab-circles .tab-circle:last-child {
+#content.home-content .tab-circles .tab-circle:last-child {
   margin-right: auto;
 }
 
@@ -790,22 +790,22 @@ div.kineticjs-content {
     width: 32%;
   }
 
-  #content.home-beta-content .border-right {
+  #content.home-content .border-right {
     border-right: none;
   }
-  #content.home-beta-content #market_tabs_selector, #content.home-beta-content #account_tabs_selector {
+  #content.home-content #market_tabs_selector, #content.home-content #account_tabs_selector {
     top: 24px;
   }
-  #content.home-beta-content #frm_verify_email input {
+  #content.home-content #frm_verify_email input {
     width: calc(100% - 10px);
   }
-  #content.home-beta-content .order-2-m {
+  #content.home-content .order-2-m {
     -webkit-box-ordinal-group: 3;
         -ms-flex-order: 2;
             order: 2;
     padding-top: 30px;
   }
-  #content.home-beta-content .padding-top-20 {
+  #content.home-content .padding-top-20 {
     padding-top: 20px;
   }
 
