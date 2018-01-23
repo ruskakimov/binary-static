@@ -90,6 +90,14 @@
   background-image: url("../images/pages/metatrader/margin-policy/mr2_ai.svg");
   height: 150px;
 }
+#margin-policy .crypto-icon {
+  background-image: url("../images/pages/metatrader/margin-policy/crypto.svg");
+  height: 150px;
+}
+#margin-policy .metal-icon {
+  background-image: url("../images/pages/metatrader/margin-policy/metal.svg");
+  height: 150px;
+}
 
 /* Multilevel numbered list */
 #mt-tnc ol {
@@ -134,6 +142,13 @@
 
 #mt_download .browsers img {
   max-height: 100px;
+}
+
+#new_account_icon {
+  background-image: url("../images/pages/metatrader/icons/new_account.svg");
+  background-repeat: no-repeat;
+  background-position: 18px 6px;
+  padding-left: 48px;
 }
 
 /* GET-STARTED PAGES RULES */
@@ -1196,14 +1211,9 @@ body #not_authenticated_financial ul.checked > li {
   padding: 4px 0;
 }
 
-.platforms-content #binary-content img.responsive {
+.platforms-content img.responsive {
   max-height: 150px;
-}
-.platforms-content #mt5-content .enhanced img.responsive, .platforms-content #mt5-content img.step {
-  max-height: 128px;
-}
-.platforms-content #mt5-content img.step-arrow {
-  max-height: 24px;
+  width: auto;
 }
 
 #mt5_types_of_accounts .box {
