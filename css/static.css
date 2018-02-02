@@ -1162,16 +1162,6 @@ body #not_authenticated_financial ul.checked > li {
   background-color: #fff;
 }
 
-.omnibus-content .box {
-  min-height: 156px;
-}
-.omnibus-content .box img {
-  height: 48px;
-}
-.omnibus-content .steps img {
-  height: 43px;
-}
-
 .accounts-content .table-container table {
   border: 1px solid #f2f2f2;
 }
