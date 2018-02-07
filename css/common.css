@@ -222,6 +222,15 @@ fieldset .text-display {
   color: #fff;
 }
 
+.white-bg-color {
+  background-color: #fff;
+}
+
+.viewport-width {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
 textarea {
   height: 8em;
   width: 25em;
