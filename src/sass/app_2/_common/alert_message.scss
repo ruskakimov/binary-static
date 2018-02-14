@@ -1,0 +1,50 @@
+/* stylelint-disable color-no-hex */
+.alert {
+    margin: 8px 32px;
+    padding: 10px 16px;
+    width: 686px;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #333333;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-message {
+        font-size: 16px;
+        flex-grow: 1;
+    }
+    &-icon:after {
+        content: '&copy;';
+        display: block;
+        height: 16px;
+        width: 16px;
+        font-size: 16px;
+    }
+    &-danger {
+        background-color: #ffebee;
+        border-color: #f44336;
+    }
+    &-neutral {
+        background-color: #e3f2fd;
+        border-color: #2196f3;
+    }
+    &-success {
+        background-color: #e8f5e9;
+        border-color: #4caf50;
+    }
+    &-warning {
+        background-color: #fff8e1;
+        border-color: #ffc107;
+    }
+    &-close {
+        cursor: pointer;
+        display: block;
+
+        &-icon {
+            display: block;
+            height: 10px;
+            width: 10px;
+        }
+    }
+}
