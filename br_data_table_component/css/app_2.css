@@ -930,6 +930,12 @@ div.dropdown-container .select-arrow:before {
 .table-tbody td:last-child {
   padding-right: 16px;
 }
+.table-tbody .profit {
+  color: #2e8836;
+}
+.table-tbody .loss {
+  color: #c03;
+}
 .table-pagination {
   margin-top: 16px;
 }
@@ -956,30 +962,27 @@ div.dropdown-container .select-arrow:before {
 }
 .pagination-prev, .pagination-next, .pagination-item {
   text-decoration: none;
+  list-style: none;
   background-color: #fff;
   border-radius: 4px;
   color: #333333;
   border: 1px solid #e9e9ed;
-  width: 32px;
+  min-width: 32px;
   height: 32px;
-  line-height: 32px;
   text-align: center;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
-.pagination-prev:hover, .pagination-next:hover, .pagination-item:hover {
+.pagination-prev:hover, .pagination-next:hover, .pagination-item:hover, .pagination-item-active {
   cursor: pointer;
-  background-color: #f2f3f8;
-  border-color: #f2f3f8;
+  border-color: #4c5794;
 }
-.pagination-prev:hover a, .pagination-next:hover a, .pagination-item:hover a {
+.pagination-prev:hover a, .pagination-next:hover a, .pagination-item:hover a, .pagination-item-active a {
   color: #4c5794;
 }
-.pagination-item-active, .pagination-item-active:hover {
+.pagination-item-active:hover {
   cursor: default;
-  border-color: #4c5794;
-  background-color: #4c5794;
-}
-.pagination-item-active a, .pagination-item-active:hover a {
-  color: #ffffff;
 }
 .pagination-disabled, .pagination-disabled:hover {
   cursor: not-allowed;
@@ -990,7 +993,19 @@ div.dropdown-container .select-arrow:before {
   color: #e9e9ed;
 }
 .pagination-ellipsis {
+  line-height: 32px;
   border: none;
+}
+.pagination-ellipsis:hover {
+  cursor: default;
+}
+.pagination-ellipsis:after {
+  content: '\2022\2022\2022';
+  display: block;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: #e9e9ed;
+  text-align: center;
 }
 .pagination-ellipsis a {
   color: #e9e9ed;
