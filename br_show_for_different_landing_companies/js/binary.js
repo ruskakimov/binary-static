@@ -19202,7 +19202,7 @@ var Page = function () {
     };
 
     var showHiddenElementsBasedOnCompany = function showHiddenElementsBasedOnCompany(landing_company_name) {
-        var VISIBLE_CLASSNAME = 'visible';
+        var visible_classname = 'visible';
 
         function parseAttributeString(attrStr) {
             function generateErrorMessage(reason) {
@@ -19255,14 +19255,15 @@ var Page = function () {
                 isExclude = _parseAttributeString.isExclude,
                 names = _parseAttributeString.names;
 
-            console.log(names);
+            console.log(isExclude ? 'exclude' : 'include', names);
+
             var nameSet = new Set(names);
 
             if (isExclude && !nameSet.has(landing_company_name)) {
-                el.classList.add(VISIBLE_CLASSNAME);
+                el.classList.add(visible_classname);
                 console.log('show', el);
             } else if (!isExclude && nameSet.has(landing_company_name)) {
-                el.classList.add(VISIBLE_CLASSNAME);
+                el.classList.add(visible_classname);
                 console.log('show', el);
             } else {
                 console.log('stays hidden', el);
