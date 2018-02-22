@@ -655,7 +655,7 @@ li strong.margin-right {
   margin-right: 5px;
 }
 
-[data-show]:not(.visible) {
+[data-show]:not(.data-show-visible) {
   display: none !important;
 }
 
@@ -1443,11 +1443,12 @@ body.ZH_TW .google-play-badge {
     font-size: 0.8695652174rem;
   }
 }
-@media screen and (max-width: 959px) {
+@media screen and (max-width: 1080px) {
   #header ul#menu-top.smaller-font a {
     font-size: 0.7561436673rem;
   }
-
+}
+@media screen and (max-width: 959px) {
   .home-jp-content #banner {
     background-position-x: 0;
   }

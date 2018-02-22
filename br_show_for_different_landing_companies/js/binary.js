@@ -5695,12 +5695,35 @@ var ViewPopup = function () {
             $container = makeTemplate();
         }
 
-        containerSetText('trade_details_contract_id', contract.contract_id);
+        var contract_type_display = {
+            ASIANU: 'Asian Up',
+            ASIAND: 'Asian Down',
+            CALL: 'Higher',
+            PUT: 'Lower',
+            DIGITMATCH: 'Digit Matches',
+            DIGITDIFF: 'Digit Differs',
+            DIGITODD: 'Digit Odd',
+            DIGITEVEN: 'Digit Even',
+            DIGITOVER: 'Digit Over',
+            DIGITUNDER: 'Digit Under',
+            EXPIRYMISS: 'Ends Outside',
+            EXPIRYRANGE: 'Ends Between',
+            LBFLOATCALL: 'Close-Low',
+            LBFLOATPUT: 'High-Close',
+            LBHIGHLOW: 'High-Low',
+            RANGE: 'Stays Between',
+            UPORDOWN: 'Goes Outside',
+            ONETOUCH: 'Touches',
+            NOTOUCH: 'Does Not Touch'
+        };
 
-        containerSetText('trade_details_start_date', toJapanTimeIfNeeded(epochToDateTime(contract.date_start)));
-        containerSetText('trade_details_end_date', toJapanTimeIfNeeded(epochToDateTime(contract.date_expiry)));
+        containerSetText('trade_details_contract_type', localize(contract_type_display[contract.contract_type]));
+        containerSetText('trade_details_contract_id', contract.contract_id);
+        containerSetText('trade_details_start_date', epochToDateTime(contract.date_start));
+        containerSetText('trade_details_end_date', epochToDateTime(contract.date_expiry));
+        containerSetText('trade_details_payout', formatMoney(contract.currency, contract.payout));
         containerSetText('trade_details_purchase_price', formatMoney(contract.currency, contract.buy_price));
-        containerSetText('trade_details_multiplier', formatMoney(contract.currency, multiplier));
+        containerSetText('trade_details_multiplier', formatMoney(contract.currency, multiplier, false, 3, 2));
         if (isLookback(contract.contract_type)) {
             containerSetText('trade_details_payout', getLookbackFormula(contract.contract_type, formatMoney(contract.currency, multiplier, false, 3, 2)));
         } else {
@@ -5756,12 +5779,12 @@ var ViewPopup = function () {
                 window.time = moment(current_spot_time).utc();
                 updateTimers();
             }
-            containerSetText('trade_details_current_date', toJapanTimeIfNeeded(epochToDateTime(current_spot_time)));
+            containerSetText('trade_details_current_date', epochToDateTime(current_spot_time));
         } else {
             $('#trade_details_current_date').parent().setVisibility(0);
         }
 
-        containerSetText('trade_details_ref_id', contract.transaction_ids.buy + (contract.transaction_ids.sell ? ' - ' + contract.transaction_ids.sell : ''));
+        containerSetText('trade_details_ref_id', contract.transaction_ids.buy + ' (' + localize('Buy') + ') ' + (contract.transaction_ids.sell ? '<br>' + contract.transaction_ids.sell + ' (' + localize('Sell') + ')' : ''));
         containerSetText('trade_details_indicative_price', indicative_price ? formatMoney(contract.currency, indicative_price) : '-');
 
         var profit_loss = void 0,
@@ -5827,7 +5850,7 @@ var ViewPopup = function () {
     // This is called by clock.js in order to sync time updates on header as well as view popup
     var updateTimers = function updateTimers() {
         var now = Math.max(Math.floor((window.time || 0) / 1000), contract.current_spot_time || 0);
-        containerSetText('trade_details_live_date', toJapanTimeIfNeeded(epochToDateTime(now)));
+        containerSetText('trade_details_live_date', epochToDateTime(now));
         showLocalTimeOnHover('#trade_details_live_date');
 
         var is_started = !contract.is_forward_starting || contract.current_spot_time > contract.date_start;
@@ -6012,7 +6035,7 @@ var ViewPopup = function () {
 
         tr.appendChild(createElement('td', { class: 'gr-3' }));
         tr.appendChild(createElement('td', { class: 'gr-4 no-margin secondary-color', text: localize('Spot') }));
-        tr.appendChild(createElement('td', { class: 'gr-5 no-margin secondary-color', text: localize('Spot Time') }));
+        tr.appendChild(createElement('td', { class: 'gr-5 no-margin secondary-color', text: localize('Spot Time (GMT)') }));
 
         table.insertBefore(tr, table.childNodes[0]);
     };
@@ -6102,7 +6125,7 @@ var ViewPopup = function () {
             barrier_text = 'Target';
         }
 
-        $sections.find('#sell_details_table').append($('<table>\n            <tr id="contract_tabs"><th colspan="2" id="contract_information_tab">' + localize('Contract Information') + '</th></tr><tbody id="contract_information_content">\n            ' + createRow('Contract ID', '', 'trade_details_contract_id') + '\n            ' + createRow('Reference ID', '', 'trade_details_ref_id') + '\n            ' + createRow('Start Time', '', 'trade_details_start_date') + '\n            ' + (!contract.tick_count ? createRow('End Time', '', 'trade_details_end_date') + createRow('Remaining Time', '', 'trade_details_live_remaining') : '') + '\n            ' + (!isLookback(contract.contract_type) ? createRow('Entry Spot', '', 'trade_details_entry_spot', 0, '<span></span>') : '') + '\n            ' + createRow(barrier_text, '', 'trade_details_barrier', true) + '\n            ' + (contract.barrier_count > 1 ? createRow(low_barrier_text, '', 'trade_details_barrier_low', true) : '') + '\n            ' + createRow('Potential Payout', '', 'trade_details_payout') + '\n            ' + (multiplier ? createRow('Multiplier', '', 'trade_details_multiplier') : '') + '\n            ' + createRow('Purchase Price', '', 'trade_details_purchase_price') + '\n            </tbody>\n            <th colspan="2" id="barrier_change" class="invisible">' + localize('Barrier Change') + '</th>\n            <tbody id="barrier_change_content" class="invisible"></tbody>\n            <tr><th colspan="2" id="trade_details_current_title">' + localize('Current') + '</th></tr>\n            ' + createRow('Spot', 'trade_details_spot_label', 'trade_details_current_spot', 0, '<span></span>') + '\n            ' + createRow('Spot Time', 'trade_details_spottime_label', 'trade_details_current_date') + '\n            ' + createRow('Current Time', '', 'trade_details_live_date') + '\n            ' + createRow('Indicative', 'trade_details_indicative_label', 'trade_details_indicative_price') + '\n            ' + createRow('Profit/Loss', '', 'trade_details_profit_loss') + '\n            <tr><td colspan="2" class="last_cell" id="trade_details_message">&nbsp;</td></tr>\n            </table>\n            <div id="errMsg" class="notice-msg ' + hidden_class + '"></div>\n            <div id="trade_details_bottom"><div id="contract_sell_wrapper" class="' + hidden_class + '"></div><div id="contract_sell_message"></div><div id="contract_win_status" class="' + hidden_class + '"></div></div>'));
+        $sections.find('#sell_details_table').append($('<table>\n            <tr id="contract_tabs"><th colspan="2" id="contract_information_tab">' + localize('Contract Information') + '</th></tr><tbody id="contract_information_content">\n            ' + createRow('Contract Type', '', 'trade_details_contract_type') + '\n            ' + createRow('Contract ID', '', 'trade_details_contract_id') + '\n            ' + createRow('Transaction ID', '', 'trade_details_ref_id') + '\n            ' + createRow('Start Time', '', 'trade_details_start_date') + '\n            ' + (!contract.tick_count ? createRow('End Time', '', 'trade_details_end_date') + createRow('Remaining Time', '', 'trade_details_live_remaining') : '') + '\n            ' + (!isLookback(contract.contract_type) ? createRow('Entry Spot', '', 'trade_details_entry_spot', 0, '<span></span>') : '') + '\n            ' + createRow(barrier_text, '', 'trade_details_barrier', true) + '\n            ' + (contract.barrier_count > 1 ? createRow(low_barrier_text, '', 'trade_details_barrier_low', true) : '') + '\n            ' + createRow('Potential Payout', '', 'trade_details_payout') + '\n            ' + (multiplier ? createRow('Multiplier', '', 'trade_details_multiplier') : '') + '\n            ' + createRow('Purchase Price', '', 'trade_details_purchase_price') + '\n            </tbody>\n            <th colspan="2" id="barrier_change" class="invisible">' + localize('Barrier Change') + '</th>\n            <tbody id="barrier_change_content" class="invisible"></tbody>\n            <tr><th colspan="2" id="trade_details_current_title">' + localize('Current') + '</th></tr>\n            ' + createRow('Spot', 'trade_details_spot_label', 'trade_details_current_spot', 0, '<span></span>') + '\n            ' + createRow('Spot Time', 'trade_details_spottime_label', 'trade_details_current_date') + '\n            ' + createRow('Current Time', '', 'trade_details_live_date') + '\n            ' + createRow('Indicative', 'trade_details_indicative_label', 'trade_details_indicative_price') + '\n            ' + createRow('Profit/Loss', '', 'trade_details_profit_loss') + '\n            <tr><td colspan="2" class="last_cell" id="trade_details_message">&nbsp;</td></tr>\n            </table>\n            <div id="errMsg" class="notice-msg ' + hidden_class + '"></div>\n            <div id="trade_details_bottom"><div id="contract_sell_wrapper" class="' + hidden_class + '"></div><div id="contract_sell_message"></div><div id="contract_win_status" class="' + hidden_class + '"></div></div>'));
 
         $sections.find('#sell_details_chart_wrapper').html($('<div/>', { id: contract.tick_count ? 'tick_chart' : 'analysis_live_chart', class: 'live_chart_wrapper' }));
 
@@ -6117,7 +6140,8 @@ var ViewPopup = function () {
     };
 
     var epochToDateTime = function epochToDateTime(epoch) {
-        return moment.utc(epoch * 1000).format('YYYY-MM-DD HH:mm:ss');
+        var date_time = moment.utc(epoch * 1000).format('YYYY-MM-DD HH:mm:ss');
+        return jpClient() ? toJapanTimeIfNeeded(date_time) : date_time + ' GMT';
     };
 
     // ===== Tools =====
@@ -7256,11 +7280,11 @@ var Price = function () {
         // hide all containers except current one
         if (position === 'middle') {
             if ($('#price_container_top').is(':visible') || $('#price_container_bottom').is(':visible')) {
-                $('#price_container_top').fadeOut(200);
-                $('#price_container_bottom').fadeOut(200);
+                $('#price_container_top').fadeOut(0);
+                $('#price_container_bottom').fadeOut(0);
             }
         } else if ($('#price_container_middle').is(':visible')) {
-            $('#price_container_middle').fadeOut(200);
+            $('#price_container_middle').fadeOut(0);
         }
 
         var container = CommonFunctions.getElementById('price_container_' + position);
@@ -11992,8 +12016,8 @@ var Purchase = function () {
             var contract_type = passthrough.contract_type;
 
             if (isLookback(contract_type)) {
-                multiplier = formatMoney(currency, passthrough.amount);
-                formula = getLookBackFormula(contract_type, multiplier, false, 3, 2);
+                multiplier = formatMoney(currency, passthrough.amount, false, 3, 2);
+                formula = getLookBackFormula(contract_type, multiplier);
             }
 
             payout_value = +receipt.payout;
@@ -12006,6 +12030,7 @@ var Purchase = function () {
                 CommonFunctions.elementInnerHtml(payout, localize('Potential Payout') + ' <p>' + formula + '</p>');
                 profit.setVisibility(0);
             } else {
+                profit.setVisibility(1);
                 CommonFunctions.elementInnerHtml(payout, localize('Potential Payout') + ' <p>' + formatMoney(currency, payout_value) + '</p>');
                 CommonFunctions.elementInnerHtml(profit, localize('Potential Profit') + ' <p>' + profit_value + '</p>');
             }
@@ -18946,7 +18971,7 @@ var getElementById = __webpack_require__(3).getElementById;
 
 var Contents = function () {
     var onLoad = function onLoad() {
-        Client.activateByClientType('header');
+        Client.activateByClientType();
         // This is required for our css to work.
         getElementById('content').className = getElementById('content_class').textContent;
     };
@@ -19202,7 +19227,7 @@ var Page = function () {
     };
 
     var showHiddenElementsBasedOnCompany = function showHiddenElementsBasedOnCompany(landing_company_name) {
-        var visible_classname = 'visible';
+        var visible_classname = 'data-show-visible';
 
         function parseAttributeString(attrStr) {
             function generateErrorMessage(reason) {
