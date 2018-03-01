@@ -16957,6 +16957,7 @@ var Login = __webpack_require__(57);
 var Page = __webpack_require__(230);
 var BinarySocket = __webpack_require__(5);
 var BinarySocketGeneral = __webpack_require__(232);
+var ContentVisibility = __webpack_require__(234);
 var getElementById = __webpack_require__(3).getElementById;
 var localize = __webpack_require__(2).localize;
 var isStorageSupported = __webpack_require__(6).isStorageSupported;
@@ -17009,6 +17010,8 @@ var BinaryLoader = function () {
         } else if (/\/get-started\//i.test(window.location.pathname)) {
             loadHandler(pages_config['get-started']);
         }
+
+        ContentVisibility.init();
     };
 
     var error_messages = {
@@ -19268,7 +19271,6 @@ var Header = __webpack_require__(26);
 var Login = __webpack_require__(57);
 var Menu = __webpack_require__(229);
 var BinarySocket = __webpack_require__(5);
-var ContentVisibility = __webpack_require__(234);
 var checkLanguage = __webpack_require__(9).checkLanguage;
 var TrafficSource = __webpack_require__(157);
 var RealityCheck = __webpack_require__(295);
@@ -19360,7 +19362,6 @@ var Page = function () {
             checkLanguage();
             Menu.init();
         }
-        ContentVisibility.init();
         TrafficSource.setData();
     };
 
