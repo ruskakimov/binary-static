@@ -19740,9 +19740,7 @@ var ContentVisibility = function () {
             // TODO: try simplifying the logic
             if (is_exclude && !has_landing_company_rule && has_mt_company !== has_mt_company_rule || is_include && has_landing_company_rule || is_include && has_mt_company && has_mt_company_rule) {
                 el.classList.add(visible_classname);
-                console.log('show', el);
             } else {
-                console.log('stays hidden', el);
                 var open_tab_url = new RegExp('\\?.+_tabs=' + el.id, 'i');
                 // check if we hide a tab that's open
                 // then redirect to the url without query
