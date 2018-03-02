@@ -19644,7 +19644,7 @@ var createLanguageDropDown = function createLanguageDropDown(website_status) {
     });
     var $select_language = $languages.find(select_language_id);
     languages.forEach(function (language) {
-        if (!/es|it/i.test(language)) {
+        if (!/es/i.test(language)) {
             $select_language.append($('<li/>', { class: language, text: mapCodeToLanguage(language) }));
         }
     });
@@ -19720,9 +19720,9 @@ var ContentVisibility = function () {
         };
     };
 
-    var controlVisibility = function controlVisibility(landing_company_name, has_mt_company) {
+    var controlVisibility = function controlVisibility(current_landing_company_shortcode, client_has_mt_company) {
         var visible_classname = 'data-show-visible';
-        var mt_company_code = 'mtcompany';
+        var mt_company_rule = 'mtcompany';
 
         document.querySelectorAll('[data-show]').forEach(function (el) {
             var attr_str = el.dataset.show;
@@ -19731,14 +19731,16 @@ var ContentVisibility = function () {
                 is_exclude = _parseAttributeString.is_exclude,
                 names = _parseAttributeString.names;
 
-            var is_include = !is_exclude;
-            var name_set = new Set(names);
+            var rule_set = new Set(names);
 
-            var has_landing_company_rule = name_set.has(landing_company_name);
-            var has_mt_company_rule = name_set.has(mt_company_code);
+            var rule_set_has_current = rule_set.has(current_landing_company_shortcode);
+            var rule_set_has_mt = rule_set.has(mt_company_rule);
 
-            // TODO: try simplifying the logic
-            if (is_exclude && !has_landing_company_rule && has_mt_company !== has_mt_company_rule || is_include && has_landing_company_rule || is_include && has_mt_company && has_mt_company_rule) {
+            var show_element = false;
+
+            if (client_has_mt_company && rule_set_has_mt) show_element = !is_exclude;else if (is_exclude !== rule_set_has_current) show_element = true;
+
+            if (show_element) {
                 el.classList.add(visible_classname);
             } else {
                 var open_tab_url = new RegExp('\\?.+_tabs=' + el.id, 'i');
