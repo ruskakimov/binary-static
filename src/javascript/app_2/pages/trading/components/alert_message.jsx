@@ -1,7 +1,7 @@
 import React from 'react';
 import Url from '../../../../_common/url';
 
-const types = ['danger', 'neutral', 'success', 'warning'];
+const types = ['error', 'info', 'success', 'warning'];
 
 class AlertMessage extends React.PureComponent {
     constructor(props) {

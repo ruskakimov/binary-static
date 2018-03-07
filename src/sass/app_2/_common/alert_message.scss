@@ -12,40 +12,61 @@
 
     &-message {
         font-size: 16px;
+        font-weight: lighter;
         flex-grow: 1;
     }
-    &-icon:after {
-        content: '\00a9';
-        display: block;
-        height: 16px;
-        width: 16px;
-        font-size: 16px;
+    &-icon {
+        margin-right: 10px;
+
+        &:after {
+            content: '';
+            display: block;
+            height: 14px;
+            width: 14px;
+            background-repeat: no-repeat;
+            background-size: 14px 14px;
+        }
     }
-    &-danger {
+    &-error {
         background-color: #ffebee;
         border-color: #f44336;
 
-        &:after {
-            // background-image: url(path/to/svg);
-            background-size: 16px 16px;
+        & .alert-icon:after {
+            background-image: url('../../../images/trading_app/error.svg');
         }
     }
-    &-neutral {
+    &-info {
         background-color: #e3f2fd;
         border-color: #2196f3;
+
+        & .alert-icon:after {
+            background-image: url('../../../images/trading_app/info.svg');
+        }
     }
     &-success {
         background-color: #e8f5e9;
         border-color: #4caf50;
+
+        & .alert-icon:after {
+            background-image: url('../../../images/trading_app/success.svg');
+        }
     }
     &-warning {
         background-color: #fff8e1;
         border-color: #ffc107;
+
+        & .alert-icon:after {
+            background-image: url('../../../images/trading_app/warning.svg');
+        }
     }
     &-close {
         cursor: pointer;
         display: block;
+        opacity: 0.5;
 
+        &:hover {
+            opacity: 1;
+        }
         &-icon {
             display: block;
             height: 16px;
