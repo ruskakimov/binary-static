@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../../javascript/app_2/pages/trading/components/form/button.jsx';
 import InputField from '../../../javascript/app_2/pages/trading/components/form/input_field.jsx';
+import AlertMessage from '../../../javascript/app_2/pages/trading/components/alert_message.jsx';
 
 const StyleGuide = () => (
     <div className='container'>
@@ -92,6 +93,14 @@ const StyleGuide = () => (
                         />
                     </div>
                 </div>
+            </div>
+        </div>
+        <div className='gr-row gr-padding-20'>
+            <div className='gr-12'>
+                <AlertMessage type='error' message='This is danger' />
+                <AlertMessage type='info' message='This is neutral' />
+                <AlertMessage type='success' message='This is success' />
+                <AlertMessage type='warning' message='This is warning' />
             </div>
         </div>
     </div>

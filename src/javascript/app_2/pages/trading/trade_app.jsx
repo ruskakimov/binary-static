@@ -8,18 +8,9 @@ import StartDate from './components/start_date.jsx';
 import Symbol from './components/symbol.jsx';
 import Test from './components/test.jsx';
 import Purchase from './components/purchase.jsx';
-import AlertMessage from './components/alert_message.jsx';
 import { connect } from './store/connect';
 
 class TradeApp extends React.Component {
-    componentDidMount() {
-        this.props.onMounted();
-    }
-
-    componentWillUnmount() {
-        this.props.onUnmount();
-    }
-
     isVisible(component_name) {
         return this.props.form_components.indexOf(component_name) >= 0;
     }
@@ -42,12 +33,6 @@ class TradeApp extends React.Component {
 
                     <Purchase />
                 </div>
-                <div className='container'>
-                    <AlertMessage type='error' message='This is danger' />
-                    <AlertMessage type='info' message='This is neutral' />
-                    <AlertMessage type='success' message='This is success' />
-                    <AlertMessage type='warning' message='This is warning' />
-                </div>
             </React.Fragment>
         );
     }
@@ -56,7 +41,5 @@ class TradeApp extends React.Component {
 export default connect(
     ({trade}) => ({
         form_components: trade.form_components,
-        onMounted      : trade.init,
-        onUnmount      : trade.dispose,
     })
 )(TradeApp);
