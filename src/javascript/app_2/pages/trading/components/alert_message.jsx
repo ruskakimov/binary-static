@@ -1,4 +1,5 @@
 import React from 'react';
+import Url from '../../../../_common/url';
 
 const types = ['danger', 'neutral', 'success', 'warning'];
 
@@ -16,7 +17,7 @@ class AlertMessage extends React.PureComponent {
 
         const closeButton = (
             <a className='alert-close'>
-                <svg className='alert-close-icon' viewBox='0 0 10 10' width="10" height="10" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M-1-1h12v12H-1z"/><path d="M5.663 5l3.68 3.68a.469.469 0 0 1-.664.662L5 5.662l-3.68 3.68a.469.469 0 0 1-.662-.663L4.338 5 .657 1.32A.469.469 0 0 1 1.32.659L5 4.338 8.68.657a.469.469 0 0 1 .662.663L5.662 5z" fill="#6E7287"/></g></svg>
+                <img className='alert-close-icon' src={Url.urlForStatic('images/trading_app/close.svg')} alt='Close' />
             </a>
         );
 
