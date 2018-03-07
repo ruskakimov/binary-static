@@ -10,13 +10,28 @@ class AlertMessage extends React.PureComponent {
         if (types.indexOf(props.type) === -1) {
             throw new Error('Wrong type passed to AlertMessage component!');
         }
+        this.state = {
+            closed: false,
+        };
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleClose() {
+        this.setState({
+            closed: true,
+        });
+        if (typeof this.props.onClose === 'function') {
+            this.props.onClose();
+        }
     }
 
     render() {
+        if (this.state.closed) return null;
+
         const { type, message } = this.props;
 
         const closeButton = (
-            <a className='alert-close'>
+            <a className='alert-close' onClick={this.handleClose}>
                 <img className='alert-close-icon' src={Url.urlForStatic('images/trading_app/close.svg')} alt='Close' />
             </a>
         );
