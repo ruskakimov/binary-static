@@ -32,7 +32,7 @@
         border-color: #f44336;
 
         & .alert-icon:after {
-            background-image: url('/images/trading_app/error.svg');
+            background-image: url('/images/trading_app/common/error.svg');
         }
     }
     &-info {
@@ -40,7 +40,7 @@
         border-color: #2196f3;
 
         & .alert-icon:after {
-            background-image: url('/images/trading_app/info.svg');
+            background-image: url('/images/trading_app/common/info.svg');
         }
     }
     &-success {
@@ -48,7 +48,7 @@
         border-color: #4caf50;
 
         & .alert-icon:after {
-            background-image: url('/images/trading_app/success.svg');
+            background-image: url('/images/trading_app/common/success.svg');
         }
     }
     &-warning {
@@ -56,7 +56,7 @@
         border-color: #ffc107;
 
         & .alert-icon:after {
-            background-image: url('/images/trading_app/warning.svg');
+            background-image: url('/images/trading_app/common/warning.svg');
         }
     }
     &-close {
