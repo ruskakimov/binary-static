@@ -1,6 +1,15 @@
 import React from 'react';
 import Url from '../../../../../_common/url';
 
+/*
+    Use example:
+    <AlertMessage
+        type='error'
+        message='This is danger'
+        onClose={() => {console.log('onClose has been called')}}
+    />
+*/
+
 const types = ['error', 'info', 'success', 'warning'];
 
 class AlertMessage extends React.PureComponent {
