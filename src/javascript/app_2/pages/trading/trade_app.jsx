@@ -43,8 +43,8 @@ class TradeApp extends React.Component {
                     <Purchase />
                 </div>
                 <div className='container'>
-                    <AlertMessage type='danger' message='This is danger' />
-                    <AlertMessage type='neutral' message='This is neutral' />
+                    <AlertMessage type='error' message='This is danger' />
+                    <AlertMessage type='info' message='This is neutral' />
                     <AlertMessage type='success' message='This is success' />
                     <AlertMessage type='warning' message='This is warning' />
                 </div>
