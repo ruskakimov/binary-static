@@ -930,28 +930,28 @@ div.dropdown-container .select-arrow:before {
   border-color: #f44336;
 }
 .alert-error .alert-icon:after {
-  background-image: url("../../../images/trading_app/common/error.svg");
+  background-image: url("../images/trading_app/common/error.svg");
 }
 .alert-info {
   background-color: #e3f2fd;
   border-color: #2196f3;
 }
 .alert-info .alert-icon:after {
-  background-image: url("../../../images/trading_app/common/info.svg");
+  background-image: url("../images/trading_app/common/info.svg");
 }
 .alert-success {
   background-color: #e8f5e9;
   border-color: #4caf50;
 }
 .alert-success .alert-icon:after {
-  background-image: url("../../../images/trading_app/common/success.svg");
+  background-image: url("../images/trading_app/common/success.svg");
 }
 .alert-warning {
   background-color: #fff8e1;
   border-color: #ffc107;
 }
 .alert-warning .alert-icon:after {
-  background-image: url("../../../images/trading_app/common/warning.svg");
+  background-image: url("../images/trading_app/common/warning.svg");
 }
 .alert-close {
   cursor: pointer;
