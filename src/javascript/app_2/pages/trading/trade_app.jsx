@@ -8,6 +8,7 @@ import StartDate from './components/start_date.jsx';
 import Symbol from './components/symbol.jsx';
 import Test from './components/test.jsx';
 import Purchase from './components/purchase.jsx';
+import AlertMessage from './components/alert_message.jsx';
 import { connect } from './store/connect';
 
 class TradeApp extends React.Component {
@@ -40,6 +41,12 @@ class TradeApp extends React.Component {
                     <Amount />
 
                     <Purchase />
+                </div>
+                <div className='container'>
+                    <AlertMessage type='danger' message='This is danger' />
+                    <AlertMessage type='neutral' message='This is neutral' />
+                    <AlertMessage type='success' message='This is success' />
+                    <AlertMessage type='warning' message='This is warning' />
                 </div>
             </React.Fragment>
         );
