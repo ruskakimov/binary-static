@@ -1562,10 +1562,20 @@ var Url = function () {
         return static_host + path.replace(/(^\/)/g, '');
     };
 
-    var setQueryStringWithoutReload = function setQueryStringWithoutReload(new_query_str) {
+    /**
+     * @param {Object} new_params - Object with param-value pairs. To delete param, set value to null.
+     * @param {boolean} preserve_old - Should existing query parameters be preserved.
+     */
+    var updateParamsWithoutReload = function updateParamsWithoutReload(new_params, preserve_old) {
+        var updated_params = preserve_old ? $.extend(paramsHash(), new_params) : new_params;
+        Object.keys(new_params).forEach(function (key) {
+            if (new_params[key] === null) {
+                delete updated_params[key];
+            }
+        });
         var url = new URL(window.location);
-        url.search = new_query_str;
-        window.history.replaceState('', '', url.href);
+        url.search = paramsHashToString(updated_params);
+        window.history.replaceState({ url: url.href }, '', url.href);
     };
 
     var getSection = function getSection() {
@@ -1589,7 +1599,7 @@ var Url = function () {
         urlForStatic: urlForStatic,
         getSection: getSection,
         getHashValue: getHashValue,
-        setQueryStringWithoutReload: setQueryStringWithoutReload,
+        updateParamsWithoutReload: updateParamsWithoutReload,
 
         param: function param(name) {
             return paramsHash()[name];
@@ -1770,8 +1780,8 @@ var limitLanguage = function limitLanguage(lang) {
     }
     if (getElementById('select_language')) {
         $('.languages').remove();
-        $('#gmt-clock').addClass('gr-6 gr-12-m').removeClass('gr-5 gr-6-m');
-        $('#contact-us').addClass('gr-6').removeClass('gr-2');
+        $('#gmt-clock').addClass('gr-6 gr-11-m').removeClass('gr-5 gr-6-m');
+        $('#contact-us').addClass('gr-5').removeClass('gr-2');
     }
 };
 
@@ -2981,8 +2991,7 @@ var Defaults = function () {
 
     var updateURL = function updateURL() {
         if (!State.get('is_trading')) return;
-        var updated_url = '' + window.location.origin + window.location.pathname + '?' + Url.paramsHashToString(params);
-        window.history.replaceState({ url: updated_url }, null, updated_url);
+        Url.updateParamsWithoutReload(params, false);
     };
 
     return {
@@ -7763,6 +7772,8 @@ module.exports = Symbols;
 "use strict";
 
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var tabListener = __webpack_require__(79).tabListener;
 var getElementById = __webpack_require__(3).getElementById;
 var Url = __webpack_require__(7);
@@ -7835,10 +7846,7 @@ var TabSelector = function () {
     };
 
     var updateURL = function updateURL(selector, tab_id) {
-        var params_hash = Url.paramsHash();
-        params_hash[selector] = tab_id;
-        var updated_url = '' + window.location.origin + window.location.pathname + '?' + Url.paramsHashToString(params_hash);
-        window.history.replaceState({ url: updated_url }, null, updated_url);
+        Url.updateParamsWithoutReload(_defineProperty({}, selector, tab_id), true);
     };
 
     var goLeft = function goLeft(e) {
@@ -18943,9 +18951,9 @@ module.exports = MenuSelector;
 var isVisible = __webpack_require__(3).isVisible;
 var Url = __webpack_require__(7);
 
-var id_duplicate_count = {};
-
 var ScrollToAnchor = function () {
+    var id_duplicate_count = {};
+
     var init = function init() {
         addAnchorsToElements();
         scrollToAnchorInQuery();
@@ -18983,9 +18991,9 @@ var ScrollToAnchor = function () {
             anchor_link.addEventListener('click', function (e) {
                 e.preventDefault();
                 $.scrollTo(el, 500);
-                var params = Url.paramsHash();
-                params.anchor = id;
-                Url.setQueryStringWithoutReload(Url.paramsHashToString(params));
+                Url.updateParamsWithoutReload({
+                    anchor: id
+                }, true);
             });
         });
     };
@@ -19002,10 +19010,9 @@ var ScrollToAnchor = function () {
 
     var cleanup = function cleanup() {
         id_duplicate_count = {};
-        var params = Url.paramsHash();
-        delete params.anchor;
-        var new_query_string = Url.paramsHashToString(params);
-        Url.setQueryStringWithoutReload(new_query_string);
+        Url.updateParamsWithoutReload({
+            anchor: null
+        }, true);
     };
 
     return {
