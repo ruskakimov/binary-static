@@ -2053,6 +2053,7 @@ var Cookies = __webpack_require__(45);
 var elementTextContent = __webpack_require__(3).elementTextContent;
 var getElementById = __webpack_require__(3).getElementById;
 var CookieStorage = __webpack_require__(6).CookieStorage;
+var LocalStore = __webpack_require__(6).LocalStore;
 var applyToAllElements = __webpack_require__(1).applyToAllElements;
 
 var Language = function () {
@@ -2126,6 +2127,7 @@ var Language = function () {
                 var lang = e.target.getAttribute('class');
                 if (getLanguage() === lang) return;
                 elementTextContent(getElementById('display_language').getElementsByClassName('language'), e.target.textContent);
+                LocalStore.remove('ws_cache');
                 setCookieLanguage(lang);
                 document.location = urlForLanguage(lang);
             });
@@ -18951,6 +18953,31 @@ module.exports = MenuSelector;
 var isVisible = __webpack_require__(3).isVisible;
 var Url = __webpack_require__(7);
 
+/*
+    adds anchor links to elements with data-anchor attribute
+    created anchors work similarly to native anchors, but rely on URL params instead
+
+    HOW TO USE:
+        <h1 data-anchor='some string'>Some title</h1>
+
+        --> an anchor link is inserted into the element
+        string passed to data-anchor doesn't have to be unique
+
+    IMPLEMENTATION:
+        string passed to data-anchor is converted into UNIQUE ID,
+        attr value is replaced with this ID
+        URL param value is this ID
+        e.g.
+
+        <h1 data-anchor='Hello world'>Hello</h1>
+        <h1 data-anchor='Hello world'>Hello</h1>
+
+        will become
+
+        <h1 data-anchor='hello-world'>Hello</h1>    // ?anchor=hello-world
+        <h1 data-anchor='hello-world-2'>Hello</h1>  // ?anchor=hello-world-2
+*/
+
 var ScrollToAnchor = function () {
     var id_duplicate_count = {};
 
@@ -19005,7 +19032,9 @@ var ScrollToAnchor = function () {
         var candidates = document.querySelectorAll('[data-anchor="' + id + '"]');
         var el = Array.from(candidates).find(isVisible);
         if (!el) return;
-        $.scrollTo(el, 500);
+        window.setTimeout(function () {
+            $.scrollTo(el, 500);
+        }, 200);
     };
 
     var cleanup = function cleanup() {
@@ -19397,9 +19426,9 @@ var NetworkMonitor = function () {
     var _pending_timeouts;
 
     var status_config = {
-        online: { class: 'online', tooltip: localize('Online') },
-        offline: { class: 'offline', tooltip: localize('Offline') },
-        blinking: { class: 'blinker', tooltip: localize('Connecting to server') }
+        online: { class: 'online', tooltip: 'Online' },
+        offline: { class: 'offline', tooltip: 'Offline' },
+        blinking: { class: 'blinker', tooltip: 'Connecting to server' }
     };
     var pendings = {};
     var pending_keys = {
@@ -19460,7 +19489,7 @@ var NetworkMonitor = function () {
 
         if (el_status && el_tooltip) {
             el_status.setAttribute('class', status_config[network_status].class);
-            el_tooltip.setAttribute('data-balloon', localize('Network status') + ': ' + status_config[network_status].tooltip);
+            el_tooltip.setAttribute('data-balloon', localize('Network status') + ': ' + localize(status_config[network_status].tooltip));
         }
     };
 
@@ -22166,7 +22195,7 @@ var AssetIndex = function () {
                 var asset_cells = asset_item[idx.cells];
                 var values = {};
                 for (var j = 0; j < asset_cells.length; j++) {
-                    var col = asset_cells[j][idx.cell_props.cell_name];
+                    var col = asset_cells[j][idx.cell_props.cell_display_name];
 
                     values[col] = [asset_cells[j][idx.cell_props.cell_from], asset_cells[j][idx.cell_props.cell_to]].join(' - ');
 
@@ -24812,7 +24841,7 @@ var PaymentAgentTransfer = function () {
 
         common_request_fields = [{ request_field: 'paymentagent_transfer', value: 1 }, { request_field: 'currency', value: currency }];
 
-        FormManager.init(form_id, [{ selector: '#client_id', validations: ['req', ['regular', { regex: /^\w+\d+$/, message: 'Please enter a valid Login ID.' }]], request_field: 'transfer_to' }, { selector: '#amount', validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: pa.min_withdrawal, max: pa.max_withdrawal }], ['custom', { func: function func() {
+        FormManager.init(form_id, [{ selector: '#client_id', validations: ['req', ['regular', { regex: /^\w+\d+$/, message: 'Please enter a valid Login ID.' }]], request_field: 'transfer_to' }, { selector: '#amount', validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: pa ? pa.min_withdrawal : 10, max: pa ? pa.max_withdrawal : 2000 }], ['custom', { func: function func() {
                     return +Client.get('balance') >= +$('#amount').val();
                 }, message: localize('Insufficient balance.') }]] }, { request_field: 'dry_run', value: 1 }].concat(common_request_fields));
 
