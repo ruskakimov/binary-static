@@ -18952,6 +18952,7 @@ module.exports = MenuSelector;
 
 var isVisible = __webpack_require__(3).isVisible;
 var Url = __webpack_require__(7);
+var createElement = __webpack_require__(1).createElement;
 
 /*
     adds anchor links to elements with data-anchor attribute
@@ -18979,7 +18980,7 @@ var Url = __webpack_require__(7);
 */
 
 var ScrollToAnchor = function () {
-    var id_duplicate_count = {};
+    var id_occurrence_count = {};
 
     var init = function init() {
         addAnchorsToElements();
@@ -18987,24 +18988,24 @@ var ScrollToAnchor = function () {
     };
 
     var encode = function encode(str) {
-        var prep = str.toLowerCase().replace(/\s/g, '-');
+        var encoded = str.toLowerCase().replace(/\s/g, '-');
         var appendix = '';
-        if (typeof id_duplicate_count[prep] === 'number') {
-            id_duplicate_count[prep]++;
-            appendix = '-' + (id_duplicate_count[prep] + 1);
+        if (id_occurrence_count[encoded]) {
+            appendix = '-' + ++id_occurrence_count[encoded];
         } else {
-            id_duplicate_count[prep] = 0;
+            id_occurrence_count[encoded] = 1;
         }
-        return encodeURI('' + prep + appendix);
+        return encodeURI('' + encoded + appendix);
     };
 
     var makeAnchorLink = function makeAnchorLink(id) {
-        var anchor_link = document.createElement('a');
         var url = new URL(window.location);
         url.search = 'anchor=' + id;
-        anchor_link.href = url.href;
-        anchor_link.classList.add('data-anchor-link');
-        return anchor_link;
+
+        return createElement('a', {
+            class: 'data-anchor-link',
+            href: url.href
+        });
     };
 
     var addAnchorsToElements = function addAnchorsToElements() {
@@ -19017,12 +19018,16 @@ var ScrollToAnchor = function () {
             el.appendChild(anchor_link);
             anchor_link.addEventListener('click', function (e) {
                 e.preventDefault();
-                $.scrollTo(el, 500);
+                scrollToEl(el);
                 Url.updateParamsWithoutReload({
                     anchor: id
                 }, true);
             });
         });
+    };
+
+    var scrollToEl = function scrollToEl(el) {
+        $.scrollTo(el, 500, { offset: -10 });
     };
 
     var scrollToAnchorInQuery = function scrollToAnchorInQuery() {
@@ -19033,12 +19038,12 @@ var ScrollToAnchor = function () {
         var el = Array.from(candidates).find(isVisible);
         if (!el) return;
         window.setTimeout(function () {
-            $.scrollTo(el, 500);
+            scrollToEl(el);
         }, 200);
     };
 
     var cleanup = function cleanup() {
-        id_duplicate_count = {};
+        id_occurrence_count = {};
         Url.updateParamsWithoutReload({
             anchor: null
         }, true);
