@@ -55,6 +55,11 @@
   animation: pulsing 3s infinite ease;
 }
 
+.blinker {
+  -webkit-animation: pulsing 1.5s infinite ease;
+  animation: pulsing 1.5s infinite ease;
+}
+
 /* common styles */
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -655,6 +660,10 @@ li strong.margin-right {
   margin-right: 5px;
 }
 
+[data-show]:not(.data-show-visible) {
+  display: none !important;
+}
+
 .button-white {
   cursor: pointer;
   margin-bottom: 0.5em;
@@ -705,6 +714,14 @@ li strong.margin-right {
 
 .section-divider .circle {
   padding: 7px 5px !important;
+}
+
+.no-capitalize > a {
+  text-transform: none !important;
+}
+
+label + input {
+  margin-left: 5px;
 }
 
 /* main style */
@@ -850,6 +867,19 @@ body #topbar #select_language {
 body #topbar .nav-caret {
   margin-right: 0;
 }
+body #topbar #network_status {
+  width: 10px;
+  height: 10px;
+  margin: auto;
+  border-radius: 50%;
+  background: #2e8836;
+}
+body #topbar #network_status.offline {
+  background: #c03;
+}
+body #topbar #network_status.blinker {
+  background: #fef1cf;
+}
 
 body #topbar .upgrademessage a, .landing_page-content .upgrademessage a {
   color: #fff;
@@ -878,6 +908,10 @@ body #topbar .upgrademessage a:hover, body #topbar .upgrademessage a:active, .la
 }
 #header #mobile-menu-icon img {
   max-width: 32px;
+}
+#header #menu-top, #header #menu-top * {
+  -webkit-transition: unset;
+  transition: unset;
 }
 #header #menu-top a:hover {
   opacity: 0.75;

@@ -55,6 +55,11 @@
   animation: pulsing 3s infinite ease;
 }
 
+.blinker {
+  -webkit-animation: pulsing 1.5s infinite ease;
+  animation: pulsing 1.5s infinite ease;
+}
+
 .price_moved_up {
   background-color: #29abe2;
   color: #fff;
@@ -182,27 +187,32 @@ a.previous-wrapper:hover {
 #mb-trading-wrapper #mb_trading {
   font-size: 0.8695652174rem;
 }
+#mb-trading-wrapper #mb_trading #panel {
+  margin-left: 10px;
+}
 #mb-trading-wrapper #mb_trading #panel .selection_wrapper.less-margin-top .trade_form > div {
-  margin-top: -5px;
+  margin-top: -10px;
 }
 #mb-trading-wrapper #mb_trading #panel #payout {
   height: auto;
+  border-left: none;
 }
 #mb-trading-wrapper #mb_trading #panel #payout:focus {
   outline: none;
 }
-#mb-trading-wrapper #mb_trading #panel .gr-row .gr-no-gutter-left {
-  padding-right: 5px;
-}
-#mb-trading-wrapper #mb_trading #panel .gr-row .gr-no-gutter-right {
-  padding-left: 5px;
+#mb-trading-wrapper #mb_trading #panel #payout.error {
+  color: #c03;
 }
 #mb-trading-wrapper #mb_trading #panel #currency {
-  line-height: 40px;
+  line-height: 25px;
 }
 #mb-trading-wrapper #mb_trading #panel #payout_amount {
-  line-height: 49px;
+  line-height: 32px;
   white-space: nowrap;
+  font-weight: bold;
+}
+#mb-trading-wrapper #mb_trading #panel .trade_form:not(.no-margin) {
+  margin-top: 10px;
 }
 #mb-trading-wrapper #mb_trading #panel .trade_form > div .list {
   background-color: #fff;
@@ -220,6 +230,42 @@ a.previous-wrapper:hover {
 }
 #mb-trading-wrapper #mb_trading #panel .trade_form > div .list:hover {
   background-color: #fff;
+}
+#mb-trading-wrapper #mb_trading #panel .trade_form > div #currency .current {
+  height: 25px;
+  border: 1px solid #f2f2f2;
+  border-right: none;
+}
+#mb-trading-wrapper #mb_trading #panel .trade_form > div#category .current, #mb-trading-wrapper #mb_trading #panel .trade_form > div#category .list > div {
+  height: 59px;
+}
+#mb-trading-wrapper #mb_trading #panel .trade_form .contract-type {
+  padding-left: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  line-height: 18px;
+  height: 36px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+#mb-trading-wrapper #mb_trading #panel #underlying .list {
+  width: auto;
+}
+#mb-trading-wrapper #mb_trading #panel #period .duration {
+  font-size: 0.8695652174rem;
+}
+#mb-trading-wrapper #mb_trading #panel #period .end {
+  font-weight: normal;
+}
+#mb-trading-wrapper #mb_trading #panel #period .current {
+  height: 45px;
+}
+#mb-trading-wrapper #mb_trading #panel #period .current div.head {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+#mb-trading-wrapper #mb_trading #panel .category-wrapper {
+  width: 50%;
 }
 #mb-trading-wrapper #mb_trading #ja-panel #currency_wrapper, #mb-trading-wrapper #mb_trading #ja-panel #payout {
   height: 103px;
@@ -279,10 +325,10 @@ a.previous-wrapper:hover {
   line-height: 15px;
   padding-top: 35px;
 }
-#mb-trading-wrapper #mb_trading #ja-panel #currency .list > div {
+#mb-trading-wrapper #mb_trading #ja-panel #currency #currency .list > div {
   height: 15px;
 }
-#mb-trading-wrapper #mb_trading #ja-panel #currency .list > div:hover {
+#mb-trading-wrapper #mb_trading #ja-panel #currency #currency .list > div:hover {
   height: 15px;
 }
 #mb-trading-wrapper #mb_trading #ja-panel .gr-row .gr-no-gutter-left {
@@ -291,11 +337,8 @@ a.previous-wrapper:hover {
 #mb-trading-wrapper #mb_trading #ja-panel .gr-row .gr-no-gutter-left:first-child {
   padding-right: 5px;
 }
-#mb-trading-wrapper #mb_trading .trade_form {
+#mb-trading-wrapper #mb_trading .trade_form:not(.no-margin) {
   margin-top: 5px;
-}
-#mb-trading-wrapper #mb_trading .trade_form.no-margin {
-  margin-top: 0;
 }
 #mb-trading-wrapper #mb_trading .trade_form > div {
   text-align: center;
@@ -385,6 +428,26 @@ a.previous-wrapper:hover {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table {
+  margin-top: 10px;
+  margin-left: 0;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .heading {
+  font-weight: bold;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .heading .hint {
+  font-weight: normal;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .heading, #mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .price-row {
+  border: 1px solid #f2f2f2;
+  border-bottom: none;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .price-row:last-child {
+  border-bottom: 1px solid #f2f2f2;
+}
+#mb-trading-wrapper #mb_trading .ja-hide + .price-table .prices-wrapper .price-row:nth-child(odd) {
+  background-color: #fff;
 }
 #mb-trading-wrapper #mb_trading .price-table {
   position: relative;
@@ -546,6 +609,7 @@ a.previous-wrapper:hover {
 }
 #mb-trading-wrapper #mb_trading .remaining-time {
   color: #000;
+  line-height: 20px;
 }
 #mb-trading-wrapper #mb_trading .remaining-time.alert {
   color: #c03;
@@ -559,6 +623,12 @@ a.previous-wrapper:hover {
 @media screen and (max-width: 768px) {
   #mb-trading-wrapper #mb_trading .gr-12-p {
     padding-bottom: 10px;
+  }
+  #mb-trading-wrapper #mb_trading #panel {
+    margin-left: 0;
+  }
+  #mb-trading-wrapper #mb_trading .ja-hide + .price-table {
+    margin-left: -10px;
   }
 }
 @media screen and (max-width: 480px) {
@@ -988,7 +1058,7 @@ a.previous-wrapper:hover {
 }
 
 #asset-index th {
-  width: 12%;
+  width: 16%;
 }
 #asset-index th:nth-child(2):nth-last-child(1) {
   width: 24%;
@@ -2072,7 +2142,8 @@ a.previous-wrapper:hover {
       -ms-flex: 0.8 1 35px;
           flex: 0.8 1 35px;
 }
-#statement-container #jump-to {
+
+#profit-table-container #date_to, #statement-container #date_to {
   width: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -2086,15 +2157,4 @@ a.previous-wrapper:hover {
     font-size: 0.7561436673rem;
     padding: 10px 15px;
   }
-}
-.ico-claim-form-content p {
-  font-size: 0.8695652174rem;
-}
-.ico-claim-form-content ol li {
-  font-size: 0.8695652174rem;
-}
-.ico-claim-form-content input[disabled='disabled'] {
-  background: #f2f2f2;
-  font-weight: 900;
-  width: 200px;
 }
