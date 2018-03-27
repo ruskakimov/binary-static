@@ -776,6 +776,15 @@ div.kineticjs-content {
   .open-positions img.responsive {
     width: 40%; } }
 
+@media (max-width: 480px) {
+  .steps {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .steps .step:not(:first-child) {
+      margin-top: 2rem; } }
+
 .box-inlay-borders .border-right-top {
   min-height: 200px; }
 
@@ -1205,12 +1214,6 @@ body #not_authenticated_financial ul.checked > li {
       color: #fff;
       padding: 20px 0;
       text-align: center; }
-  @media (max-width: 480px) {
-    .careers-content .career .steps {
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: column;
-              flex-direction: column; } }
 
 .timeline {
   margin: 0 auto;
