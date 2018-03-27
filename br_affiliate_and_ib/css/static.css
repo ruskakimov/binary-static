@@ -52,6 +52,42 @@
   -webkit-animation: pulsing 1.5s infinite ease;
   animation: pulsing 1.5s infinite ease; }
 
+.affiliates_faq h3 {
+  color: #e98024; }
+  .affiliates_faq h3:not(:first-of-type) {
+    margin-top: 3rem; }
+
+.affiliates h2 {
+  margin-top: 30px; }
+
+.affiliates #commission_tabs {
+  margin-bottom: 0 !important; }
+
+.affiliates .margin-bottom-50 {
+  margin-bottom: 50px; }
+
+.affiliates .fixed-height-img {
+  height: 50px; }
+
+.affiliates .faq-box {
+  padding: 1rem; }
+
+.affiliates .box-row {
+  border-bottom: 1px solid #dedede; }
+  .affiliates .box-row .box {
+    padding: 2rem; }
+  .affiliates .box-row-top .box {
+    padding-top: 1rem; }
+  .affiliates .box-row-bottom {
+    border: none; }
+    .affiliates .box-row-bottom .box {
+      padding-bottom: 0; }
+  .affiliates .box-row .box:not(:last-child) {
+    border-right: 1px solid #dedede; }
+  @media screen and (max-width: 480px) {
+    .affiliates .box-row, .affiliates .box-row .box {
+      border: none; } }
+
 #forex-specs table td, #volatility-specs table td, #cash-specs table td {
   font-size: 1rem;
   text-align: center; }
@@ -739,42 +775,6 @@ div.kineticjs-content {
     text-align: center; }
   .open-positions img.responsive {
     width: 40%; } }
-
-.affiliates_faq h3 {
-  color: #e98024; }
-  .affiliates_faq h3:not(:first-of-type) {
-    margin-top: 3rem; }
-
-.affiliates h2 {
-  margin-top: 30px; }
-
-.affiliates #commission_tabs {
-  margin-bottom: 0 !important; }
-
-.affiliates .margin-bottom-50 {
-  margin-bottom: 50px; }
-
-.affiliates .fixed-height-img {
-  height: 50px; }
-
-.affiliates .faq-box {
-  padding: 1rem; }
-
-.affiliates .box-row {
-  border-bottom: 1px solid #dedede; }
-  .affiliates .box-row .box {
-    padding: 2rem; }
-  .affiliates .box-row-top .box {
-    padding-top: 1rem; }
-  .affiliates .box-row-bottom {
-    border: none; }
-    .affiliates .box-row-bottom .box {
-      padding-bottom: 0; }
-  .affiliates .box-row .box:not(:last-child) {
-    border-right: 1px solid #dedede; }
-  @media screen and (max-width: 480px) {
-    .affiliates .box-row, .affiliates .box-row .box {
-      border: none; } }
 
 .box-inlay-borders .border-right-top {
   min-height: 200px; }
