@@ -5415,8 +5415,8 @@ var MBContract = function () {
         }
     };
 
-    var displayRemainingTime = function displayRemainingTime(recalculate, is_jp_client) {
-        if (typeof $durations === 'undefined' || recalculate) {
+    var displayRemainingTime = function displayRemainingTime(should_recalculate, is_jp_client) {
+        if (typeof $durations === 'undefined' || should_recalculate) {
             // period_value = MBDefaults.get('period');
             $period = $('#period');
             $durations = $period.find('.list > div, .current > div');
@@ -21784,6 +21784,7 @@ var MBTradingEvents = function () {
     var initiate = function initiate() {
         var $form = $('.trade_form');
         var hidden_class = 'invisible';
+        var is_jp_client = jpClient();
 
         $(document).on('click', function (e) {
             if ($(e.target).parents('#payout_list').length) return;
@@ -21841,16 +21842,15 @@ var MBTradingEvents = function () {
                 MBDefaults.set('period', period);
                 MBProcess.processPriceRequest();
                 $('.remaining-time').removeClass('alert');
-                MBContract.displayRemainingTime('recalculate');
+                MBContract.displayRemainingTime(true, is_jp_client);
             });
         }
 
         var validatePayout = function validatePayout(payout_amount, $error_wrapper) {
             var contract = MBContract.getCurrentContracts();
-            var jp_client = jpClient();
-            var min_amount = jp_client ? 1 : 0;
+            var min_amount = is_jp_client ? 1 : 0;
             var max_contract_amount = Array.isArray(contract) && contract.length && contract[0].expiry_type !== 'intraday' ? 20000 : 5000;
-            var max_client_amount = jp_client ? 100 : max_contract_amount;
+            var max_client_amount = is_jp_client ? 100 : max_contract_amount;
 
             var is_valid = true;
             var error_msg = '';
@@ -21889,7 +21889,6 @@ var MBTradingEvents = function () {
         var $payout = $form.find('#payout');
         if ($payout.length) {
             var $payout_list = $form.find('#payout_list');
-            var jp_client = jpClient();
 
             var appendActualPayout = function appendActualPayout(payout) {
                 $payout.find('.current').append($('<div/>', { class: 'hint', text: localize('Payout') }).append($('<span/>', { id: 'actual_payout', html: Currency.formatMoney('JPY', payout * 1000) })));
@@ -21907,12 +21906,12 @@ var MBTradingEvents = function () {
                 $payout.value = payout_def;
                 MBDefaults.set(amount, payout_def);
                 $payout.attr('value', payout_def);
-                if (jp_client) {
+                if (is_jp_client) {
                     $payout.find('.current').html(payout_def);
                     appendActualPayout(payout_def);
                 }
             }
-            if (jp_client) {
+            if (is_jp_client) {
                 $payout.find('.current').on('click', function () {
                     old_value = +this.childNodes[0].nodeValue;
                     var $list = $('#' + $(this).parent().attr('id') + '_list');
@@ -21951,7 +21950,7 @@ var MBTradingEvents = function () {
                     var new_payout = void 0;
                     if (/\+|-/.test(value)) {
                         new_payout = payout + parseInt(value);
-                        if (new_payout < 1 && jp_client) {
+                        if (new_payout < 1 && is_jp_client) {
                             new_payout = 1;
                         }
                     } else if (/ok|cancel/.test(value)) {
@@ -21965,7 +21964,7 @@ var MBTradingEvents = function () {
                         $('.price-table').setVisibility(1);
                         MBDefaults.set('payout', new_payout);
                         $payout.attr('value', new_payout).find('.current').html(new_payout);
-                        if (jp_client) {
+                        if (is_jp_client) {
                             appendActualPayout(new_payout);
                         }
                         MBProcess.processPriceRequest();
@@ -21983,7 +21982,7 @@ var MBTradingEvents = function () {
                 var currency = $(this).attr('value');
                 MBContract.setCurrentItem($currency, currency);
                 MBDefaults.set('currency', currency);
-                if (jpClient()) {
+                if (is_jp_client) {
                     MBProcess.processPriceRequest();
                 } else {
                     var _is_crypto = Currency.isCryptocurrency(currency);
@@ -24765,7 +24764,7 @@ var Authenticate = function () {
             if (selected) {
                 file_checks[doc_type] = file_checks[doc_type] || {};
                 file_checks[doc_type][file_type] = true;
-            } else {
+            } else if (file_checks[doc_type]) {
                 file_checks[doc_type][file_type] = false;
             }
         };
