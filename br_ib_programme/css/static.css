@@ -787,6 +787,10 @@ div.kineticjs-content {
     .signup-page .box-row, .signup-page .box-row .box {
       border: none; } }
 
+@media screen and (max-width: 480px) {
+  .signup-page table, .signup-page .mobile-text-small {
+    font-size: 0.9rem; } }
+
 @media (max-width: 480px) {
   .steps {
     -webkit-box-orient: vertical;
