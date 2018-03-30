@@ -26527,7 +26527,9 @@ var SelfExclusion = function () {
     var timeout_date_id = '#timeout_until_date';
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
+    var max_30day_turnover_id = '#max_30day_turnover';
     var error_class = 'errorfield';
+    var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
     var onLoad = function onLoad() {
         $form = $(form_id);
@@ -26578,12 +26580,29 @@ var SelfExclusion = function () {
                         $form.find(timeout_time_id).val(time);
                         return;
                     }
+
+                    if (key === 'max_30day_turnover') {
+                        var should_be_checked = parseInt(value) === TURNOVER_LIMIT;
+                        $('#chk_no_limit').prop('checked', should_be_checked);
+                        setMax30DayTurnoverLimit(should_be_checked);
+                    }
+
                     $form.find('#' + key).val(value);
                 });
+
+                $('#chk_no_limit').on('change', function () {
+                    setMax30DayTurnoverLimit($(this).is(':checked'));
+                });
+
                 bindValidation();
                 if (scroll) scrollToHashSection();
             });
         });
+    };
+
+    var setMax30DayTurnoverLimit = function setMax30DayTurnoverLimit(is_checked) {
+        $(max_30day_turnover_id)[is_checked ? 'addClass' : 'removeClass']('hide');
+        $(max_30day_turnover_id).attr('disabled', is_checked).val(is_checked ? TURNOVER_LIMIT : '');
     };
 
     var bindValidation = function bindValidation() {

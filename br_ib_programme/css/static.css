@@ -748,6 +748,12 @@ div.kineticjs-content {
   .faq-page h3:not(:first-of-type) {
     margin-top: 3rem; }
 
+@media screen and (max-width: 480px) {
+  .faq-page .sidebar-container {
+    margin-bottom: 2rem; }
+    .faq-page .sidebar-container .sidebar a {
+      line-height: 2.5rem; } }
+
 .signup-page h2 {
   margin-top: 30px; }
 
