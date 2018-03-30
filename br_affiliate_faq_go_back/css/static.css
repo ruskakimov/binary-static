@@ -57,11 +57,11 @@
   .affiliates_faq h3:not(:first-of-type) {
     margin-top: 3rem; }
 
-.affiliates_faq .margin-top-30 {
-  margin-top: 30px; }
-
-.affiliates_faq .divider {
-  margin: 40px 0 10px; }
+@media screen and (max-width: 480px) {
+  .affiliates_faq .sidebar-container {
+    margin-bottom: 2rem; }
+    .affiliates_faq .sidebar-container .sidebar a {
+      line-height: 2.5rem; } }
 
 .affiliates h2 {
   margin-top: 30px; }
