@@ -19217,7 +19217,6 @@ var pages_config = {
     self_exclusionws: { module: SelfExclusion, is_authenticated: true, only_real: true },
     settingsws: { module: Settings, is_authenticated: true },
     signup: { module: TabSelector },
-    'ib-signup': { module: TabSelector },
     statementws: { module: Statement, is_authenticated: true, needs_currency: true },
     tnc_approvalws: { module: TNCApproval, is_authenticated: true, only_real: true },
     top_up_virtualws: { module: TopUpVirtual, is_authenticated: true, only_virtual: true },
@@ -19232,12 +19231,13 @@ var pages_config = {
     'cryptocurrencies': { module: GetStarted.Cryptocurrencies },
     'deposit-jp': { module: CashierJP.Deposit, is_authenticated: true, only_real: true },
     'faq': { module: StaticPages.AffiliatesFAQ },
-    'ib-faq': { module: StaticPages.IBProgrammeFAQ },
     'forex': { module: GetStarted.Forex },
     'get-started': { module: TabSelector },
     'get-started-jp': { module: GetStartedJP },
     'home-jp': { module: HomeJP, not_authenticated: true },
     'how-to-trade-mt5': { module: TabSelector },
+    'ib-faq': { module: StaticPages.IBProgrammeFAQ },
+    'ib-signup': { module: TabSelector },
     'job-details': { module: JobDetails },
     'metals': { module: GetStarted.Metals },
     'open-positions': { module: StaticPages.OpenPositions },
@@ -27387,7 +27387,7 @@ var Accounts = function () {
 
     var populateReq = function populateReq() {
         var get_settings = State.getResponse('get_settings');
-        var dob = moment(+get_settings.date_of_birth * 1000).format('YYYY-MM-DD');
+        var dob = moment.utc(+get_settings.date_of_birth * 1000).format('YYYY-MM-DD');
         var req = [{ request_field: 'new_account_real', value: 1 }, { request_field: 'date_of_birth', value: dob }, { request_field: 'salutation', value: get_settings.salutation }, { request_field: 'first_name', value: get_settings.first_name }, { request_field: 'last_name', value: get_settings.last_name }, { request_field: 'address_line_1', value: get_settings.address_line_1 }, { request_field: 'address_line_2', value: get_settings.address_line_2 }, { request_field: 'address_city', value: get_settings.address_city }, { request_field: 'address_state', value: get_settings.address_state }, { request_field: 'address_postcode', value: get_settings.address_postcode }, { request_field: 'phone', value: get_settings.phone }, { request_field: 'account_opening_reason', value: get_settings.account_opening_reason }, { request_field: 'place_of_birth', value: get_settings.place_of_birth }, { request_field: 'residence', value: Client.get('residence') }];
         if (get_settings.tax_identification_number) {
             req.push({ request_field: 'tax_identification_number', value: get_settings.tax_identification_number });
