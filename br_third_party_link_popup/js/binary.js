@@ -5796,7 +5796,8 @@ module.exports = SocketCache;
 
 
 var showPopup = __webpack_require__(112);
-var elementTextContent = __webpack_require__(3).elementTextContent;
+var elementInnerHtml = __webpack_require__(3).elementInnerHtml;
+var localize = __webpack_require__(2).localize;
 var urlFor = __webpack_require__(8).urlFor;
 
 var Dialog = function () {
@@ -5815,7 +5816,8 @@ var Dialog = function () {
 
                     if (!el_dialog) return;
 
-                    elementTextContent(container.querySelector('#dialog_message'), options.message);
+                    var message = Array.isArray(options.message) ? options.message.join('<p />') : options.message;
+                    elementInnerHtml(container.querySelector('#dialog_message'), localize(message));
 
                     if (is_alert) {
                         el_btn_cancel.classList.add('invisible');
@@ -19114,7 +19116,7 @@ module.exports = ScrollToAnchor;
 "use strict";
 
 
-var State = __webpack_require__(6).State;
+var getPropertyValue = __webpack_require__(1).getPropertyValue;
 var Client = __webpack_require__(4);
 var BinarySocket = __webpack_require__(5);
 var Dialog = __webpack_require__(81);
@@ -19122,8 +19124,8 @@ var Dialog = __webpack_require__(81);
 var ThirdPartyLinks = function () {
     var init = function init() {
         if (Client.isLoggedIn()) {
-            BinarySocket.wait('landing_company').then(function () {
-                if (State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest') {
+            BinarySocket.wait('landing_company').then(function (response) {
+                if (getPropertyValue(response, ['landing_company', 'financial_company', 'shortcode'])) {
                     document.body.addEventListener('click', clickHandler);
                 }
             });
@@ -19132,20 +19134,23 @@ var ThirdPartyLinks = function () {
 
     var clickHandler = function clickHandler(e) {
         if (!e.target) return;
-        var link_el = e.target.closest('a');
-        if (!link_el) return;
+        var el_link = e.target.closest('a');
+        if (!el_link) return;
 
         var dialog = document.querySelector('#third_party_redirect_dialog');
-        if (dialog && dialog.contains(link_el)) return;
+        if (dialog && dialog.contains(el_link)) return;
 
-        if (isThirdPartyLink(link_el.href)) {
+        if (isThirdPartyLink(el_link.href)) {
             e.preventDefault();
             Dialog.confirm({
                 id: 'third_party_redirect_dialog',
-                // TODO: pass array of sentences once negar/show_malta_popup_mt card is merged
-                message: 'You will be redirected to a third-party website which is not owned by Binary.com. Click OK to proceed.'
+                message: ['You will be redirected to a third-party website which is not owned by Binary.com.', 'Click OK to proceed.']
             }).then(function (should_proceed) {
-                if (should_proceed) window.open(link_el.href, '_blank');
+                if (should_proceed) {
+                    var link = window.open();
+                    link.opener = null;
+                    link.location = el_link.href;
+                }
             });
         }
     };
@@ -27929,7 +27934,10 @@ var MetaTraderUI = function () {
             if (!$(this).hasClass('button-disabled')) {
                 _$form.find('#view_2 #btn_submit_new_account').attr('acc_type', newAccountGetType());
                 displayStep(2);
-                _$form.find('#txt_name').val(State.getResponse('get_settings').first_name + ' ' + State.getResponse('get_settings').last_name);
+                var get_settings = State.getResponse('get_settings');
+                if (get_settings.first_name && get_settings.last_name) {
+                    _$form.find('#txt_name').val(get_settings.first_name + ' ' + get_settings.last_name);
+                }
                 $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
             }
         });
