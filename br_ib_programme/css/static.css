@@ -55,6 +55,9 @@
 .ib-signup-content {
   margin-bottom: 0 !important; }
 
+.ib-signup-page__commission-table td:not(:last-child) {
+  font-weight: bold; }
+
 .affiliates-faq-page h3, .ib-faq-page h3 {
   color: #e98024; }
   .affiliates-faq-page h3:not(:first-of-type), .ib-faq-page h3:not(:first-of-type) {
@@ -80,24 +83,6 @@
 
 .affiliates-signup-page .faq-box, .ib-signup-page .faq-box {
   padding: 1rem; }
-
-.affiliates-signup-page .box-row, .ib-signup-page .box-row {
-  border-bottom: 1px solid #dedede; }
-  .affiliates-signup-page .box-row .box, .ib-signup-page .box-row .box {
-    padding: 2rem; }
-  .affiliates-signup-page .box-row-top .box, .ib-signup-page .box-row-top .box {
-    padding-top: 1rem; }
-  .affiliates-signup-page .box-row-bottom, .ib-signup-page .box-row-bottom {
-    border: none; }
-    .affiliates-signup-page .box-row-bottom .box, .ib-signup-page .box-row-bottom .box {
-      padding-bottom: 0; }
-  .affiliates-signup-page .box-row .box:not(:last-child), .ib-signup-page .box-row .box:not(:last-child) {
-    border-right: 1px solid #dedede; }
-  .affiliates-signup-page .box-row.no-border, .affiliates-signup-page .box-row.no-border .box, .ib-signup-page .box-row.no-border, .ib-signup-page .box-row.no-border .box {
-    border: none; }
-  @media screen and (max-width: 480px) {
-    .affiliates-signup-page .box-row, .affiliates-signup-page .box-row .box, .ib-signup-page .box-row, .ib-signup-page .box-row .box {
-      border: none; } }
 
 @media screen and (max-width: 480px) {
   .affiliates-signup-page table, .affiliates-signup-page .mobile-text-small, .ib-signup-page table, .ib-signup-page .mobile-text-small {
@@ -790,6 +775,26 @@ div.kineticjs-content {
     text-align: center; }
   .open-positions img.responsive {
     width: 40%; } }
+
+.box-row {
+  border-bottom: 1px solid #dedede; }
+  .box-row__box {
+    padding: 2rem; }
+  .box-row__box:not(:last-child) {
+    border-right: 1px solid #dedede; }
+  .box-row__img {
+    height: 50px; }
+  .box-row--top__box {
+    padding-top: 1rem; }
+  .box-row--bottom {
+    border: none; }
+    .box-row--bottom__box {
+      padding-bottom: 0; }
+  .box-row--no-border, .box-row--no-border .box-row__box {
+    border: none; }
+  @media screen and (max-width: 480px) {
+    .box-row, .box-row__box {
+      border: none; } }
 
 @media (max-width: 480px) {
   .steps {

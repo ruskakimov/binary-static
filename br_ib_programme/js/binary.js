@@ -27872,7 +27872,10 @@ var MetaTraderUI = function () {
             if (!$(this).hasClass('button-disabled')) {
                 _$form.find('#view_2 #btn_submit_new_account').attr('acc_type', newAccountGetType());
                 displayStep(2);
-                _$form.find('#txt_name').val(State.getResponse('get_settings').first_name + ' ' + State.getResponse('get_settings').last_name);
+                var get_settings = State.getResponse('get_settings');
+                if (get_settings.first_name && get_settings.last_name) {
+                    _$form.find('#txt_name').val(get_settings.first_name + ' ' + get_settings.last_name);
+                }
                 $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
             }
         });
