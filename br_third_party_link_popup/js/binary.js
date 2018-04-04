@@ -19115,8 +19115,9 @@ var Dialog = __webpack_require__(80);
 var ThirdPartyLinks = function () {
     var init = function init() {
         if (Client.isLoggedIn()) {
-            BinarySocket.wait('landing_company').then(function (response) {
-                if (getPropertyValue(response, ['landing_company', 'financial_company', 'shortcode']) === 'maltainvest') {
+            BinarySocket.wait('authorize').then(function (response) {
+                var landing_company_shortcode = getPropertyValue(response, ['authorize', 'landing_company_name']);
+                if (landing_company_shortcode === 'maltainvest') {
                     document.body.addEventListener('click', clickHandler);
                 }
             });
