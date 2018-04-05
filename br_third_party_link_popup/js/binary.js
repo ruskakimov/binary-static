@@ -240,6 +240,7 @@ var Client = function () {
     var storage_key = 'client.accounts';
     var client_object = {};
     var current_loginid = void 0;
+    var is_jp_client = false;
 
     var init = function init() {
         current_loginid = LocalStore.get('active_loginid');
@@ -423,7 +424,7 @@ var Client = function () {
     };
 
     var shouldShowJP = function shouldShowJP(el) {
-        return get('is_jp') ? !/ja-hide/.test(el.classList) || /ja-show/.test(el.classList) : !/ja-show/.test(el.classList);
+        return is_jp_client ? !/ja-hide/.test(el.classList) || /ja-show/.test(el.classList) : !/ja-show/.test(el.classList);
     };
 
     var activateByClientType = function activateByClientType(section_id) {
@@ -653,11 +654,11 @@ var Client = function () {
     };
 
     var defaultRedirectUrl = function defaultRedirectUrl() {
-        return urlFor(get('is_jp') ? 'multi_barriers_trading' : 'trading');
+        return urlFor(is_jp_client ? 'multi_barriers_trading' : 'trading');
     };
 
     var setJPFlag = function setJPFlag() {
-        set('is_jp', urlLang() === 'ja' || get('residence') === 'jp');
+        is_jp_client = urlLang() === 'ja' || get('residence') === 'jp';
     };
 
     return {
@@ -690,7 +691,10 @@ var Client = function () {
         hasCostaricaAccount: hasCostaricaAccount,
         canRequestProfessional: canRequestProfessional,
         defaultRedirectUrl: defaultRedirectUrl,
-        setJPFlag: setJPFlag
+        setJPFlag: setJPFlag,
+        isJPClient: function isJPClient() {
+            return is_jp_client;
+        }
     };
 }();
 
@@ -2329,7 +2333,7 @@ module.exports = FormManager;
 
 
 var moment = __webpack_require__(9);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var BinarySocket = __webpack_require__(5);
 var elementInnerHtml = __webpack_require__(4).elementInnerHtml;
 var getElementById = __webpack_require__(4).getElementById;
@@ -2343,7 +2347,7 @@ var Clock = function () {
         view_popup_timer_func = void 0;
 
     var showLocalTimeOnHover = function showLocalTimeOnHover(selector) {
-        if (Client.get('is_jp')) return;
+        if (isJPClient()) return;
         document.querySelectorAll(selector || '.date').forEach(function (el) {
             var gmt_time_str = el.textContent.replace('\n', ' ');
             var local_time = moment.utc(gmt_time_str, 'YYYY-MM-DD HH:mm:ss').local();
@@ -2368,7 +2372,7 @@ var Clock = function () {
 
         var offset = '+00:00';
         var time_zone = 'Z';
-        if (Client.get('is_jp')) {
+        if (isJPClient()) {
             offset = '+09:00';
             time_zone = 'zZ';
         }
@@ -2411,7 +2415,7 @@ var Clock = function () {
         var updateTime = function updateTime() {
             window.time = moment(server_time_at_response + moment().valueOf() - client_time_at_response).utc();
             var time_str = window.time.format('YYYY-MM-DD HH:mm:ss') + ' GMT';
-            if (Client.get('is_jp')) {
+            if (isJPClient()) {
                 elementInnerHtml(el_clock, toJapanTimeIfNeeded(time_str, 1, 1));
             } else {
                 elementInnerHtml(el_clock, time_str);
@@ -2562,7 +2566,7 @@ var Header = function () {
 
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
         BinarySocket.wait('landing_company', 'get_account_status').then(function () {
-            if (MetaTrader.isEligible() && !Client.get('is_jp')) {
+            if (MetaTrader.isEligible() && !Client.isJPClient()) {
                 getElementById('user_menu_metatrader').setVisibility(1);
             }
         });
@@ -2621,9 +2625,9 @@ var Header = function () {
                 });
 
                 if (jp_account_status) {
-                    var has_disabled_jp = Client.get('is_jp') && Client.getAccountOfType('real').is_disabled;
+                    var has_disabled_jp = Client.isJPClient() && Client.getAccountOfType('real').is_disabled;
                     if (/jp_knowledge_test_(pending|fail)/.test(jp_account_status)) {
-                        // do not show upgrade for user that filled up form
+                        // do not returns the correct timeshow upgrade for user that filled up form
                         showUpgrade('/new_account/knowledge_testws', '{JAPAN ONLY}Take knowledge test');
                     } else if (show_upgrade_msg || has_disabled_jp && jp_account_status !== 'disabled') {
                         applyToAllElements(upgrade_msg, function (el) {
@@ -2714,7 +2718,7 @@ var Header = function () {
                 status = void 0;
 
             var riskAssessment = function riskAssessment() {
-                return (get_account_status.risk_classification === 'high' || Client.isAccountOfType('financial')) && /financial_assessment_not_complete/.test(status) && !Client.get('is_jp');
+                return (get_account_status.risk_classification === 'high' || Client.isAccountOfType('financial')) && /financial_assessment_not_complete/.test(status) && !Client.isJPClient();
             };
 
             var buildMessage = function buildMessage(string, path) {
@@ -5224,8 +5228,8 @@ var MBContract = function () {
         duration = duration ? duration.replace('0d', '1d') : '';
 
         var toDate = function toDate(date) {
-            var text_value = moment.utc(date * 1000).utcOffset(Client.get('is_jp') ? '+09:00' : '+00:00').locale(getLanguage().toLowerCase()).format('MMM Do, HH:mm');
-            if (Client.get('is_jp')) {
+            var text_value = moment.utc(date * 1000).utcOffset(Client.isJPClient() ? '+09:00' : '+00:00').locale(getLanguage().toLowerCase()).format('MMM Do, HH:mm');
+            if (Client.isJPClient()) {
                 text_value = text_value.replace(/08:59/, '09:00«');
             }
             return text_value;
@@ -5261,7 +5265,7 @@ var MBContract = function () {
         if (should_rebuild) {
             $list.empty();
         }
-        var is_jp_client = Client.get('is_jp');
+        var is_jp_client = Client.isJPClient();
 
         var duration_class = 'gr-3 gr-no-gutter';
         var end_time_class = is_jp_client ? 'gr-6 gr-5-m' : 'gr-6';
@@ -5437,7 +5441,7 @@ var MBContract = function () {
                 })) {
                     var is_current = !default_value && idx === 0 || category.value === default_value;
                     var el_contract_type = void 0;
-                    if (Client.get('is_jp')) {
+                    if (Client.isJPClient()) {
                         el_contract_type = '<span class="contract-type gr-6 ' + category.type1 + '"><span>' + localize(getTemplate(category.type1).name) + '</span></span>\n                             <span class="contract-type gr-6 ' + category.type2 + ' negative-color"><span>' + localize(getTemplate(category.type2).name) + '</span></span>';
                     } else {
                         el_contract_type = '<div class="category-wrapper"><div class="contract-type ' + category.type1 + '" /><div>' + localize(getTemplate(category.type1).name) + '</div></div>\n                             <div class="category-wrapper"><div class="contract-type ' + category.type2 + ' negative-color" /><div>' + localize(getTemplate(category.type2).name) + '</div></div>';
@@ -6156,7 +6160,7 @@ var ViewPopupUI = __webpack_require__(122);
 var Highchart = __webpack_require__(259);
 var Lookback = __webpack_require__(57);
 var TickDisplay = __webpack_require__(117);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var Clock = __webpack_require__(24);
 var BinarySocket = __webpack_require__(5);
 var getElementById = __webpack_require__(4).getElementById;
@@ -6431,7 +6435,7 @@ var ViewPopup = function () {
         sellSetVisibility(false);
         // showWinLossStatus(is_win);
         // don't show for japanese clients or contracts that are manually sold before starting
-        if (contract.audit_details && !Client.get('is_jp') && (!contract.sell_spot_time || contract.sell_spot_time > contract.date_start)) {
+        if (contract.audit_details && !isJPClient() && (!contract.sell_spot_time || contract.sell_spot_time > contract.date_start)) {
             initAuditTable(0);
         }
     };
@@ -6684,7 +6688,7 @@ var ViewPopup = function () {
 
     var epochToDateTime = function epochToDateTime(epoch) {
         var date_time = moment.utc(epoch * 1000).format('YYYY-MM-DD HH:mm:ss');
-        return Client.get('is_jp') ? Clock.toJapanTimeIfNeeded(date_time) : date_time + ' GMT';
+        return isJPClient() ? Clock.toJapanTimeIfNeeded(date_time) : date_time + ' GMT';
     };
 
     // ===== Tools =====
@@ -7061,7 +7065,7 @@ module.exports = MBNotifications;
 
 
 var MBDefaults = __webpack_require__(34);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var getElementById = __webpack_require__(4).getElementById;
 var getLanguage = __webpack_require__(16).get;
 var localize = __webpack_require__(3).localize;
@@ -7135,7 +7139,7 @@ var WebtraderChart = function () {
             timePeriod: getChartSettings().time_frame,
             type: getChartSettings().chart_type,
             lang: getLanguage().toLowerCase(),
-            timezoneOffset: (Client.get('is_jp') ? -9 : 0) * 60,
+            timezoneOffset: (isJPClient() ? -9 : 0) * 60,
             showShare: !is_mb_trading
         };
 
@@ -8448,7 +8452,7 @@ var isEmptyObject = __webpack_require__(1).isEmptyObject;
 
 var MBPrice = function () {
     var price_selector = '.prices-wrapper .price-rows';
-    var is_jp_client = Client.get('is_jp');
+    var is_jp_client = Client.isJPClient();
 
     var prices = {};
     var contract_types = {};
@@ -10295,7 +10299,7 @@ var PortfolioInit = function () {
         currency = '';
         oauth_apps = {};
         $portfolio_loading = $('#portfolio-loading');
-        is_jp_client = Client.get('is_jp');
+        is_jp_client = Client.isJPClient();
         $portfolio_loading.show();
         showLoadingImage($portfolio_loading[0]);
         is_first_response = true;
@@ -11396,7 +11400,7 @@ module.exports = generateBirthDate;
 
 var moment = __webpack_require__(9);
 var DatePicker = __webpack_require__(81);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var dateValueChanged = __webpack_require__(4).dateValueChanged;
 var localize = __webpack_require__(3).localize;
 var toISOFormat = __webpack_require__(17).toISOFormat;
@@ -11406,7 +11410,7 @@ var getDateToFrom = function getDateToFrom() {
     var date_to = void 0,
         date_from = void 0;
     if (date_to_val) {
-        date_to = moment.utc(date_to_val).unix() + (Client.get('is_jp') ? 15 : 24) * (60 * 60);
+        date_to = moment.utc(date_to_val).unix() + (isJPClient() ? 15 : 24) * (60 * 60);
         date_from = 0;
     }
     return {
@@ -11492,7 +11496,7 @@ var checkLanguage = function checkLanguage() {
             $academy_link.attr('href', academy_href + regex);
         }
     }
-    if (Client.get('is_jp')) {
+    if (Client.isJPClient()) {
         $('.ja-hide').setVisibility(0);
         applyToAllElements('.ja-show', function (el) {
             if (!/client_logged_(in|out)/.test(el.classList)) {
@@ -11919,7 +11923,7 @@ var MBProcess = function () {
         // populate the Symbols object
         MBSymbols.details(data);
 
-        var is_show_all = Client.isLoggedIn() && !Client.get('is_jp');
+        var is_show_all = Client.isLoggedIn() && !Client.isJPClient();
         var symbols_list = is_show_all ? MBSymbols.getAllSymbols() : MBSymbols.underlyings().major_pairs;
         var symbol = MBDefaults.get('underlying');
 
@@ -12093,7 +12097,7 @@ var MBProcess = function () {
             proposal_array: 1,
             subscribe: 1,
             basis: 'payout',
-            amount: Client.get('is_jp') ? (parseInt(payout) || 1) * 1000 : payout,
+            amount: Client.isJPClient() ? (parseInt(payout) || 1) * 1000 : payout,
             currency: MBContract.getCurrency(),
             symbol: MBDefaults.get('underlying'),
             passthrough: { req_id: MBPrice.getReqId() },
@@ -13763,7 +13767,7 @@ var AffiliatePopup = function () {
     var show = function show() {
         if (Client.isLoggedIn() || $('#' + container_id).length) return;
         BinarySocket.wait('website_status').then(function (response) {
-            if (Client.get('is_jp') || response.website_status.clients_country === 'jp') {
+            if (Client.isJPClient() || response.website_status.clients_country === 'jp') {
                 $.ajax({
                     url: urlFor('affiliate_disclaimer'),
                     dataType: 'html',
@@ -17134,15 +17138,19 @@ var BinaryLoader = function () {
         container.addEventListener('binarypjax:before', beforeContentChange);
         container.addEventListener('binarypjax:after', afterContentChange);
 
-        if (Client.isLoggedIn()) {
-            // we need to set top-nav-menu class so binary-style can add event listener
-            // if we wait for authorize before doing this binary-style will not initiate the drop-down menu
-            getElementById('menu-top').classList.add('smaller-font', 'top-nav-menu');
-        }
-        BinarySocket.wait('authorize').then(function () {
-            Client.setJPFlag();
+        if (Login.isLoginPages()) {
             BinaryPjax.init(container, '#content');
-        });
+        } else {
+            if (Client.isLoggedIn()) {
+                // we need to set top-nav-menu class so binary-style can add event listener
+                // if we wait for authorize before doing this binary-style will not initiate the drop-down menu
+                getElementById('menu-top').classList.add('smaller-font', 'top-nav-menu');
+            }
+            BinarySocket.wait('authorize').then(function () {
+                Client.setJPFlag();
+                BinaryPjax.init(container, '#content');
+            });
+        }
 
         ThirdPartyLinks.init();
     };
@@ -20447,7 +20455,7 @@ var template = __webpack_require__(1).template;
 
 var CashierJP = function () {
     var _onLoad = function _onLoad(action) {
-        if (Client.get('is_jp') && Client.get('residence') !== 'jp') BinaryPjax.loadPreviousUrl();
+        if (Client.isJPClient() && Client.get('residence') !== 'jp') BinaryPjax.loadPreviousUrl();
         var $container = $('#japan_cashier_container');
         BinarySocket.send({ cashier_password: 1 }).then(function (response) {
             if (!response.error && response.cashier_password === 1) {
@@ -21137,7 +21145,7 @@ var Cashier = function () {
     };
 
     var onLoad = function onLoad() {
-        if (Client.get('is_jp') && Client.get('residence') !== 'jp') {
+        if (Client.isJPClient() && Client.get('residence') !== 'jp') {
             BinaryPjax.loadPreviousUrl();
         }
         if (Client.isLoggedIn()) {
@@ -21761,7 +21769,7 @@ module.exports = Endpoint;
 
 var MBContract = __webpack_require__(73);
 var MBDefaults = __webpack_require__(34);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var formatCurrency = __webpack_require__(7).formatCurrency;
 var localize = __webpack_require__(3).localize;
 var State = __webpack_require__(6).State;
@@ -21781,7 +21789,7 @@ var MBDisplayCurrencies = function MBDisplayCurrencies() {
 
     if (!$currency.length) return;
     $list.empty();
-    if (!Client.get('is_jp')) {
+    if (!isJPClient()) {
         var def_curr = MBDefaults.get('currency');
         def_value = def_curr && currencies.indexOf(def_curr) >= 0 ? def_curr : currencies[0];
         if (currencies.length > 1) {
@@ -21841,7 +21849,7 @@ var MBTradingEvents = function () {
     var initiate = function initiate() {
         var $form = $('.trade_form');
         var hidden_class = 'invisible';
-        var is_jp_client = Client.get('is_jp');
+        var is_jp_client = Client.isJPClient();
 
         $(document).on('click', function (e) {
             if ($(e.target).parents('#payout_list').length) return;
@@ -22197,7 +22205,7 @@ var MBTradePage = function () {
             }
             return;
         }
-        if (Client.get('is_jp')) {
+        if (Client.isJPClient()) {
             disableTrading();
             $('#panel').remove();
         } else {
@@ -22382,7 +22390,7 @@ module.exports = AssetIndex;
 
 var AssetIndex = __webpack_require__(254);
 var BinaryPjax = __webpack_require__(13);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var BinarySocket = __webpack_require__(5);
 var Table = __webpack_require__(72);
 var showLoadingImage = __webpack_require__(1).showLoadingImage;
@@ -22396,7 +22404,7 @@ var AssetIndexUI = function () {
         market_columns = void 0;
 
     var onLoad = function onLoad() {
-        if (Client.get('is_jp')) {
+        if (isJPClient()) {
             BinaryPjax.loadPreviousUrl();
             return;
         }
@@ -22557,7 +22565,7 @@ module.exports = TradingTimes;
 
 var moment = __webpack_require__(9);
 var TradingTimes = __webpack_require__(256);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var BinarySocket = __webpack_require__(5);
 var Table = __webpack_require__(72);
 var DatePicker = __webpack_require__(81);
@@ -22614,7 +22622,7 @@ var TradingTimesUI = function () {
 
         $('#errorMsg').setVisibility(0);
 
-        var is_japan_trading = Client.get('is_jp');
+        var is_japan_trading = isJPClient();
 
         var markets = trading_times.markets;
 
@@ -22721,7 +22729,7 @@ var TradingTimesUI = function () {
 
     var sendRequest = function sendRequest(date, should_request_active_symbols) {
         var req = { active_symbols: 'brief' };
-        if (Client.get('is_jp')) {
+        if (isJPClient()) {
             req.landing_company = 'japan';
         }
         if (should_request_active_symbols) {
@@ -23037,7 +23045,7 @@ var Defaults = __webpack_require__(26);
 var GetTicks = __webpack_require__(90);
 var Lookback = __webpack_require__(57);
 var ViewPopupUI = __webpack_require__(122);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var BinarySocket = __webpack_require__(5);
 var addComma = __webpack_require__(7).addComma;
 var getHighstock = __webpack_require__(4).requireHighstock;
@@ -23161,7 +23169,7 @@ var Highchart = function () {
             return null;
         }
 
-        var is_jp_client = Client.get('is_jp');
+        var is_jp_client = isJPClient();
         HighchartUI.setLabels(is_chart_delayed);
         HighchartUI.setChartOptions({
             is_jp_client: is_jp_client,
@@ -24517,7 +24525,7 @@ var TradePage = function () {
     };
 
     var init = function init() {
-        if (Client.get('is_jp')) {
+        if (Client.isJPClient()) {
             BinaryPjax.load('multi_barriers_trading');
             return;
         }
@@ -25437,7 +25445,7 @@ var formatMoney = __webpack_require__(7).formatMoney;
 var ProfitTable = function () {
     var getProfitTabletData = function getProfitTabletData(transaction) {
         var currency = Client.get('currency');
-        var is_jp_client = Client.get('is_jp');
+        var is_jp_client = Client.isJPClient();
         var buy_moment = moment.utc(transaction.purchase_time * 1000);
         var sell_moment = moment.utc(transaction.sell_time * 1000);
         var buy_price = parseFloat(transaction.buy_price);
@@ -25494,7 +25502,7 @@ var ProfitTableUI = function () {
 
         currency = Client.get('currency');
 
-        header[7] += Client.get('is_jp') || !currency ? '' : ' (' + currency + ')';
+        header[7] += Client.isJPClient() || !currency ? '' : ' (' + currency + ')';
 
         var footer = [localize('Total Profit/Loss'), '', '', '', '', '', '', '', ''];
 
@@ -25520,13 +25528,13 @@ var ProfitTableUI = function () {
 
         var sub_total_type = total_profit >= 0 ? 'profit' : 'loss';
 
-        $('#pl-day-total').find(' > .pl').html(formatMoney(currency, Number(total_profit), !Client.get('is_jp'))).removeClass('profit loss').addClass(sub_total_type);
+        $('#pl-day-total').find(' > .pl').html(formatMoney(currency, Number(total_profit), !Client.isJPClient())).removeClass('profit loss').addClass(sub_total_type);
     };
 
     var createProfitTableRow = function createProfitTableRow(transaction) {
         var profit_table_data = ProfitTable.getProfitTabletData(transaction);
         var pl_type = Number(transaction.sell_price - transaction.buy_price) >= 0 ? 'profit' : 'loss';
-        var is_jp_client = Client.get('is_jp');
+        var is_jp_client = Client.isJPClient();
 
         var data = [is_jp_client ? toJapanTimeIfNeeded(parseInt(transaction.purchase_time)) : profit_table_data.buyDate, '<span ' + showTooltip(profit_table_data.app_id, oauth_apps[profit_table_data.app_id]) + '>' + profit_table_data.ref + '</span>', /binaryico/i.test(profit_table_data.shortcode) ? '-' : profit_table_data.payout, // TODO: remove ico exception when all ico contracts are removed
         '', profit_table_data.buyPrice, is_jp_client ? toJapanTimeIfNeeded(parseInt(transaction.sell_time)) : profit_table_data.sellDate, profit_table_data.sellPrice, profit_table_data.pl, ''];
@@ -25596,7 +25604,7 @@ var Settings = function () {
     var onLoad = function onLoad() {
         BinarySocket.wait('get_account_status').then(function () {
             var $class_real = $('.real');
-            var is_jp_client = Client.get('is_jp');
+            var is_jp_client = Client.isJPClient();
 
             if (Client.get('is_virtual')) {
                 $class_real.setVisibility(0);
@@ -25641,7 +25649,7 @@ module.exports = Settings;
 
 
 var BinaryPjax = __webpack_require__(13);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 var showLocalTimeOnHover = __webpack_require__(24).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(5);
 var Dialog = __webpack_require__(80);
@@ -25659,7 +25667,7 @@ var APIToken = function () {
         $form = void 0;
 
     var onLoad = function onLoad() {
-        if (Client.get('is_jp')) {
+        if (isJPClient()) {
             BinaryPjax.loadPreviousUrl();
             return;
         }
@@ -25837,7 +25845,7 @@ var AuthorisedApps = function () {
     var elements = {};
 
     var onLoad = function onLoad() {
-        if (Client.get('is_jp')) {
+        if (Client.isJPClient()) {
             BinaryPjax.loadPreviousUrl();
             return;
         }
@@ -25976,7 +25984,7 @@ var FinancialAssessment = function () {
     var form_selector = '#frm_assessment';
 
     var onLoad = function onLoad() {
-        if (Client.get('is_jp')) {
+        if (Client.isJPClient()) {
             BinaryPjax.loadPreviousUrl();
         }
 
@@ -26196,11 +26204,11 @@ module.exports = IPHistoryInit;
 
 var IPHistoryInit = __webpack_require__(278);
 var BinaryPjax = __webpack_require__(13);
-var Client = __webpack_require__(2);
+var isJPClient = __webpack_require__(2).isJPClient;
 
 var IPHistory = function () {
     var onLoad = function onLoad() {
-        if (Client.get('is_jp')) {
+        if (isJPClient()) {
             BinaryPjax.loadPreviousUrl();
             return;
         }
@@ -26315,7 +26323,7 @@ var LimitsInit = function () {
         var limits = response.get_limits;
         LimitsUI.fillLimitsTable(limits);
 
-        if (Client.get('is_jp')) {
+        if (Client.isJPClient()) {
             return;
         }
 
@@ -26515,7 +26523,7 @@ var LimitsUI = function () {
             $('#withdrawal-title').prepend(login_id + ' - ');
         }
         $('#limits-title').setVisibility(1);
-        if (!Client.get('is_jp')) {
+        if (!Client.isJPClient()) {
             $('#withdrawal-limits').setVisibility(1);
         }
     };
@@ -26814,7 +26822,7 @@ var SelfExclusion = function () {
                 BinaryPjax.loadPreviousUrl();
             } else {
                 getData();
-                if (Client.get('is_jp')) {
+                if (Client.isJPClient()) {
                     // need to update daily_loss_limit value inside jp_settings object
                     BinarySocket.send({ get_settings: 1 }, { forced: true });
                 }
@@ -27100,7 +27108,7 @@ var StatementUI = function () {
 
         var currency = Client.get('currency');
 
-        header[6] += Client.get('is_jp') || !currency ? '' : ' (' + currency + ')';
+        header[6] += Client.isJPClient() || !currency ? '' : ' (' + currency + ')';
 
         var metadata = {
             id: table_id,
@@ -27117,7 +27125,7 @@ var StatementUI = function () {
     };
 
     var createStatementRow = function createStatementRow(transaction) {
-        var statement_data = Statement.getStatementData(transaction, Client.get('currency'), Client.get('is_jp'));
+        var statement_data = Statement.getStatementData(transaction, Client.get('currency'), Client.isJPClient());
         all_data.push($.extend({}, statement_data, {
             action: localize(statement_data.action),
             desc: localize(statement_data.desc)
@@ -27153,7 +27161,7 @@ var StatementUI = function () {
     };
 
     var exportCSV = function exportCSV() {
-        downloadCSV(Statement.generateCSV(all_data, Client.get('is_jp')), 'Statement_' + Client.get('loginid') + '_latest' + $('#rows_count').text() + '_' + toJapanTimeIfNeeded(window.time).replace(/\s/g, '_').replace(/:/g, '') + '.csv');
+        downloadCSV(Statement.generateCSV(all_data, Client.isJPClient()), 'Statement_' + Client.get('loginid') + '_latest' + $('#rows_count').text() + '_' + toJapanTimeIfNeeded(window.time).replace(/\s/g, '_').replace(/:/g, '') + '.csv');
     };
 
     return {
@@ -28310,7 +28318,7 @@ var VirtualAccOpening = function () {
     var is_jp_client = void 0;
 
     var onLoad = function onLoad() {
-        is_jp_client = Client.get('is_jp');
+        is_jp_client = Client.isJPClient();
         if (is_jp_client) {
             handleJPForm();
         } else {
