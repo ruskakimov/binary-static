@@ -567,6 +567,14 @@
             width: 70% !important;
         }
     }
+    .chart-dialog {
+        min-width: 300px;
+
+        .ui-widget, svg.highcharts-root {
+            width: calc(100vw - 20px);
+            margin: 0;
+        }
+    }
 }
 @media all and (max-width: 768px) {
     #trading_socket_container {
