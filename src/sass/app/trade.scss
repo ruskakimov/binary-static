@@ -567,12 +567,13 @@
             width: 70% !important;
         }
     }
+    // fix trading chart on small screens
     .chart-dialog {
-        min-width: 300px;
+        min-width: 300px !important;
 
         .ui-widget, svg.highcharts-root {
-            width: calc(100vw - 20px);
-            margin: 0;
+            width: 100vw !important;
+            margin: 0 -10px !important;
         }
     }
 }
@@ -650,6 +651,7 @@
     }
     #trading_socket_container #contract_prices_container .price_container .price_wrapper {
         width: 100%;
+        box-sizing: border-box;
 
         &.small {
             width: auto;
