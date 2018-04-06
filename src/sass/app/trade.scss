@@ -577,8 +577,9 @@
             top: 20px;
             z-index: 1;
 
-            .table.justified-center {
-                margin-bottom: 1rem;
+            .table.justified-center + .instrument_name {
+                position: relative;
+                top: 15px;
             }
         }
         svg.highcharts-root {
