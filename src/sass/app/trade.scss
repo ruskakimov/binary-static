@@ -571,9 +571,21 @@
     .chart-dialog {
         min-width: 300px !important;
 
-        .ui-widget, svg.highcharts-root {
+        .chartOptions {
+            margin: 0 !important;
+            position: relative;
+            top: 20px;
+            z-index: 1;
+
+            .table.justified-center {
+                margin-bottom: 1rem;
+            }
+        }
+        svg.highcharts-root {
             width: 100vw !important;
             margin: 0 -10px !important;
+            position: relative;
+            left: -10px;
         }
     }
 }
