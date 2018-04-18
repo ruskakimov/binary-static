@@ -47,7 +47,7 @@ class AlertMessage extends React.PureComponent {
 
         return (
             <div className={`alert alert-${type}`}>
-                <span className='alert-icon'></span>
+                <span className='alert-icon' />
                 <span className='alert-message'>{message}</span>
                 {closeButton}
             </div>
