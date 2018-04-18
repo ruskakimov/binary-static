@@ -401,10 +401,12 @@ span.tooltip {
     transform: scaleY(2); } }
 
 @supports (display: grid) {
+  #app_contents {
+    margin: 70px 0 40px; }
   /* trade-app layout */
   #trade_container {
     position: relative;
-    margin: 80px 15px 0;
+    margin: 0 15px;
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(2, [row] auto);
@@ -444,7 +446,6 @@ span.tooltip {
     @media (min-width: 1025px) {
       #trade_container .offset-container {
         position: absolute;
-        top: -30px;
         height: 100vh;
         width: 100%;
         left: calc(100% + 20px);
@@ -583,10 +584,18 @@ span.tooltip {
               font-weight: 300;
               text-transform: capitalize;
               color: #15212d;
-              padding: 16px; }
+              padding: 16px 18px 16px 34px; }
               #trading_header header .menu-items .menu-left .menu-links a span:before {
-                margin-right: 8px;
-                vertical-align: sub; }
+                position: absolute;
+                top: 16px;
+                left: 24px; }
+              #trading_header header .menu-items .menu-left .menu-links a span:after {
+                display: block;
+                content: attr(title);
+                font-weight: 400;
+                height: 0;
+                overflow: hidden;
+                visibility: hidden; }
               #trading_header header .menu-items .menu-left .menu-links a span.trade:before {
                 content: url("../images/trading_app/header/icons/ic_trade_normal_light.svg"); }
               #trading_header header .menu-items .menu-left .menu-links a span.portfolio:before {
@@ -611,7 +620,8 @@ span.tooltip {
               content: '';
               height: 3px;
               width: 100%;
-              bottom: 0;
+              left: 0;
+              bottom: -3px;
               background-color: #2a3052; }
           @media (max-width: 980px) {
             #trading_header header .menu-items .menu-left .menu-links {
@@ -875,7 +885,6 @@ hr {
         cursor: pointer;
         font-size: 0.875rem;
         /* stylelint-disable-line number-max-precision */
-        color: #2a3052;
         -webkit-box-sizing: border-box;
                 box-sizing: border-box;
         z-index: 1; }
@@ -896,7 +905,9 @@ hr {
             -webkit-box-align: center;
                 -ms-flex-align: center;
                     align-items: center;
-            left: 1rem; }
+            color: #2a3052;
+            left: 1rem;
+            top: 11px; }
           .drawer-container .drawer-bg .drawer .drawer-item span.parent-item:after {
             content: '\002303';
             font-size: 1.5rem;
@@ -918,8 +929,9 @@ hr {
             transition: transform 0.25s, -webkit-transform 0.25s;
             -webkit-transform: rotate(-180deg);
                     transform: rotate(-180deg);
-            -webkit-transform-origin: 50% 25%;
-                    transform-origin: 50% 25%; }
+            -webkit-transform-origin: 50% 35%;
+                    transform-origin: 50% 35%;
+            top: 30%; }
           .drawer-container .drawer-bg .drawer .drawer-item span.parent-item.show:after {
             -webkit-transform: none;
                     transform: none; }
@@ -927,11 +939,14 @@ hr {
           text-decoration: none;
           font-weight: 300; }
           .drawer-container .drawer-bg .drawer .drawer-item a span {
-            padding-left: 1.5rem; }
+            padding-left: 1.5rem;
+            color: #2a3052; }
           .drawer-container .drawer-bg .drawer .drawer-item a:before {
             content: '\25A2';
+            color: #2a3052;
             font-size: 1rem;
-            position: absolute; }
+            position: absolute;
+            top: -4px; }
         .drawer-container .drawer-bg .drawer .drawer-item:hover {
           background: #f2f2f2; }
       .drawer-container .drawer-bg .drawer.visible {
@@ -970,14 +985,16 @@ hr {
       .acc-switcher-container .acc-switcher-header .acc-switcher-active-login:before {
         content: '\25EF';
         font-size: 3rem;
-        padding-top: 5px;
+        top: 0;
         position: absolute; }
       .acc-switcher-container .acc-switcher-header .acc-switcher-active-login:after {
         content: '\0025BE';
         font-size: 1.5rem;
         position: absolute;
         font-weight: 300;
-        top: 35%;
+        -webkit-transform-origin: 50% 55%;
+                transform-origin: 50% 55%;
+        top: 25%;
         right: 16px;
         -webkit-transition: -webkit-transform 0.25s;
         transition: -webkit-transform 0.25s;
@@ -1007,13 +1024,14 @@ hr {
       max-height: calc(100% - 156px); }
     .acc-switcher-container .acc-switcher-list .acc-switcher-account {
       cursor: pointer;
-      padding: 4px 16px; }
+      padding: 4px 16px;
+      position: relative; }
       .acc-switcher-container .acc-switcher-list .acc-switcher-account.hide {
         display: none; }
       .acc-switcher-container .acc-switcher-list .acc-switcher-account:before {
         content: '\25EF';
         font-size: 2.5rem;
-        padding-top: 10px;
+        top: 0;
         position: absolute; }
       .acc-switcher-container .acc-switcher-list .acc-switcher-account p.acc-switcher-accountid {
         font-weight: 300;
@@ -1052,7 +1070,8 @@ hr {
   .lang-switcher-list .lang-switcher-language {
     cursor: pointer;
     padding: 2px 16px;
-    position: relative; }
+    position: relative;
+    background: #fff; }
     .lang-switcher-list .lang-switcher-language p.lang-switcher-name {
       font-size: 0.75rem;
       padding-left: 3rem;
@@ -1225,24 +1244,18 @@ hr {
   font-weight: 300; }
   .input-field i {
     position: relative; }
-    .input-field i .symbols:before {
+    .input-field i .symbols {
       height: 30px;
       width: 30px;
+      line-height: 30px;
       margin: 1px;
       border-radius: 4px 0 0 4px;
       background: #f2f2f2;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: space-evenly;
-          -ms-flex-pack: space-evenly;
-              justify-content: space-evenly;
       -webkit-box-sizing: border-box;
               box-sizing: border-box; }
-    .input-field i .symbols.aud:before {
+      .input-field i .symbols:before {
+        margin: 0; }
+    .input-field i .symbols.aud {
       padding-right: 4px; }
     .input-field i + input {
       padding-left: 35px !important; }
@@ -1253,7 +1266,6 @@ hr {
     list-style: none;
     position: relative;
     display: inline-block;
-    padding: 4px 11px;
     width: 100%;
     height: 32px;
     font-size: 1rem;
@@ -1311,11 +1323,15 @@ div.dropdown-container {
       font-weight: 300; }
     div.dropdown-container .dropdown-display:hover {
       border-color: #2a3052; }
+      div.dropdown-container .dropdown-display:hover + .select-arrow {
+        color: #2a3052; }
   div.dropdown-container:active, div.dropdown-container:focus, div.dropdown-container.show {
     outline: 0;
     border-radius: 4px;
     -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
             box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
+    div.dropdown-container:active .select-arrow, div.dropdown-container:focus .select-arrow, div.dropdown-container.show .select-arrow {
+      color: #2a3052; }
   div.dropdown-container.show > div.dropdown-list {
     -webkit-transform: scale(1, 1);
             transform: scale(1, 1);
@@ -1323,7 +1339,6 @@ div.dropdown-container {
   div.dropdown-container.show > .clicked {
     border-color: #2a3052; }
   div.dropdown-container.show > .select-arrow {
-    top: 12px;
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg); }
   div.dropdown-container .dropdown-list {
@@ -1390,7 +1405,7 @@ div.dropdown-container {
     text-rendering: optimizeLegibility;
     position: absolute;
     pointer-events: none;
-    top: 5px;
+    top: 12px;
     right: 11px;
     line-height: 1;
     -webkit-transition: -webkit-transform 0.2s ease;
@@ -1404,7 +1419,9 @@ div.dropdown-container {
     color: #f2f2f2;
     font-size: 1.1rem; }
     div.dropdown-container .select-arrow:before {
-      content: '\002303'; }
+      content: '\002303';
+      display: block;
+      height: 0.53em; }
 
 /* Ant style */
 .btn {
@@ -2408,6 +2425,19 @@ a {
   .fullscreen-dialog__header {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     width: 100%;
     position: fixed;
     top: 0;
@@ -2441,10 +2471,8 @@ a {
     font-weight: 600;
     color: #333;
     margin: 0; }
-  .fullscreen-dialog__close-btn {
-    position: absolute;
-    top: 14px;
-    right: 14px; }
+  .fullscreen-dialog__close-btn img {
+    display: block; }
   .fullscreen-dialog fieldset {
     border: none;
     margin-right: 0.5rem;
@@ -2493,104 +2521,101 @@ a {
       font-weight: bold;
       color: #2a3052; }
 
-#content {
-  margin-top: 0;
-  margin-bottom: 31px; }
-  #content #trade_app {
-    overflow: hidden; }
-    #content #trade_app .notice-msg {
-      background: unset;
-      border: 1px solid #f2f2f2; }
-    #content #trade_app .icon:before {
-      content: '';
+#binary_app {
+  overflow: hidden; }
+  #binary_app .notice-msg {
+    background: unset;
+    border: 1px solid #f2f2f2; }
+  #binary_app .icon:before {
+    content: '';
+    display: block;
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px; }
+  #binary_app .icon.start-time:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_watch_later_light.svg"); }
+  #binary_app .icon.trade-duration:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_timelapse_light.svg"); }
+  #binary_app .icon.invest-amount:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_monetization_light.svg"); }
+  #binary_app .icon.barriers:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_barrier_light.svg"); }
+  #binary_app .icon.digits:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_digit_light.svg"); }
+  #binary_app .desktop-only fieldset .duration-container > * {
+    margin-top: 0; }
+  #binary_app fieldset input, #binary_app fieldset select {
+    width: 100%;
+    height: 32px;
+    font-size: 1rem;
+    font-weight: 300;
+    -ms-flex-item-align: center;
+        align-self: center;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 3px 5px 2px;
+    background: #fff; }
+  #binary_app fieldset input:hover {
+    border-color: #2a3052; }
+  #binary_app fieldset input:active, #binary_app fieldset input:focus {
+    outline: 0;
+    border-color: #2a3052;
+    -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
+            box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
+  #binary_app fieldset .select-wrapper {
+    position: relative; }
+    #binary_app fieldset .select-wrapper:after {
+      content: '\25bc';
       display: block;
-      background-size: 16px 16px;
-      height: 16px;
-      width: 16px; }
-    #content #trade_app .icon.start-time:before {
-      background-image: url("../images/trading_app/sidebar/light/ic_watch_later_light.svg"); }
-    #content #trade_app .icon.trade-duration:before {
-      background-image: url("../images/trading_app/sidebar/light/ic_timelapse_light.svg"); }
-    #content #trade_app .icon.invest-amount:before {
-      background-image: url("../images/trading_app/sidebar/light/ic_monetization_light.svg"); }
-    #content #trade_app .icon.barriers:before {
-      background-image: url("../images/trading_app/sidebar/light/ic_barrier_light.svg"); }
-    #content #trade_app .icon.digits:before {
-      background-image: url("../images/trading_app/sidebar/light/ic_digit_light.svg"); }
-    #content #trade_app .desktop-only fieldset .duration-container > * {
-      margin-top: 0; }
-    #content #trade_app fieldset input, #content #trade_app fieldset select {
-      width: 100%;
-      height: 32px;
-      font-size: 1rem;
-      font-weight: 300;
-      -ms-flex-item-align: center;
-          align-self: center;
-      -webkit-appearance: none;
-         -moz-appearance: none;
-              appearance: none;
-      -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-      padding: 2px 5px;
-      background: #fff; }
-    #content #trade_app fieldset input:hover {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      font-size: 12px;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%); }
+  #binary_app fieldset select {
+    margin: 8px 0;
+    display: block; }
+    #binary_app fieldset select:hover {
       border-color: #2a3052; }
-    #content #trade_app fieldset input:active, #content #trade_app fieldset input:focus {
+    #binary_app fieldset select:active, #binary_app fieldset select:focus {
       outline: 0;
       border-color: #2a3052;
       -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
               box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
-    #content #trade_app fieldset .select-wrapper {
-      position: relative; }
-      #content #trade_app fieldset .select-wrapper:after {
-        content: '\25bc';
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: 8px;
-        font-size: 12px;
-        -webkit-transform: translateY(-50%);
-                transform: translateY(-50%); }
-    #content #trade_app fieldset select {
-      margin: 8px 0;
-      display: block; }
-      #content #trade_app fieldset select:hover {
-        border-color: #2a3052; }
-      #content #trade_app fieldset select:active, #content #trade_app fieldset select:focus {
-        outline: 0;
-        border-color: #2a3052;
-        -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
-                box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
-    #content #trade_app fieldset .symbols {
-      font-size: 1rem;
+  #binary_app fieldset .symbols {
+    font-size: 1rem;
+    position: absolute;
+    display: block;
+    text-align: center;
+    z-index: 1;
+    color: #2a3052; }
+  #binary_app fieldset .clock-header, #binary_app fieldset .fieldset-header {
+    height: 1.5rem;
+    position: relative; }
+    #binary_app fieldset .clock-header span.field-info, #binary_app fieldset .fieldset-header span.field-info {
       position: absolute;
-      display: block;
-      text-align: center;
-      z-index: 1;
-      color: #2a3052; }
-    #content #trade_app fieldset .clock-header, #content #trade_app fieldset .fieldset-header {
-      height: 1.5rem;
-      position: relative; }
-      #content #trade_app fieldset .clock-header span.field-info, #content #trade_app fieldset .fieldset-header span.field-info {
-        position: absolute;
-        color: #2a3052;
-        font-size: 0.7rem;
-        font-weight: 400;
-        margin: 5px 0 12px; }
-        #content #trade_app fieldset .clock-header span.field-info.icon, #content #trade_app fieldset .fieldset-header span.field-info.icon {
-          display: -webkit-inline-box;
-          display: -ms-inline-flexbox;
-          display: inline-flex;
-          -webkit-box-align: center;
-              -ms-flex-align: center;
-                  align-items: center;
-          top: -3px; }
-          #content #trade_app fieldset .clock-header span.field-info.icon:before, #content #trade_app fieldset .fieldset-header span.field-info.icon:before {
-            margin-right: 5px; }
-        #content #trade_app fieldset .clock-header span.field-info.left, #content #trade_app fieldset .fieldset-header span.field-info.left {
-          left: 5px; }
-        #content #trade_app fieldset .clock-header span.field-info.right, #content #trade_app fieldset .fieldset-header span.field-info.right {
-          top: -3px;
-          right: 5px;
-          font-size: 0.5625rem;
-          /* stylelint-disable-line number-max-precision */ }
+      color: #2a3052;
+      font-size: 0.7rem;
+      font-weight: 400;
+      margin: 5px 0 12px; }
+      #binary_app fieldset .clock-header span.field-info.icon, #binary_app fieldset .fieldset-header span.field-info.icon {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        top: -3px; }
+        #binary_app fieldset .clock-header span.field-info.icon:before, #binary_app fieldset .fieldset-header span.field-info.icon:before {
+          margin-right: 5px; }
+      #binary_app fieldset .clock-header span.field-info.left, #binary_app fieldset .fieldset-header span.field-info.left {
+        left: 5px; }
+      #binary_app fieldset .clock-header span.field-info.right, #binary_app fieldset .fieldset-header span.field-info.right {
+        top: -3px;
+        right: 5px;
+        font-size: 0.5625rem;
+        /* stylelint-disable-line number-max-precision */ }
