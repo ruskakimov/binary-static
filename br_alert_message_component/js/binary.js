@@ -9489,7 +9489,7 @@ var WebtraderChart = function () {
         if (!is_initialized) {
             __webpack_require__.e/* require.ensure */(0).then((function () {
                 __webpack_require__.e/* require.ensure */(4).then((function (require) {
-                    WebtraderCharts = __webpack_require__(652);
+                    WebtraderCharts = __webpack_require__(653);
                     WebtraderCharts.init({
                         server: Config.getSocketURL(),
                         appId: Config.getAppId(),
@@ -14169,7 +14169,7 @@ module.exports = updateBalance;
 
 
 /* global google */
-var scriptjs = __webpack_require__(645);
+var scriptjs = __webpack_require__(646);
 var applyToAllElements = __webpack_require__(0).applyToAllElements;
 var createElement = __webpack_require__(0).createElement;
 var Client = __webpack_require__(4);
@@ -19650,7 +19650,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 // (+ some custom changes for binary.com)
 
 var $ = __webpack_require__(65);
-var Kinetic = __webpack_require__(615);
+var Kinetic = __webpack_require__(616);
 
 module.exports = function (_options) {
     var that = this;
@@ -21071,7 +21071,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var Client = __webpack_require__(4);
 var getLanguage = __webpack_require__(13).get;
 var urlForStatic = __webpack_require__(8).urlForStatic;
-var Pushwoosh = __webpack_require__(648).Pushwoosh;
+var Pushwoosh = __webpack_require__(649).Pushwoosh;
 
 var BinaryPushwoosh = function () {
     var pw = new Pushwoosh();
@@ -21364,17 +21364,17 @@ var TNCApproval = __webpack_require__(217);
 var VideoFacility = __webpack_require__(354);
 
 // ==================== static ====================
-var GetStartedJP = __webpack_require__(388);
-var HomeJP = __webpack_require__(389);
-var Charity = __webpack_require__(390);
-var Contact = __webpack_require__(391);
-var GetStarted = __webpack_require__(392);
+var GetStartedJP = __webpack_require__(389);
+var HomeJP = __webpack_require__(390);
+var Charity = __webpack_require__(391);
+var Contact = __webpack_require__(392);
+var GetStarted = __webpack_require__(393);
 var Home = __webpack_require__(222);
-var JobDetails = __webpack_require__(393);
-var Regulation = __webpack_require__(394);
-var StaticPages = __webpack_require__(395);
-var TermsAndConditions = __webpack_require__(396);
-var WhyUs = __webpack_require__(397);
+var JobDetails = __webpack_require__(394);
+var Regulation = __webpack_require__(395);
+var StaticPages = __webpack_require__(396);
+var TermsAndConditions = __webpack_require__(397);
+var WhyUs = __webpack_require__(398);
 
 /* eslint-disable max-len */
 var pages_config = {
@@ -25214,7 +25214,7 @@ module.exports = TradePage;
 "use strict";
 
 
-var DocumentUploader = __webpack_require__(398);
+var DocumentUploader = __webpack_require__(399);
 var Client = __webpack_require__(4);
 var displayNotification = __webpack_require__(27).displayNotification;
 var BinarySocket = __webpack_require__(5);
@@ -28987,7 +28987,8 @@ module.exports = VideoFacility;
 /* 384 */,
 /* 385 */,
 /* 386 */,
-/* 387 */
+/* 387 */,
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29021,7 +29022,7 @@ $(window).on('pageshow', function (e) {
 });
 
 /***/ }),
-/* 388 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29085,7 +29086,7 @@ var GetStartedJP = function () {
 module.exports = GetStartedJP;
 
 /***/ }),
-/* 389 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29196,7 +29197,7 @@ var HomeJP = function () {
 module.exports = HomeJP;
 
 /***/ }),
-/* 390 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29235,7 +29236,7 @@ var Charity = function () {
 module.exports = Charity;
 
 /***/ }),
-/* 391 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29257,7 +29258,7 @@ var Contact = function () {
 module.exports = Contact;
 
 /***/ }),
-/* 392 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29309,7 +29310,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 393 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29380,7 +29381,7 @@ var JobDetails = function () {
 module.exports = JobDetails;
 
 /***/ }),
-/* 394 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29446,7 +29447,7 @@ var Regulation = function () {
 module.exports = Regulation;
 
 /***/ }),
-/* 395 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29508,7 +29509,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 396 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29652,7 +29653,7 @@ var TermsAndConditions = function () {
 module.exports = TermsAndConditions;
 
 /***/ }),
-/* 397 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29680,7 +29681,6 @@ var WhyUs = function () {
 module.exports = WhyUs;
 
 /***/ }),
-/* 398 */,
 /* 399 */,
 /* 400 */,
 /* 401 */,
@@ -29932,17 +29932,18 @@ module.exports = WhyUs;
 /* 647 */,
 /* 648 */,
 /* 649 */,
-/* 650 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
+/* 650 */,
 /* 651 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
+/***/ }),
+/* 652 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
 /***/ })
-],[387]);
+],[388]);
 //# sourceMappingURL=binary.js.map

@@ -4150,7 +4150,7 @@ var _react = __webpack_require__(11);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _mobxReact = __webpack_require__(616);
+var _mobxReact = __webpack_require__(617);
 
 var _mobx = __webpack_require__(98);
 
@@ -9775,7 +9775,7 @@ var _login = __webpack_require__(41);
 
 var _localize = __webpack_require__(2);
 
-var _trade_app = __webpack_require__(384);
+var _trade_app = __webpack_require__(385);
 
 var _trade_app2 = _interopRequireDefault(_trade_app);
 
@@ -12503,7 +12503,7 @@ var _react = __webpack_require__(11);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _iscroll = __webpack_require__(614);
+var _iscroll = __webpack_require__(615);
 
 var _iscroll2 = _interopRequireDefault(_iscroll);
 
@@ -12968,7 +12968,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _mobx = __webpack_require__(98);
 
-var _mobxUtils = __webpack_require__(617);
+var _mobxUtils = __webpack_require__(618);
 
 var _utility = __webpack_require__(0);
 
@@ -13153,11 +13153,11 @@ var _reactRouterDom = __webpack_require__(271);
 
 var _connect = __webpack_require__(43);
 
-var _trade_store = __webpack_require__(385);
+var _trade_store = __webpack_require__(386);
 
 var _trade_store2 = _interopRequireDefault(_trade_store);
 
-var _ui_store = __webpack_require__(386);
+var _ui_store = __webpack_require__(387);
 
 var _ui_store2 = _interopRequireDefault(_ui_store);
 
@@ -16378,7 +16378,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _connect = __webpack_require__(43);
 
-var _contracts_popup = __webpack_require__(378);
+var _contracts_popup = __webpack_require__(379);
 
 var _contracts_popup2 = _interopRequireDefault(_contracts_popup);
 
@@ -16555,6 +16555,109 @@ var _react = __webpack_require__(11);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _url = __webpack_require__(8);
+
+var _url2 = _interopRequireDefault(_url);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    Use example:
+    <AlertMessage
+        type='error'
+        message='This is danger'
+        onClose={() => {console.log('onClose has been called')}}
+    />
+*/
+
+var types = ['error', 'info', 'success', 'warning'];
+
+var AlertMessage = function (_React$PureComponent) {
+    _inherits(AlertMessage, _React$PureComponent);
+
+    function AlertMessage(props) {
+        _classCallCheck(this, AlertMessage);
+
+        var _this = _possibleConstructorReturn(this, (AlertMessage.__proto__ || Object.getPrototypeOf(AlertMessage)).call(this, props));
+
+        if (types.indexOf(props.type) === -1) {
+            throw new Error('Wrong type passed to AlertMessage component!');
+        }
+        _this.state = {
+            closed: false
+        };
+        _this.handleClose = _this.handleClose.bind(_this);
+        return _this;
+    }
+
+    _createClass(AlertMessage, [{
+        key: 'handleClose',
+        value: function handleClose() {
+            this.setState({
+                closed: true
+            });
+            if (typeof this.props.onClose === 'function') {
+                this.props.onClose();
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            if (this.state.closed) return null;
+
+            var _props = this.props,
+                type = _props.type,
+                message = _props.message;
+
+
+            var closeButton = _react2.default.createElement(
+                'a',
+                { className: 'alert-close', onClick: this.handleClose },
+                _react2.default.createElement('img', { className: 'alert-close-icon', src: _url2.default.urlForStatic('images/trading_app/common/close.svg'), alt: 'Close' })
+            );
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'alert alert-' + type },
+                _react2.default.createElement('span', { className: 'alert-icon' }),
+                _react2.default.createElement(
+                    'span',
+                    { className: 'alert-message' },
+                    message
+                ),
+                closeButton
+            );
+        }
+    }]);
+
+    return AlertMessage;
+}(_react2.default.PureComponent);
+
+exports.default = AlertMessage;
+
+/***/ }),
+/* 379 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(11);
+
+var _react2 = _interopRequireDefault(_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16714,7 +16817,7 @@ var Contracts = function Contracts(_ref) {
 exports.default = ContractsPopUp;
 
 /***/ }),
-/* 379 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16779,7 +16882,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(LastDigit);
 
 /***/ }),
-/* 380 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16828,7 +16931,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(Purchase);
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16901,7 +17004,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(StartDate);
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16951,7 +17054,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(_Symbol);
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17011,7 +17114,7 @@ exports.default = (0, _connect.connect)(function (_ref4) {
 })(Test);
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17043,25 +17146,29 @@ var _duration = __webpack_require__(377);
 
 var _duration2 = _interopRequireDefault(_duration);
 
-var _last_digit = __webpack_require__(379);
+var _last_digit = __webpack_require__(380);
 
 var _last_digit2 = _interopRequireDefault(_last_digit);
 
-var _start_date = __webpack_require__(381);
+var _start_date = __webpack_require__(382);
 
 var _start_date2 = _interopRequireDefault(_start_date);
 
-var _symbol = __webpack_require__(382);
+var _symbol = __webpack_require__(383);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _test = __webpack_require__(383);
+var _test = __webpack_require__(384);
 
 var _test2 = _interopRequireDefault(_test);
 
-var _purchase = __webpack_require__(380);
+var _purchase = __webpack_require__(381);
 
 var _purchase2 = _interopRequireDefault(_purchase);
+
+var _alert_message = __webpack_require__(378);
+
+var _alert_message2 = _interopRequireDefault(_alert_message);
 
 var _connect = __webpack_require__(43);
 
@@ -17102,7 +17209,23 @@ var TradeApp = function (_React$Component) {
                     { className: 'chart-container notice-msg' },
                     _react2.default.createElement(_symbol2.default, null),
                     _react2.default.createElement(_contract_type2.default, null),
-                    _react2.default.createElement(_test2.default, null)
+                    _react2.default.createElement(_test2.default, null),
+                    _react2.default.createElement(_alert_message2.default, {
+                        type: 'error',
+                        message: 'This is error'
+                    }),
+                    _react2.default.createElement(_alert_message2.default, {
+                        type: 'success',
+                        message: 'This is success'
+                    }),
+                    _react2.default.createElement(_alert_message2.default, {
+                        type: 'info',
+                        message: 'This is info'
+                    }),
+                    _react2.default.createElement(_alert_message2.default, {
+                        type: 'warning',
+                        message: 'This is warning'
+                    })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -17143,7 +17266,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
 })(TradeApp);
 
 /***/ }),
-/* 385 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17523,7 +17646,7 @@ exports.default = TradeStore;
 ;
 
 /***/ }),
-/* 386 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
