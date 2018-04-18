@@ -41,7 +41,7 @@ class AlertMessage extends React.PureComponent {
 
         const closeButton = (
             <a className='alert-close' onClick={this.handleClose}>
-                <img className='alert-close-icon' src={Url.urlForStatic('images/trading_app/close.svg')} alt='Close' />
+                <img className='alert-close-icon' src={Url.urlForStatic('images/trading_app/common/close.svg')} alt='Close' />
             </a>
         );
 
