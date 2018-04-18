@@ -69,7 +69,7 @@ const getConfig = () => (
         languages       : program.branch === 'translations' ? ['ACH'] : common.languages,
         root_path       : common.root_path,
         root_url        : `/${program.dev ? 'binary-static/' : ''}${program.branch ? `${program.branch}/` : ''}`,
-        sections        : ['app', 'app_2', 'static'],
+        sections        : ['app', 'static'],
     }
 );
 
@@ -156,28 +156,26 @@ const createContextBuilder = async () => {
         await common.writeFile(Path.join(config.dist_path, 'version'), static_hash, 'utf8');
     }
 
-    const extra = {
+    const extra = is_app => ({
         js_files: [
             `${config.root_url}js/texts/{PLACEHOLDER_FOR_LANG}.js?${static_hash}`,
             `${config.root_url}js/manifest.js?${static_hash}`,
             `${config.root_url}js/vendor.min.js?${vendor_hash}`,
-            program.dev ?
-                `${config.root_url}js/binary.js?${static_hash}` :
-                `${config.root_url}js/binary.min.js?${static_hash}`,
+            `${config.root_url}js/binary${is_app ? '_app' : ''}${program.dev ? '' : '.min'}.js?${static_hash}`,
         ],
-        css_files: [
+        css_files: is_app ? [`${config.root_url}css/app_2.min.css?${static_hash}`] : [
             `${config.root_url}css/common.min.css?${static_hash}`,
             ...config.sections.map(section => `${config.root_url}css/${section}.min.css?${static_hash}`),
         ],
         languages  : config.languages,
         broker_name: 'Binary.com',
         static_hash,
-    };
+    });
 
     return {
         buildFor: (model) => {
             const translator = createTranslator(model.language);
-            return Object.assign({}, extra, model, {
+            return Object.assign({}, extra(/^app$/.test(model.current_path)), model, {
                 L: (text, ...args) => {
                     const translated = translator(text, ...args);
                     return RenderHTML(translated);
@@ -199,6 +197,7 @@ async function compile(page) {
     const CONTENT_PLACEHOLDER = 'CONTENT_PLACEHOLDER'; // used in layout.jsx
 
     const tasks = languages.map(async lang => {
+        const affiliate_language_code = common.getAffiliateSignupLanguage(lang);
         const model = {
             website_name   : 'Binary.com',
             title          : page.title,
@@ -208,9 +207,12 @@ async function compile(page) {
             only_ja        : page.only_ja,
             current_path   : page.save_as,
             current_route  : page.current_route,
-            affiliate_email: 'affiliates@binary.com',
-            japan_docs_url : 'https://japan-docs.binary.com',
             is_pjax_request: false,
+
+            japan_docs_url        : 'https://japan-docs.binary.com',
+            affiliate_signup_url  : `https://login.binary.com/signup.php?lang=${affiliate_language_code}`,
+            affiliate_password_url: `https://login.binary.com/password-reset.php?lang=${affiliate_language_code}`,
+            affiliate_email       : 'affiliates@binary.com',
         };
 
         const context     = context_builder.buildFor(model);

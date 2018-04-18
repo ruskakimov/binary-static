@@ -1,19 +1,30 @@
 import React from 'react';
-import { connect } from '../store/connect';
+import Dropdown from '../../../components/form/dropdown.jsx';
+import Fieldset from '../../../components/form/fieldset.jsx';
+import { connect } from '../../../store/connect';
 import { localize } from '../../../../_common/localize';
+
+const last_digit_numbers = [...Array(10).keys()].map(number => ({
+    text : number,
+    value: number,
+}));
 
 const LastDigit = ({
     last_digit,
     onChange,
 }) =>  (
-        <fieldset>
-            <label htmlFor='last_digit'>{localize('Last Digit Prediction')}</label>
-            <select name='last_digit' value={last_digit} onChange={onChange}>
-                {[...Array(10).keys()].map((number) => (
-                    <option key={number} value={number}>{number}</option>
-                ))}
-            </select>
-        </fieldset>
+    <Fieldset
+        header={localize('Last Digit Prediction')}
+        icon='digits'
+        tooltip={localize('Text for Last Digits goes here.')}
+    >
+        <Dropdown
+            list={last_digit_numbers}
+            value={last_digit}
+            name='last_digit'
+            onChange={onChange}
+        />
+    </Fieldset>
 );
 
 export default connect(

@@ -1,4 +1,5 @@
-import DAO from '../data/dao';
+import moment from 'moment';
+import DAO from '../../../data/dao';
 
 export const getCountryAsync = function* () {
     const r = yield DAO.getWebsiteStatus();
@@ -18,14 +19,14 @@ export const getTicks = function(store, callback) {
     return { };
 };
 
-export const onAmountChange = ({amount}) => {
+export const onChangeAmount = ({amount}) => {
     const barrier_2 = amount * 2;
-    console.log('Amount: ', amount, 'Low Barrier: ', barrier_2);
+    // console.log('Amount: ', amount, 'Low Barrier: ', barrier_2);
     return {
         barrier_2,
     };
 };
 
 export const initTime = () => ({
-    server_time: window.time,
+    server_time: window.time || moment.utc(),
 });
