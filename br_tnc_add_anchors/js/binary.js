@@ -19065,6 +19065,7 @@ var ScrollToAnchor = function () {
     var addAnchorsToElements = function addAnchorsToElements() {
         var els = document.querySelectorAll('[data-anchor]');
         els.forEach(function (el) {
+            if (el.querySelector('.data-anchor-link')) return;
             var title = el.innerText;
             var id = encode(title);
             el.dataset.anchor = id;
