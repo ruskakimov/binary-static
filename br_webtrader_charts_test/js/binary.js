@@ -645,13 +645,6 @@ var Client = function () {
         });
     };
 
-    var canRequestProfessional = function canRequestProfessional() {
-        var residence = get('residence');
-        /* Austria, Italy, Belgium, Latvia, Bulgaria,	Lithuania, Croatia, Luxembourg, Cyprus, Malta, Czech Republic,	Netherlands, Denmark, Poland, Estonia, Portugal, Finland, Romania, France, Slovakia, Germany, Slovenia, Greece, Spain, Hungary, Sweden, Ireland, United Kingdom, Australia, New Zealand, Singapore, Canada, Switzerland */
-        var countries = ['at', 'it', 'be', 'lv', 'bg', 'lt', 'hr', 'lu', 'cy', 'mt', 'cf', 'nl', 'dk', 'pl', 'ee', 'pt', 'fi', 'ro', 'fr', 'sk', 'de', 'si', 'gr', 'es', 'hu', 'se', 'ie', 'gb', 'au', 'nz', 'sg', 'ca', 'ch'];
-        return countries.indexOf(residence.toLowerCase()) !== -1;
-    };
-
     var defaultRedirectUrl = function defaultRedirectUrl() {
         return urlFor(isJPClient() ? 'multi_barriers_trading' : 'trading');
     };
@@ -693,7 +686,6 @@ var Client = function () {
         getLandingCompanyValue: getLandingCompanyValue,
         canTransferFunds: canTransferFunds,
         hasCostaricaAccount: hasCostaricaAccount,
-        canRequestProfessional: canRequestProfessional,
         defaultRedirectUrl: defaultRedirectUrl,
         setJPFlag: setJPFlag,
         isJPClient: isJPClient
@@ -7863,7 +7855,7 @@ var AccountOpening = function () {
     var populateForm = function populateForm(form_id, getValidations, is_financial) {
         getResidence(form_id, getValidations);
         generateBirthDate();
-        if (Client.canRequestProfessional()) {
+        if (State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest') {
             professionalClient.init(is_financial, false);
         }
         if (Client.get('residence') !== 'jp') {
@@ -9143,7 +9135,6 @@ var Durations = function () {
                 selected_duration = {};
             }
         }
-        Dropdown('#duration_units');
         return durationPopulate();
     };
 
@@ -9241,6 +9232,7 @@ var Durations = function () {
         var unit_max_value = unit.options[unit.selectedIndex].getAttribute('data-maximum');
         var unit_value = Defaults.get('duration_amount') || unit_min_value;
         unit.value = Defaults.get('duration_units') && document.querySelectorAll('select[id="duration_units"] [value="' + Defaults.get('duration_units') + '"]').length ? Defaults.get('duration_units') : unit.value;
+        Dropdown('#duration_units');
         CommonFunctions.elementTextContent(CommonFunctions.getElementById('duration_minimum'), unit_min_value);
         CommonFunctions.elementTextContent(CommonFunctions.getElementById('duration_unit'), localize(duration_map[unit.value] + (+unit_min_value > 1 ? 's' : '')));
         CommonFunctions.elementTextContent(CommonFunctions.getElementById('duration_maximum'), unit_max_value);
@@ -13311,9 +13303,8 @@ var professionalClient = function () {
     };
 
     var populateProfessionalClient = function populateProfessionalClient(is_financial) {
-        var financial_company = State.getResponse('landing_company.financial_company.shortcode');
-        if (!/costarica|maltainvest/.test(financial_company) || // limited to these landing companies
-        financial_company === 'maltainvest' && !is_financial) {
+        var has_maltainvest = State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest';
+        if (!has_maltainvest || !is_financial) {
             // then it's not upgrading to financial
             if (is_in_page) {
                 BinaryPjax.loadPreviousUrl();
@@ -13346,7 +13337,7 @@ var professionalClient = function () {
             }
         });
 
-        if (financial_company === 'maltainvest') {
+        if (has_maltainvest) {
             $container.find('#show_financial').setVisibility(1);
         }
 
@@ -20518,11 +20509,13 @@ var Client = __webpack_require__(2);
 var BinarySocket = __webpack_require__(5);
 var localize = __webpack_require__(3).localize;
 var State = __webpack_require__(6).State;
-var template = __webpack_require__(1).template;
 
 var CashierJP = function () {
     var _onLoad = function _onLoad(action) {
         if (Client.isJPClient() && Client.get('residence') !== 'jp') BinaryPjax.loadPreviousUrl();
+        if (action === 'deposit') {
+            return;
+        }
         var $container = $('#japan_cashier_container');
         BinarySocket.send({ cashier_password: 1 }).then(function (response) {
             if (response.error) {
@@ -20538,19 +20531,14 @@ var CashierJP = function () {
                         if (typeof limit !== 'undefined' && limit < 1) {
                             $container.find('#cashier_locked_message').text(localize('You have reached the withdrawal limit.')).setVisibility(1);
                         } else {
-                            $container.find('#cashier_unlocked_message').setVisibility(1);
-                            BinarySocket.wait('get_settings').then(function () {
-                                if (action === 'deposit') {
-                                    $('#name_id').text((Client.get('loginid') || 'JP12345') + ' ' + (State.getResponse('get_settings.first_name') || 'Joe Bloggs'));
-                                } else if (action === 'withdraw') {
-                                    $('#id123-control22598118').val(Client.get('loginid'));
-                                    $('#id123-control22598060').val(Client.get('email'));
-                                    $('#japan_cashier_container button').on('click', function (e) {
-                                        var result = errorHandler();
-                                        if (!result) e.preventDefault();
-                                    });
-                                }
+                            var response_authorize = State.getResponse('authorize');
+                            $('#id123-control22598118').val(response_authorize.loginid || 'undef');
+                            $('#id123-control22598060').val(response_authorize.email || 'undef');
+                            $('#japan_cashier_container button').on('click', function (e) {
+                                var result = errorHandler();
+                                if (!result) e.preventDefault();
                             });
+                            $container.find('#cashier_unlocked_message').setVisibility(1);
                         }
                     }
                 });
@@ -20567,10 +20555,10 @@ var CashierJP = function () {
             $id.parent().append($('<p/>', { class: 'error-msg', text: localize(message) }));
         };
 
-        if (!/^([1-9][0-9]{0,5}|1000000)$/.test(withdrawal_amount)) {
-            showError(template('Please enter a number between [_1].', ['¥1 - ¥1,000,000']));
+        if (isNaN(withdrawal_amount) || +withdrawal_amount < 1) {
+            showError(localize('Should be more than [_1]', ['¥1']));
             return false;
-        } else if (parseInt(Client.get('balance')) < withdrawal_amount) {
+        } else if (parseInt(Client.get('balance')) < +withdrawal_amount) {
             showError('Insufficient balance.');
             return false;
         }
@@ -21226,8 +21214,12 @@ var Cashier = function () {
     };
 
     var onLoad = function onLoad() {
-        if (Client.isJPClient() && Client.get('residence') !== 'jp') {
-            BinaryPjax.loadPreviousUrl();
+        if (Client.isJPClient()) {
+            if (Client.get('residence') !== 'jp') {
+                BinaryPjax.loadPreviousUrl();
+            } else {
+                $('.deposit').parent().addClass('button-disabled').attr('href', 'javascript:;');
+            }
         }
         if (Client.isLoggedIn()) {
             BinarySocket.wait('authorize').then(function () {
@@ -25683,12 +25675,11 @@ var Settings = function () {
     var onLoad = function onLoad() {
         BinarySocket.wait('get_account_status').then(function () {
             var $class_real = $('.real');
-            var is_jp_client = Client.isJPClient();
 
             if (Client.get('is_virtual')) {
                 $class_real.setVisibility(0);
             } else {
-                $class_real.not(is_jp_client ? '.ja-hide' : '').setVisibility(1);
+                $class_real.not(Client.isJPClient() ? '.ja-hide' : '').setVisibility(1);
             }
 
             var status = State.getResponse('get_account_status.status');
@@ -25696,13 +25687,10 @@ var Settings = function () {
                 $('#change_password').setVisibility(1);
             }
 
-            var financial_company = State.getResponse('landing_company.financial_company.shortcode');
-            // Professional Client menu should only be shown to MF and CR accounts.
-            if (!is_jp_client && !/professional_requested|professional/.test(status) && (Client.isAccountOfType('financial') || /costarica/.test(financial_company) && Client.isAccountOfType('real'))) {
+            // Professional Client menu should only be shown to maltainvest accounts.
+            if (Client.get('landing_company_shortcode') === 'maltainvest' && !/professional/.test(status)) {
 
-                if (Client.canRequestProfessional()) {
-                    $('#professional_client').setVisibility(1);
-                }
+                $('#professional_client').setVisibility(1);
             }
 
             if (!State.getResponse('get_account_status.prompt_client_to_authenticate')) {
@@ -28429,19 +28417,17 @@ var getPropertyValue = __webpack_require__(1).getPropertyValue;
 
 var VirtualAccOpening = function () {
     var form = '#virtual-form';
-    var is_jp_client = void 0;
 
     var onLoad = function onLoad() {
-        is_jp_client = Client.isJPClient();
-        if (is_jp_client) {
-            handleJPForm();
-        } else {
-            BinarySocket.send({ residence_list: 1 }).then(function (response) {
-                return handleResidenceList(response.residence_list);
-            });
-            $('#residence').setVisibility(1);
-            bindValidation();
+        if (Client.isJPClient()) {
+            return;
         }
+
+        BinarySocket.send({ residence_list: 1 }).then(function (response) {
+            return handleResidenceList(response.residence_list);
+        });
+        $('#residence').setVisibility(1);
+        bindValidation();
 
         FormManager.handleSubmit({
             form_selector: form,
@@ -28507,15 +28493,6 @@ var VirtualAccOpening = function () {
         FormManager.init(form, req, true);
     };
 
-    var handleJPForm = function handleJPForm() {
-        // show email consent field for japanese accounts
-        // and don't allow them to change residence
-        var $residence = $('#residence');
-        $residence.replaceWith($('<label/>', { id: 'residence', 'data-value': 'jp', text: localize('Japan') }));
-        $('#email_consent').parent().parent().setVisibility(1);
-        bindValidation();
-    };
-
     var handleNewAccount = function handleNewAccount(response) {
         if (!response) return false;
         var error = response.error;
@@ -28532,7 +28509,7 @@ var VirtualAccOpening = function () {
                         loginid: new_account.client_id,
                         token: new_account.oauth_token,
                         is_virtual: true,
-                        redirect_url: is_jp_client ? urlFor('new_account/landing_page') : urlFor('new_account/welcome')
+                        redirect_url: urlFor('new_account/welcome')
                     });
                 }
             });
@@ -29265,10 +29242,6 @@ var HomeJP = function () {
 
     var onLoad = function onLoad() {
         Home.onLoad();
-
-        $('#start_now').click(function () {
-            $.scrollTo($('#frm_verify_email'), 500, { offset: -10 });
-        });
 
         margin = 0;
         $go_right = $('.go-right');
@@ -30546,7 +30519,7 @@ var _initialiseProps = function _initialiseProps() {
                 key = _ref13[0],
                 node = _ref13[1];
 
-            if (node && node.offsetParent && node.offsetTop - 40 <= position) {
+            if (node && node.offsetParent && node.offsetTop - 41 <= position) {
                 arr.push(key);
             }
         });

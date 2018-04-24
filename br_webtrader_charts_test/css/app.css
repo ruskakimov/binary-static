@@ -1178,7 +1178,7 @@ a.previous-wrapper {
     display: inline-flex; }
     @media (max-width: 768px) {
       #trading_socket_container #contract_symbol_container span.market, #trading_socket_container #contract_symbol_container span.type {
-        overflow-x: hidden;
+        overflow: hidden;
         text-overflow: ellipsis;
         max-width: 90%;
         white-space: nowrap; } }
@@ -1963,11 +1963,9 @@ a.previous-wrapper {
             flex-direction: column;
     position: absolute;
     top: 0;
-    -webkit-transition: visibility 0s 0s, opacity 0.15s ease-in, -webkit-transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, -webkit-transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
-    width: 700px;
+    -webkit-transition: visibility 0s 0s, opacity 0.15s ease-in;
+    transition: visibility 0s 0s, opacity 0.15s ease-in;
+    width: 600px;
     z-index: 10000; }
     @media (min-width: 320px) and (max-width: 767px) {
       .markets .markets_dropdown {
@@ -1975,16 +1973,8 @@ a.previous-wrapper {
     .markets .markets_dropdown.hidden {
       opacity: 0;
       visibility: hidden;
-      -webkit-transform: translate(-50%, 0) scale(0, 1);
-              transform: translate(-50%, 0) scale(0, 1);
-      -webkit-transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, -webkit-transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, -webkit-transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, transform 0.35s ease-out, -webkit-transform 0.35s ease-out; }
-      @media (min-width: 320px) and (max-width: 767px) {
-        .markets .markets_dropdown.hidden {
-          -webkit-transform: translate(0, -50%) scale(1, 0);
-                  transform: translate(0, -50%) scale(1, 0); } }
+      -webkit-transition: visibility 0s 0.25s, opacity 0.25s ease-in 0.1s;
+      transition: visibility 0s 0.25s, opacity 0.25s ease-in 0.1s; }
     .markets .markets_dropdown .asset-placeholder.mobile {
       margin: 10px 15px 0;
       text-align: left;
@@ -2001,7 +1991,8 @@ a.previous-wrapper {
     .markets .markets_dropdown .search {
       padding: 15px 15px 0;
       background: #fff;
-      border-radius: 4px; }
+      border-radius: 4px 4px 0px 0px;
+      border-bottom: 1px solid #dedede; }
       .markets .markets_dropdown .search input {
         outline: none;
         border: 1px solid #dedede;
@@ -2199,12 +2190,12 @@ a.previous-wrapper {
                 font-size: 20px; } }
             .markets .markets_dropdown .markets_view .list .market .market_name.sticky {
               position: absolute;
-              width: 531px;
-              top: 59px;
+              width: 431px;
+              top: 60px;
               background: #fff; }
               @media (max-width: 767px) {
                 .markets .markets_dropdown .markets_view .list .market .market_name.sticky {
-                  top: 122px;
+                  top: 123px;
                   width: calc(100% - 20px); } }
             .markets .markets_dropdown .markets_view .list .market .market_name.put_under {
               z-index: -1; }
@@ -2316,29 +2307,20 @@ a.previous-wrapper {
             flex-direction: row;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    -webkit-transition: visibility 0s 0s, opacity 0.15s ease-in, -webkit-transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, -webkit-transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, transform 0.25s ease-out;
-    transition: visibility 0s 0s, opacity 0.15s ease-in, transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+    -webkit-transition: visibility 0s 0s, opacity 0.15s ease-in;
+    transition: visibility 0s 0s, opacity 0.15s ease-in;
     z-index: 10000;
     padding: 10px;
-    width: 400px; }
+    width: 400px;
+    opacity: 1; }
     @media (min-width: 320px) and (max-width: 767px) {
       .contracts .contracts_dropdown {
         width: calc(100vw - 80px); } }
     .contracts .contracts_dropdown.hidden {
       opacity: 0;
       visibility: hidden;
-      -webkit-transform: translate(-50%, 0) scale(0, 1);
-              transform: translate(-50%, 0) scale(0, 1);
-      -webkit-transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, -webkit-transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, -webkit-transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, transform 0.35s ease-out;
-      transition: visibility 0s 0.5s, opacity 0.25s ease-in 0.1s, transform 0.35s ease-out, -webkit-transform 0.35s ease-out; }
-      @media (min-width: 320px) and (max-width: 767px) {
-        .contracts .contracts_dropdown.hidden {
-          -webkit-transform: translate(0, -50%) scale(1, 0);
-                  transform: translate(0, -50%) scale(1, 0); } }
+      -webkit-transition: visibility 0s 0.25s, opacity 0.25s ease-in 0.1s;
+      transition: visibility 0s 0.25s, opacity 0.25s ease-in 0.1s; }
     @media (max-width: 767px) {
       .contracts .contracts_dropdown .mobile_close {
         display: block !important;
