@@ -12661,7 +12661,22 @@ var Calendar = function (_React$Component) {
     }, {
         key: 'shouldComponentUpdate',
         value: function shouldComponentUpdate(nextProps, nextState) {
-            return this.state.active_view !== nextState.active_view || this.state.date !== nextState.date || this.state.selected_date !== nextState.selected_date || this.props.minDate !== nextState.minDate || this.props.maxDate !== nextState.maxDate;
+            return this.state.active_view !== nextState.active_view || this.state.date !== nextState.date || this.state.selected_date !== nextState.selected_date || this.props.minDate !== nextState.minDate || this.props.maxDate !== nextState.maxDate || this.props.startDate !== nextState.startDate;
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            var date = (0, _moment2.default)(this.state.date);
+
+            if (date.isBefore((0, _moment2.default)(nextProps.minDate))) {
+                this.setState({
+                    date: nextProps.minDate
+                });
+            } else if (date.isAfter((0, _moment2.default)(nextProps.maxDate))) {
+                this.setState({
+                    date: nextProps.maxDate
+                });
+            }
         }
     }, {
         key: 'setToday',
@@ -12679,7 +12694,11 @@ var Calendar = function (_React$Component) {
         value: function updateDate(value, unit, is_add) {
             var new_date = (0, _moment2.default)(this.state.date)[is_add ? 'add' : 'subtract'](value, unit).format(this.props.dateFormat);
 
-            if (this.isPeriodDisabled(new_date, 'month')) return;
+            if (unit === 'months' && this.isPeriodDisabled(new_date, 'month')) return;
+
+            if (unit === 'years' && this.isPeriodDisabled(new_date, 'month')) {
+                new_date = is_add ? this.props.maxDate : this.props.minDate;
+            }
 
             this.setState({ date: new_date });
         }
@@ -12738,32 +12757,20 @@ var Calendar = function (_React$Component) {
     }, {
         key: 'handleDateSelected',
         value: function handleDateSelected(e) {
-            var current_date = (0, _moment2.default)(this.state.date);
             var date = (0, _moment2.default)(e.target.dataset.date);
             var min_date = (0, _moment2.default)(this.props.minDate).format(this.props.dateFormat);
             var max_date = (0, _moment2.default)(this.props.maxDate).format(this.props.dateFormat);
-
             var is_before = date.isBefore(min_date);
-            var is_today = date.isSame(min_date);
             var is_after = date.isAfter(max_date);
-            var is_prev_month = date.month() < current_date.month();
-            var is_next_month = date.month() > current_date.month();
 
-            if (is_prev_month && !is_before) {
-                this.previousMonth();
-            }
-            if (is_next_month) {
-                this.nextMonth();
-            }
+            if (is_before || is_after) return;
 
-            if (!is_before && !is_after || is_today) {
-                var formatted_date = date.format(this.props.dateFormat);
-                this.setState({
-                    date: formatted_date,
-                    selected_date: formatted_date
-                });
-                this.props.handleDateChange(formatted_date);
-            }
+            var formatted_date = date.format(this.props.dateFormat);
+            this.setState({
+                date: formatted_date,
+                selected_date: formatted_date
+            });
+            this.props.handleDateChange(formatted_date);
         }
     }, {
         key: 'updateSelected',
@@ -12865,7 +12872,8 @@ var Calendar = function (_React$Component) {
             }
 
             dates.forEach(function (date) {
-                var is_disabled = (0, _moment2.default)(date).isBefore((0, _moment2.default)(start_of_month)) || (0, _moment2.default)(date).isAfter((0, _moment2.default)(end_of_month)) || (0, _moment2.default)(date).isBefore((0, _moment2.default)(_this2.props.minDate)) || (0, _moment2.default)(date).isAfter((0, _moment2.default)(_this2.props.maxDate));
+                var is_disabled = (0, _moment2.default)(date).isBefore((0, _moment2.default)(_this2.props.minDate)) || (0, _moment2.default)(date).isAfter((0, _moment2.default)(_this2.props.maxDate));
+                var is_other_month = (0, _moment2.default)(date).isBefore((0, _moment2.default)(start_of_month)) || (0, _moment2.default)(date).isAfter((0, _moment2.default)(end_of_month));
                 var is_active = _this2.state.selected_date && (0, _moment2.default)(date).isSame((0, _moment2.default)(_this2.state.selected_date));
                 var is_today = (0, _moment2.default)(date).isSame((0, _moment2.default)().utc(), 'day');
 
@@ -12876,7 +12884,8 @@ var Calendar = function (_React$Component) {
                         className: (0, _classnames2.default)('calendar-date', {
                             active: is_active,
                             today: is_today,
-                            disabled: is_disabled
+                            disabled: is_disabled,
+                            hidden: is_other_month
                         }),
                         onClick: _this2.handleDateSelected,
                         'data-date': date
@@ -13027,12 +13036,26 @@ var Calendar = function (_React$Component) {
             var is_year_view = view === 'year';
             var is_decade_view = view === 'decade';
 
-            var BtnPrevMonth = is_date_view && _react2.default.createElement('span', { type: 'button', className: 'calendar-next-month-btn', onClick: this.nextMonth });
-            var BtnNextMonth = is_date_view && _react2.default.createElement('span', { type: 'button', className: 'calendar-prev-month-btn', onClick: this.previousMonth });
+            var BtnPrevMonth = is_date_view && _react2.default.createElement('span', {
+                type: 'button',
+                className: (0, _classnames2.default)('calendar-prev-month-btn', {
+                    hidden: this.isPeriodDisabled((0, _moment2.default)(this.state.date).subtract(1, 'month'), 'month')
+                }),
+                onClick: this.previousMonth
+            });
+            var BtnNextMonth = is_date_view && _react2.default.createElement('span', {
+                type: 'button',
+                className: (0, _classnames2.default)('calendar-next-month-btn', {
+                    hidden: this.isPeriodDisabled((0, _moment2.default)(this.state.date).add(1, 'month'), 'month')
+                }),
+                onClick: this.nextMonth
+            });
 
             var BtnPrevYear = _react2.default.createElement('span', {
                 type: 'button',
-                className: 'calendar-prev-year-btn',
+                className: (0, _classnames2.default)('calendar-prev-year-btn', {
+                    hidden: this.isPeriodDisabled((0, _moment2.default)(this.state.date).subtract(1, 'month'), 'month')
+                }),
                 onClick: function onClick() {
                     return (is_date_view || is_month_view) && _this6.previousYear() || is_year_view && _this6.previousDecade() || is_decade_view && _this6.previousCentury();
                 }
@@ -13040,7 +13063,9 @@ var Calendar = function (_React$Component) {
 
             var BtnNextYear = _react2.default.createElement('span', {
                 type: 'button',
-                className: 'calendar-next-year-btn',
+                className: (0, _classnames2.default)('calendar-next-year-btn', {
+                    hidden: this.isPeriodDisabled((0, _moment2.default)(this.state.date).add(1, 'month'), 'month')
+                }),
                 onClick: function onClick() {
                     return (is_date_view || is_month_view) && _this6.nextYear() || is_year_view && _this6.nextDecade() || is_decade_view && _this6.nextCentury();
                 }
@@ -14452,7 +14477,9 @@ var DataTable = function (_React$Component) {
                 this.props.columns.map(function (_ref2) {
                     var data_index = _ref2.data_index,
                         renderCell = _ref2.renderCell;
-                    return (renderCell || defaultRenderCell)(transaction[data_index], data_index, transaction);
+
+                    var data = transaction[data_index] || '';
+                    return (renderCell || defaultRenderCell)(data, data_index, transaction);
                 })
             );
         }
@@ -14473,19 +14500,6 @@ var DataTable = function (_React$Component) {
                     'th',
                     { className: col.data_index, key: col.data_index },
                     col.title
-                );
-            });
-        }
-    }, {
-        key: 'renderFooters',
-        value: function renderFooters() {
-            var footer = this.props.footer;
-
-            return this.props.columns.map(function (col) {
-                return _react2.default.createElement(
-                    'td',
-                    { className: col.data_index, key: col.data_index },
-                    footer[col.data_index] ? footer[col.data_index] : ''
                 );
             });
         }
@@ -14537,11 +14551,7 @@ var DataTable = function (_React$Component) {
                     this.props.footer && _react2.default.createElement(
                         'tfoot',
                         { className: 'table-foot' },
-                        _react2.default.createElement(
-                            'tr',
-                            { className: 'table-row' },
-                            this.renderFooters()
-                        )
+                        this.renderRow(this.props.footer, 0)
                     ),
                     _react2.default.createElement(
                         'tbody',
@@ -16129,13 +16139,13 @@ var Statement = function (_React$PureComponent) {
 
             this.fetchNextBatch();
 
-            this._throttledHandleScroll = (0, _utility.throttlebounce)(this.handleScroll, 200);
-            window.addEventListener('scroll', this._throttledHandleScroll, false);
+            this.throttledHandleScroll = (0, _utility.throttlebounce)(this.handleScroll, 200);
+            window.addEventListener('scroll', this.throttledHandleScroll, false);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            window.removeEventListener('scroll', this._throttledHandleScroll, false);
+            window.removeEventListener('scroll', this.throttledHandleScroll, false);
         }
     }, {
         key: 'handleScroll',
@@ -16198,6 +16208,8 @@ var Statement = function (_React$PureComponent) {
 
 
             _dao2.default.getStatement(this.props.batch_size, this.state.data_source.length, _extends({}, date_from && { date_from: (0, _moment2.default)(date_from).unix() }, date_to && { date_to: (0, _moment2.default)(date_to).add(1, 'd').subtract(1, 's').unix() })).then(function (response) {
+                if (!_this2.el) return;
+
                 var formatted_transactions = response.statement.transactions.map(function (transaction) {
                     return getStatementData(transaction, currency, is_jp_client);
                 });
@@ -16222,6 +16234,8 @@ var Statement = function (_React$PureComponent) {
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             var is_loading = this.state.pending_request && this.state.data_source.length === 0;
 
             var moment_now = (0, _moment2.default)(this.props.server_time);
@@ -16229,7 +16243,9 @@ var Statement = function (_React$PureComponent) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'statement-container' },
+                { className: 'statement-container', ref: function ref(el) {
+                        return _this3.el = el;
+                    } },
                 _react2.default.createElement(
                     'div',
                     { className: 'statement-filter' },
@@ -16249,7 +16265,7 @@ var Statement = function (_React$PureComponent) {
                         _react2.default.createElement(_date_picker2.default, {
                             name: 'date_from',
                             initial_value: '',
-                            startDate: moment_now.clone().subtract(30, 'd').format('YYYY-MM-DD'),
+                            startDate: this.state.date_to || today,
                             maxDate: this.state.date_to || today,
                             onChange: this.handleDateChange
                         }),
@@ -16293,8 +16309,12 @@ var Statement = function (_React$PureComponent) {
                         }),
                         _react2.default.createElement(
                             'div',
-                            { className: 'statement-no-activity-msg' },
-                            !this.state.date_from && !this.state.date_to ? (0, _localize.localize)('Your account has no trading activity.') : (0, _localize.localize)('Your account has no trading activity for the selected period.')
+                            { className: 'container' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'statement-no-activity-msg' },
+                                !this.state.date_from && !this.state.date_to ? (0, _localize.localize)('Your account has no trading activity.') : (0, _localize.localize)('Your account has no trading activity for the selected period.')
+                            )
                         )
                     ) || _react2.default.createElement(_data_table2.default, {
                         data_source: this.state.data_source.slice(0, this.state.chunks * this.props.chunk_size),
