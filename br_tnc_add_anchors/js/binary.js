@@ -2834,6 +2834,9 @@ var Header = function () {
                 authenticate: function authenticate() {
                     return buildMessage('[_1]Authenticate your account[_2] now to take full advantage of all payment methods available.', 'user/authenticate');
                 },
+                cashier_locked: function cashier_locked() {
+                    return localize('Deposits and withdrawals have been disabled on your account. Please check your email for more details.');
+                },
                 currency: function currency() {
                     return buildMessage('Please set the [_1]currency[_2] of your account.', 'user/set-currency');
                 },
@@ -2862,13 +2865,20 @@ var Header = function () {
                     return buildMessage('Please [_1]accept the updated Terms and Conditions[_2] to lift your withdrawal and trading limits.', 'user/tnc_approvalws');
                 },
                 unwelcome: function unwelcome() {
-                    return buildMessage('Your account is restricted. Kindly [_1]contact customer support[_2] for assistance.', 'contact');
+                    return buildMessage('Trading and deposits have been disabled on your account. Kindly [_1]contact customer support[_2] for assistance.', 'contact');
+                },
+                withdrawal_locked: function withdrawal_locked() {
+                    return localize('Withdrawals have been disabled on your account. Please check your email for more details.');
                 }
             };
 
             var validations = {
                 authenticate: function authenticate() {
                     return +get_account_status.prompt_client_to_authenticate;
+                },
+                cashier_locked: function cashier_locked() {
+                    return (/cashier_locked/.test(status)
+                    );
                 },
                 currency: function currency() {
                     return !Client.get('currency');
@@ -2901,13 +2911,17 @@ var Header = function () {
                     return Client.shouldAcceptTnc();
                 },
                 unwelcome: function unwelcome() {
-                    return (/unwelcome|(cashier|withdrawal)_locked/.test(status)
+                    return (/unwelcome/.test(status)
+                    );
+                },
+                withdrawal_locked: function withdrawal_locked() {
+                    return (/withdrawal_locked/.test(status)
                     );
                 }
             };
 
             // real account checks in order
-            var check_statuses_real = ['excluded_until', 'tnc', 'financial_limit', 'risk', 'tax', 'currency', 'document_review', 'document_needs_action', 'authenticate', 'unwelcome'];
+            var check_statuses_real = ['excluded_until', 'tnc', 'financial_limit', 'risk', 'tax', 'currency', 'document_review', 'document_needs_action', 'authenticate', 'cashier_locked', 'withdrawal_locked', 'unwelcome'];
 
             // virtual checks
             var check_statuses_virtual = ['residence'];
@@ -5113,15 +5127,16 @@ var MBContract = function () {
         duration = duration ? duration.replace('0d', '1d') : '';
 
         var toDate = function toDate(date) {
-            var text_value = moment.utc(date * 1000).utcOffset(Client.isJPClient() ? '+09:00' : '+00:00').locale(getLanguage().toLowerCase()).format('MMM Do, HH:mm');
-            if (Client.isJPClient()) {
-                text_value = text_value.replace(/08:59/, '09:00«');
+            var text_value = moment.utc(date * 1000).utcOffset(is_jp_client ? '+09:00' : '+00:00').locale(getLanguage().toLowerCase());
+            if (is_jp_client) {
+                text_value = text_value.format('MMM Do, HH:mm').replace(/08:59/, '09:00«');
+            } else {
+                text_value = text_value.format('HH:mm');
             }
             return text_value;
         };
         return {
-            start: toDate(date_start),
-            end: toDate(date_expiry),
+            end: is_jp_client ? toDate(date_expiry) : [toDate(date_start), toDate(date_expiry)].join('-') + ' GMT',
             duration: durationText(duration, is_jp_client)
         };
     };
@@ -5313,16 +5328,17 @@ var MBContract = function () {
         }
         if ($list.children().length === 0) {
             var default_value = MBDefaults.get('category');
+            var is_jp_client = Client.isJPClient();
             categories.forEach(function (category, idx) {
                 if (available_contracts.find(function (contract) {
                     return contract.contract_category === category.value;
                 })) {
                     var is_current = !default_value && idx === 0 || category.value === default_value;
                     var el_contract_type = void 0;
-                    if (Client.isJPClient()) {
+                    if (is_jp_client) {
                         el_contract_type = '<span class="contract-type gr-6 ' + category.type1 + '"><span>' + localize(getTemplate(category.type1).name) + '</span></span>\n                             <span class="contract-type gr-6 ' + category.type2 + ' negative-color"><span>' + localize(getTemplate(category.type2).name) + '</span></span>';
                     } else {
-                        el_contract_type = '<div class="category-wrapper"><div class="contract-type ' + category.type1 + '" /><div>' + localize(getTemplate(category.type1).name) + '</div></div>\n                             <div class="category-wrapper"><div class="contract-type ' + category.type2 + ' negative-color" /><div>' + localize(getTemplate(category.type2).name) + '</div></div>';
+                        el_contract_type = '<div class="category-wrapper gr-6"><div class="contract-type ' + category.type2 + '" /><div>' + localize(getTemplate(category.type2).name) + '</div></div>\n                             <div class="category-wrapper gr-6"><div class="contract-type ' + category.type1 + ' negative-color" /><div>' + localize(getTemplate(category.type1).name) + '</div></div>';
                     }
                     var $current = $('<div/>', {
                         value: category.value,
@@ -5354,16 +5370,17 @@ var MBContract = function () {
     };
 
     var getTemplate = function getTemplate(contract_type) {
+        var is_jp_client = Client.isJPClient();
         var templates = {
             PUT: {
                 opposite: 'CALLE',
-                order: 0,
+                order: is_jp_client ? 0 : 1,
                 name: 'Lower',
                 description: '[_1] [_2] payout if [_3] is strictly lower than Barrier at close on [_4].'
             },
             CALLE: {
                 opposite: 'PUT',
-                order: 1,
+                order: is_jp_client ? 1 : 0,
                 name: 'Higher',
                 description: '[_1] [_2] payout if [_3] is strictly higher than or equal to Barrier at close on [_4].'
             },
@@ -5806,7 +5823,7 @@ var DatePicker = function () {
             var format_value = value && date_picker_conf.type !== 'diff' ? toReadableFormat(moment(value)) : $selector.val();
             $selector.attr({ type: 'text', 'data-picker': 'jquery', 'data-value': value }).removeAttr('min max').val(format_value);
             if ($selector.attr('data-readonly')) $selector.attr('readonly', 'readonly').removeAttr('data-readonly');
-            if ($selector.attr('data-value') && $selector.hasClass('clearable')) {
+            if ($selector.attr('data-value') && $selector.hasClass('clearable') && !$selector.attr('disabled')) {
                 clearable($selector);
             }
             create(selector);
@@ -11640,7 +11657,7 @@ var TimePicker = function () {
         if ($(window).width() > 769 && $selector.attr('data-picker') !== 'jquery' || $(window).width() < 770 && !checkInput('time', 'not-a-time')) {
             $selector.attr({ type: 'text', 'data-picker': 'jquery', readonly: 'readonly' });
             $selector.removeAttr('min max');
-            if ($selector.attr('data-value') && $selector.hasClass('clearable')) {
+            if ($selector.attr('data-value') && $selector.hasClass('clearable') && !$selector.attr('disabled')) {
                 clearable($selector);
             }
             create(selector);
@@ -11819,7 +11836,7 @@ var MBProcess = function () {
 
         var $list = $underlyings.find('.list');
         $list.empty();
-        $underlyings.find('.current').html($('<div/>', { class: 'gr-row' }).append($('<img/>', { class: 'gr-3 gr-no-gutter-m' })).append($('<span/>', { class: 'name gr-6 gr-5-m align-self-center' })).append($('<span/>', { class: 'gr-3 gr-4-m align-self-center still', id: 'spot' })));
+        $underlyings.find('.current').html($('<div/>', { class: 'gr-row' }).append($('<span/>', { class: 'nav-caret ja-hide' })).append($('<img/>', { class: 'gr-3 gr-no-gutter-m' })).append($('<span/>', { class: 'name gr-6 gr-5-m align-self-center' })).append($('<span/>', { class: 'gr-3 gr-4-m align-self-center still', id: 'spot' })));
 
         var selected_symbol = selected;
         if (Object.keys(all_symbols).indexOf(selected) === -1) selected_symbol = '';
@@ -19522,9 +19539,11 @@ module.exports = LoggedInHandler;
 "use strict";
 
 
+var Client = __webpack_require__(2);
 var getElementById = __webpack_require__(4).getElementById;
 var applyToAllElements = __webpack_require__(1).applyToAllElements;
 var findParent = __webpack_require__(1).findParent;
+var State = __webpack_require__(6).State;
 __webpack_require__(238);
 
 var Menu = function () {
@@ -19534,6 +19553,12 @@ var Menu = function () {
         applyToAllElements('li', function (el) {
             el.classList.remove('active', 'active-parent');
         }, '', menu_top);
+        if (Client.isLoggedIn()) {
+            applyToAllElements('.cr-only', function (el) {
+                var is_upgradable_to_cr = State.getResponse('authorize.upgradeable_landing_companies').indexOf('costarica') !== -1;
+                el.setVisibility(Client.hasCostaricaAccount() || is_upgradable_to_cr);
+            });
+        }
 
         var menu_top_item_for_page = Array.from(menu_top.getElementsByTagName('a')).find(function (link) {
             return !/invisible/.test(findParent(link, 'li').classList) && link.href !== 'javascript:;' && window.location.pathname.indexOf(link.pathname.replace(/\.html/, '')) >= 0 && link.target !== '_blank';
@@ -20513,6 +20538,10 @@ var localize = __webpack_require__(3).localize;
 var State = __webpack_require__(6).State;
 
 var CashierJP = function () {
+    var $amount = void 0,
+        $loginid = void 0,
+        $email = void 0;
+
     var _onLoad = function _onLoad(action) {
         if (Client.isJPClient() && Client.get('residence') !== 'jp') BinaryPjax.loadPreviousUrl();
         if (action === 'deposit') {
@@ -20533,9 +20562,17 @@ var CashierJP = function () {
                         if (typeof limit !== 'undefined' && limit < 1) {
                             $container.find('#cashier_locked_message').text(localize('You have reached the withdrawal limit.')).setVisibility(1);
                         } else {
+                            $amount = $('#id123-control22598145');
+                            $loginid = $('#id123-control22598118');
+                            $email = $('#id123-control22598060');
+
                             var response_authorize = State.getResponse('authorize');
-                            $('#id123-control22598118').val(response_authorize.loginid || 'undef');
-                            $('#id123-control22598060').val(response_authorize.email || 'undef');
+                            if (response_authorize.loginid) {
+                                $loginid.val(response_authorize.loginid).attr('readonly', 'true');
+                            }
+                            if (response_authorize.email) {
+                                $email.val(response_authorize.email).attr('readonly', 'true');
+                            }
                             $('#japan_cashier_container button').on('click', function (e) {
                                 var result = errorHandler();
                                 if (!result) e.preventDefault();
@@ -20549,22 +20586,29 @@ var CashierJP = function () {
     };
 
     var errorHandler = function errorHandler() {
-        $('.error-msg').remove();
-        var $id = $('#id123-control22598145');
-        var withdrawal_amount = $id.val();
+        $amount.siblings('.error-msg').setVisibility(0);
+        $loginid.siblings('.error-msg').setVisibility(0);
+        $email.siblings('.error-msg').setVisibility(0);
 
-        var showError = function showError(message) {
-            $id.parent().append($('<p/>', { class: 'error-msg', text: localize(message) }));
-        };
+        var is_ok = true;
 
-        if (isNaN(withdrawal_amount) || +withdrawal_amount < 1) {
-            showError(localize('Should be more than [_1]', ['¥1']));
-            return false;
-        } else if (parseInt(Client.get('balance')) < +withdrawal_amount) {
-            showError('Insufficient balance.');
-            return false;
+        if (isNaN($amount.val()) || +$amount.val() < 1) {
+            $amount.siblings('.error-msg').text(localize('Should be more than [_1]', ['¥1'])).setVisibility(1);
+            is_ok = false;
+        } else if (parseInt(Client.get('balance')) < +$amount.val()) {
+            $amount.siblings('.error-msg').text(localize('Insufficient balance.')).setVisibility(1);
+            is_ok = false;
         }
-        return true;
+        if (!$loginid.val()) {
+            $loginid.removeAttr('readonly').siblings('.error-msg').setVisibility(1);
+            is_ok = false;
+        }
+        if (!$email.val()) {
+            $email.removeAttr('readonly').siblings('.error-msg').setVisibility(1);
+            is_ok = false;
+        }
+
+        return is_ok;
     };
 
     return {
@@ -21868,11 +21912,12 @@ var MBDisplayCurrencies = function MBDisplayCurrencies() {
     var $list = $currency.find('.list');
     var $current = $currency.find('.current');
     var currencies = State.getResponse('payout_currencies');
+    var is_jp_client = isJPClient();
     var def_value = void 0;
 
     if (!$currency.length) return;
     $list.empty();
-    if (!isJPClient()) {
+    if (!is_jp_client) {
         var def_curr = MBDefaults.get('currency');
         def_value = def_curr && currencies.indexOf(def_curr) >= 0 ? def_curr : currencies[0];
         if (currencies.length > 1) {
@@ -21883,7 +21928,7 @@ var MBDisplayCurrencies = function MBDisplayCurrencies() {
                 }
             });
         }
-        $current.html(formatCurrency(def_value));
+        $current.html($('<span/>', { class: 'nav-caret' })).append(formatCurrency(def_value));
     } else {
         def_value = 'JPY';
         $current.html($('<span/>', { text: localize('Lots'), 'data-balloon': localize('Payout per lot = 1,000') }));
@@ -21892,9 +21937,12 @@ var MBDisplayCurrencies = function MBDisplayCurrencies() {
     MBDefaults.set('currency', def_value);
     // if there is no currency drop down, remove hover style from currency
     if (!$list.children().length) {
-        $current.css({ 'background-color': 'white' }).hover(function () {
+        if (!is_jp_client) {
+            $currency.removeClass('gr-5').addClass('gr-3').siblings('#payout').removeClass('gr-7').addClass('gr-9');
+        }
+        $current.css({ 'background-color': 'white', 'border-right': 'none' }).hover(function () {
             $(this).css({ 'background-color': 'white', cursor: 'auto' });
-        });
+        }).off('click').find('.nav-caret').addClass('invisible').end().find('.symbols:before').css({ 'margin-right': '2px' });
     }
 };
 
@@ -21932,6 +21980,7 @@ var MBTradingEvents = function () {
     var initiate = function initiate() {
         var $form = $('.trade_form');
         var hidden_class = 'invisible';
+        var border_class = 'primary-border-color';
         var is_jp_client = Client.isJPClient();
 
         $(document).on('click', function (e) {
@@ -21939,24 +21988,20 @@ var MBTradingEvents = function () {
             makeListsInvisible();
         });
 
-        $form.find('.current').on('click', function (e) {
+        $form.find('.current, .header-current').on('click', function (e) {
             e.stopPropagation();
-            var $list = $(this).siblings('.list');
-            toggleList($list);
-        });
-
-        $form.find('.header-current').on('click', function (e) {
-            e.stopPropagation();
-            var $list = $('#period').find('.list');
-            toggleList($list);
-        });
-
-        var toggleList = function toggleList($list) {
+            var $this = $(this);
+            var $list = $this.siblings('.list');
+            if (!$list.length) {
+                $list = $this.siblings().find('.list'); // in case of .header-current
+            };
             if ($list.hasClass(hidden_class)) {
                 makeListsInvisible();
             }
             $list.toggleClass(hidden_class);
-        };
+            $this.toggleClass(border_class).siblings().find('.current').toggleClass(border_class).end().end().parent().siblings('.header-current').toggleClass(border_class);
+        });
+
         /*
          * attach event to underlying change, event need to request new contract details and price
          */
@@ -22001,6 +22046,18 @@ var MBTradingEvents = function () {
                 $('.remaining-time').removeClass('alert');
                 MBContract.displayRemainingTime(true, is_jp_client);
             });
+            if (!is_jp_client) {
+                var $header_cur = $form.find('.header-current');
+                $period.on('mouseover', function (e) {
+                    e.stopPropagation();
+                    $header_cur.addClass(border_class);
+                }).on('mouseleave', function (e) {
+                    e.stopPropagation();
+                    if ($period.find('.list').hasClass(hidden_class)) {
+                        $header_cur.removeClass(border_class);
+                    }
+                });
+            }
         }
 
         var validatePayout = function validatePayout(payout_amount, $error_wrapper) {
@@ -22179,6 +22236,7 @@ var MBTradingEvents = function () {
 
         var makeListsInvisible = function makeListsInvisible() {
             $form.find('.list, #payout_list').setVisibility(0).end().find('#period, #category').setVisibility(1);
+            $form.find('.current, .header-current').removeClass(border_class);
         };
     };
 
@@ -22324,7 +22382,9 @@ var MBTradePage = function () {
     var showCurrency = function showCurrency(currency) {
         if (currency) {
             var el_payout_amount = getElementById('payout_amount');
-            el_payout_amount.textContent += ' (' + currency + ')';
+            if (!new RegExp(currency).test(el_payout_amount.textContent)) {
+                el_payout_amount.textContent += ' (' + currency + ')';
+            }
 
             if (getDecimalPlaces(currency) > 2) {
                 var el_category = getElementById('category');
@@ -26627,7 +26687,9 @@ var SelfExclusion = function () {
         fields = void 0,
         self_exclusion_data = void 0,
         set_30day_turnover = void 0,
-        currency = void 0;
+        currency = void 0,
+        is_gamstop_client = void 0,
+        has_exclude_until = void 0;
 
     var form_id = '#frm_self_exclusion';
     var timeout_date_id = '#timeout_until_date';
@@ -26649,12 +26711,18 @@ var SelfExclusion = function () {
 
         $('.prepend_currency').parent().prepend(Currency.formatCurrency(currency));
 
+        // gamstop is only applicable for UK residence & for MX, MLT clients
+        is_gamstop_client = /gb/.test(Client.get('residence')) && /iom|malta/.test(Client.get('landing_company_shortcode'));
+
         initDatePicker();
         getData(true);
     };
 
     var getData = function getData(scroll) {
         BinarySocket.send({ get_self_exclusion: 1 }).then(function (response) {
+            if (response.get_self_exclusion.exclude_until) {
+                has_exclude_until = true;
+            }
             if (response.error) {
                 if (response.error.code === 'ClientSelfExclusion') {
                     Client.sendLogoutRequest();
@@ -26666,13 +26734,14 @@ var SelfExclusion = function () {
                 return;
             }
             BinarySocket.send({ get_account_status: 1 }).then(function (data) {
-                var has_to_set_30day_turnover = /ukrts_max_turnover_limit_not_set/.test(data.get_account_status.status);
+                var has_to_set_30day_turnover = !has_exclude_until && /ukrts_max_turnover_limit_not_set/.test(data.get_account_status.status);
                 if (typeof set_30day_turnover === 'undefined') {
                     set_30day_turnover = has_to_set_30day_turnover;
                 }
                 $('#frm_self_exclusion').find('fieldset > div.form-row:not(.max_30day_turnover)').setVisibility(!has_to_set_30day_turnover);
                 $('#description_max_30day_turnover').setVisibility(has_to_set_30day_turnover);
                 $('#description').setVisibility(!has_to_set_30day_turnover);
+                $('#gamstop_info_top').setVisibility(is_gamstop_client);
                 $('#loading').setVisibility(0);
                 $form.setVisibility(1);
                 self_exclusion_data = response.get_self_exclusion;
@@ -26680,21 +26749,26 @@ var SelfExclusion = function () {
                     fields[key] = value.toString();
                     if (key === 'timeout_until') {
                         var timeout = moment.unix(value);
-                        var date = timeout.format('DD MMM, YYYY');
-                        var time = timeout.format('HH:mm');
-                        $form.find(timeout_date_id).val(date);
-                        $form.find(timeout_time_id).val(time);
+                        var date_value = timeout.format('YYYY-MM-DD');
+                        var time_value = timeout.format('HH:mm');
+                        setDateTimePicker(timeout_date_id, date_value);
+                        setDateTimePicker(timeout_time_id, time_value, true);
+                        $form.find('label[for="timeout_until_date"]').text('Timed out until');
                         return;
                     }
-
+                    if (key === 'exclude_until') {
+                        setDateTimePicker(exclude_until_id, value);
+                        $form.find('label[for="exclude_until"]').text('Excluded from the website until');
+                        return;
+                    }
                     if (key === 'max_30day_turnover') {
                         var should_be_checked = parseInt(value) === TURNOVER_LIMIT;
                         $('#chk_no_limit').prop('checked', should_be_checked);
                         setMax30DayTurnoverLimit(should_be_checked);
                     }
-
-                    $form.find('#' + key).val(value);
+                    $form.find('#' + key).attr('disabled', has_exclude_until).val(value);
                 });
+                $form.find('#btn_submit').setVisibility(!has_exclude_until);
 
                 $('#chk_no_limit').on('change', function () {
                     setMax30DayTurnoverLimit($(this).is(':checked'));
@@ -26704,6 +26778,12 @@ var SelfExclusion = function () {
                 if (scroll) scrollToHashSection();
             });
         });
+    };
+
+    var setDateTimePicker = function setDateTimePicker(id, data_value) {
+        var is_timepicker = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        $form.find(id).attr('disabled', has_exclude_until).attr('data-value', data_value).val(is_timepicker ? data_value : moment(data_value).format('DD MMM, YYYY')); // display format
     };
 
     var setMax30DayTurnoverLimit = function setMax30DayTurnoverLimit(is_checked) {
@@ -26825,6 +26905,7 @@ var SelfExclusion = function () {
 
         $(timeout_date_id + ', ' + exclude_until_id).change(function () {
             dateValueChanged(this, 'date');
+            $('#gamstop_info_bottom').setVisibility(is_gamstop_client && this.getAttribute('data-value'));
         });
     };
 
