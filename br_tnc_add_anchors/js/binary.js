@@ -29805,11 +29805,17 @@ var TermsAndConditions = function () {
     };
 
     var initSidebar = function initSidebar() {
-        if (!window.location.hash) {
-            var new_url = new URL(window.location);
-            new_url.hash = '#legal-binary';
-            window.history.replaceState({}, '', new_url.href);
+        var _window$location = window.location,
+            hash = _window$location.hash,
+            pathname = _window$location.pathname;
+
+
+        if (!hash) {
+            window.history.replaceState({}, '', pathname + '#legal-binary');
+        } else if ($(hash + '-link').is('.has-submenu')) {
+            window.history.replaceState({}, '', '' + pathname + hash + '-binary');
         }
+
         $('.sidebar-collapsible').on('click', sidebarClickHandler);
         updateSidebarDOM();
     };
