@@ -6286,13 +6286,15 @@ var ViewPopup = function () {
             current_spot_time = user_sold ? '' : contract.exit_tick_time;
         }
 
-        if (current_spot) {
+        var is_touchnotouch_tick_contract = /touch/i.test(contract.contract_type) && contract.tick_count;
+
+        if (current_spot && !is_touchnotouch_tick_contract) {
             containerSetText('trade_details_current_spot > span', addComma(current_spot));
         } else {
             $('#trade_details_current_spot').parent().setVisibility(0);
         }
 
-        if (current_spot_time) {
+        if (current_spot_time && !is_touchnotouch_tick_contract) {
             if (window.time && current_spot_time > window.time.unix()) {
                 window.time = moment(current_spot_time).utc();
                 updateTimers();
@@ -6353,7 +6355,7 @@ var ViewPopup = function () {
                     getContract(response);
                 });
             }
-            if (!contract.tick_count) Highchart.showChart(contract, 'update');
+            if (!contract.tick_count) Highchart.showChart(contract, 'update');else TickDisplay.updateChart({ is_sold: true }, contract);
         }
 
         if (!contract.is_valid_to_sell) {
@@ -6398,6 +6400,7 @@ var ViewPopup = function () {
             containerSetText('trade_details_spot_label', localize('Exit Spot'));
             containerSetText('trade_details_spottime_label', localize('Exit Spot Time'));
         }
+
         // show validation error if contract is not settled yet
         if (!(contract.is_settleable && !contract.is_sold)) {
             containerSetText('trade_details_message', '&nbsp;');
@@ -9782,7 +9785,7 @@ var TickDisplay = function () {
                 label: 'Exit Spot',
                 id: 'exit_tick'
             };
-        } else if (contract_category.match('callput') || contract_category.match('touchnotouch')) {
+        } else if (contract_category.match('callput')) {
             ticks_needed = number_of_ticks + 1;
             x_indicators = {
                 _0: { label: 'Entry Spot', id: 'entry_tick' }
@@ -9790,6 +9793,11 @@ var TickDisplay = function () {
             x_indicators['_' + number_of_ticks] = {
                 label: 'Exit Spot',
                 id: 'exit_tick'
+            };
+        } else if (contract_category.match('touchnotouch')) {
+            ticks_needed = number_of_ticks + 1;
+            x_indicators = {
+                _0: { label: 'Entry Spot', id: 'entry_tick' }
             };
         } else if (contract_category.match('digits')) {
             ticks_needed = number_of_ticks;
@@ -9973,6 +9981,8 @@ var TickDisplay = function () {
                     category = 'asian';
                 } else if (/digit/i.test(tick_shortcode)) {
                     category = 'digits';
+                } else if (/touch/i.test(tick_shortcode)) {
+                    category = 'touchnotouch';
                 }
                 initialize({
                     symbol: tick_underlying,
@@ -10027,7 +10037,7 @@ var TickDisplay = function () {
                     spots_list[tick.epoch] = tick.quote;
                     var indicator_key = '_' + counter;
 
-                    if (tick.epoch === sell_spot_time && !x_indicators[indicator_key]) {
+                    if (tick.epoch === sell_spot_time) {
                         x_indicators[indicator_key] = {
                             index: counter,
                             dashStyle: 'Dash'
@@ -10058,13 +10068,11 @@ var TickDisplay = function () {
             });
             var indicator_key = '_' + index;
 
-            if (!x_indicators[indicator_key]) {
-                x_indicators[indicator_key] = {
-                    index: index,
-                    dashStyle: 'Dash'
-                };
-                add(x_indicators[indicator_key]);
-            }
+            x_indicators[indicator_key] = {
+                index: index,
+                dashStyle: 'Dash'
+            };
+            add(x_indicators[indicator_key]);
         } else if (contract) {
             tick_underlying = contract.underlying;
             tick_count = contract.tick_count;
