@@ -5808,7 +5808,7 @@ var ViewPopup = function () {
     var update = function update() {
         var final_price = contract.sell_price || contract.bid_price;
         var is_started = !contract.is_forward_starting || contract.current_spot_time > contract.date_start;
-        var user_sold = contract.sell_time && contract.sell_time < contract.date_expiry;
+        var user_sold = contract.sell_spot_time && +contract.sell_spot_time < contract.date_expiry;
         var is_ended = contract.is_settleable || contract.is_sold || user_sold;
         var indicative_price = final_price && is_ended ? final_price : contract.bid_price || null;
         var sold_before_start = contract.sell_time && contract.sell_time < contract.date_start;
@@ -5835,15 +5835,13 @@ var ViewPopup = function () {
             current_spot_time = user_sold ? '' : contract.exit_tick_time;
         }
 
-        var is_touchnotouch_tick_contract = /touch/i.test(contract.contract_type) && contract.tick_count;
-
-        if (current_spot && !is_touchnotouch_tick_contract) {
+        if (current_spot) {
             containerSetText('trade_details_current_spot > span', addComma(current_spot));
         } else {
             $('#trade_details_current_spot').parent().setVisibility(0);
         }
 
-        if (current_spot_time && !is_touchnotouch_tick_contract) {
+        if (current_spot_time) {
             if (window.time && current_spot_time > window.time.unix()) {
                 window.time = moment(current_spot_time).utc();
                 updateTimers();
@@ -12554,7 +12552,7 @@ var Purchase = function () {
         var button = CommonFunctions.getElementById('contract_purchase_button');
 
         var error = details.error;
-        var show_chart = !error && passthrough.duration <= 10 && passthrough.duration_unit === 't' && /^risefall|higherlower|asian|touchnotouch$/.test(sessionStorage.formname);
+        var show_chart = !error && passthrough.duration <= 10 && passthrough.duration_unit === 't' && /^(risefall|higherlower|asian|touchnotouch)$/.test(sessionStorage.formname);
 
         contracts_list.style.display = 'none';
 
@@ -12661,14 +12659,14 @@ var Purchase = function () {
             }
 
             var category = sessionStorage.getItem('formname');
-            if (/^risefall|higherlower$/.test(category)) {
+            if (/^(risefall|higherlower)$/.test(category)) {
                 category = 'callput';
             }
 
             TickDisplay.init({
                 contract_sentiment: contract_sentiment,
                 symbol: passthrough.symbol,
-                barrier: /^higherlower|touchnotouch$/.test(sessionStorage.getItem('formname')) ? passthrough.barrier : undefined,
+                barrier: /^(higherlower|touchnotouch)$/.test(sessionStorage.getItem('formname')) ? passthrough.barrier : undefined,
                 number_of_ticks: passthrough.duration,
                 previous_tick_epoch: receipt.start_time,
                 contract_category: category,
