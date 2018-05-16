@@ -9637,7 +9637,8 @@ var TickDisplay = function () {
         tick_init = void 0,
         subscribe = void 0,
         responseID = void 0,
-        sell_spot_time = void 0;
+        sell_spot_time = void 0,
+        exit_tick_time = void 0;
 
     var id_render = 'tick_chart';
 
@@ -9938,9 +9939,10 @@ var TickDisplay = function () {
                     spots_list[tick.epoch] = tick.quote;
                     var indicator_key = '_' + counter;
 
-                    if (tick.epoch === sell_spot_time) {
+                    if (contract_category === 'touchnotouch' && tick.epoch === sell_spot_time) {
                         x_indicators[indicator_key] = {
                             index: counter,
+                            label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
                             dashStyle: 'Dash'
                         };
                     }
@@ -9960,20 +9962,25 @@ var TickDisplay = function () {
 
     var updateChart = function updateChart(data, contract) {
         subscribe = 'false';
-        if (data.is_sold && applicable_ticks) {
+        if (contract_category === 'touchnotouch' && data.is_sold && applicable_ticks) {
             sell_spot_time = +contract.sell_spot_time;
+            exit_tick_time = +contract.exit_tick_time;
 
             var index = applicable_ticks.findIndex(function (_ref2) {
                 var epoch = _ref2.epoch;
                 return epoch === sell_spot_time;
             });
-            var indicator_key = '_' + index;
 
-            x_indicators[indicator_key] = {
-                index: index,
-                dashStyle: 'Dash'
-            };
-            add(x_indicators[indicator_key]);
+            if (index >= 0) {
+                var indicator_key = '_' + index;
+
+                x_indicators[indicator_key] = {
+                    index: index,
+                    label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
+                    dashStyle: 'Dash'
+                };
+                add(x_indicators[indicator_key]);
+            }
         } else if (contract) {
             tick_underlying = contract.underlying;
             tick_count = contract.tick_count;
@@ -9984,6 +9991,7 @@ var TickDisplay = function () {
             tick_shortcode = contract.shortcode;
             tick_init = '';
             sell_spot_time = +contract.sell_spot_time;
+            exit_tick_time = +contract.exit_tick_time;
             var request = {
                 ticks_history: contract.underlying,
                 start: contract.date_start,
