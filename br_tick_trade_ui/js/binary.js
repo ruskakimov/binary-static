@@ -9599,8 +9599,6 @@ module.exports = Durations;
 "use strict";
 
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var moment = __webpack_require__(9);
 var requireHighstock = __webpack_require__(31).requireHighstock;
 var Tick = __webpack_require__(60);
@@ -9700,9 +9698,9 @@ var TickDisplay = function () {
             };
         } else if (contract_category.match('touchnotouch')) {
             ticks_needed = number_of_ticks + 1;
-            x_indicators = _defineProperty({
+            x_indicators = {
                 _0: { label: 'Entry Spot', id: 'entry_tick' }
-            }, '_' + number_of_ticks, { label: 'Exit Spot', dashStyle: 'Dash' });
+            };
         } else if (contract_category.match('digits')) {
             ticks_needed = number_of_ticks;
             x_indicators = {
@@ -9941,10 +9939,10 @@ var TickDisplay = function () {
                     spots_list[tick.epoch] = tick.quote;
                     var indicator_key = '_' + counter;
 
-                    if (!x_indicators[indicator_key] && contract_category === 'touchnotouch' && tick.epoch === sell_spot_time) {
+                    if (contract_category === 'touchnotouch' && tick.epoch === sell_spot_time) {
                         x_indicators[indicator_key] = {
                             index: counter,
-                            label: 'Sell Spot',
+                            label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
                             dashStyle: 'Dash'
                         };
                     }
@@ -9968,22 +9966,20 @@ var TickDisplay = function () {
             sell_spot_time = +contract.sell_spot_time;
             exit_tick_time = +contract.exit_tick_time;
 
-            if (sell_spot_time !== exit_tick_time) {
-                var index = applicable_ticks.findIndex(function (_ref2) {
-                    var epoch = _ref2.epoch;
-                    return epoch === sell_spot_time;
-                });
+            var index = applicable_ticks.findIndex(function (_ref2) {
+                var epoch = _ref2.epoch;
+                return epoch === sell_spot_time;
+            });
 
-                if (index >= 0) {
-                    var indicator_key = '_' + index;
+            if (index >= 0) {
+                var indicator_key = '_' + index;
 
-                    x_indicators[indicator_key] = {
-                        index: index,
-                        label: 'Sell Spot',
-                        dashStyle: 'Dash'
-                    };
-                    add(x_indicators[indicator_key]);
-                }
+                x_indicators[indicator_key] = {
+                    index: index,
+                    label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
+                    dashStyle: 'Dash'
+                };
+                add(x_indicators[indicator_key]);
             }
         } else if (contract) {
             tick_underlying = contract.underlying;
