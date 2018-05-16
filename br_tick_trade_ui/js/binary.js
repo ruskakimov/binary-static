@@ -5690,6 +5690,7 @@ var ViewPopup = function () {
         contract = void 0,
         is_sold = void 0,
         is_sell_clicked = void 0,
+        is_user_sold = void 0,
         chart_started = void 0,
         chart_init = void 0,
         chart_updated = void 0,
@@ -5709,6 +5710,7 @@ var ViewPopup = function () {
         contract = {};
         is_sold = false;
         is_sell_clicked = false;
+        is_user_sold = false;
         chart_started = false;
         chart_init = false;
         chart_updated = false;
@@ -5808,11 +5810,11 @@ var ViewPopup = function () {
     var update = function update() {
         var final_price = contract.sell_price || contract.bid_price;
         var is_started = !contract.is_forward_starting || contract.current_spot_time > contract.date_start;
-        var is_touch_tick = /touch/i.test(contract.contract_type) && contract.tick_count;
-        var user_sold = is_touch_tick ? contract.sell_spot_time && +contract.sell_spot_time < contract.date_expiry : contract.sell_time && contract.sell_time < contract.date_expiry;
-        var is_ended = contract.is_settleable || contract.is_sold || user_sold;
+        var is_ended = contract.is_settleable || contract.is_sold || is_user_sold;
         var indicative_price = final_price && is_ended ? final_price : contract.bid_price || null;
         var sold_before_start = contract.sell_time && contract.sell_time < contract.date_start;
+        var is_touch_tick = /touch/i.test(contract.contract_type) && contract.tick_count;
+        is_user_sold = is_touch_tick ? contract.sell_spot_time && +contract.sell_spot_time < contract.date_expiry : contract.sell_time && contract.sell_time < contract.date_expiry;
 
         if (contract.barrier_count > 1) {
             containerSetText('trade_details_barrier', sold_before_start ? '-' : addComma(contract.high_barrier), '', true);
@@ -5832,8 +5834,8 @@ var ViewPopup = function () {
         var current_spot = contract.current_spot;
         var current_spot_time = contract.current_spot_time;
         if (is_ended) {
-            current_spot = user_sold ? '' : contract.exit_tick;
-            current_spot_time = user_sold ? '' : contract.exit_tick_time;
+            current_spot = is_user_sold ? '' : contract.exit_tick;
+            current_spot_time = is_user_sold ? '' : contract.exit_tick_time;
         }
 
         if (current_spot) {
@@ -5891,7 +5893,7 @@ var ViewPopup = function () {
             chart_updated = true;
         }
 
-        if (!is_sold && user_sold) {
+        if (!is_sold && is_user_sold) {
             is_sold = true;
             if (!contract.tick_count) Highchart.showChart(contract, 'update');else TickDisplay.updateChart({ is_sold: true }, contract);
         }
@@ -6147,7 +6149,7 @@ var ViewPopup = function () {
                 contract_starts.div.remove();
             }
             // don't show exit tick information if missing or manual sold
-            if (contract.exit_tick_time && !(contract.sell_time && contract.sell_time < contract.date_expiry)
+            if (contract.exit_tick_time && !is_user_sold
             // Hide audit table for Lookback.
             && !/^(LBHIGHLOW|LBFLOATPUT|LBFLOATCALL)/.test(contract.shortcode)) {
                 var contract_ends = createAuditTable('Ends');
@@ -9018,17 +9020,24 @@ var Durations = function () {
             var text_mapping_min = durationTextValueMappings(duration_container[duration].min_contract_duration);
             var text_mapping_max = durationTextValueMappings(duration_container[duration].max_contract_duration);
             var min_unit = text_mapping_min.unit;
+            var max_to_min_base = convertDurationUnit(+text_mapping_max.value, text_mapping_max.unit, min_unit);
 
             if (duration === 'intraday') {
                 switch (min_unit) {
                     case 's':
                         duration_list[min_unit] = makeDurationOption(text_mapping_min, text_mapping_max);
-                        duration_list.m = makeDurationOption(durationTextValueMappings('1m'), text_mapping_max, true);
-                        duration_list.h = makeDurationOption(durationTextValueMappings('1h'), text_mapping_max);
+                        if (max_to_min_base >= 60) {
+                            duration_list.m = makeDurationOption(durationTextValueMappings('1m'), text_mapping_max, true);
+                            if (max_to_min_base >= 3600) {
+                                duration_list.h = makeDurationOption(durationTextValueMappings('1h'), text_mapping_max);
+                            }
+                        }
                         break;
                     case 'm':
                         duration_list[min_unit] = makeDurationOption(text_mapping_min, text_mapping_max, true);
-                        duration_list.h = makeDurationOption(durationTextValueMappings('1h'), text_mapping_max);
+                        if (max_to_min_base >= 60) {
+                            duration_list.h = makeDurationOption(durationTextValueMappings('1h'), text_mapping_max);
+                        }
                         break;
                     case 'h':
                         duration_list[min_unit] = makeDurationOption(text_mapping_min, text_mapping_max);
