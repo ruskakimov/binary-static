@@ -9861,7 +9861,7 @@ var TickDisplay = function () {
                 formatter: function formatter() {
                     var new_y = this.y.toFixed(display_decimals);
                     var mom = moment.utc(applicable_ticks[this.x].epoch * 1000).format('dddd, MMM D, HH:mm:ss');
-                    return mom + '<br/>' + display_symbol + ' ' + new_y;
+                    return mom + '<br/>' + display_symbol + ' ' + addComma(new_y);
                 }
             },
             xAxis: {
