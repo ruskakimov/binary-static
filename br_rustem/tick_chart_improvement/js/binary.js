@@ -9730,7 +9730,7 @@ var requireHighstock = __webpack_require__(31).requireHighstock;
 var Tick = __webpack_require__(61);
 var ViewPopupUI = __webpack_require__(128);
 var BinarySocket = __webpack_require__(5);
-var Currency = __webpack_require__(115);
+var addComma = __webpack_require__(115).addComma;
 var CommonFunctions = __webpack_require__(4);
 var localize = __webpack_require__(2).localize;
 
@@ -9812,7 +9812,8 @@ var TickDisplay = function () {
             };
             x_indicators['_' + exit_tick_index] = {
                 label: 'Exit Spot',
-                id: 'exit_tick'
+                id: 'exit_tick',
+                dashStyle: 'Dash'
             };
         } else if (contract_category.match('callput')) {
             ticks_needed = number_of_ticks + 1;
@@ -9821,7 +9822,8 @@ var TickDisplay = function () {
             };
             x_indicators['_' + number_of_ticks] = {
                 label: 'Exit Spot',
-                id: 'exit_tick'
+                id: 'exit_tick',
+                dashStyle: 'Dash'
             };
         } else if (contract_category.match('touchnotouch')) {
             ticks_needed = number_of_ticks + 1;
@@ -9835,7 +9837,8 @@ var TickDisplay = function () {
             };
             x_indicators['_' + exit_tick_index] = {
                 label: 'Tick ' + number_of_ticks,
-                id: 'last_tick'
+                id: 'last_tick',
+                dashStyle: 'Dash'
             };
         } else {
             x_indicators = {};
@@ -9924,7 +9927,7 @@ var TickDisplay = function () {
             chart.yAxis[0].addPlotLine({
                 id: 'tick-barrier',
                 value: barrier_quote,
-                label: { text: 'Barrier (' + Currency.addComma(barrier_quote) + ')', align: 'center' },
+                label: { text: 'Barrier (' + addComma(barrier_quote) + ')', align: 'center' },
                 color: 'green',
                 width: 2,
                 zIndex: 2
@@ -9947,7 +9950,7 @@ var TickDisplay = function () {
                 value: calc_barrier,
                 color: 'green',
                 label: {
-                    text: 'Average (' + Currency.addComma(calc_barrier) + ')',
+                    text: 'Average (' + addComma(calc_barrier) + ')',
                     align: 'center'
                 },
                 width: 2,
@@ -10066,7 +10069,7 @@ var TickDisplay = function () {
                     spots_list[tick.epoch] = tick.quote;
                     var indicator_key = '_' + counter;
 
-                    if (contract_category === 'touchnotouch' && tick.epoch === sell_spot_time) {
+                    if (!x_indicators[indicator_key] && tick.epoch === sell_spot_time) {
                         x_indicators[indicator_key] = {
                             index: counter,
                             label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
@@ -10088,8 +10091,7 @@ var TickDisplay = function () {
     };
 
     var addSellSpot = function addSellSpot(contract) {
-        // for tick trades only touchnotouch can have sell spot before exit spot
-        if (contract_category !== 'touchnotouch' || !applicable_ticks) return;
+        if (!applicable_ticks) return;
 
         sell_spot_time = +contract.sell_spot_time;
         exit_tick_time = +contract.exit_tick_time;
@@ -10103,11 +10105,14 @@ var TickDisplay = function () {
 
         var indicator_key = '_' + index;
 
+        if (x_indicators[indicator_key]) return;
+
         x_indicators[indicator_key] = {
             index: index,
             label: sell_spot_time === exit_tick_time ? 'Exit Spot' : 'Sell Spot',
             dashStyle: 'Dash'
         };
+
         add(x_indicators[indicator_key]);
     };
 
