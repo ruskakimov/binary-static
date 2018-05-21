@@ -1748,8 +1748,6 @@ div.datepicker-container {
     padding-bottom: 0;
     left: 0;
     top: 0; }
-  div.datepicker-container .datepicker-display:focus + .datepicker-native-placeholder {
-    visibility: hidden; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;
