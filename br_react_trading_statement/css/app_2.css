@@ -1741,10 +1741,15 @@ div.datepicker-container {
     -webkit-transition: border 0.25s;
     transition: border 0.25s; }
   div.datepicker-container .datepicker-native-placeholder {
+    text-align: left;
     position: absolute;
     width: 100%;
     padding-top: 0;
-    padding-bottom: 0; }
+    padding-bottom: 0;
+    left: 0;
+    top: 0; }
+  div.datepicker-container .datepicker-display:focus + .datepicker-native-placeholder {
+    visibility: hidden; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;
