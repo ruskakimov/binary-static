@@ -1729,7 +1729,7 @@ div.datepicker-container {
     background: #fff;
     height: 32px;
     cursor: pointer;
-    border: solid 1px #e9e9ed;
+    border: 1px solid #e9e9ed;
     border-radius: 4px;
     font-size: 14px;
     line-height: 32px;
@@ -1741,13 +1741,17 @@ div.datepicker-container {
     -webkit-transition: border 0.25s;
     transition: border 0.25s; }
   div.datepicker-container .datepicker-native-placeholder {
-    text-align: left;
     position: absolute;
-    width: 100%;
+    left: 0;
+    top: 0;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    line-height: 30px;
+    margin: 1px;
     padding-top: 0;
     padding-bottom: 0;
-    left: 0;
-    top: 0; }
+    border: none;
+    text-align: left; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;
