@@ -48,8 +48,8 @@ select, input, textarea {
   font-weight: inherit;
   font-style: inherit;
   padding: 2px 3px;
-  border: 1px solid #f2f2f2;
-  border-radius: 3px; }
+  border: 1px solid #e9e9ed;
+  border-radius: 4px; }
 
 fieldset {
   border: 1px solid #f2f2f2;
@@ -487,13 +487,21 @@ span.tooltip {
           box-shadow: 0 2px 8px #f0f1f2;
   /* stylelint-disable-line color-no-hex */ }
 
+.no-scroll {
+  overflow: hidden;
+  max-height: 100vh; }
+
 @media (max-width: 768px) {
   .desktop-only {
-    display: none; } }
+    display: none !important; } }
+
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important; } }
 
 #trading_header {
   position: fixed;
-  z-index: 999;
+  z-index: 99;
   width: 100%;
   max-height: 50px;
   top: 0; }
@@ -728,9 +736,6 @@ footer {
 
 .ic-fullscreen:before {
   content: url("../images/trading_app/footer/ic_fullscreen_light.svg"); }
-
-body.no-scroll {
-  overflow: hidden; }
 
 hr {
   display: block;
@@ -1017,8 +1022,6 @@ hr {
       cursor: pointer;
       padding: 4px 16px;
       position: relative; }
-      .acc-switcher-container .acc-switcher-list .acc-switcher-account.hide {
-        display: none; }
       .acc-switcher-container .acc-switcher-list .acc-switcher-account:before {
         content: '\25EF';
         font-size: 2.5rem;
@@ -1235,21 +1238,21 @@ hr {
   font-weight: 300; }
   .input-field i {
     position: relative; }
-    .input-field i .symbols:before {
-      height: 32px;
+    .input-field i .symbols {
+      height: 30px;
       width: 30px;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: space-evenly;
-          -ms-flex-pack: space-evenly;
-              justify-content: space-evenly; }
+      line-height: 30px;
+      margin: 1px;
+      border-radius: 4px 0 0 4px;
+      background: #f2f2f2;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box; }
+      .input-field i .symbols:before {
+        margin: 0; }
+    .input-field i .symbols.aud {
+      padding-right: 4px; }
     .input-field i + input {
-      padding-left: 28px;
-      padding-right: 0; }
+      padding-left: 35px !important; }
   .input-field input {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
@@ -1257,7 +1260,6 @@ hr {
     list-style: none;
     position: relative;
     display: inline-block;
-    padding: 4px 11px;
     width: 100%;
     height: 32px;
     font-size: 1rem;
@@ -1265,7 +1267,7 @@ hr {
     color: #000;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #f2f2f2;
+    border: 1px solid #e9e9ed;
     border-radius: 4px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s; }
@@ -1315,11 +1317,15 @@ div.dropdown-container {
       font-weight: 300; }
     div.dropdown-container .dropdown-display:hover {
       border-color: #2a3052; }
+      div.dropdown-container .dropdown-display:hover + .select-arrow {
+        color: #2a3052; }
   div.dropdown-container:active, div.dropdown-container:focus, div.dropdown-container.show {
     outline: 0;
     border-radius: 4px;
     -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
             box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
+    div.dropdown-container:active .select-arrow, div.dropdown-container:focus .select-arrow, div.dropdown-container.show .select-arrow {
+      color: #2a3052; }
   div.dropdown-container.show > div.dropdown-list {
     -webkit-transform: scale(1, 1);
             transform: scale(1, 1);
@@ -1327,7 +1333,6 @@ div.dropdown-container {
   div.dropdown-container.show > .clicked {
     border-color: #2a3052; }
   div.dropdown-container.show > .select-arrow {
-    top: 12px;
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg); }
   div.dropdown-container .dropdown-list {
@@ -1394,7 +1399,7 @@ div.dropdown-container {
     text-rendering: optimizeLegibility;
     position: absolute;
     pointer-events: none;
-    top: 5px;
+    top: 12px;
     right: 11px;
     line-height: 1;
     -webkit-transition: -webkit-transform 0.2s ease;
@@ -1408,7 +1413,9 @@ div.dropdown-container {
     color: #f2f2f2;
     font-size: 1.1rem; }
     div.dropdown-container .select-arrow:before {
-      content: '\002303'; }
+      content: '\002303';
+      display: block;
+      height: 0.53em; }
 
 /* Ant style */
 .btn {
@@ -1673,7 +1680,7 @@ div.dropdown-container {
       cursor: pointer;
       margin: 0 auto;
       border: 1px solid transparent;
-      border-radius: 3px;
+      border-radius: 4px;
       padding: 0;
       color: rgba(0, 0, 0, 0.65);
       text-align: center;
@@ -1707,11 +1714,9 @@ div.dropdown-container {
       .calendar .calendar-date-panel .calendar-date.disabled, .calendar .calendar-date-panel .calendar-month.disabled, .calendar .calendar-date-panel .calendar-year.disabled, .calendar .calendar-date-panel .calendar-decade.disabled, .calendar .calendar-month-panel .calendar-date.disabled, .calendar .calendar-month-panel .calendar-month.disabled, .calendar .calendar-month-panel .calendar-year.disabled, .calendar .calendar-month-panel .calendar-decade.disabled, .calendar .calendar-year-panel .calendar-date.disabled, .calendar .calendar-year-panel .calendar-month.disabled, .calendar .calendar-year-panel .calendar-year.disabled, .calendar .calendar-year-panel .calendar-decade.disabled, .calendar .calendar-decade-panel .calendar-date.disabled, .calendar .calendar-decade-panel .calendar-month.disabled, .calendar .calendar-decade-panel .calendar-year.disabled, .calendar .calendar-decade-panel .calendar-decade.disabled, .calendar .calendar-century-panel .calendar-date.disabled, .calendar .calendar-century-panel .calendar-month.disabled, .calendar .calendar-century-panel .calendar-year.disabled, .calendar .calendar-century-panel .calendar-decade.disabled {
         background: #fff !important;
         color: #e9e9ed !important;
-        /* stylelint-disable-line color-no-hex */
         cursor: default; }
       .calendar .calendar-date-panel .calendar-date:hover, .calendar .calendar-date-panel .calendar-month:hover, .calendar .calendar-date-panel .calendar-year:hover, .calendar .calendar-date-panel .calendar-decade:hover, .calendar .calendar-month-panel .calendar-date:hover, .calendar .calendar-month-panel .calendar-month:hover, .calendar .calendar-month-panel .calendar-year:hover, .calendar .calendar-month-panel .calendar-decade:hover, .calendar .calendar-year-panel .calendar-date:hover, .calendar .calendar-year-panel .calendar-month:hover, .calendar .calendar-year-panel .calendar-year:hover, .calendar .calendar-year-panel .calendar-decade:hover, .calendar .calendar-decade-panel .calendar-date:hover, .calendar .calendar-decade-panel .calendar-month:hover, .calendar .calendar-decade-panel .calendar-year:hover, .calendar .calendar-decade-panel .calendar-decade:hover, .calendar .calendar-century-panel .calendar-date:hover, .calendar .calendar-century-panel .calendar-month:hover, .calendar .calendar-century-panel .calendar-year:hover, .calendar .calendar-century-panel .calendar-decade:hover {
-        background: #e9e9ed;
-        /* stylelint-disable-line color-no-hex */ }
+        background: #e9e9ed; }
         .calendar .calendar-date-panel .calendar-date:hover:not(.disabled), .calendar .calendar-date-panel .calendar-month:hover:not(.disabled), .calendar .calendar-date-panel .calendar-year:hover:not(.disabled), .calendar .calendar-date-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-month-panel .calendar-date:hover:not(.disabled), .calendar .calendar-month-panel .calendar-month:hover:not(.disabled), .calendar .calendar-month-panel .calendar-year:hover:not(.disabled), .calendar .calendar-month-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-year-panel .calendar-date:hover:not(.disabled), .calendar .calendar-year-panel .calendar-month:hover:not(.disabled), .calendar .calendar-year-panel .calendar-year:hover:not(.disabled), .calendar .calendar-year-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-date:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-month:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-year:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-century-panel .calendar-date:hover:not(.disabled), .calendar .calendar-century-panel .calendar-month:hover:not(.disabled), .calendar .calendar-century-panel .calendar-year:hover:not(.disabled), .calendar .calendar-century-panel .calendar-decade:hover:not(.disabled) {
           cursor: pointer; }
 
@@ -1725,7 +1730,6 @@ div.datepicker-container {
     height: 32px;
     cursor: pointer;
     border: solid 1px #e9e9ed;
-    /* stylelint-disable-line color-no-hex */
     border-radius: 4px;
     font-size: 14px;
     line-height: 32px;
@@ -1900,6 +1904,18 @@ div.datepicker-container {
             /* stylelint-disable-line color-no-hex */
             color: #fff; }
 
+.card-list {
+  background-color: #fafafa;
+  /* stylelint-disable-line color-no-hex */
+  padding: 0 0.5rem;
+  overflow: auto; }
+  .card-list__card {
+    max-width: 450px;
+    margin: 1rem auto;
+    background-color: #fff;
+    border: 1px solid #e9e9ed;
+    border-radius: 4px; }
+
 div.contracts-popup-container {
   position: absolute;
   margin: 8px 0;
@@ -1951,6 +1967,42 @@ div.contracts-popup-container {
     top: 40%;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg); }
+  div.contracts-popup-container .list-item {
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 8px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
+    div.contracts-popup-container .list-item:hover {
+      background-color: #f2f3f8;
+      /* stylelint-disable-line color-no-hex */ }
+    div.contracts-popup-container .list-item.disabled {
+      pointer-events: none; }
+      div.contracts-popup-container .list-item.disabled .contract-title {
+        color: #dedede;
+        /* stylelint-disable-line color-no-hex */ }
+    div.contracts-popup-container .list-item.selected {
+      background-color: #2a3052; }
+      div.contracts-popup-container .list-item.selected .contract-title {
+        color: #fff; }
+    div.contracts-popup-container .list-item .contract-icon {
+      padding-right: 8px; }
+    div.contracts-popup-container .list-item .contract-title {
+      text-transform: capitalize;
+      font-weight: 300;
+      font-size: 0.875rem;
+      /* stylelint-disable-line number-max-precision */ }
   div.contracts-popup-container .contracts-popup-list {
     left: 0;
     top: 50%;
@@ -1970,42 +2022,12 @@ div.contracts-popup-container {
       z-index: 2;
       background: #fff;
       border: solid 1px #f2f2f2; }
-      div.contracts-popup-container .contracts-popup-list .list-container .list-item {
-        width: 100%;
-        font-size: 1rem;
-        cursor: pointer; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item i.contract-icon {
-          padding-right: 8px; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item span {
-          text-transform: capitalize;
-          display: block;
-          pointer-events: none;
-          vertical-align: middle;
-          font-weight: 300;
-          font-size: 0.875rem;
-          /* stylelint-disable-line number-max-precision */
-          padding: 8px; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item * {
-          height: 32px;
-          line-height: 32px !important;
-          display: inline-block;
-          vertical-align: middle; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item.disabled {
-          pointer-events: none; }
-          div.contracts-popup-container .contracts-popup-list .list-container .list-item.disabled span {
-            color: #dedede;
-            /* stylelint-disable-line color-no-hex */ }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item:hover {
-          background-color: #f2f3f8;
-          /* stylelint-disable-line color-no-hex */ }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item.selected span {
-          background-color: #2a3052;
-          color: #fff;
-          font-weight: 400; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item:nth-child(odd) {
-          grid-column: 1; }
-        div.contracts-popup-container .contracts-popup-list .list-container .list-item:nth-child(even) {
-          grid-column: 2; }
+      div.contracts-popup-container .contracts-popup-list .list-container .list-item:nth-child(odd) {
+        grid-column: 1; }
+      div.contracts-popup-container .contracts-popup-list .list-container .list-item:nth-child(even) {
+        grid-column: 2; }
+  div.contracts-popup-container .contracts-modal-list .list-item {
+    padding: 16px; }
   div.contracts-popup-container .select-arrow {
     display: inline-block;
     font-style: normal;
@@ -2128,6 +2150,38 @@ div.contracts-popup-container {
       padding-left: 2rem; }
     .table th:last-child, .table td:last-child {
       padding-right: 2rem; }
+  .table.table-full-width th, .table.table-full-width td {
+    padding-left: 8px; }
+    @media screen and (min-width: 981px) {
+      .table.table-full-width th, .table.table-full-width td {
+        padding-left: calc(2.614379085vw - 17.6470588235px); } }
+    @media screen and (min-width: 1440px) {
+      .table.table-full-width th, .table.table-full-width td {
+        padding-left: 20px; } }
+  .table.table-full-width th, .table.table-full-width td {
+    padding-right: 8px; }
+    @media screen and (min-width: 981px) {
+      .table.table-full-width th, .table.table-full-width td {
+        padding-right: calc(2.614379085vw - 17.6470588235px); } }
+    @media screen and (min-width: 1440px) {
+      .table.table-full-width th, .table.table-full-width td {
+        padding-right: 20px; } }
+  .table.table-full-width th:first-child, .table.table-full-width td:first-child {
+    padding-left: 16px; }
+    @media screen and (min-width: 981px) {
+      .table.table-full-width th:first-child, .table.table-full-width td:first-child {
+        padding-left: calc(3.48583878vw - 18.1960784314px); } }
+    @media screen and (min-width: 1440px) {
+      .table.table-full-width th:first-child, .table.table-full-width td:first-child {
+        padding-left: 32px; } }
+  .table.table-full-width th:last-child, .table.table-full-width td:last-child {
+    padding-right: 16px; }
+    @media screen and (min-width: 981px) {
+      .table.table-full-width th:last-child, .table.table-full-width td:last-child {
+        padding-right: calc(3.48583878vw - 18.1960784314px); } }
+    @media screen and (min-width: 1440px) {
+      .table.table-full-width th:last-child, .table.table-full-width td:last-child {
+        padding-right: 32px; } }
   @media only screen and (min-width: 1440px) {
     .table.table-full-width .table {
       color: #f00 !important;
@@ -2376,22 +2430,162 @@ a {
       -webkit-transform: rotate(-135deg);
               transform: rotate(-135deg); }
 
-.statement-container .statement-content {
-  padding-top: 60px; }
+/* stylelint-disable color-no-hex */
+.fullscreen-dialog {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  overflow: auto;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  background: #fff; }
+  .fullscreen-dialog--open {
+    opacity: 1;
+    pointer-events: auto; }
+    .fullscreen-dialog--open .fullscreen-dialog__content {
+      -webkit-transform: scale(1);
+              transform: scale(1); }
+    .fullscreen-dialog--open .fullscreen-dialog__header {
+      -webkit-transform: translateY(0);
+              transform: translateY(0); }
+  .fullscreen-dialog__content {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    position: relative;
+    padding-top: 3.6rem;
+    padding-bottom: 70px;
+    z-index: 1;
+    background: #fff;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out; }
+  .fullscreen-dialog__header {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 1rem;
+    height: 3.2rem;
+    z-index: 4;
+    background: #fff;
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    -webkit-transition-delay: 0.2s;
+            transition-delay: 0.2s; }
+  .fullscreen-dialog__header-shadow-cover {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 3.6rem;
+    z-index: 3;
+    background-color: #fff; }
+  .fullscreen-dialog__header-shadow {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 3.2rem;
+    z-index: 2;
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+  .fullscreen-dialog__title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0; }
+  .fullscreen-dialog__close-btn img {
+    display: block; }
+  .fullscreen-dialog fieldset {
+    border: none;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem; }
 
-.statement-container .statement-no-activity-msg {
-  padding: 1rem 2rem;
-  font-size: 1rem; }
+/* stylelint-enable color-no-hex */
+.mobile-widget {
+  border: 1px solid #2a3052;
+  border-radius: 4px;
+  padding: 10px 5px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto;
+  grid-template-areas: 'a b' 'c d';
+  font-size: 0.7rem; }
+  .mobile-widget:hover {
+    cursor: pointer; }
+  .mobile-widget .fieldset-minimized {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 5px;
+    white-space: pre-line; }
+    .mobile-widget .fieldset-minimized.amount {
+      grid-area: c; }
+    .mobile-widget .fieldset-minimized.barrier1 {
+      grid-area: b; }
+    .mobile-widget .fieldset-minimized.barrier2 {
+      grid-area: d; }
+    .mobile-widget .fieldset-minimized .icon {
+      display: block;
+      margin-right: 5px; }
+    .mobile-widget .fieldset-minimized .symbols:before {
+      margin-right: 1px;
+      position: static;
+      display: inline;
+      font-size: 1em; }
+    .mobile-widget .fieldset-minimized__basis {
+      font-weight: bold;
+      color: #2a3052; }
 
-.statement-container .statement-filter {
+.statement-filter {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   height: 60px;
   position: fixed;
-  z-index: 200;
+  z-index: 90;
   background-color: #fff;
-  width: 100%; }
-  .statement-container .statement-filter .container {
+  width: 100%;
+  font-size: 14px;
+  border-bottom: 1px solid #e9e9ed; }
+  .statement-filter {
+    padding-left: 16px; }
+    @media screen and (min-width: 981px) {
+      .statement-filter {
+        padding-left: calc(3.48583878vw - 18.1960784314px); } }
+    @media screen and (min-width: 1440px) {
+      .statement-filter {
+        padding-left: 32px; } }
+  .statement-filter__content {
     height: 100%;
-    padding-left: 2rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2402,48 +2596,179 @@ a {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-    .statement-container .statement-filter .container > * {
-      margin-right: 1rem; }
-  .statement-container .statement-filter-text {
-    font-size: 14px; }
+  .statement-filter__label {
+    margin-right: 0.6rem; }
+  .statement-filter__dash {
+    margin: 0 0.5rem; }
+  .statement-filter.mobile-only {
+    padding: 0 0.5rem; }
+    .statement-filter.mobile-only .statement-filter__content {
+      padding: 0;
+      max-width: 450px;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center; }
+      .statement-filter.mobile-only .statement-filter__content .datepicker-container {
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
+      .statement-filter.mobile-only .statement-filter__content .datepicker-display {
+        width: 100%; }
+    .statement-filter.mobile-only .statement-filter__label {
+      display: none; }
 
-.statement-container .table-head {
-  white-space: nowrap; }
-
-.statement-container .table-body .table-row {
-  cursor: pointer; }
-
-.statement-container .date, .statement-container .ref {
-  width: 6.5em; }
-
-.statement-container .action {
-  width: 6.5em; }
-
-.statement-container .payout, .statement-container .amount, .statement-container .balance {
-  width: 6em;
-  text-align: right; }
-
-.statement-container th.payout {
-  direction: rtl; }
-
-.statement-container .amount {
-  font-weight: bold; }
-  .statement-container .amount.profit {
-    color: #4caf50;
-    /* stylelint-disable-line color-no-hex */ }
-  .statement-container .amount.loss {
-    color: #f44336;
-    /* stylelint-disable-line color-no-hex */ }
+.statement {
+  /* TABLE STYLES START */
+  /* TABLE STYLES END */ }
+  .statement__content {
+    padding-top: 60px; }
+  .statement__no-activity-msg {
+    padding: 1rem;
+    font-size: 1rem; }
+    .statement__no-activity-msg {
+      padding-left: 16px; }
+      @media screen and (min-width: 981px) {
+        .statement__no-activity-msg {
+          padding-left: calc(3.48583878vw - 18.1960784314px); } }
+      @media screen and (min-width: 1440px) {
+        .statement__no-activity-msg {
+          padding-left: 32px; } }
+  .statement .table-head {
+    white-space: nowrap; }
+  .statement .table-body .table-row {
+    cursor: pointer; }
+  .statement .date, .statement .refid {
+    width: 6.5em; }
+  .statement .desc {
+    padding-right: 2rem !important; }
+  .statement .action {
+    width: 6.5em; }
+  .statement .payout, .statement .amount, .statement .balance {
+    width: 6em;
+    text-align: right; }
+  .statement th.payout {
+    direction: rtl; }
+  .statement .amount {
+    font-weight: bold; }
+    .statement .amount.profit {
+      color: #4caf50;
+      /* stylelint-disable-line color-no-hex */ }
+    .statement .amount.loss {
+      color: #f44336;
+      /* stylelint-disable-line color-no-hex */ }
+  .statement-card__header {
+    font-size: 10px;
+    padding: 0.5rem;
+    border-bottom: 1px solid #e9e9ed;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+  .statement-card__refid {
+    color: #1565c0; }
+  .statement-card__body {
+    padding: 0.5rem;
+    font-size: 12px; }
+  .statement-card__desc {
+    margin-bottom: 0.7rem; }
+  .statement-card__row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    font-weight: bold; }
+  .statement-card__cell-text {
+    vertical-align: middle; }
+  .statement-card__cell:before {
+    content: '';
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    background-size: 16px 16px;
+    vertical-align: middle;
+    margin-right: 5px; }
+  .statement-card__amount--sell, .statement-card__amount--deposit {
+    color: #4caf50; }
+  .statement-card__amount--buy, .statement-card__amount--withdrawal {
+    color: #f44336; }
+  .statement-card__amount--sell:before {
+    background-image: url("../images/trading_app/statement/ic_sell.svg"); }
+  .statement-card__amount--buy:before {
+    background-image: url("../images/trading_app/statement/ic_buy.svg"); }
+  .statement-card__amount--deposit:before {
+    background-image: url("../images/trading_app/statement/ic_deposit.svg"); }
+  .statement-card__amount--withdrawal:before {
+    background-image: url("../images/trading_app/statement/ic_withdrawal.svg"); }
+  .statement-card__payout:before {
+    background-image: url("../images/trading_app/statement/ic_payout.svg"); }
+  .statement-card__balance:before {
+    background-image: url("../images/trading_app/statement/ic_wallet.svg"); }
 
 #binary_app {
   overflow: hidden; }
   #binary_app .notice-msg {
     background: unset;
     border: 1px solid #f2f2f2; }
+  #binary_app .icon:before {
+    content: '';
+    display: block;
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px; }
+  #binary_app .icon.start-time:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_watch_later_light.svg"); }
+  #binary_app .icon.trade-duration:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_timelapse_light.svg"); }
+  #binary_app .icon.invest-amount:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_monetization_light.svg"); }
+  #binary_app .icon.barriers:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_barrier_light.svg"); }
+  #binary_app .icon.digits:before {
+    background-image: url("../images/trading_app/sidebar/light/ic_digit_light.svg"); }
+  #binary_app .desktop-only fieldset .duration-container > * {
+    margin-top: 0; }
   #binary_app fieldset input, #binary_app fieldset select {
     width: 100%;
+    height: 32px;
     font-size: 1rem;
-    height: 32px; }
+    font-weight: 300;
+    -ms-flex-item-align: center;
+        align-self: center;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 3px 5px 2px;
+    background: #fff; }
+  #binary_app fieldset input:hover {
+    border-color: #2a3052; }
+  #binary_app fieldset input:active, #binary_app fieldset input:focus {
+    outline: 0;
+    border-color: #2a3052;
+    -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
+            box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
+  #binary_app fieldset .select-wrapper {
+    position: relative; }
+    #binary_app fieldset .select-wrapper:after {
+      content: '\25bc';
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      font-size: 12px;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%); }
+  #binary_app fieldset select {
+    margin: 8px 0;
+    display: block; }
+    #binary_app fieldset select:hover {
+      border-color: #2a3052; }
+    #binary_app fieldset select:active, #binary_app fieldset select:focus {
+      outline: 0;
+      border-color: #2a3052;
+      -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
+              box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
   #binary_app fieldset .symbols {
     font-size: 1rem;
     position: absolute;
@@ -2460,33 +2785,18 @@ a {
       font-size: 0.7rem;
       font-weight: 400;
       margin: 5px 0 12px; }
+      #binary_app fieldset .clock-header span.field-info.icon, #binary_app fieldset .fieldset-header span.field-info.icon {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        top: -3px; }
+        #binary_app fieldset .clock-header span.field-info.icon:before, #binary_app fieldset .fieldset-header span.field-info.icon:before {
+          margin-right: 5px; }
       #binary_app fieldset .clock-header span.field-info.left, #binary_app fieldset .fieldset-header span.field-info.left {
         left: 5px; }
-        #binary_app fieldset .clock-header span.field-info.left.icon, #binary_app fieldset .fieldset-header span.field-info.left.icon {
-          top: -3px; }
-          #binary_app fieldset .clock-header span.field-info.left.icon:before, #binary_app fieldset .fieldset-header span.field-info.left.icon:before {
-            content: '';
-            margin-right: 5px;
-            display: -webkit-inline-box;
-            display: -ms-inline-flexbox;
-            display: inline-flex;
-            -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                    justify-content: center;
-            -webkit-box-align: center;
-                -ms-flex-align: center;
-                    align-items: center;
-            vertical-align: middle; }
-          #binary_app fieldset .clock-header span.field-info.left.icon.start-time:before, #binary_app fieldset .fieldset-header span.field-info.left.icon.start-time:before {
-            content: url("../images/trading_app/sidebar/light/ic_watch_later_light.svg"); }
-          #binary_app fieldset .clock-header span.field-info.left.icon.trade-duration:before, #binary_app fieldset .fieldset-header span.field-info.left.icon.trade-duration:before {
-            content: url("../images/trading_app/sidebar/light/ic_timelapse_light.svg"); }
-          #binary_app fieldset .clock-header span.field-info.left.icon.invest-amount:before, #binary_app fieldset .fieldset-header span.field-info.left.icon.invest-amount:before {
-            content: url("../images/trading_app/sidebar/light/ic_monetization_light.svg"); }
-          #binary_app fieldset .clock-header span.field-info.left.icon.barriers:before, #binary_app fieldset .fieldset-header span.field-info.left.icon.barriers:before {
-            content: url("../images/trading_app/sidebar/light/ic_barrier_light.svg"); }
-          #binary_app fieldset .clock-header span.field-info.left.icon.digits:before, #binary_app fieldset .fieldset-header span.field-info.left.icon.digits:before {
-            content: url("../images/trading_app/sidebar/light/ic_digit_light.svg"); }
       #binary_app fieldset .clock-header span.field-info.right, #binary_app fieldset .fieldset-header span.field-info.right {
         top: -3px;
         right: 5px;
