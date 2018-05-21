@@ -1725,7 +1725,7 @@ div.datepicker-container {
   margin: 8px 0; }
   div.datepicker-container .datepicker-display-wrapper:hover .datepicker-display {
     border-color: #2a3052; }
-  div.datepicker-container .datepicker-display {
+  div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-placeholder {
     background: #fff;
     height: 32px;
     cursor: pointer;
@@ -1740,6 +1740,11 @@ div.datepicker-container {
     font-weight: 300;
     -webkit-transition: border 0.25s;
     transition: border 0.25s; }
+  div.datepicker-container .datepicker-native-placeholder {
+    position: absolute;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;

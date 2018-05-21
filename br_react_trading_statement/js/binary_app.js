@@ -1899,8 +1899,13 @@ var DatePicker = function (_React$PureComponent) {
                     { ref: function ref(node) {
                             _this8.mainNode = node;
                         }, className: 'datepicker-container' },
+                    !value && _react2.default.createElement(
+                        'label',
+                        { className: 'datepicker-native-placeholder', htmlFor: this.props.name },
+                        this.props.placeholder
+                    ),
                     _react2.default.createElement('input', {
-                        id: this.props.id,
+                        id: this.props.name,
                         name: this.props.name,
                         className: 'datepicker-display',
                         type: 'date',
