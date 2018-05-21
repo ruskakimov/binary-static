@@ -1905,6 +1905,8 @@ var DatePicker = function (_React$PureComponent) {
                         className: 'datepicker-display',
                         type: 'date',
                         value: value,
+                        min: this.props.minDate,
+                        max: this.props.maxDate,
                         onChange: function onChange(e) {
                             _this8.handleDateChange(e.target.value);
                         }
@@ -4150,16 +4152,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var offsetPageTop = function offsetPageTop(element) {
-    var el = element;
-    var offset = -el.clientTop;
-    while (el) {
-        offset += el.offsetTop + el.clientTop;
-        el = el.offsetParent;
-    }
-    return offset;
-};
-
 /* TODO:
       1. implement sorting by column (ASC/DESC)
       2. implement filtering per column
@@ -4169,23 +4161,9 @@ var DataTable = function (_React$Component) {
     _inherits(DataTable, _React$Component);
 
     function DataTable() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
         _classCallCheck(this, DataTable);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DataTable.__proto__ || Object.getPrototypeOf(DataTable)).call.apply(_ref, [this].concat(args))), _this), _this.fixHeaderInPlace = function (el_table_container) {
-            if (!el_table_container) return;
-            var el_table = el_table_container.querySelector('.table');
-            el_table.querySelector('.table-head').style.visibility = 'hidden';
-            var el_table_clone = el_table_container.querySelector('.table-clone');
-            el_table_clone.style.top = offsetPageTop(el_table) + 'px';
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+        return _possibleConstructorReturn(this, (DataTable.__proto__ || Object.getPrototypeOf(DataTable)).apply(this, arguments));
     }
 
     _createClass(DataTable, [{
@@ -4203,9 +4181,9 @@ var DataTable = function (_React$Component) {
             return _react2.default.createElement(
                 'tr',
                 { className: 'table-row', key: id },
-                this.props.columns.map(function (_ref2) {
-                    var data_index = _ref2.data_index,
-                        renderCell = _ref2.renderCell;
+                this.props.columns.map(function (_ref) {
+                    var data_index = _ref.data_index,
+                        renderCell = _ref.renderCell;
 
                     var data = transaction[data_index] || '';
                     return (renderCell || defaultRenderCell)(data, data_index, transaction);
@@ -4242,7 +4220,7 @@ var DataTable = function (_React$Component) {
             */
             return _react2.default.createElement(
                 'table',
-                { className: (0, _classnames2.default)('table', 'table-clone', { 'table-full-width': this.props.is_full_width }) },
+                { className: (0, _classnames2.default)('table', 'table-clone', { 'table--full-width': this.props.is_full_width }) },
                 _react2.default.createElement(
                     'thead',
                     { className: 'table-head' },
@@ -4262,12 +4240,17 @@ var DataTable = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var table_class = (0, _classnames2.default)('table', {
+                'table--full-width': this.props.is_full_width,
+                'table--fixed-header': this.props.has_fixed_header
+            });
             return _react2.default.createElement(
                 'div',
-                { className: 'table-container', ref: this.props.has_fixed_header && this.fixHeaderInPlace },
+                { className: 'table-container' },
+                this.props.has_fixed_header && this.renderTableClone(),
                 _react2.default.createElement(
                     'table',
-                    { className: (0, _classnames2.default)('table', { 'table-full-width': this.props.is_full_width }) },
+                    { className: table_class },
                     _react2.default.createElement(
                         'thead',
                         { className: 'table-head' },
@@ -4287,8 +4270,7 @@ var DataTable = function (_React$Component) {
                         { className: 'table-body' },
                         this.renderBodyRows()
                     )
-                ),
-                this.props.has_fixed_header && this.renderTableClone()
+                )
             );
         }
     }]);
