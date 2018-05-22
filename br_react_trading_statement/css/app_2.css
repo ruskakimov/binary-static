@@ -1723,7 +1723,7 @@ div.dropdown-container {
 div.datepicker-container {
   position: relative;
   margin: 8px 0; }
-  div.datepicker-container .datepicker-display:hover, div.datepicker-container .datepicker-display:focus {
+  div.datepicker-container:hover .datepicker-display, div.datepicker-container .datepicker-display:focus {
     border-color: #2a3052; }
   div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-placeholder {
     background: #fff;
