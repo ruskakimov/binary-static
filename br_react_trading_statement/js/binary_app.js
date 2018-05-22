@@ -1908,6 +1908,8 @@ var DatePicker = function (_React$PureComponent) {
                         min: this.props.minDate,
                         max: this.props.maxDate,
                         onChange: function onChange(e) {
+                            // fix for ios clear issue
+                            // https://github.com/facebook/react/issues/8938
                             var target = e.nativeEvent.target;
                             function iosClearDefault() {
                                 target.defaultValue = '';
@@ -1917,10 +1919,10 @@ var DatePicker = function (_React$PureComponent) {
                             _this8.handleDateChange(e.target.value);
                         }
                     }),
-                    !value && _react2.default.createElement(
+                    _react2.default.createElement(
                         'label',
                         { className: 'datepicker-native-placeholder', htmlFor: this.props.name },
-                        this.props.placeholder
+                        value || this.props.placeholder
                     )
                 );
             }

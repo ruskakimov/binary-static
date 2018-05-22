@@ -1744,12 +1744,19 @@ div.datepicker-container {
     position: absolute;
     left: 0;
     top: 0;
-    width: 80%;
+    width: 100%;
     padding-top: 0;
     padding-bottom: 0;
     border-color: transparent;
     background-clip: padding-box;
     text-align: left; }
+    div.datepicker-container .datepicker-native-placeholder:after {
+      content: '\25bc';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 8px;
+      font-size: 10px; }
   div.datepicker-container input[type=date] {
     -webkit-appearance: none;
        -moz-appearance: none;
