@@ -1908,6 +1908,12 @@ var DatePicker = function (_React$PureComponent) {
                         min: this.props.minDate,
                         max: this.props.maxDate,
                         onChange: function onChange(e) {
+                            var target = e.nativeEvent.target;
+                            function iosClearDefault() {
+                                target.defaultValue = '';
+                            }
+                            window.setTimeout(iosClearDefault, 0);
+
                             _this8.handleDateChange(e.target.value);
                         }
                     }),
