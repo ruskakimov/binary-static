@@ -5779,8 +5779,6 @@ var _localize = __webpack_require__(2);
 
 var _string_util = __webpack_require__(18);
 
-var _utility = __webpack_require__(1);
-
 var _card_list = __webpack_require__(373);
 
 var _card_list2 = _interopRequireDefault(_card_list);
@@ -5993,13 +5991,12 @@ var Statement = function (_React$PureComponent) {
 
             this.fetchNextBatch();
 
-            this.throttledHandleScroll = (0, _utility.throttlebounce)(this.handleScroll, 100);
-            window.addEventListener('scroll', this.throttledHandleScroll, false);
+            window.addEventListener('scroll', this.handleScroll, false);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            window.removeEventListener('scroll', this.throttledHandleScroll, false);
+            window.removeEventListener('scroll', this.handleScroll, false);
         }
     }, {
         key: 'handleScroll',

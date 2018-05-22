@@ -1723,7 +1723,7 @@ div.dropdown-container {
 div.datepicker-container {
   position: relative;
   margin: 8px 0; }
-  div.datepicker-container .datepicker-display-wrapper:hover .datepicker-display {
+  div.datepicker-container .datepicker-display:hover, div.datepicker-container .datepicker-display:focus {
     border-color: #2a3052; }
   div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-placeholder {
     background: #fff;
@@ -1744,14 +1744,16 @@ div.datepicker-container {
     position: absolute;
     left: 0;
     top: 0;
-    width: calc(100% - 2px);
-    height: calc(100% - 2px);
-    line-height: 30px;
-    margin: 1px;
+    width: 80%;
     padding-top: 0;
     padding-bottom: 0;
-    border: none;
+    border-color: transparent;
+    background-clip: padding-box;
     text-align: left; }
+  div.datepicker-container input[type=date]:hover:not(:focus) {
+    border-color: #e9e9ed; }
+  div.datepicker-container input[type=date]::-webkit-date-and-time-value {
+    margin: 0; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;
@@ -2209,7 +2211,7 @@ div.contracts-popup-container {
     /* stylelint-disable-line color-no-hex */ }
   .table.table-clone {
     position: fixed;
-    z-index: 90;
+    z-index: 80;
     pointer-events: none; }
     .table.table-clone .table-head {
       pointer-events: auto;
@@ -2714,37 +2716,37 @@ a {
   .statement-card__balance:before {
     background-image: url("../images/trading_app/statement/ic_wallet.svg"); }
 
-#binary_app {
+.binary-app {
   overflow: hidden; }
-  #binary_app .notice-msg {
+  .binary-app .notice-msg {
     background: unset;
     border: 1px solid #f2f2f2; }
-  #binary_app .icon:before {
+  .binary-app .icon:before {
     content: '';
     display: block;
     background-size: 16px 16px;
     height: 16px;
     width: 16px; }
-  #binary_app .icon.start-time:before {
+  .binary-app .icon.start-time:before {
     background-image: url("../images/trading_app/sidebar/light/ic_watch_later_light.svg"); }
-  #binary_app .icon.trade-duration:before {
+  .binary-app .icon.trade-duration:before {
     background-image: url("../images/trading_app/sidebar/light/ic_timelapse_light.svg"); }
-  #binary_app .icon.invest-amount:before {
+  .binary-app .icon.invest-amount:before {
     background-image: url("../images/trading_app/sidebar/light/ic_monetization_light.svg"); }
-  #binary_app .icon.barriers:before {
+  .binary-app .icon.barriers:before {
     background-image: url("../images/trading_app/sidebar/light/ic_barrier_light.svg"); }
-  #binary_app .icon.digits:before {
+  .binary-app .icon.digits:before {
     background-image: url("../images/trading_app/sidebar/light/ic_digit_light.svg"); }
-  #binary_app .desktop-only fieldset .duration-container > * {
+  .binary-app .desktop-only fieldset .duration-container > * {
     margin-top: 0; }
-  #binary_app input:hover {
+  .binary-app input:hover {
     border-color: #2a3052; }
-  #binary_app input:active, #binary_app input:focus {
+  .binary-app input:active, .binary-app input:focus {
     outline: 0;
     border-color: #2a3052;
     -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
             box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
-  #binary_app fieldset input, #binary_app fieldset select {
+  .binary-app fieldset input, .binary-app fieldset select {
     width: 100%;
     height: 32px;
     font-weight: 300;
@@ -2756,9 +2758,9 @@ a {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     background: #fff; }
-  #binary_app fieldset .select-wrapper {
+  .binary-app fieldset .select-wrapper {
     position: relative; }
-    #binary_app fieldset .select-wrapper:after {
+    .binary-app fieldset .select-wrapper:after {
       content: '\25bc';
       display: block;
       position: absolute;
@@ -2767,33 +2769,33 @@ a {
       font-size: 12px;
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%); }
-  #binary_app fieldset select {
+  .binary-app fieldset select {
     margin: 8px 0;
     display: block; }
-    #binary_app fieldset select:hover {
+    .binary-app fieldset select:hover {
       border-color: #2a3052; }
-    #binary_app fieldset select:active, #binary_app fieldset select:focus {
+    .binary-app fieldset select:active, .binary-app fieldset select:focus {
       outline: 0;
       border-color: #2a3052;
       -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
               box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
-  #binary_app fieldset .symbols {
+  .binary-app fieldset .symbols {
     font-size: 1rem;
     position: absolute;
     display: block;
     text-align: center;
     z-index: 1;
     color: #2a3052; }
-  #binary_app fieldset .clock-header, #binary_app fieldset .fieldset-header {
+  .binary-app fieldset .clock-header, .binary-app fieldset .fieldset-header {
     height: 1.5rem;
     position: relative; }
-    #binary_app fieldset .clock-header span.field-info, #binary_app fieldset .fieldset-header span.field-info {
+    .binary-app fieldset .clock-header span.field-info, .binary-app fieldset .fieldset-header span.field-info {
       position: absolute;
       color: #2a3052;
       font-size: 0.7rem;
       font-weight: 400;
       margin: 5px 0 12px; }
-      #binary_app fieldset .clock-header span.field-info.icon, #binary_app fieldset .fieldset-header span.field-info.icon {
+      .binary-app fieldset .clock-header span.field-info.icon, .binary-app fieldset .fieldset-header span.field-info.icon {
         display: -webkit-inline-box;
         display: -ms-inline-flexbox;
         display: inline-flex;
@@ -2801,11 +2803,11 @@ a {
             -ms-flex-align: center;
                 align-items: center;
         top: -3px; }
-        #binary_app fieldset .clock-header span.field-info.icon:before, #binary_app fieldset .fieldset-header span.field-info.icon:before {
+        .binary-app fieldset .clock-header span.field-info.icon:before, .binary-app fieldset .fieldset-header span.field-info.icon:before {
           margin-right: 5px; }
-      #binary_app fieldset .clock-header span.field-info.left, #binary_app fieldset .fieldset-header span.field-info.left {
+      .binary-app fieldset .clock-header span.field-info.left, .binary-app fieldset .fieldset-header span.field-info.left {
         left: 5px; }
-      #binary_app fieldset .clock-header span.field-info.right, #binary_app fieldset .fieldset-header span.field-info.right {
+      .binary-app fieldset .clock-header span.field-info.right, .binary-app fieldset .fieldset-header span.field-info.right {
         top: -3px;
         right: 5px;
         font-size: 0.5625rem;
