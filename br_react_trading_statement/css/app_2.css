@@ -1750,10 +1750,12 @@ div.datepicker-container {
     border-color: transparent;
     background-clip: padding-box;
     text-align: left; }
-  div.datepicker-container input[type=date]:hover:not(:focus) {
-    border-color: #e9e9ed; }
-  div.datepicker-container input[type=date]::-webkit-date-and-time-value {
-    margin: 0; }
+  div.datepicker-container input[type=date] {
+    apperance: none; }
+    div.datepicker-container input[type=date]:hover:not(:focus) {
+      border-color: #e9e9ed; }
+    div.datepicker-container input[type=date]::-webkit-date-and-time-value {
+      margin: 0; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
     width: 14px;
