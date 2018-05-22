@@ -1751,7 +1751,9 @@ div.datepicker-container {
     background-clip: padding-box;
     text-align: left; }
   div.datepicker-container input[type=date] {
-    apperance: none; }
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none; }
     div.datepicker-container input[type=date]:hover:not(:focus) {
       border-color: #e9e9ed; }
     div.datepicker-container input[type=date]::-webkit-date-and-time-value {
