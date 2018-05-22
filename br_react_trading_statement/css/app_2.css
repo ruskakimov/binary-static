@@ -1758,7 +1758,7 @@ div.datepicker-container {
       top: 8px;
       right: 8px; }
       div.datepicker-container .datepicker-native-overlay__arrowhead .arrow-path {
-        fill: #f2f2f2; }
+        fill: #e9e9ed; }
   div.datepicker-container input[type=date] {
     -webkit-appearance: none;
        -moz-appearance: none;
