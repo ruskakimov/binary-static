@@ -1725,7 +1725,9 @@ div.datepicker-container {
   margin: 8px 0; }
   div.datepicker-container:hover .datepicker-display, div.datepicker-container .datepicker-display:focus {
     border-color: #2a3052; }
-  div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-placeholder {
+  div.datepicker-container:hover .datepicker-native-overlay .datepicker-native-overlay__arrowhead .arrow-path, div.datepicker-container .datepicker-display:focus + .datepicker-native-overlay .datepicker-native-overlay__arrowhead .arrow-path {
+    fill: #2a3052; }
+  div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-overlay {
     background: #fff;
     height: 32px;
     cursor: pointer;
@@ -1740,7 +1742,7 @@ div.datepicker-container {
     font-weight: 300;
     -webkit-transition: border 0.25s;
     transition: border 0.25s; }
-  div.datepicker-container .datepicker-native-placeholder {
+  div.datepicker-container .datepicker-native-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -1750,13 +1752,13 @@ div.datepicker-container {
     border-color: transparent;
     background-clip: padding-box;
     text-align: left; }
-    div.datepicker-container .datepicker-native-placeholder:after {
-      content: '\25bc';
+    div.datepicker-container .datepicker-native-overlay__arrowhead {
       display: block;
       position: absolute;
-      top: 0;
-      right: 8px;
-      font-size: 10px; }
+      top: 8px;
+      right: 8px; }
+      div.datepicker-container .datepicker-native-overlay__arrowhead .arrow-path {
+        fill: #f2f2f2; }
   div.datepicker-container input[type=date] {
     -webkit-appearance: none;
        -moz-appearance: none;
