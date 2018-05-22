@@ -1725,7 +1725,7 @@ div.datepicker-container {
   margin: 8px 0; }
   div.datepicker-container:hover .datepicker-display, div.datepicker-container .datepicker-display:focus {
     border-color: #2a3052; }
-  div.datepicker-container:hover .datepicker-native-overlay .datepicker-native-overlay__arrowhead .arrow-path, div.datepicker-container .datepicker-display:focus + .datepicker-native-overlay .datepicker-native-overlay__arrowhead .arrow-path {
+  div.datepicker-container .datepicker-display:focus + .datepicker-native-overlay .datepicker-native-overlay__arrowhead .arrow-path {
     fill: #2a3052; }
   div.datepicker-container .datepicker-display, div.datepicker-container .datepicker-native-overlay {
     background: #fff;
