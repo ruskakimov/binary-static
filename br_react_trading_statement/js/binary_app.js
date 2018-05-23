@@ -225,36 +225,6 @@ var findParent = function findParent(el, selector) {
     return null;
 };
 
-/*
- * Function is called only once each ${wait} seconds
- * last call is debounced
- */
-var throttlebounce = function throttlebounce(func) {
-    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-
-    var recently_called = false;
-    var timeout = void 0;
-    return function () {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        var context = this;
-        clearTimeout(timeout);
-        if (!recently_called) {
-            func.apply(context, args);
-            recently_called = true;
-            setTimeout(function () {
-                recently_called = false;
-            }, wait);
-        } else {
-            timeout = setTimeout(function () {
-                func.apply(context, args);
-            }, wait);
-        }
-    };
-};
-
 var static_hash = void 0;
 var getStaticHash = function getStaticHash() {
     static_hash = static_hash || (document.querySelector('script[src*="vendor.min.js"]').getAttribute('src') || '').split('?')[1];
@@ -275,7 +245,6 @@ module.exports = {
     createElement: createElement,
     applyToAllElements: applyToAllElements,
     findParent: findParent,
-    throttlebounce: throttlebounce,
     getStaticHash: getStaticHash
 };
 

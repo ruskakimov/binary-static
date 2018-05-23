@@ -1769,12 +1769,10 @@ div.datepicker-container {
       margin: 0; }
   div.datepicker-container .picker-calendar-icon, div.datepicker-container .close-circle-icon {
     position: absolute;
-    width: 14px;
-    height: 14px;
     right: 12px;
     top: 50%;
-    margin-top: -7px;
-    line-height: 14px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
     -webkit-user-select: none;
@@ -1784,13 +1782,19 @@ div.datepicker-container {
     opacity: 0;
     pointer-events: none;
     cursor: pointer; }
+    div.datepicker-container .picker-calendar-icon:before, div.datepicker-container .close-circle-icon:before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 14px;
+      background-size: 14px 14px; }
     div.datepicker-container .picker-calendar-icon.show, div.datepicker-container .close-circle-icon.show {
       opacity: 1;
       pointer-events: auto; }
     div.datepicker-container .picker-calendar-icon.picker-calendar-icon:before, div.datepicker-container .close-circle-icon.picker-calendar-icon:before {
-      content: url("../images/trading_app/common/calendar.svg"); }
+      background-image: url("../images/trading_app/common/calendar.svg"); }
     div.datepicker-container .picker-calendar-icon.close-circle-icon:before, div.datepicker-container .close-circle-icon.close-circle-icon:before {
-      content: url("../images/trading_app/common/close_circle.svg"); }
+      background-image: url("../images/trading_app/common/close_circle.svg"); }
   div.datepicker-container .datepicker-calendar .calendar {
     opacity: 0;
     -webkit-transform: scale(1, 0);
