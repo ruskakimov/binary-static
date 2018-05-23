@@ -1776,8 +1776,12 @@ var DatePicker = function (_React$PureComponent) {
 
         var _this7 = _possibleConstructorReturn(this, (DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call(this, props));
 
+        _this7.changeCallback = function () {
+            _this7.props.onChange({ target: { name: _this7.props.name, value: _this7.getPickerValue() } });
+        };
+
         _this7.clearDateInput = function () {
-            _this7.setState({ selected_date: '' });
+            _this7.setState({ selected_date: '' }, _this7.changeCallback);
             _this7.calendar.resetCalendar();
         };
 
@@ -1804,11 +1808,6 @@ var DatePicker = function (_React$PureComponent) {
     _createClass(DatePicker, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.props.onChange({ target: { name: this.props.name, value: this.getPickerValue() } });
-        }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
             this.props.onChange({ target: { name: this.props.name, value: this.getPickerValue() } });
         }
     }, {
@@ -1858,7 +1857,7 @@ var DatePicker = function (_React$PureComponent) {
             this.setState({
                 selected_date: value,
                 is_calendar_visible: is_calendar_visible
-            });
+            }, this.changeCallback);
         }
     }, {
         key: 'render',
@@ -1881,7 +1880,7 @@ var DatePicker = function (_React$PureComponent) {
                         min: this.props.minDate,
                         max: this.props.maxDate,
                         onChange: function onChange(e) {
-                            // fix for ios clear issue
+                            // fix for ios issue: clear button doesn't work
                             // https://github.com/facebook/react/issues/8938
                             var target = e.nativeEvent.target;
                             function iosClearDefault() {
