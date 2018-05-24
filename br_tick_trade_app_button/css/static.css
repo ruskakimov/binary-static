@@ -726,6 +726,8 @@ div.kineticjs-content {
         -ms-flex-order: 2;
             order: 2;
     padding-top: 30px; }
+  .home-content .center-text-m {
+    text-align: center; }
   .home-content .gr-centered-m {
     margin: 0 auto; } }
 
