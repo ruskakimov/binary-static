@@ -5661,8 +5661,8 @@ var TradingAnalysis = function () {
                 image1: 'high-low-image.svg'
             },
             callputspread: {
-                image1: 'call-spread-image.svg',
-                image2: 'put-spread-image.svg'
+                image1: 'call-spread.svg',
+                image2: 'put-spread.svg'
             }
         };
 
@@ -10193,9 +10193,9 @@ var TickDisplay = function () {
                 width: config.width || (config.minimize ? 394 : null),
                 height: config.minimize ? 143 : null,
                 backgroundColor: null,
-                // TODO: we pass UNDEFINED as load event callback,
-                // plot() is executed once
-                events: { load: plot(config.plot_from, config.plot_to) },
+                events: { load: function load() {
+                        return plot(config.plot_from, config.plot_to);
+                    } },
                 marginLeft: 50
             },
             credits: { enabled: false },
