@@ -17,4 +17,4 @@ MenuList.propTypes = {
     sections: PropTypes.array,
 };
 
-export default MenuList
+export default MenuList;
