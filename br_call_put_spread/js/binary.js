@@ -2470,12 +2470,12 @@ var commonTrading = function () {
     /*
      * sort the duration in ascending order
      */
-    var duration_order = {
-        t: 1,
-        s: 2,
-        m: 3,
-        h: 4,
-        d: 5
+    var duration_config = {
+        t: { order: 1, type: 'tick' },
+        s: { order: 2, type: 'intraday' },
+        m: { order: 3, type: 'intraday' },
+        h: { order: 4, type: 'intraday' },
+        d: { order: 5, type: 'daily' }
     };
 
     var displayTooltip = function displayTooltip() {
@@ -2608,7 +2608,10 @@ var commonTrading = function () {
             showHideOverlay('loading_container3', 'block');
         },
         durationOrder: function durationOrder(duration) {
-            return duration_order[duration];
+            return duration_config[duration].order;
+        },
+        durationType: function durationType(duration) {
+            return duration_config[duration].type;
         },
         clean: function clean() {
             $chart = null;contracts_element = null;
@@ -3666,7 +3669,6 @@ var Contract = function () {
 
     var details = function details(form_name) {
         var contracts = Contract.contracts().contracts_for;
-        var barrier_category = void 0;
 
         if (!contracts) return;
 
@@ -3677,20 +3679,24 @@ var Contract = function () {
 
         var form_barrier = getFormNameBarrierCategory(form_name);
         _form = form_barrier.form_name;
-        _barrier = barrier_category = form_barrier.barrier_category;
+        if (!_form) {
+            return;
+        }
+        _barrier = form_barrier.barrier_category;
 
         contracts.available.forEach(function (current_obj) {
             var contract_category = current_obj.contract_category;
-
-            if (_form && _form === contract_category) {
-                if (barrier_category) {
-                    if (barrier_category === current_obj.barrier_category) {
+            // for callput and callputequals, populate duration for both
+            if (_form === contract_category || /callput/.test(_form) && /callput/.test(contract_category)) {
+                if (_barrier) {
+                    if (_barrier === current_obj.barrier_category) {
                         populateDurations(current_obj);
                     }
                 } else {
                     populateDurations(current_obj);
                 }
-
+            }
+            if (_form === contract_category) {
                 if (current_obj.forward_starting_options && current_obj.start_type === 'forward' && sessionStorage.formname !== 'higherlower') {
                     start_dates.list = current_obj.forward_starting_options;
                 } else if (current_obj.start_type === 'spot') {
@@ -3735,8 +3741,8 @@ var Contract = function () {
             }
         });
 
-        if (_form && barrier_category) {
-            if (_barriers && _barriers[_form] && _barriers[_form].barrier_category !== barrier_category) {
+        if (_barrier) {
+            if (_barriers && _barriers[_form] && _barriers[_form].barrier_category !== _barrier) {
                 _barriers = {};
             }
         }
@@ -6291,7 +6297,6 @@ var ViewPopup = function () {
     var showErrorPopup = function showErrorPopup(response, message) {
         showMessagePopup(localize(message || 'Sorry, an error occurred while processing your request.'), 'There was an error', 'notice-msg');
         // eslint-disable-next-line no-console
-        console.log(response);
     };
 
     var sellSetVisibility = function sellSetVisibility(show) {
@@ -9253,7 +9258,7 @@ var Callputspread = function () {
     */
 
     var calcMarginRight = function calcMarginRight(contract) {
-        var formatted_max_payout = formatMoney(null, contract.payout, true);
+        var formatted_max_payout = formatMoney(contract.currency, contract.payout, true);
         // margin size is based on max payout char length
         return 15 + 7.5 * formatted_max_payout.length;
     };
@@ -9343,7 +9348,7 @@ var Callputspread = function () {
     };
 
     var isCallputspread = function isCallputspread(contract_type) {
-        return (/^(CALLSPREAD|PUTSPREAD)$/.test(contract_type)
+        return (/^(CALLSPREAD|PUTSPREAD)$/i.test(contract_type)
         );
     };
 
@@ -9458,7 +9463,7 @@ var Durations = function () {
         }
 
         Object.keys(durations).forEach(function (key) {
-            Object.keys(durations[key][form_name]).forEach(function (form) {
+            Object.keys(durations[key][form_name] || []).forEach(function (form) {
                 var obj = {};
                 if (barrier_category) {
                     obj = durations[key][form_name][barrier_category];
@@ -12863,8 +12868,7 @@ var Process = function () {
         var available_contracts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : State.getResponse('contracts_for.available');
         var formname_to_set = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getElementById('contract').value || Defaults.get('formname');
 
-        setFormName(formname_to_set, available_contracts);
-        displayEquals(formname_to_set, available_contracts);
+        setFormName(formname_to_set);
 
         // get updated formname
         Contract.details(Defaults.get('formname'));
@@ -12882,6 +12886,9 @@ var Process = function () {
         } else {
             Durations.display();
         }
+
+        // needs to be called after durations are populated
+        displayEquals();
 
         var currency = Defaults.get('currency') || getVisibleElement('currency').value;
         var is_crypto = isCryptocurrency(currency);
@@ -12901,6 +12908,14 @@ var Process = function () {
             Defaults.set('amount_type', getElementById('amount_type').value);
         }
         refreshDropdown('#amount_type');
+
+        if (Contract.form() === 'callputspread') {
+            getElementById('stake_option').setVisibility(0);
+            $('[data-value="stake"]').hide();
+        } else {
+            getElementById('stake_option').setVisibility(1);
+        }
+
         if (Defaults.get('currency')) {
             commonTrading.selectOption(Defaults.get('currency'), getVisibleElement('currency'));
         }
@@ -12929,14 +12944,18 @@ var Process = function () {
         }
     };
 
-    var displayEquals = function displayEquals() {
-        var formname = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Defaults.get('formname');
-        var contracts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : State.getResponse('contracts_for.available');
-
-        var el_equals = getElementById('callputequal');
-        if (/^(callputequal|risefall)$/.test(formname) && (contracts || []).find(function (contract) {
+    var hasCallPutEqual = function hasCallPutEqual() {
+        var contracts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getPropertyValue(Contract.contracts(), ['contracts_for', 'available']) || [];
+        return contracts.find(function (contract) {
             return contract.contract_category === 'callputequal';
-        })) {
+        });
+    };
+
+    var displayEquals = function displayEquals() {
+        var formname = Defaults.get('formname');
+        var el_equals = document.getElementById('callputequal');
+        var durations = getPropertyValue(Contract.durations(), [commonTrading.durationType(Defaults.get('duration_units'))]) || [];
+        if (/^(callputequal|risefall)$/.test(formname) && 'callputequal' in durations && hasCallPutEqual()) {
             if (+Defaults.get('is_equal')) {
                 el_equals.checked = true;
             }
@@ -12946,20 +12965,16 @@ var Process = function () {
         }
     };
 
-    var setFormName = function setFormName() {
-        var formname = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Defaults.get('formname');
-        var contracts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : State.getResponse('contracts_for.available');
-
+    var setFormName = function setFormName(formname) {
         var formname_to_set = formname;
-        var has_callputequal = (contracts || []).find(function (contract) {
-            return contract.contract_category === 'callputequal';
-        });
-        if (/^(callputequal)$/.test(formname_to_set) && !has_callputequal) {
+        var has_callputequal = hasCallPutEqual();
+        if (/^(callputequal)$/.test(formname_to_set) && (!has_callputequal || !+Defaults.get('is_equal'))) {
             formname_to_set = 'risefall';
         } else if (/^(risefall)$/.test(formname_to_set) && has_callputequal && +Defaults.get('is_equal')) {
             formname_to_set = 'callputequal';
         }
         Defaults.set('formname', formname_to_set);
+        getElementById('contract').setAttribute('value', formname_to_set);
     };
 
     var forgetTradingStreams = function forgetTradingStreams() {
@@ -25323,7 +25338,7 @@ var TradingEvents = function () {
         getElementById('duration_units').addEventListener('change', function (e) {
             Defaults.remove('barrier', 'barrier_high', 'barrier_low');
             Process.onDurationUnitChange(e.target.value);
-            Price.processPriceRequest();
+            Process.processContractForm();
         });
 
         /*
