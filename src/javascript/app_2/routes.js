@@ -1,18 +1,19 @@
 import React               from 'react';
 import { Route, NavLink }  from 'react-router-dom';
-import PropTypes from 'prop-types';
+import PropTypes           from 'prop-types';
 
 import Client              from '../_common/base/client_base';
 import { redirectToLogin } from '../_common/base/login';
 import { localize }        from '../_common/localize';
 
-import TradeApp  from './pages/trading/trade_app.jsx';
-import Statement from './pages/statement/statement.jsx';
-
+import Settings            from './pages/settings/settings.jsx';
+import Statement           from './pages/statement/statement.jsx';
+import TradeApp            from './pages/trading/trade_app.jsx';
 
 const routes = [
     { path: '/',          component: TradeApp, exact: true },
     { path: '/statement', component: Statement, is_authenticated: true },
+    { path: '/settings',  component: Settings },
 ];
 
 const RouteWithSubRoutes = route => (
@@ -45,7 +46,7 @@ export const BinaryLink = ({ to, children, ...props }) => {
     if (!route) {
         throw new Error(`Route not found: ${to}`);
     }
-    
+
     return (
         to ?
             <NavLink to={path} activeClassName='active' exact={route.exact} {...props}>
