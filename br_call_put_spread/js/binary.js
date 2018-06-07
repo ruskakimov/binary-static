@@ -5847,7 +5847,7 @@ var ViewPopup = function () {
 
         var final_price = contract.sell_price || contract.bid_price;
         var is_started = !contract.is_forward_starting || contract.current_spot_time > contract.date_start;
-        var is_ended = contract.status !== 'open';
+        var is_ended = contract.status !== 'open' || contract.is_expired || contract.is_settleable;
         var indicative_price = final_price && is_ended ? final_price : contract.bid_price || null;
         var is_sold_before_start = contract.sell_time && contract.sell_time < contract.date_start;
 
@@ -5953,6 +5953,7 @@ var ViewPopup = function () {
             $container.find('#errMsg').setVisibility(0);
         }
 
+        // next line is responsible for 'sell at market' flashing on the last tick
         sellSetVisibility(!is_sell_clicked && !is_sold && !is_ended && +contract.is_valid_to_sell === 1);
         contract.chart_validation_error = contract.validation_error;
         contract.validation_error = '';
