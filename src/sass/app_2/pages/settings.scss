@@ -1,0 +1,13 @@
+.settings {
+    display: flex;
+    flex-direction: row;
+
+    &__sidebar {
+        width: 350px;
+        background: $COLOR_ORANGE;
+    }
+    &__content {
+        flex-grow: 1;
+        background: $COLOR_LIGHT_GRAY;
+    }
+}
