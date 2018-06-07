@@ -1,29 +1,24 @@
 import React from 'react';
-import { Route, NavLink, Redirect } from 'react-router-dom';
-
-import PersonalDetails from './sections/PersonalDetails.jsx';
-
-const sections = [
-    {
-        title: 'Personal Details',
-        component: PersonalDetails,
-        path: '/personal'
-    }
-];
+import { Route, NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { sections } from './routes';
 
 const Settings = ({ match }) => (
     <div className='settings container'>
         <div className='settings__sidebar'>
+            <ul>
             {
                 sections.map((section, i) => (
-                    <NavLink
-                        key={i}
-                        to={match.url + section.path}
-                    >
-                        {section.title}
-                    </NavLink>
+                    <li className='settings__listlink' key={i}>
+                        <NavLink
+                            to={match.url + section.path}
+                        >
+                            {section.title}
+                        </NavLink>
+                    </li>
                 ))
             }
+            </ul>
         </div>
         <div className='settings__content'>
             {
@@ -38,5 +33,9 @@ const Settings = ({ match }) => (
         </div>
     </div>
 );
+
+Settings.propTypes = {
+    match: PropTypes.object,
+}
 
 export default Settings;
