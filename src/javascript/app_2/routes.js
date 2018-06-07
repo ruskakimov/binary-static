@@ -10,10 +10,78 @@ import Settings            from './pages/settings/settings.jsx';
 import Statement           from './pages/statement/statement.jsx';
 import TradeApp            from './pages/trading/trade_app.jsx';
 
+// Settings Routes
+import AccountPassword        from './pages/settings/sections/AccountPassword.jsx';
+import ApiToken               from './pages/settings/sections/ApiToken.jsx';
+import AuthorizedApplications from './pages/settings/sections/AuthorizedApplications.jsx';
+import CashierPassword        from './pages/settings/sections/CashierPassword.jsx';
+import FinancialAssessment    from './pages/settings/sections/FinancialAssessment.jsx';
+import Limits                 from './pages/settings/sections/Limits.jsx';
+import LoginHistory           from './pages/settings/sections/LoginHistory.jsx';
+import PersonalDetails        from './pages/settings/sections/PersonalDetails.jsx';
+import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
+
+const sections = [
+    {
+        title    : 'Personal Details',
+        component: PersonalDetails,
+        path     : '/personal', // To-do: Redirect to personal Details
+        src      : 'images/settings/ic-personal-details.svg',
+    },
+    {
+        title    : 'Financial Assessment',
+        component: FinancialAssessment,
+        path     : '/financial',
+        src      : 'images/settings/ic-financial-assesment.svg',
+    },
+    {
+        title    : 'Account Password',
+        component: AccountPassword,
+        path     : '/account_password',
+        src      : 'images/settings/ic-account-password.svg',
+    },
+    {
+        title    : 'Cashier Password',
+        component: CashierPassword,
+        path     : '/cashier_password',
+        src      : 'images/settings/ic-personal-details.svg',
+    },
+    {
+        title    : 'Self Exclusion',
+        component: SelfExclusion,
+        path     : '/exclusion',
+        src      : 'images/settings/ic-self-exclusion.svg',
+    },
+    {
+        title    : 'Limits',
+        component: Limits,
+        path     : '/limits',
+        src      : 'images/settings/ic-limits.svg',
+    },
+    {
+        title    : 'Login History',
+        component: LoginHistory,
+        path     : '/history',
+        src      : 'images/settings/ic-login-history.svg',
+    },
+    {
+        title    : 'API Token',
+        component: ApiToken,
+        path     : '/token',
+        src      : 'images/settings/ic-api-token.svg',
+    },
+    {
+        title    : 'Authorized Applications',
+        component: AuthorizedApplications,
+        path     : '/apps',
+        src      : 'images/settings/ic-authorised-applications.svg',
+    },
+];
+
 const routes = [
     { path: '/',          component: TradeApp, exact: true },
     { path: '/statement', component: Statement, is_authenticated: true },
-    { path: '/settings',  component: Settings },
+    { path: '/settings',  component: Settings, sections },
 ];
 
 const RouteWithSubRoutes = route => (
@@ -23,14 +91,16 @@ const RouteWithSubRoutes = route => (
         render={props => (
             (route.is_authenticated && !Client.isLoggedIn()) ? // TODO: update styling of the message below
                 <a href='javascript:;' onClick={redirectToLogin}>{localize('Please login to view this page.')}</a> :
-                <route.component {...props} routes={route.routes} />
+                <route.component {...props} routes={route.routes} sections={route.sections} />
         )}
     />
 );
 
-export const BinaryRoutes = () => routes.map((route, idx) => (
-    <RouteWithSubRoutes key={idx} {...route} />
-));
+export const BinaryRoutes = () => (
+    routes.map((route, idx) => (
+        <RouteWithSubRoutes key={idx} {...route} />
+    ))
+);
 
 const normalizePath = (path) => /^\//.test(path) ? path : `/${path || ''}`; // Default to '/'
 

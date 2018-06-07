@@ -1,0 +1,9 @@
+.menuitem {
+    width: 347px;
+    height: 48px;
+
+    &:active {
+        background-color: $COLOR_BACKGROUND_ACTIVE_ITEM;
+        box-shadow: inset -4px 0 0 0 $COLOR_SHADOW_ACTIVE_ITEM;
+    }
+}

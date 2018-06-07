@@ -1,24 +1,12 @@
 import React from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { sections } from './routes';
+import MenuList from './components/menu_list.jsx';
 
-const Settings = ({ match }) => (
+const Settings = ({match, sections}) => (
     <div className='settings container'>
         <div className='settings__sidebar'>
-            <ul>
-            {
-                sections.map((section, i) => (
-                    <li className='settings__listlink' key={i}>
-                        <NavLink
-                            to={match.url + section.path}
-                        >
-                            {section.title}
-                        </NavLink>
-                    </li>
-                ))
-            }
-            </ul>
+            <MenuList sections={sections} match={match}/>
         </div>
         <div className='settings__content'>
             {
@@ -35,7 +23,8 @@ const Settings = ({ match }) => (
 );
 
 Settings.propTypes = {
-    match: PropTypes.object,
-}
+    match   : PropTypes.object,
+    sections: PropTypes.array,
+};
 
 export default Settings;
