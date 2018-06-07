@@ -27,54 +27,63 @@ const sections = [
         component: PersonalDetails,
         path     : '/personal', // To-do: Redirect to personal Details
         src      : 'images/settings/ic-personal-details.svg',
+        content  : 'View your personal information.',
     },
     {
         title    : 'Financial Assessment',
         component: FinancialAssessment,
         path     : '/financial',
         src      : 'images/settings/ic-financial-assesment.svg',
+        content  : 'View your financial assessment settings',
     },
     {
         title    : 'Account Password',
         component: AccountPassword,
         path     : '/account_password',
         src      : 'images/settings/ic-account-password.svg',
+        content  : 'Change your main login password.',
     },
     {
         title    : 'Cashier Password',
         component: CashierPassword,
         path     : '/cashier_password',
         src      : 'images/settings/ic-personal-details.svg',
+        content  : 'Change the password used for deposits and withdrawals',
     },
     {
         title    : 'Self Exclusion',
         component: SelfExclusion,
         path     : '/exclusion',
         src      : 'images/settings/ic-self-exclusion.svg',
+        content  : 'Facility that allows you to set limits on your account.',
     },
     {
         title    : 'Limits',
         component: Limits,
         path     : '/limits',
         src      : 'images/settings/ic-limits.svg',
+        content  : 'View your trading and withdrawal limits',
     },
     {
         title    : 'Login History',
         component: LoginHistory,
         path     : '/history',
         src      : 'images/settings/ic-login-history.svg',
+        content  : 'View your login history',
     },
     {
         title    : 'API Token',
         component: ApiToken,
         path     : '/token',
         src      : 'images/settings/ic-api-token.svg',
+        content  : 'API token for third party applications',
     },
     {
         title    : 'Authorized Applications',
         component: AuthorizedApplications,
         path     : '/apps',
         src      : 'images/settings/ic-authorised-applications.svg',
+        content  : 'Manage your authorised applications',
     },
 ];
 

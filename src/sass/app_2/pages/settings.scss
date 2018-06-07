@@ -1,6 +1,7 @@
 .settings {
     display: flex;
     flex-direction: row;
+    flex: 1;
 
     &__sidebar {
         width: 347px;

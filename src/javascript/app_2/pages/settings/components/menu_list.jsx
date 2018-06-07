@@ -1,29 +1,16 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './menu_item.jsx';
 
-export default class MenuList extends Component {
-    render() {
-        const { sections, match } = this.props;
-        return (
-            <div>
-                {
-                    sections.map((section, i) => (
-                        <MenuItem key={i} src={section.src}>
-                            <NavLink
-                                to={match.url + section.path}
-                            >
-                                {section.title}
-                            </NavLink>
-                        </MenuItem>
-                    ))
-                }
-            </div>
-
-        );
-    }
-}
+const MenuList = ({sections, match}) => (
+    <div>
+        {
+            sections.map(({src, path, title, content}, i) => (
+                <MenuItem key={i} src={src} path={path} title={title} content={content} match={match}/>
+            ))
+        }
+    </div>
+);
 
 MenuList.propTypes = {
     match   : PropTypes.object,

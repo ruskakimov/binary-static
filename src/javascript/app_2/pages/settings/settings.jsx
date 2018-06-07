@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MenuList from './components/menu_list.jsx';
 
 const Settings = ({match, sections}) => (
-    <div className='settings container'>
+    <div className='settings'>
         <div className='settings__sidebar'>
             <MenuList sections={sections} match={match}/>
         </div>
