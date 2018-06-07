@@ -16,3 +16,5 @@ MenuList.propTypes = {
     match   : PropTypes.object,
     sections: PropTypes.array,
 };
+
+export default MenuList

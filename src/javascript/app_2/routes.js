@@ -105,11 +105,9 @@ const RouteWithSubRoutes = route => (
     />
 );
 
-export const BinaryRoutes = () => (
-    routes.map((route, idx) => (
-        <RouteWithSubRoutes key={idx} {...route} />
-    ))
-);
+export const BinaryRoutes = () => routes.map((route, idx) => (
+    <RouteWithSubRoutes key={idx} {...route} />
+));
 
 const normalizePath = (path) => /^\//.test(path) ? path : `/${path || ''}`; // Default to '/'
 
