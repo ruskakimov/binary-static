@@ -815,7 +815,7 @@ module.exports = {
 "use strict";
 
 
-var CurrencyBase = __webpack_require__(116);
+var CurrencyBase = __webpack_require__(117);
 var localize = __webpack_require__(2).localize;
 
 var getCurrencyList = function getCurrencyList(currencies) {
@@ -2181,7 +2181,7 @@ var Tick = __webpack_require__(61);
 var contractsElement = __webpack_require__(284);
 var marketsElement = __webpack_require__(287);
 var formatMoney = __webpack_require__(7).formatMoney;
-var ActiveSymbols = __webpack_require__(117);
+var ActiveSymbols = __webpack_require__(118);
 var elementInnerHtml = __webpack_require__(4).elementInnerHtml;
 var getElementById = __webpack_require__(4).getElementById;
 var localize = __webpack_require__(2).localize;
@@ -4249,7 +4249,7 @@ module.exports = SocketCache;
 "use strict";
 
 
-var showPopup = __webpack_require__(119);
+var showPopup = __webpack_require__(120);
 var elementInnerHtml = __webpack_require__(4).elementInnerHtml;
 var localize = __webpack_require__(2).localize;
 var urlFor = __webpack_require__(8).urlFor;
@@ -4852,7 +4852,7 @@ module.exports = MBContract;
 "use strict";
 
 
-var ActiveSymbols = __webpack_require__(117);
+var ActiveSymbols = __webpack_require__(118);
 
 /*
  * Symbols object parses the active_symbols json that we get from socket.send({active_symbols: 'brief'}
@@ -4916,7 +4916,7 @@ module.exports = Symbols;
 
 
 var moment = __webpack_require__(9);
-var isCryptocurrency = __webpack_require__(116).isCryptocurrency;
+var isCryptocurrency = __webpack_require__(117).isCryptocurrency;
 var SocketCache = __webpack_require__(74);
 var LocalStore = __webpack_require__(6).LocalStore;
 var State = __webpack_require__(6).State;
@@ -5440,10 +5440,10 @@ module.exports = DatePicker;
 "use strict";
 
 
-var showChart = __webpack_require__(96).showChart;
+var showChart = __webpack_require__(97).showChart;
 var Defaults = __webpack_require__(23);
 var getActiveTab = __webpack_require__(174).getActiveTab;
-var GetTicks = __webpack_require__(97);
+var GetTicks = __webpack_require__(98);
 var MBDefaults = __webpack_require__(36);
 var JapanPortfolio = __webpack_require__(171);
 var getElementById = __webpack_require__(4).getElementById;
@@ -5709,7 +5709,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 var moment = __webpack_require__(9);
 var ViewPopupUI = __webpack_require__(130);
 var Highchart = __webpack_require__(282);
-var Callputspread = __webpack_require__(123);
+var Callputspread = __webpack_require__(96);
 var Lookback = __webpack_require__(60);
 var TickDisplay = __webpack_require__(125);
 var isJPClient = __webpack_require__(3).isJPClient;
@@ -5966,10 +5966,10 @@ var ViewPopup = function () {
         Clock.showLocalTimeOnHover('#trade_details_live_date');
 
         var is_started = !contract.is_forward_starting || contract.current_spot_time > contract.date_start;
-        if (!is_started || contract.status !== 'open') {
+        var remained = contract.date_expiry - now;
+        if (!is_started || contract.status !== 'open' || remained < 0) {
             containerSetText('trade_details_live_remaining', '-');
         } else {
-            var remained = contract.date_expiry - now;
             var days = 0;
             var day_seconds = 24 * 60 * 60;
             if (remained > day_seconds) {
@@ -6076,6 +6076,7 @@ var ViewPopup = function () {
         'digit': 'digits',
         'upordown|range': 'staysinout',
         'touch': 'touchnotouch',
+        '(call|put)spread': 'callputspread',
         'call|put': function callPut() {
             return +contract.entry_tick === +contract.barrier ? 'risefall' : 'higherlower';
         }
@@ -6298,6 +6299,7 @@ var ViewPopup = function () {
     var showErrorPopup = function showErrorPopup(response, message) {
         showMessagePopup(localize(message || 'Sorry, an error occurred while processing your request.'), 'There was an error', 'notice-msg');
         // eslint-disable-next-line no-console
+        console.log(response);
     };
 
     var sellSetVisibility = function sellSetVisibility(show) {
@@ -7378,6 +7380,281 @@ module.exports = MBNotifications;
 "use strict";
 
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var formatMoney = __webpack_require__(7).formatMoney;
+
+var constants = {
+    slider: {
+        height: 14,
+        fill: '#e98024',
+        label: {
+            color: '#fff',
+            fontSize: '9px',
+            offsetY: 4,
+            offsetX: 6
+        }
+    },
+    interval: {
+        cap_width: 10,
+        stroke: '#2a3052',
+        strokeWidth: 2,
+        label: {
+            color: '#000',
+            fontSize: '12px',
+            offsetX: 2
+        },
+        top_label: {
+            offsetY: -4
+        },
+        bottom_label: {
+            offsetY: 13
+        }
+    },
+    barrier_series_name: 'barrier_points'
+};
+
+var Callputspread = function () {
+    var state = {
+        el_slider: null,
+        el_slider_label: null,
+        el_interval: null,
+        el_interval_top_label: null,
+        el_interval_bottom_laber: null,
+        chart: null,
+        contract: null
+    };
+
+    // Called on Highcharts 'redraw' event
+    var redrawHandler = function redrawHandler() {
+        redrawInterval();
+        redrawSlider();
+    };
+
+    /*
+        METHODS THAT DRAW ON CHART:
+    */
+
+    var redrawInterval = function redrawInterval() {
+        if (!state.chart || !state.contract) return;
+        if (state.el_interval) {
+            state.el_interval.destroy();
+        }
+
+        var _calcIntervalState = calcIntervalState(state.chart, state.contract, constants),
+            x = _calcIntervalState.x,
+            y0 = _calcIntervalState.y0,
+            y1 = _calcIntervalState.y1,
+            top_label = _calcIntervalState.top_label,
+            bottom_label = _calcIntervalState.bottom_label;
+
+        var _constants$interval = constants.interval,
+            cap_width = _constants$interval.cap_width,
+            stroke = _constants$interval.stroke,
+            strokeWidth = _constants$interval.strokeWidth;
+
+        state.el_interval = state.chart.renderer.path(getIntervalPath(x, y0, y1, cap_width)).attr({
+            stroke: stroke,
+            'stroke-width': strokeWidth
+        }).add();
+        if (state.el_interval_top_label) {
+            state.el_interval_top_label.destroy();
+        }
+        if (state.el_interval_bottom_laber) {
+            state.el_interval_bottom_laber.destroy();
+        }
+        var _constants$interval$l = constants.interval.label,
+            color = _constants$interval$l.color,
+            fontSize = _constants$interval$l.fontSize,
+            offsetX = _constants$interval$l.offsetX;
+
+        var label_styles = {
+            color: color,
+            fontSize: fontSize,
+            'z-index': -1
+        };
+        state.el_interval_top_label = state.chart.renderer.text(top_label, x + offsetX, y0 + constants.interval.top_label.offsetY, true).css(label_styles).add();
+        state.el_interval_bottom_laber = state.chart.renderer.text(bottom_label, x + offsetX, y1 + constants.interval.bottom_label.offsetY, true).css(label_styles).add();
+    };
+
+    var redrawSlider = function redrawSlider() {
+        if (!state.chart || !state.contract) return;
+        if (state.el_slider) {
+            state.el_slider.destroy();
+        }
+
+        var _calcSliderState = calcSliderState(state.chart, state.contract, constants),
+            x = _calcSliderState.x,
+            y = _calcSliderState.y,
+            width = _calcSliderState.width;
+
+        var _constants$slider = constants.slider,
+            height = _constants$slider.height,
+            fill = _constants$slider.fill;
+
+        state.el_slider = state.chart.renderer.path(getSliderPath(x, y, width, height)).attr({
+            fill: fill,
+            'stroke-width': 0
+        }).add();
+        if (state.el_slider_label) {
+            state.el_slider_label.destroy();
+        }
+        var _constants$slider$lab = constants.slider.label,
+            color = _constants$slider$lab.color,
+            fontSize = _constants$slider$lab.fontSize,
+            offsetX = _constants$slider$lab.offsetX,
+            offsetY = _constants$slider$lab.offsetY;
+
+        state.el_slider_label = state.chart.renderer.text(formatMoney(state.contract.currency, state.contract.bid_price), x + width / 2 + offsetX, y + offsetY, true).attr({ align: 'center' }).css({ color: color, fontSize: fontSize }).add();
+    };
+
+    /*
+        Calc Functions (no side effects!):
+    */
+
+    var calcMarginRight = function calcMarginRight(contract) {
+        var formatted_max_payout = formatMoney(contract.currency, contract.payout, true);
+        // margin size is based on max payout char length
+        return 15 + 7.5 * formatted_max_payout.length;
+    };
+
+    var calcSliderState = function calcSliderState(chart, contract) {
+        var plot_end_x = chart.plotWidth + chart.plotLeft;
+        var x_offset = (constants.interval.cap_width + constants.interval.strokeWidth) / 2;
+
+        var _chart$series$find$da = chart.series.find(function (series) {
+            return series.name === constants.barrier_series_name;
+        }).data.map(function (point) {
+            return point.plotY + chart.plotTop;
+        }),
+            _chart$series$find$da2 = _slicedToArray(_chart$series$find$da, 2),
+            high_barrier_y = _chart$series$find$da2[0],
+            low_barrier_y = _chart$series$find$da2[1];
+
+        var contract_type = contract.contract_type,
+            payout = contract.payout,
+            bid_price = contract.bid_price;
+
+        var k = contract_type === 'CALLSPREAD' ? 1 - bid_price / payout : bid_price / payout;
+        return {
+            x: plot_end_x + x_offset,
+            y: high_barrier_y + (low_barrier_y - high_barrier_y) * k,
+            width: calcMarginRight(contract) - 17
+        };
+    };
+
+    var calcIntervalState = function calcIntervalState(chart, contract) {
+        var plot_end_x = chart.plotWidth + chart.plotLeft;
+
+        var _chart$series$find$da3 = chart.series.find(function (series) {
+            return series.name === constants.barrier_series_name;
+        }).data.map(function (point) {
+            return point.plotY + chart.plotTop;
+        }),
+            _chart$series$find$da4 = _slicedToArray(_chart$series$find$da3, 2),
+            high_barrier_y = _chart$series$find$da4[0],
+            low_barrier_y = _chart$series$find$da4[1];
+
+        var _map = [contract.payout, 0].map(function (payout) {
+            return formatMoney(contract.currency, payout);
+        }),
+            _map2 = _slicedToArray(_map, 2),
+            display_maximum_payout = _map2[0],
+            display_minimum_payout = _map2[1];
+
+        var _ref = contract.contract_type === 'CALLSPREAD' ? [display_maximum_payout, display_minimum_payout] : [display_minimum_payout, display_maximum_payout],
+            _ref2 = _slicedToArray(_ref, 2),
+            top_label = _ref2[0],
+            bottom_label = _ref2[1];
+
+        return {
+            x: plot_end_x,
+            y0: high_barrier_y,
+            y1: low_barrier_y,
+            top_label: top_label,
+            bottom_label: bottom_label
+        };
+    };
+
+    /*
+        PUBLIC API:
+    */
+
+    var init = function init(chart, contract) {
+        // Adds invisible points with barrier coordinates,
+        // so barriers are always visible on the chart
+        var x0 = chart.series[0].data[0].x;
+        var high_barrier = contract.high_barrier,
+            low_barrier = contract.low_barrier;
+
+        chart.addSeries({
+            name: constants.barrier_series_name,
+            type: 'scatter',
+            marker: { enabled: false },
+            data: [{
+                y: +high_barrier,
+                x: x0
+            }, {
+                y: +low_barrier,
+                x: x0
+            }]
+        });
+        updateState(chart, contract);
+    };
+
+    var isCallputspread = function isCallputspread(contract_type) {
+        return (/^(CALLSPREAD|PUTSPREAD)$/i.test(contract_type)
+        );
+    };
+
+    var getChartOptions = function getChartOptions(contract) {
+        return {
+            marginRight: calcMarginRight(contract),
+            redrawHandler: redrawHandler
+        };
+    };
+
+    var updateState = function updateState(chart, contract) {
+        var should_redraw_slider = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        state.chart = chart || state.chart;
+        state.contract = contract || state.contract;
+        // slider with indicative price lags behind sidebar value
+        // if only drawn on 'redraw' chart event
+        if (should_redraw_slider) redrawSlider();
+    };
+
+    return {
+        init: init,
+        isCallputspread: isCallputspread,
+        getChartOptions: getChartOptions,
+        updateState: updateState
+    };
+}();
+
+/*
+    HELPER FUNCTIONS THAT RETURN SVG PATH:
+*/
+
+var getSliderPath = function getSliderPath(x, y, width, height) {
+    var half = height / 2;
+    return ['M', x, y, 'l', half, -half, 'h', width, 'v', height, 'h', -width, 'z'];
+};
+
+var getIntervalPath = function getIntervalPath(x, y0, y1, cap_width) {
+    var half_cap = cap_width / 2;
+    return ['M', x, y0, 'h', cap_width, 'm', -half_cap, 0, 'v', y1 - y0, 'm', -half_cap, 0, 'h', cap_width];
+};
+
+module.exports = Callputspread;
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var getAllSymbols = __webpack_require__(78).getAllSymbols;
 var MBDefaults = __webpack_require__(36);
 var isJPClient = __webpack_require__(3).isJPClient;
@@ -7495,13 +7772,13 @@ var WebtraderChart = function () {
 module.exports = WebtraderChart;
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Barriers = __webpack_require__(122);
+var Barriers = __webpack_require__(123);
 var updateWarmChart = __webpack_require__(31).updateWarmChart;
 var DigitInfo = __webpack_require__(281);
 var Defaults = __webpack_require__(23);
@@ -7510,7 +7787,7 @@ var Purchase = __webpack_require__(177);
 var Tick = __webpack_require__(61);
 var TickDisplay = __webpack_require__(125);
 var MBDefaults = __webpack_require__(36);
-var MBTick = __webpack_require__(121);
+var MBTick = __webpack_require__(122);
 var BinarySocket = __webpack_require__(5);
 var State = __webpack_require__(6).State;
 
@@ -7603,7 +7880,7 @@ var GetTicks = function () {
 module.exports = GetTicks;
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7990,7 +8267,6 @@ var Price = function () {
 module.exports = Price;
 
 /***/ }),
-/* 99 */,
 /* 100 */,
 /* 101 */,
 /* 102 */,
@@ -8007,7 +8283,8 @@ module.exports = Price;
 /* 113 */,
 /* 114 */,
 /* 115 */,
-/* 116 */
+/* 116 */,
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8131,7 +8408,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8298,7 +8575,7 @@ var ActiveSymbols = function () {
 module.exports = ActiveSymbols;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8373,7 +8650,7 @@ var FlexTableUI = function () {
 module.exports = FlexTableUI;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8436,7 +8713,7 @@ var callback = function callback(options) {
 module.exports = showPopup;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8446,7 +8723,7 @@ var MBContract = __webpack_require__(77);
 var MBDefaults = __webpack_require__(36);
 var MBNotifications = __webpack_require__(95);
 var TradingAnalysis = __webpack_require__(86);
-var redrawChart = __webpack_require__(96).redrawChart;
+var redrawChart = __webpack_require__(97).redrawChart;
 var ViewPopup = __webpack_require__(87);
 var Client = __webpack_require__(3);
 var BinarySocket = __webpack_require__(5);
@@ -8795,7 +9072,7 @@ var MBPrice = function () {
 module.exports = MBPrice;
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8918,7 +9195,7 @@ var MBTick = function () {
 module.exports = MBTick;
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9120,281 +9397,6 @@ var Barriers = function () {
 module.exports = Barriers;
 
 /***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var formatMoney = __webpack_require__(7).formatMoney;
-
-var constants = {
-    slider: {
-        height: 14,
-        fill: '#e98024',
-        label: {
-            color: '#fff',
-            fontSize: '9px',
-            offsetY: 4,
-            offsetX: 6
-        }
-    },
-    interval: {
-        cap_width: 10,
-        stroke: '#2a3052',
-        strokeWidth: 2,
-        label: {
-            color: '#000',
-            fontSize: '12px',
-            offsetX: 2
-        },
-        top_label: {
-            offsetY: -4
-        },
-        bottom_label: {
-            offsetY: 13
-        }
-    },
-    barrier_series_name: 'barrier_points'
-};
-
-var Callputspread = function () {
-    var state = {
-        el_slider: null,
-        el_slider_label: null,
-        el_interval: null,
-        el_interval_top_label: null,
-        el_interval_bottom_laber: null,
-        chart: null,
-        contract: null
-    };
-
-    // Called on Highcharts 'redraw' event
-    var redrawHandler = function redrawHandler() {
-        redrawInterval();
-        redrawSlider();
-    };
-
-    /*
-        METHODS THAT DRAW ON CHART:
-    */
-
-    var redrawInterval = function redrawInterval() {
-        if (!state.chart || !state.contract) return;
-        if (state.el_interval) {
-            state.el_interval.destroy();
-        }
-
-        var _calcIntervalState = calcIntervalState(state.chart, state.contract, constants),
-            x = _calcIntervalState.x,
-            y0 = _calcIntervalState.y0,
-            y1 = _calcIntervalState.y1,
-            top_label = _calcIntervalState.top_label,
-            bottom_label = _calcIntervalState.bottom_label;
-
-        var _constants$interval = constants.interval,
-            cap_width = _constants$interval.cap_width,
-            stroke = _constants$interval.stroke,
-            strokeWidth = _constants$interval.strokeWidth;
-
-        state.el_interval = state.chart.renderer.path(getIntervalPath(x, y0, y1, cap_width)).attr({
-            stroke: stroke,
-            'stroke-width': strokeWidth
-        }).add();
-        if (state.el_interval_top_label) {
-            state.el_interval_top_label.destroy();
-        }
-        if (state.el_interval_bottom_laber) {
-            state.el_interval_bottom_laber.destroy();
-        }
-        var _constants$interval$l = constants.interval.label,
-            color = _constants$interval$l.color,
-            fontSize = _constants$interval$l.fontSize,
-            offsetX = _constants$interval$l.offsetX;
-
-        var label_styles = {
-            color: color,
-            fontSize: fontSize,
-            'z-index': -1
-        };
-        state.el_interval_top_label = state.chart.renderer.text(top_label, x + offsetX, y0 + constants.interval.top_label.offsetY, true).css(label_styles).add();
-        state.el_interval_bottom_laber = state.chart.renderer.text(bottom_label, x + offsetX, y1 + constants.interval.bottom_label.offsetY, true).css(label_styles).add();
-    };
-
-    var redrawSlider = function redrawSlider() {
-        if (!state.chart || !state.contract) return;
-        if (state.el_slider) {
-            state.el_slider.destroy();
-        }
-
-        var _calcSliderState = calcSliderState(state.chart, state.contract, constants),
-            x = _calcSliderState.x,
-            y = _calcSliderState.y,
-            width = _calcSliderState.width;
-
-        var _constants$slider = constants.slider,
-            height = _constants$slider.height,
-            fill = _constants$slider.fill;
-
-        state.el_slider = state.chart.renderer.path(getSliderPath(x, y, width, height)).attr({
-            fill: fill,
-            'stroke-width': 0
-        }).add();
-        if (state.el_slider_label) {
-            state.el_slider_label.destroy();
-        }
-        var _constants$slider$lab = constants.slider.label,
-            color = _constants$slider$lab.color,
-            fontSize = _constants$slider$lab.fontSize,
-            offsetX = _constants$slider$lab.offsetX,
-            offsetY = _constants$slider$lab.offsetY;
-
-        state.el_slider_label = state.chart.renderer.text(formatMoney(state.contract.currency, state.contract.bid_price), x + width / 2 + offsetX, y + offsetY, true).attr({ align: 'center' }).css({ color: color, fontSize: fontSize }).add();
-    };
-
-    /*
-        Calc Functions (no side effects!):
-    */
-
-    var calcMarginRight = function calcMarginRight(contract) {
-        var formatted_max_payout = formatMoney(contract.currency, contract.payout, true);
-        // margin size is based on max payout char length
-        return 15 + 7.5 * formatted_max_payout.length;
-    };
-
-    var calcSliderState = function calcSliderState(chart, contract) {
-        var plot_end_x = chart.plotWidth + chart.plotLeft;
-        var x_offset = (constants.interval.cap_width + constants.interval.strokeWidth) / 2;
-
-        var _chart$series$find$da = chart.series.find(function (series) {
-            return series.name === constants.barrier_series_name;
-        }).data.map(function (point) {
-            return point.plotY + chart.plotTop;
-        }),
-            _chart$series$find$da2 = _slicedToArray(_chart$series$find$da, 2),
-            high_barrier_y = _chart$series$find$da2[0],
-            low_barrier_y = _chart$series$find$da2[1];
-
-        var contract_type = contract.contract_type,
-            payout = contract.payout,
-            bid_price = contract.bid_price;
-
-        var k = contract_type === 'CALLSPREAD' ? 1 - bid_price / payout : bid_price / payout;
-        return {
-            x: plot_end_x + x_offset,
-            y: high_barrier_y + (low_barrier_y - high_barrier_y) * k,
-            width: calcMarginRight(contract) - 17
-        };
-    };
-
-    var calcIntervalState = function calcIntervalState(chart, contract) {
-        var plot_end_x = chart.plotWidth + chart.plotLeft;
-
-        var _chart$series$find$da3 = chart.series.find(function (series) {
-            return series.name === constants.barrier_series_name;
-        }).data.map(function (point) {
-            return point.plotY + chart.plotTop;
-        }),
-            _chart$series$find$da4 = _slicedToArray(_chart$series$find$da3, 2),
-            high_barrier_y = _chart$series$find$da4[0],
-            low_barrier_y = _chart$series$find$da4[1];
-
-        var _map = [contract.payout, 0].map(function (payout) {
-            return formatMoney(contract.currency, payout);
-        }),
-            _map2 = _slicedToArray(_map, 2),
-            display_maximum_payout = _map2[0],
-            display_minimum_payout = _map2[1];
-
-        var _ref = contract.contract_type === 'CALLSPREAD' ? [display_maximum_payout, display_minimum_payout] : [display_minimum_payout, display_maximum_payout],
-            _ref2 = _slicedToArray(_ref, 2),
-            top_label = _ref2[0],
-            bottom_label = _ref2[1];
-
-        return {
-            x: plot_end_x,
-            y0: high_barrier_y,
-            y1: low_barrier_y,
-            top_label: top_label,
-            bottom_label: bottom_label
-        };
-    };
-
-    /*
-        PUBLIC API:
-    */
-
-    var init = function init(chart, contract) {
-        // Adds invisible points with barrier coordinates,
-        // so barriers are always visible on the chart
-        var x0 = chart.series[0].data[0].x;
-        var high_barrier = contract.high_barrier,
-            low_barrier = contract.low_barrier;
-
-        chart.addSeries({
-            name: constants.barrier_series_name,
-            type: 'scatter',
-            marker: { enabled: false },
-            data: [{
-                y: +high_barrier,
-                x: x0
-            }, {
-                y: +low_barrier,
-                x: x0
-            }]
-        });
-        updateState(chart, contract);
-    };
-
-    var isCallputspread = function isCallputspread(contract_type) {
-        return (/^(CALLSPREAD|PUTSPREAD)$/i.test(contract_type)
-        );
-    };
-
-    var getChartOptions = function getChartOptions(contract) {
-        return {
-            marginRight: calcMarginRight(contract),
-            redrawHandler: redrawHandler
-        };
-    };
-
-    var updateState = function updateState(chart, contract) {
-        var should_redraw_slider = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-        state.chart = chart || state.chart;
-        state.contract = contract || state.contract;
-        // slider with indicative price lags behind sidebar value
-        // if only drawn on 'redraw' chart event
-        if (should_redraw_slider) redrawSlider();
-    };
-
-    return {
-        init: init,
-        isCallputspread: isCallputspread,
-        getChartOptions: getChartOptions,
-        updateState: updateState
-    };
-}();
-
-/*
-    HELPER FUNCTIONS THAT RETURN SVG PATH:
-*/
-
-var getSliderPath = function getSliderPath(x, y, width, height) {
-    var half = height / 2;
-    return ['M', x, y, 'l', half, -half, 'h', width, 'v', height, 'h', -width, 'z'];
-};
-
-var getIntervalPath = function getIntervalPath(x, y0, y1, cap_width) {
-    var half_cap = cap_width / 2;
-    return ['M', x, y0, 'h', cap_width, 'm', -half_cap, 0, 'v', y1 - y0, 'm', -half_cap, 0, 'h', cap_width];
-};
-
-module.exports = Callputspread;
-
-/***/ }),
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9403,12 +9405,12 @@ module.exports = Callputspread;
 
 var Dropdown = __webpack_require__(25).selectDropdown;
 var moment = __webpack_require__(9);
-var Barriers = __webpack_require__(122);
+var Barriers = __webpack_require__(123);
 var commonTrading = __webpack_require__(31);
 var commonIndependent = __webpack_require__(47);
 var Contract = __webpack_require__(59);
 var Defaults = __webpack_require__(23);
-var Price = __webpack_require__(98);
+var Price = __webpack_require__(99);
 var BinarySocket = __webpack_require__(5);
 var DatePicker = __webpack_require__(85);
 var CommonFunctions = __webpack_require__(4);
@@ -10075,7 +10077,7 @@ var Tick = __webpack_require__(61);
 var updatePurchaseStatus = __webpack_require__(126).updatePurchaseStatus;
 var ViewPopupUI = __webpack_require__(130);
 var BinarySocket = __webpack_require__(5);
-var addComma = __webpack_require__(116).addComma;
+var addComma = __webpack_require__(117).addComma;
 var CommonFunctions = __webpack_require__(4);
 var localize = __webpack_require__(2).localize;
 
@@ -12153,9 +12155,9 @@ module.exports = JapanPortfolio;
 var MBContract = __webpack_require__(77);
 var MBDefaults = __webpack_require__(36);
 var MBNotifications = __webpack_require__(95);
-var MBPrice = __webpack_require__(120);
+var MBPrice = __webpack_require__(121);
 var MBSymbols = __webpack_require__(173);
-var MBTick = __webpack_require__(121);
+var MBTick = __webpack_require__(122);
 var commonTrading = __webpack_require__(31);
 var BinaryPjax = __webpack_require__(12);
 var Client = __webpack_require__(3);
@@ -12541,7 +12543,7 @@ module.exports = MBProcess;
 "use strict";
 
 
-var ActiveSymbols = __webpack_require__(117);
+var ActiveSymbols = __webpack_require__(118);
 
 /*
  * MBSymbols object parses the active_symbols json that we get from socket.send({active_symbols: 'brief'}
@@ -12721,10 +12723,10 @@ var commonTrading = __webpack_require__(31);
 var Contract = __webpack_require__(59);
 var Defaults = __webpack_require__(23);
 var Durations = __webpack_require__(124);
-var GetTicks = __webpack_require__(97);
+var GetTicks = __webpack_require__(98);
 var Lookback = __webpack_require__(60);
 var Notifications = __webpack_require__(175);
-var Price = __webpack_require__(98);
+var Price = __webpack_require__(99);
 var StartDates = __webpack_require__(288).StartDates;
 var Symbols = __webpack_require__(78);
 var Tick = __webpack_require__(61);
@@ -13061,7 +13063,7 @@ module.exports = Process;
 var Contract = __webpack_require__(59);
 var getLookBackFormula = __webpack_require__(60).getFormula;
 var isLookback = __webpack_require__(60).isLookback;
-var isCallputspread = __webpack_require__(123).isCallputspread;
+var isCallputspread = __webpack_require__(96).isCallputspread;
 var Symbols = __webpack_require__(78);
 var Tick = __webpack_require__(61);
 var TickDisplay = __webpack_require__(125);
@@ -20782,7 +20784,7 @@ var Footer = __webpack_require__(253);
 var Header = __webpack_require__(27);
 var BinarySocket = __webpack_require__(5);
 var Dialog = __webpack_require__(75);
-var showPopup = __webpack_require__(119);
+var showPopup = __webpack_require__(120);
 var setCurrencies = __webpack_require__(7).setCurrencies;
 var SessionDurationLimit = __webpack_require__(263);
 var updateBalance = __webpack_require__(328);
@@ -22135,7 +22137,7 @@ var setShouldRedirect = __webpack_require__(178).setShouldRedirect;
 var BinaryPjax = __webpack_require__(12);
 var Client = __webpack_require__(3);
 var BinarySocket = __webpack_require__(5);
-var showPopup = __webpack_require__(119);
+var showPopup = __webpack_require__(120);
 var Currency = __webpack_require__(7);
 var FormManager = __webpack_require__(21);
 var validEmailToken = __webpack_require__(57).validEmailToken;
@@ -22780,9 +22782,9 @@ module.exports = MBDisplayCurrencies;
 var MBContract = __webpack_require__(77);
 var MBDefaults = __webpack_require__(36);
 var MBNotifications = __webpack_require__(95);
-var MBPrice = __webpack_require__(120);
+var MBPrice = __webpack_require__(121);
 var MBProcess = __webpack_require__(172);
-var MBTick = __webpack_require__(121);
+var MBTick = __webpack_require__(122);
 var MBSymbols = __webpack_require__(173);
 var TradingAnalysis = __webpack_require__(86);
 var debounce = __webpack_require__(31).debounce;
@@ -23081,9 +23083,9 @@ var MBContract = __webpack_require__(77);
 var MBDisplayCurrencies = __webpack_require__(273);
 var MBDefaults = __webpack_require__(36);
 var MBTradingEvents = __webpack_require__(274);
-var MBPrice = __webpack_require__(120);
+var MBPrice = __webpack_require__(121);
 var MBProcess = __webpack_require__(172);
-var cleanupChart = __webpack_require__(96).cleanupChart;
+var cleanupChart = __webpack_require__(97).cleanupChart;
 var BinaryPjax = __webpack_require__(12);
 var Client = __webpack_require__(3);
 var BinarySocket = __webpack_require__(5);
@@ -23996,9 +23998,9 @@ var HighchartUI = __webpack_require__(283);
 var getHighstock = __webpack_require__(31).requireHighstock;
 var MBContract = __webpack_require__(77);
 var MBDefaults = __webpack_require__(36);
-var Callputspread = __webpack_require__(123);
+var Callputspread = __webpack_require__(96);
 var Defaults = __webpack_require__(23);
-var GetTicks = __webpack_require__(97);
+var GetTicks = __webpack_require__(98);
 var Lookback = __webpack_require__(60);
 var ViewPopupUI = __webpack_require__(130);
 var isJPClient = __webpack_require__(3).isJPClient;
@@ -24125,7 +24127,7 @@ var Highchart = function () {
         }
 
         var is_jp_client = isJPClient();
-        HighchartUI.setLabels(is_chart_delayed);
+        HighchartUI.setLabels(is_chart_delayed, contract.contract_type);
 
         var chart_options = {
             is_jp_client: is_jp_client,
@@ -24662,6 +24664,7 @@ module.exports = Highchart;
 
 var addComma = __webpack_require__(7).addComma;
 var localize = __webpack_require__(2).localize;
+var isCallputspread = __webpack_require__(96).isCallputspread;
 
 var HighchartUI = function () {
     var common_time_style = void 0,
@@ -24689,14 +24692,16 @@ var HighchartUI = function () {
                 return '<div style="' + common_time_style + ' border-style: dashed;"></div> ' + localize('End time') + ' ';
             case 'delay':
                 return '<span class="chart-delay"> ' + localize('Charting for this underlying is delayed') + ' </span>';
+            case 'payout_range':
+                return '<span class="chart-payout-range"> ' + localize('Payout range') + ' </span>';
             default:
                 return null;
         }
     };
 
-    var setLabels = function setLabels(chart_delayed) {
+    var setLabels = function setLabels(chart_delayed, contract_type) {
         // display a guide for clients to know how we are marking entry and exit spots
-        txt = (chart_delayed ? getLabels('delay') : '') + getLabels('start_time') + (history ? getLabels('entry_spot') + getLabels('exit_spot') : '') + getLabels('end_time');
+        txt = (chart_delayed ? getLabels('delay') : '') + getLabels('start_time') + (history ? getLabels('entry_spot') + getLabels('exit_spot') : '') + getLabels('end_time') + (isCallputspread(contract_type) ? getLabels('payout_range') : '');
     };
 
     var setChartOptions = function setChartOptions(params) {
@@ -24867,7 +24872,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(115);
+var _react = __webpack_require__(116);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -25184,14 +25189,14 @@ module.exports = displayCurrencies;
 
 var moment = __webpack_require__(9);
 var TradingAnalysis = __webpack_require__(86);
-var Barriers = __webpack_require__(122);
+var Barriers = __webpack_require__(123);
 var CommonTrading = __webpack_require__(31);
 var CommonIndependent = __webpack_require__(47);
 var Defaults = __webpack_require__(23);
 var Durations = __webpack_require__(124);
-var GetTicks = __webpack_require__(97);
+var GetTicks = __webpack_require__(98);
 var Notifications = __webpack_require__(175);
-var Price = __webpack_require__(98);
+var Price = __webpack_require__(99);
 var Process = __webpack_require__(176);
 var Purchase = __webpack_require__(177);
 var Tick = __webpack_require__(61);
@@ -25614,7 +25619,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 // Should be remove in the future
 
 
-var _react = __webpack_require__(115);
+var _react = __webpack_require__(116);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -26353,11 +26358,11 @@ module.exports = {
 var Dropdown = __webpack_require__(25).selectDropdown;
 var TradingAnalysis = __webpack_require__(86);
 var commonTrading = __webpack_require__(31);
-var cleanupChart = __webpack_require__(96).cleanupChart;
+var cleanupChart = __webpack_require__(97).cleanupChart;
 var displayCurrencies = __webpack_require__(285);
 var Defaults = __webpack_require__(23);
 var TradingEvents = __webpack_require__(286);
-var Price = __webpack_require__(98);
+var Price = __webpack_require__(99);
 var Process = __webpack_require__(176);
 var ViewPopup = __webpack_require__(87);
 var BinaryPjax = __webpack_require__(12);
@@ -27517,7 +27522,7 @@ var isJPClient = __webpack_require__(3).isJPClient;
 var showLocalTimeOnHover = __webpack_require__(26).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(5);
 var Dialog = __webpack_require__(75);
-var FlexTableUI = __webpack_require__(118);
+var FlexTableUI = __webpack_require__(119);
 var FormManager = __webpack_require__(21);
 var localize = __webpack_require__(2).localize;
 var toTitleCase = __webpack_require__(17).toTitleCase;
@@ -27684,7 +27689,7 @@ var Client = __webpack_require__(3);
 var showLocalTimeOnHover = __webpack_require__(26).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(5);
 var Dialog = __webpack_require__(75);
-var FlexTableUI = __webpack_require__(118);
+var FlexTableUI = __webpack_require__(119);
 var elementTextContent = __webpack_require__(4).elementTextContent;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
@@ -28111,7 +28116,7 @@ module.exports = IPHistory;
 
 var moment = __webpack_require__(9);
 var showLocalTimeOnHover = __webpack_require__(26).showLocalTimeOnHover;
-var FlexTableUI = __webpack_require__(118);
+var FlexTableUI = __webpack_require__(119);
 var localize = __webpack_require__(2).localize;
 
 var IPHistoryUI = function () {
