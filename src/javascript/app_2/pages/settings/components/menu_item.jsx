@@ -10,7 +10,7 @@ const MenuItem = ({
     title,
     content,
 }) => (
-    <NavLink className='menuitem' to={match.url + path}>
+    <NavLink className='menuitem' to={match.url + path} activeClassName='menuitem__active'>
         <div className='menuitem__img_container'>
             <img className='logo-img' src={Url.urlForStatic(src)} alt='Binary.com' />
         </div>

@@ -6,10 +6,11 @@
     width: 100%;
     cursor: 'pointer';
     text-decoration: none;
+    color: $COLOR_BLACK;
 
-    &:active {
+    &__active {
         background-color: $COLOR_BACKGROUND_ACTIVE_ITEM;
-        box-shadow: inset -4px 0 0 0 $COLOR_SHADOW_ACTIVE_ITEM;
+        box-shadow: inset -4px 0 0 0 $COLOR_GRAY;
     }
     &__img_container {
         width: 32px;
@@ -23,10 +24,22 @@
     &__menu_name {
         font-size: 12px;
         height: 18px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: $COLOR_LETTER_GRAY;
     }
     &__menu_content {
         font-size: 10px;
         height: 15px;
-        color: #333333; // stylelint-disable color-no-hex
+        opacity: 0.5;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: $COLOR_LETTER_GRAY;
     }
 }
