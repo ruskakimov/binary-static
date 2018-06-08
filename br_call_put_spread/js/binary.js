@@ -5852,7 +5852,7 @@ var ViewPopup = function () {
         var is_sold_before_start = contract.sell_time && contract.sell_time < contract.date_start;
 
         if (Callputspread.isCallputspread(contract.contract_type)) {
-            Callputspread.updateState(null, contract, true);
+            Callputspread.update(null, contract);
         }
 
         if (contract.barrier_count > 1) {
@@ -7425,12 +7425,6 @@ var Callputspread = function () {
         contract: null
     };
 
-    // Called on Highcharts 'redraw' event
-    var redrawHandler = function redrawHandler() {
-        redrawInterval();
-        redrawSlider();
-    };
-
     /*
         METHODS THAT DRAW ON CHART:
     */
@@ -7441,7 +7435,7 @@ var Callputspread = function () {
             state.el_interval.destroy();
         }
 
-        var _calcIntervalState = calcIntervalState(state.chart, state.contract, constants),
+        var _calcIntervalState = calcIntervalState(state.chart, state.contract),
             x = _calcIntervalState.x,
             y0 = _calcIntervalState.y0,
             y1 = _calcIntervalState.y1,
@@ -7483,7 +7477,7 @@ var Callputspread = function () {
             state.el_slider.destroy();
         }
 
-        var _calcSliderState = calcSliderState(state.chart, state.contract, constants),
+        var _calcSliderState = calcSliderState(state.chart, state.contract),
             x = _calcSliderState.x,
             y = _calcSliderState.y,
             width = _calcSliderState.width;
@@ -7583,7 +7577,7 @@ var Callputspread = function () {
     var init = function init(chart, contract) {
         // Adds invisible points with barrier coordinates,
         // so barriers are always visible on the chart
-        var x0 = chart.series[0].data[0].x;
+        var x0 = (chart.series[0].data[0] || chart.series[1].data[0]).x;
         var high_barrier = contract.high_barrier,
             low_barrier = contract.low_barrier;
 
@@ -7599,7 +7593,7 @@ var Callputspread = function () {
                 x: x0
             }]
         });
-        updateState(chart, contract);
+        update(chart, contract);
     };
 
     var isCallputspread = function isCallputspread(contract_type) {
@@ -7610,25 +7604,24 @@ var Callputspread = function () {
     var getChartOptions = function getChartOptions(contract) {
         return {
             marginRight: calcMarginRight(contract),
-            redrawHandler: redrawHandler
+            redrawHandler: function redrawHandler() {
+                return update();
+            }
         };
     };
 
-    var updateState = function updateState(chart, contract) {
-        var should_redraw_slider = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
+    var update = function update(chart, contract) {
         state.chart = chart || state.chart;
         state.contract = contract || state.contract;
-        // slider with indicative price lags behind sidebar value
-        // if only drawn on 'redraw' chart event
-        if (should_redraw_slider) redrawSlider();
+        redrawInterval();
+        redrawSlider();
     };
 
     return {
         init: init,
         isCallputspread: isCallputspread,
         getChartOptions: getChartOptions,
-        updateState: updateState
+        update: update
     };
 }();
 
