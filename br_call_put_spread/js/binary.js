@@ -7577,7 +7577,7 @@ var Callputspread = function () {
     var init = function init(chart, contract) {
         // Adds invisible points with barrier coordinates,
         // so barriers are always visible on the chart
-        var x0 = (chart.series[0].data[0] || chart.series[1].data[0]).x;
+        var x0 = contract.date_start * 1000;
         var high_barrier = contract.high_barrier,
             low_barrier = contract.low_barrier;
 
@@ -24655,9 +24655,9 @@ module.exports = Highchart;
 "use strict";
 
 
+var isCallputspread = __webpack_require__(96).isCallputspread;
 var addComma = __webpack_require__(7).addComma;
 var localize = __webpack_require__(2).localize;
-var isCallputspread = __webpack_require__(96).isCallputspread;
 
 var HighchartUI = function () {
     var common_time_style = void 0,
