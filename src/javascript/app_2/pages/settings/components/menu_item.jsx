@@ -3,8 +3,8 @@ import PropTypes   from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import Url         from '../../../../_common/url';
 
-const MenuItem = ({ section, match }) => {
-    const { src, path, title, content, index } = section;
+const MenuItem = ({ section, match, index, data }) => {
+    const { src, path, title, content } = section;
 
     function renderMenuItemHeader()  {
         if (index===0) {

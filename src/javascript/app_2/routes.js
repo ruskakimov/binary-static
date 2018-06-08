@@ -21,85 +21,63 @@ import LoginHistory           from './pages/settings/sections/LoginHistory.jsx';
 import PersonalDetails        from './pages/settings/sections/PersonalDetails.jsx';
 import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
 
-const sections = [
-    {
-        index    : 0,
-        title    : 'Personal Details',
-        component: PersonalDetails,
-        path     : '/personal', // To-do: Redirect to personal Details
-        src      : 'images/settings/ic-personal-details.svg',
-        content  : 'View your personal information.',
-    },
-    {
-        index    : 1,
-        title    : 'Financial Assessment',
-        component: FinancialAssessment,
-        path     : '/financial',
-        src      : 'images/settings/ic-financial-assesment.svg',
-        content  : 'View your financial assessment settings',
-    },
-    {
-        index    : 2,
-        title    : 'Account Password',
-        component: AccountPassword,
-        path     : '/account_password',
-        src      : 'images/settings/ic-account-password.svg',
-        content  : 'Change your main login password.',
-    },
-    {
-        index    : 3,
-        title    : 'Cashier Password',
-        component: CashierPassword,
-        path     : '/cashier_password',
-        src      : 'images/settings/ic-personal-details.svg',
-        content  : 'Change the password used for deposits and withdrawals',
-    },
-    {
-        index    : 4,
-        title    : 'Self Exclusion',
-        component: SelfExclusion,
-        path     : '/exclusion',
-        src      : 'images/settings/ic-self-exclusion.svg',
-        content  : 'Facility that allows you to set limits on your account.',
-    },
-    {
-        index    : 5,
-        title    : 'Limits',
-        component: Limits,
-        path     : '/limits',
-        src      : 'images/settings/ic-limits.svg',
-        content  : 'View your trading and withdrawal limits',
-    },
-    {
-        index    : 6,
-        title    : 'Login History',
-        component: LoginHistory,
-        path     : '/history',
-        src      : 'images/settings/ic-login-history.svg',
-        content  : 'View your login history',
-    },
-    {
-        index    : 7,
-        title    : 'API Token',
-        component: ApiToken,
-        path     : '/token',
-        src      : 'images/settings/ic-api-token.svg',
-        content  : 'API token for third party applications',
-    },
-    {
-        index    : 8,
-        title    : 'Authorized Applications',
-        component: AuthorizedApplications,
-        path     : '/apps',
-        src      : 'images/settings/ic-authorised-applications.svg',
-        content  : 'Manage your authorised applications',
-    },
-];
+import { settings_menu }      from './pages/settings/settings_menu_data';
+
+// To-do: Need to define all the routes in this path to get access from other
+//        pages (i.e. it's not accessible to redirect to /settings/apps page.)
+
+function returnComponent(index) {
+    if (index === -1) {
+        return <Settings data={settings_menu}/>;
+    }
+    return <AccountPassword data={settings_menu[index]}/>;
+}
+
+Settings.displayName = 'Settings';
 
 const routes = [
-    { path: '/',          component: TradeApp, exact: true },
-    { path: '/statement', component: Statement, is_authenticated: true },
-    { path: '/settings',  component: Settings, sections },
+    {
+        path     : '/',
+        component: TradeApp,
+        exact    : true,
+    }, {
+        path            : '/statement',
+        component       : Statement,
+        is_authenticated: true,
+    }, {
+        path     : '/settings',
+        component: Settings,
+        routes   : [
+            {
+                render: () => returnComponent(0),
+                path  : '/personal', // To-do: Redirect to personal Details as a default
+            }, {
+                render: () => returnComponent(1),
+                path  : '/financial',
+            }, {
+                render: () => returnComponent(2),
+                path  : '/account_password',
+            }, {
+                render: () => returnComponent(3),
+                path  : '/cashier_password',
+            }, {
+                render: () => returnComponent(4),
+                path  : '/exclusion',
+            }, {
+                render: () => returnComponent(5),
+                path  : '/limits',
+            }, {
+                render: () => returnComponent(6),
+                path  : '/history',
+            }, {
+                render: () => returnComponent(7),
+                path  : '/token',
+            }, {
+                render: () => returnComponent(8),
+                path  : '/apps',
+            },
+        ],
+    },
 ];
 
 const RouteWithSubRoutes = route => (
@@ -109,7 +87,7 @@ const RouteWithSubRoutes = route => (
         render={props => (
             (route.is_authenticated && !Client.isLoggedIn()) ? // TODO: update styling of the message below
                 <a href='javascript:;' onClick={redirectToLogin}>{localize('Please login to view this page.')}</a> :
-                <route.component {...props} routes={route.routes} sections={route.sections} />
+                <route.component {...props} routes={route.routes} />
         )}
     />
 );
@@ -127,15 +105,16 @@ export const isRouteVisible = (path, route = getRouteInfo(path)) =>
 
 export const BinaryLink = ({ to, children, ...props }) => {
     const path  = normalizePath(to);
-    const route = getRouteInfo(path);
+    // const route = getRouteInfo(path);
 
-    if (!route) {
-        throw new Error(`Route not found: ${to}`);
-    }
+    // if (!route) {
+    //     throw new Error(`Route not found: ${to}`);
+    // }
 
+    // <NavLink to={path} activeClassName='active' exact={route.exact} {...props}>
     return (
         to ?
-            <NavLink to={path} activeClassName='active' exact={route.exact} {...props}>
+            <NavLink to={path} activeClassName='active' {...props}>
                 {children}
             </NavLink>
         :

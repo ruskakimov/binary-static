@@ -11,18 +11,18 @@ export const MenuDrawer = () => (
                 <DrawerItems
                     text={localize('Account Settings')}
                     items={[
-                        { text: localize('Personal Detail'), link_to: '/settings' },
+                        { text: localize('Personal Detail'), link_to: '/settings/personal' },
                         { text: localize('Account Authentication') },
-                        { text: localize('Financial Assessment'), link_to: '/settings' },
+                        { text: localize('Financial Assessment'), link_to: '/settings/financial' },
                         { text: localize('Professional Trader') },
                     ]}
                 />
                 <DrawerItems
                     text={localize('Security Settings')}
                     items={[
-                        { text: localize('Self Exclusion'), link_to: '/settings' },
+                        { text: localize('Self Exclusion'), link_to: '/settings/exclusion' },
                         { text: localize('Trading Limits') },
-                        { text: localize('Authorised Applications'), link_to: '/settings'},
+                        { text: localize('Authorised Applications'), link_to: '/settings/apps'},
                         { text: localize('API Token'), link_to: '/settings'},
                     ]}
                 />
