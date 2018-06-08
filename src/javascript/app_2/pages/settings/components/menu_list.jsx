@@ -5,8 +5,8 @@ import MenuItem from './menu_item.jsx';
 const MenuList = ({sections, match}) => (
     <div>
         {
-            sections.map(({src, path, title, content}, i) => (
-                <MenuItem key={i} src={src} path={path} title={title} content={content} match={match}/>
+            sections.map((section, i) => (
+                <MenuItem key={i} section={section} match={match}/>
             ))
         }
     </div>

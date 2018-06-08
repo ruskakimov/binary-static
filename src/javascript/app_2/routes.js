@@ -23,6 +23,7 @@ import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx'
 
 const sections = [
     {
+        index    : 0,
         title    : 'Personal Details',
         component: PersonalDetails,
         path     : '/personal', // To-do: Redirect to personal Details
@@ -30,6 +31,7 @@ const sections = [
         content  : 'View your personal information.',
     },
     {
+        index    : 1,
         title    : 'Financial Assessment',
         component: FinancialAssessment,
         path     : '/financial',
@@ -37,6 +39,7 @@ const sections = [
         content  : 'View your financial assessment settings',
     },
     {
+        index    : 2,
         title    : 'Account Password',
         component: AccountPassword,
         path     : '/account_password',
@@ -44,6 +47,7 @@ const sections = [
         content  : 'Change your main login password.',
     },
     {
+        index    : 3,
         title    : 'Cashier Password',
         component: CashierPassword,
         path     : '/cashier_password',
@@ -51,6 +55,7 @@ const sections = [
         content  : 'Change the password used for deposits and withdrawals',
     },
     {
+        index    : 4,
         title    : 'Self Exclusion',
         component: SelfExclusion,
         path     : '/exclusion',
@@ -58,6 +63,7 @@ const sections = [
         content  : 'Facility that allows you to set limits on your account.',
     },
     {
+        index    : 5,
         title    : 'Limits',
         component: Limits,
         path     : '/limits',
@@ -65,6 +71,7 @@ const sections = [
         content  : 'View your trading and withdrawal limits',
     },
     {
+        index    : 6,
         title    : 'Login History',
         component: LoginHistory,
         path     : '/history',
@@ -72,6 +79,7 @@ const sections = [
         content  : 'View your login history',
     },
     {
+        index    : 7,
         title    : 'API Token',
         component: ApiToken,
         path     : '/token',
@@ -79,6 +87,7 @@ const sections = [
         content  : 'API token for third party applications',
     },
     {
+        index    : 8,
         title    : 'Authorized Applications',
         component: AuthorizedApplications,
         path     : '/apps',

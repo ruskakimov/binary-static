@@ -3,32 +3,51 @@ import PropTypes   from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import Url         from '../../../../_common/url';
 
-const MenuItem = ({
-    src,
-    match,
-    path,
-    title,
-    content,
-}) => (
-    <NavLink className='menuitem' to={match.url + path} activeClassName='menuitem__active'>
-        <div className='menuitem__img_container'>
-            <img className='logo-img' src={Url.urlForStatic(src)} alt='Binary.com' />
+const MenuItem = ({ section, match }) => {
+    const { src, path, title, content, index } = section;
+
+    function renderMenuItemHeader()  {
+        if (index===0) {
+            return (
+                <div>
+                    <div className='menuitem_header__container1'><span>Personal</span></div>
+                    <hr className='menuitem_header__hr'/>
+                </div>
+            );
+        } else if (index===2) {
+            return (
+                <div>
+                    <div className='menuitem_header__container2'><span>Security &amp; Limits</span></div>
+                    <hr className='menuitem_header__hr'/>
+                </div>
+            );
+        }
+        return null;
+    }
+
+    return (
+        <div>
+            <div>{renderMenuItemHeader()}</div>
+            <NavLink className='menuitem' to={match.url + path} activeClassName='menuitem__active'>
+                <div className='menuitem__img_container'>
+                    <img className='logo-img' src={Url.urlForStatic(src)} alt='Binary.com' />
+                </div>
+                <div className='menuitem__content_container'>
+                    <div className='menuitem__menu_name'>
+                        <span>{title}</span>
+                    </div>
+                    <div className='menuitem__menu_content'><span>{content}</span></div>
+                </div>
+            </NavLink>
         </div>
-        <div className='menuitem__content_container'>
-            <div className='menuitem__menu_name'>
-                {title}
-            </div>
-            <div className='menuitem__menu_content'>{content}</div>
-        </div>
-    </NavLink>
-);
+    );
+};
+
+
 
 MenuItem.propTypes = {
-    src    : PropTypes.string,
+    section: PropTypes.object,
     match  : PropTypes.object,
-    path   : PropTypes.string,
-    title  : PropTypes.string,
-    content: PropTypes.string,
 };
 
 export default MenuItem;
