@@ -2,14 +2,8 @@ import React, { PureComponent } from 'react';
 import { settings_menu_data }   from '../settings_menu_data';
 
 class AccountPassword extends PureComponent {
-    state = {
-        currentPassword: '',
-        newPassword: '',
-        newPasswordVerified: '',
-    }
 
     render() {
-        console.log(this.props);
         const { title, content } = settings_menu_data(2);
         return (
             <div className='settings__content_container'>

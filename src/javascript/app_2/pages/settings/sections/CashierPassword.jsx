@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import { settings_menu_data }   from '../settings_menu_data';
 
-const CashierPassword = () => (
-    <div className='settings__personal_details'>
-        CashierPassword here
-    </div>
-);
+class CashierPassword extends PureComponent {
+
+    render() {
+        const { title, content } = settings_menu_data(3);
+        return (
+            <div className='settings__content_container'>
+                <div className='settings__content_header_container'>
+                    <div className='settings__content_header_title'>{title}</div>
+                    <div className='settings__content_header_description'>{content}</div>
+                </div>
+                <div className='settings__content_form_container'></div>
+            </div>
+        );
+    }
+}
 
 export default CashierPassword;

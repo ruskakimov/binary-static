@@ -22,46 +22,21 @@ import PersonalDetails        from './pages/settings/sections/PersonalDetails.js
 import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
 
 const routes = [
+    { path: '/',          component: TradeApp,  exact: true },
+    { path: '/statement', component: Statement, is_authenticated: true },
     {
-        path     : '/',
-        component: TradeApp,
-        exact    : true,
-    }, {
-        path            : '/statement',
-        component       : Statement,
-        is_authenticated: true,
-    }, {
         path     : '/settings',
         component: Settings,
         routes   : [
-            {
-                component: PersonalDetails,
-                path     : '/personal', // To-do: Redirect to personal Details as a default
-            }, {
-                component: FinancialAssessment,
-                path     : '/financial',
-            }, {
-                component: AccountPassword,
-                path     : '/account_password',
-            }, {
-                component: CashierPassword,
-                path     : '/cashier_password',
-            }, {
-                component: SelfExclusion,
-                path     : '/exclusion',
-            }, {
-                component: Limits,
-                path     : '/limits',
-            }, {
-                component: LoginHistory,
-                path     : '/history',
-            }, {
-                component: ApiToken,
-                path     : '/token',
-            }, {
-                component: AuthorizedApplications,
-                path     : '/apps',
-            },
+            { path: '/personal', component: PersonalDetails },
+            { path: '/financial', component: FinancialAssessment },
+            { path: '/account_password', component: AccountPassword },
+            { path: '/cashier_password', component: CashierPassword },
+            { path: '/exclusion', component: SelfExclusion },
+            { path: '/limits', component: Limits },
+            { path: '/history', component: LoginHistory },
+            { path: '/token', component: ApiToken },
+            { path: '/apps', component: AuthorizedApplications },
         ],
     },
 ];
