@@ -14,8 +14,9 @@ import DatePicker         from '../../components/form/date_picker.jsx';
 import Loading            from '../../../../templates/_common/components/loading.jsx';
 
 /* TODO:
-      1. to separate logic from UI
-      3. to handle errors
+    1. Response returns "AuthorizationRequired"!
+    2. separate logic from UI
+    3. handle errors
 */
 const getStatementData = (statement, currency) => {
     const date_obj   = new Date(statement.transaction_time * 1000);

@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './menu_item.jsx';
-import { settings_menu } from '../settings_menu_data';
 
-
-const MenuList = ({routes, match, title}) => {
+const MenuList = ({ items }) => {
     return (
         <div>
             {
-                routes.map((route, i) => (
-                    <MenuItem key={i} index={i} route={route} match={match} data={settings_menu[i]}/>
+                items.map(({ title, content, img_src, path }, i) => (
+                    <MenuItem
+                        key={i}
+                        title={title}
+                        content={content}
+                        img_src={img_src}
+                        path={path}
+                    />
                 ))
             }
         </div>

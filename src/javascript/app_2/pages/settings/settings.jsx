@@ -1,25 +1,54 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MenuList from './components/menu_list.jsx';
 
+import data from './settings_data';
+
 const Settings = ({ match, routes }) => {
+    const component_to_path = routes.reduce((map, { component, path }) => {
+        map[component] = path;
+        return map;
+    }, {});
+
+    const all_items = data.reduce((all, section) => [...all, ...section.items], []);
+
+    const getFullPath = (component) => {
+        const path = component_to_path[component];
+        const base = match.url[match.url.length - 1] === '/'
+            ? match.url.slice(0, -1)
+            : match.url;
+        return `${base}${path}`;
+    }
+
     return (
         <div className='settings'>
             <div className='settings__sidebar'>
-                <MenuList routes={routes} match={match}/>
+                {
+                    data.map(section => {
+                        return (
+                            <div key={section.title}>
+                                <div className='menuitem_header__container1'>{section.title}</div>
+                                <hr className='menuitem_header__hr'/>
+                                <MenuList items={section.items.map(item => ({ ...item, path: getFullPath(item.Component) }))} />
+                            </div>
+                        );
+                    })
+                }
             </div>
             <div className='settings__content'>
-                {
-                    routes.map((route, i) =>  (
+                <Switch>
+                    {
+                        all_items.map(({ Component, title, content }, i) => (
                             <Route
                                 key={i}
-                                path={match.url + route.path}
-                                component={route.component}
+                                path={getFullPath(Component)}
+                                render={() => <Component title={title} content={content} />}
                             />
-                        )
-                    )
-                }
+                        ))
+                    }
+                    <Redirect from={match.url} to={getFullPath(all_items[0].Component)} />
+                </Switch>
             </div>
         </div>
     );

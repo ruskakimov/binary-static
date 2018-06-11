@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { FormFieldSet } from '../components/form_field_set.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
-import { settings_menu_data }   from '../settings_menu_data';
 
 class AccountPassword extends PureComponent {
     state = {
@@ -26,7 +25,7 @@ class AccountPassword extends PureComponent {
     }
 
     render() {
-        const { title, content } = settings_menu_data(2);
+        const { title, content } = this.props;
         const { current_password, new_password, verified_password } = this.state;
         return (
             <div className='settings__content_container'>
