@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MenuList from './components/menu_list.jsx';
 
@@ -17,20 +17,22 @@ const Settings = ({ match }) => {
 
     return (
         <div className='settings'>
-
             <div className='settings__sidebar'>
                 <MenuList items={all_items} getAbsolutePath={getAbsolutePath} />
             </div>
             <div className='settings__content'>
-                {
-                    all_items.map(({ path, Component, title, content }, i) => (
-                        <Route
-                            key={i}
-                            path={getAbsolutePath(path)}
-                            render={() => <Component title={title} content={content} />}
-                        />
-                    ))
-                }
+                <Switch>
+                    {
+                        all_items.map(({ path, Component, title, content }, i) => (
+                            <Route
+                                key={i}
+                                path={getAbsolutePath(path)}
+                                render={() => <Component title={title} content={content} />}
+                            />
+                        ))
+                    }
+                    <Redirect from={match.url} to={getAbsolutePath(all_items[0].path)} />
+                </Switch>
             </div>
         </div>
     );
