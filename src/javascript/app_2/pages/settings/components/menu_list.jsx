@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './menu_item.jsx';
 
-const MenuList = ({ items, getAbsolutePath }) => {
+const MenuList = ({ items }) => {
     return (
         <div>
             {
@@ -12,7 +12,7 @@ const MenuList = ({ items, getAbsolutePath }) => {
                         title={title}
                         content={content}
                         img_src={img_src}
-                        path={getAbsolutePath(path)}
+                        path={path}
                     />
                 ))
             }

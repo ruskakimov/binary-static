@@ -10,10 +10,35 @@ import Settings            from './pages/settings/settings.jsx';
 import Statement           from './pages/statement/statement.jsx';
 import TradeApp            from './pages/trading/trade_app.jsx';
 
+// Settings Routes
+import AccountPassword        from './pages/settings/sections/AccountPassword.jsx';
+import ApiToken               from './pages/settings/sections/ApiToken.jsx';
+import AuthorizedApplications from './pages/settings/sections/AuthorizedApplications.jsx';
+import CashierPassword        from './pages/settings/sections/CashierPassword.jsx';
+import FinancialAssessment    from './pages/settings/sections/FinancialAssessment.jsx';
+import Limits                 from './pages/settings/sections/Limits.jsx';
+import LoginHistory           from './pages/settings/sections/LoginHistory.jsx';
+import PersonalDetails        from './pages/settings/sections/PersonalDetails.jsx';
+import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
+
 const routes = [
     { path: '/',          component: TradeApp,  exact: true },
     { path: '/statement', component: Statement, is_authenticated: true },
-    { path: '/settings',  component: Settings },
+    {
+        path     : '/settings',
+        component: Settings,
+        routes   : [
+            { path: '/personal',         component: PersonalDetails },
+            { path: '/financial',        component: FinancialAssessment },
+            { path: '/account_password', component: AccountPassword },
+            { path: '/cashier_password', component: CashierPassword },
+            { path: '/exclusion',        component: SelfExclusion },
+            { path: '/limits',           component: Limits },
+            { path: '/history',          component: LoginHistory },
+            { path: '/token',            component: ApiToken },
+            { path: '/apps',             component: AuthorizedApplications },
+        ],
+    },
 ];
 
 const RouteWithSubRoutes = route => (
