@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MenuList from './components/menu_list.jsx';
 
-const Settings = ({match, routes}) => {
+const Settings = ({ match, routes }) => {
     return (
         <div className='settings'>
             <div className='settings__sidebar'>

@@ -15,10 +15,10 @@ class AccountPassword extends PureComponent {
         this.setState({[name]: value})
     }
 
+    // To-Do: OnClick -> change the PasswordVisibility.
     onPasswordVisibilityClick = (e) => {
         const { type } = e.target;
         if (type == 'password') {
-            // Can we set this visibility
             e.target.type = 'text';
         } else {
             e.target.type = 'password';
@@ -35,7 +35,12 @@ class AccountPassword extends PureComponent {
                     <div className='settings__content_header_description'>{content}</div>
                 </div>
                 <div className='settings__content_form__container'>
-                    <FormFieldSet label_name='Current Password' value={current_password} onChange={this.onChange} name={'current_password'}/>
+                    <FormFieldSet
+                        label_name='Current Password'
+                        value={current_password}
+                        onChange={this.onChange}
+                        onPasswordVisibilityClick={this.onPasswordVisibilityClick}
+                        name={'current_password'}/>
                     <FormFieldSet label_name='New Password' value={new_password} onChange={this.onChange} name={'new_password'}/>
                     <FormFieldSet label_name='Verify Password' value={verified_password} onChange={this.onChange} name={'verified_password'}/>
                     <div className='settings__content_form__submit_container'>

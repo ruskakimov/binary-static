@@ -19,7 +19,7 @@ const MenuList = ({routes, match, title}) => {
 
 
 MenuList.propTypes = {
-    match   : PropTypes.object,
+    match : PropTypes.object,
     routes: PropTypes.array,
 };
 
