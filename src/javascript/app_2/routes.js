@@ -66,12 +66,13 @@ export const isRouteVisible = (path, route = getRouteInfo(path)) =>
 
 export const BinaryLink = ({ to, children, ...props }) => {
     const path  = normalizePath(to);
-    // const route = getRouteInfo(path);
+    // Commenting out: BinaryLink checks for "exact" route only.
+    // So we're encountering errors from sub routes.
 
+    // const route = getRouteInfo(path);
     // if (!route) {
     //     throw new Error(`Route not found: ${to}`);
     // }
-
     // <NavLink to={path} activeClassName='active' exact={route.exact} {...props}>
     return (
         to ?
