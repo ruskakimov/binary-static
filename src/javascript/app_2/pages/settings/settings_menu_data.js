@@ -37,3 +37,5 @@ export const settings_menu = [
         title  : 'Authorized Applications',
     },
 ];
+
+export const settings_menu_data = (index) => settings_menu[index];

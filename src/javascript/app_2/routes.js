@@ -21,20 +21,6 @@ import LoginHistory           from './pages/settings/sections/LoginHistory.jsx';
 import PersonalDetails        from './pages/settings/sections/PersonalDetails.jsx';
 import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
 
-import { settings_menu }      from './pages/settings/settings_menu_data';
-
-// To-do: Need to define all the routes in this path to get access from other
-//        pages (i.e. it's not accessible to redirect to /settings/apps page.)
-
-function returnComponent(index) {
-    if (index === -1) {
-        return <Settings data={settings_menu}/>;
-    }
-    return <AccountPassword data={settings_menu[index]}/>;
-}
-
-Settings.displayName = 'Settings';
-
 const routes = [
     {
         path     : '/',
@@ -49,32 +35,32 @@ const routes = [
         component: Settings,
         routes   : [
             {
-                render: () => returnComponent(0),
-                path  : '/personal', // To-do: Redirect to personal Details as a default
+                component: PersonalDetails,
+                path     : '/personal', // To-do: Redirect to personal Details as a default
             }, {
-                render: () => returnComponent(1),
-                path  : '/financial',
+                component: FinancialAssessment,
+                path     : '/financial',
             }, {
-                render: () => returnComponent(2),
-                path  : '/account_password',
+                component: AccountPassword,
+                path     : '/account_password',
             }, {
-                render: () => returnComponent(3),
-                path  : '/cashier_password',
+                component: CashierPassword,
+                path     : '/cashier_password',
             }, {
-                render: () => returnComponent(4),
-                path  : '/exclusion',
+                component: SelfExclusion,
+                path     : '/exclusion',
             }, {
-                render: () => returnComponent(5),
-                path  : '/limits',
+                component: Limits,
+                path     : '/limits',
             }, {
-                render: () => returnComponent(6),
-                path  : '/history',
+                component: LoginHistory,
+                path     : '/history',
             }, {
-                render: () => returnComponent(7),
-                path  : '/token',
+                component: ApiToken,
+                path     : '/token',
             }, {
-                render: () => returnComponent(8),
-                path  : '/apps',
+                component: AuthorizedApplications,
+                path     : '/apps',
             },
         ],
     },

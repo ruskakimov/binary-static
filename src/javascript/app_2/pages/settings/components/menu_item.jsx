@@ -3,8 +3,9 @@ import PropTypes   from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import Url         from '../../../../_common/url';
 
-const MenuItem = ({ section, match, index, data }) => {
-    const { src, path, title, content } = section;
+const MenuItem = ({ route, match, index, data }) => {
+    const { title, content, src } = data;
+    const { path } = route;
 
     function renderMenuItemHeader()  {
         if (index===0) {
@@ -46,7 +47,7 @@ const MenuItem = ({ section, match, index, data }) => {
 
 
 MenuItem.propTypes = {
-    section: PropTypes.object,
+    route: PropTypes.object,
     match  : PropTypes.object,
 };
 
