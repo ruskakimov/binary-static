@@ -10,7 +10,7 @@ import SelfExclusion          from './sections/SelfExclusion.jsx';
 
 export const data = [
     {
-        section_title: 'Profile',
+        title: 'Profile',
         items: [
             {
                 title    : 'Personal Details',
@@ -29,7 +29,7 @@ export const data = [
         ],
     },
     {
-        section_title: 'Security & Limits',
+        title: 'Security & Limits',
         items: [
             {
                 title    : 'Account Password',

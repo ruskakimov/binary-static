@@ -18,7 +18,17 @@ const Settings = ({ match }) => {
     return (
         <div className='settings'>
             <div className='settings__sidebar'>
-                <MenuList items={all_items} getAbsolutePath={getAbsolutePath} />
+                {
+                    data.map(section => {
+                        return (
+                            <div key={section.title}>
+                                <div className='menuitem_header__container1'>{section.title}</div>
+                                <hr className='menuitem_header__hr'/>
+                                <MenuList items={section.items} getAbsolutePath={getAbsolutePath} />
+                            </div>
+                        );
+                    })
+                }
             </div>
             <div className='settings__content'>
                 <Switch>

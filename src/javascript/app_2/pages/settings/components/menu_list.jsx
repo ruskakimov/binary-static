@@ -23,8 +23,6 @@ const MenuList = ({ items, getAbsolutePath }) => {
 
 
 MenuList.propTypes = {
-    match   : PropTypes.object,
-    routes: PropTypes.array,
 };
 
 export default MenuList;
