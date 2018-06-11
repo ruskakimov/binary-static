@@ -5,7 +5,7 @@ import Url         from '../../../../_common/url';
 
 const MenuItem = ({ title, content, img_src, path }) => {
     return (
-        <NavLink className='menuitem' to={path} activeClassName='menuitem__active'>
+        <NavLink className='menuitem' to={path} activeClassName='menuitem--active'>
             <div className='menuitem__img_container'>
                 <img className='logo-img' src={Url.urlForStatic(img_src)} />
             </div>

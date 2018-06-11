@@ -52,7 +52,7 @@
     text-decoration: none;
     color: $COLOR_BLACK;
 
-    &__active {
+    &--active {
         background-color: $COLOR_BACKGROUND_ACTIVE_ITEM;
         box-shadow: inset -4px 0 0 0 $COLOR_GRAY;
     }
