@@ -11,15 +11,15 @@ import Statement           from './pages/statement/statement.jsx';
 import TradeApp            from './pages/trading/trade_app.jsx';
 
 // Settings Routes
-import AccountPassword        from './pages/settings/sections/AccountPassword.jsx';
-import ApiToken               from './pages/settings/sections/ApiToken.jsx';
-import AuthorizedApplications from './pages/settings/sections/AuthorizedApplications.jsx';
-import CashierPassword        from './pages/settings/sections/CashierPassword.jsx';
-import FinancialAssessment    from './pages/settings/sections/FinancialAssessment.jsx';
-import Limits                 from './pages/settings/sections/Limits.jsx';
-import LoginHistory           from './pages/settings/sections/LoginHistory.jsx';
-import PersonalDetails        from './pages/settings/sections/PersonalDetails.jsx';
-import SelfExclusion          from './pages/settings/sections/SelfExclusion.jsx';
+import AccountPassword        from './pages/settings/sections/account_password.jsx';
+import ApiToken               from './pages/settings/sections/api_token.jsx';
+import AuthorizedApplications from './pages/settings/sections/authorized_applications.jsx';
+import CashierPassword        from './pages/settings/sections/cashier_password.jsx';
+import FinancialAssessment    from './pages/settings/sections/financial_assessment.jsx';
+import Limits                 from './pages/settings/sections/limits.jsx';
+import LoginHistory           from './pages/settings/sections/login_history.jsx';
+import PersonalDetails        from './pages/settings/sections/personal_details.jsx';
+import SelfExclusion          from './pages/settings/sections/self_exclusion.jsx';
 
 const routes = [
     { path: '/',          component: TradeApp,  exact: true },

@@ -1,12 +1,12 @@
-import AccountPassword        from './sections/AccountPassword.jsx';
-import ApiToken               from './sections/ApiToken.jsx';
-import AuthorizedApplications from './sections/AuthorizedApplications.jsx';
-import CashierPassword        from './sections/CashierPassword.jsx';
-import FinancialAssessment    from './sections/FinancialAssessment.jsx';
-import Limits                 from './sections/Limits.jsx';
-import LoginHistory           from './sections/LoginHistory.jsx';
-import PersonalDetails        from './sections/PersonalDetails.jsx';
-import SelfExclusion          from './sections/SelfExclusion.jsx';
+import AccountPassword        from './sections/account_password.jsx';
+import ApiToken               from './sections/api_token.jsx';
+import AuthorizedApplications from './sections/authorized_applications.jsx';
+import CashierPassword        from './sections/cashier_password.jsx';
+import FinancialAssessment    from './sections/financial_assessment.jsx';
+import Limits                 from './sections/limits.jsx';
+import LoginHistory           from './sections/login_history.jsx';
+import PersonalDetails        from './sections/personal_details.jsx';
+import SelfExclusion          from './sections/self_exclusion.jsx';
 
 export const data = [
     {
