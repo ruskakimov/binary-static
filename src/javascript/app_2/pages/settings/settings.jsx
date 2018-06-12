@@ -28,8 +28,8 @@ const Settings = ({ match, routes }) => {
                     data.map(section => {
                         return (
                             <div key={section.title}>
-                                <div className='menuitem_header__container1'>{section.title}</div>
-                                <hr className='menuitem_header__hr'/>
+                                <h2 className='settings__section_header'>{section.title}</h2>
+                                <hr className='settings__separator'/>
                                 <MenuList items={section.items.map(item => ({ ...item, path: getFullPath(item.Component) }))} />
                             </div>
                         );
