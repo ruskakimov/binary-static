@@ -2,31 +2,32 @@ import moment from 'moment';
 import React, { PureComponent } from 'react';
 import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import DataTable from '../../../components/elements/data_table.jsx';
+import { localize } from '../../../../_common/localize';
 
-// TODO: move it? and localize strings
+// TODO: move it?
 const columns = [
     {
-        title: 'Date and Time',
+        title: localize('Date and Time'),
         data_index: 'time',
     },
     {
-        title: 'Action',
+        title: localize('Action'),
         data_index: 'action',
     },
     {
-        title: 'Browser',
+        title: localize('Browser'),
         data_index: 'browser',
     },
     {
-        title: 'IP Address',
+        title: localize('IP Address'),
         data_index: 'ip_addr',
     },
     {
-        title: 'Status',
+        title: localize('Status'),
         data_index: 'success',
         renderCell: (isSuccessful, data_index) => (
-            <td key={data_index}>
-                {isSuccessful ? 'Successful' : 'Failed'}
+            <td key={data_index} className={data_index}>
+                {isSuccessful ? localize('Successful') : localize('Failed')}
             </td>
         ),
     },
@@ -134,7 +135,7 @@ const parseUA = (user_agent) => {
 
 const parse = (activity) => ({
     time   : `${moment.unix(activity.time).utc().format('YYYY-MM-DD HH:mm:ss')} GMT`,
-    action : activity.action,
+    action : localize(activity.action),
     success: activity.status === 1,
     browser: (() => {
         const browser = parseUA(activity.environment.match('User_AGENT=(.+) LANG')[1]);
