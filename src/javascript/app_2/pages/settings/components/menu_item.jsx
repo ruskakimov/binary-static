@@ -7,7 +7,7 @@ const MenuItem = ({ title, content, img_src, path }) => {
     return (
         <NavLink className='menuitem' to={path} activeClassName='menuitem--active'>
             <div className='menuitem__img_container'>
-                <img className='logo-img' src={Url.urlForStatic(img_src)} />
+                <img className='menuitem__img' src={Url.urlForStatic(img_src)} />
             </div>
             <div className='menuitem__content_container'>
                 <div className='menuitem__menu_name'>
