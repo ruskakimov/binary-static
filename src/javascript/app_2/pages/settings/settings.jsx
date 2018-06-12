@@ -22,7 +22,7 @@ const Settings = ({ match, routes }) => {
     }
 
     return (
-        <div className='settings'>
+        <div className='settings container'>
             <div className='settings__sidebar'>
                 {
                     data.map(section => {
