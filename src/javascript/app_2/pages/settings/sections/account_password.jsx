@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { FormFieldSet } from '../components/form_field_set.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
+import { SettingContentHeader } from '../components/setting_content_header.jsx';
 
 class AccountPassword extends PureComponent {
     state = {
@@ -29,10 +30,7 @@ class AccountPassword extends PureComponent {
         const { current_password, new_password, verified_password } = this.state;
         return (
             <div className='settings__content_container'>
-                <div className='settings__content_header_container'>
-                    <div className='settings__content_header_title'>{title}</div>
-                    <div className='settings__content_header_description'>{content}</div>
-                </div>
+                <SettingContentHeader title={title} content={content}/>
                 <div className='settings__content_form__container'>
                     <FormFieldSet
                         label_name='Current Password'
@@ -40,8 +38,16 @@ class AccountPassword extends PureComponent {
                         onChange={this.onChange}
                         onPasswordVisibilityClick={this.onPasswordVisibilityClick}
                         name={'current_password'}/>
-                    <FormFieldSet label_name='New Password' value={new_password} onChange={this.onChange} name={'new_password'}/>
-                    <FormFieldSet label_name='Verify Password' value={verified_password} onChange={this.onChange} name={'verified_password'}/>
+                    <FormFieldSet
+                        label_name='New Password'
+                        value={new_password}
+                        onChange={this.onChange}
+                        name={'new_password'}/>
+                    <FormFieldSet
+                        label_name='Verify Password'
+                        value={verified_password}
+                        onChange={this.onChange}
+                        name={'verified_password'}/>
                     <div className='settings__content_form__submit_container'>
                         <FormSubmitButton value='Change Password'/>
                     </div>
