@@ -33,6 +33,9 @@ const DAO = (() => {
     const sendLogout = () =>
         BinarySocket.send({ logout: 1 });
 
+    const getFinancialAssessment = () =>
+        BinarySocket.send({ get_financial_assessment: 1});
+
     const getStatement = (limit, offset, date_boundaries) => BinarySocket.send({
         statement  : 1,
         description: 1,
@@ -82,6 +85,7 @@ const DAO = (() => {
         getSelfExclusion,
         getSettings,
         getWebsiteStatus,
+        getFinancialAssessment,
         getStatement,
         sendLogout,
 

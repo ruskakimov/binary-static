@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 export class FormFieldSet extends PureComponent {
     state = { visibilty: false }
 
-    // To-Do: OnClick -> change the PasswordVisibility.
+    // To-Do: OnClick -> password visibility clickable.
     onPasswordVisibilityClick = (e) => {
         this.setState({visibilty: !this.state.visibility});
     }
@@ -46,10 +46,10 @@ export class FormFieldSet extends PureComponent {
                             type={type}
                             className={inputClassName}
                             name={name}
-                            placeholder="Text Here"
+                            placeholder='Text Here'
                             value={value}
                             onChange={onChange}
-                            data-lpignore="true"
+                            data-lpignore
                             />
                     </div>
             </fieldset>
