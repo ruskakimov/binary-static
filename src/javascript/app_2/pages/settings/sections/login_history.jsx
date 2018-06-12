@@ -4,7 +4,6 @@ import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import DataTable from '../../../components/elements/data_table.jsx';
 import { localize } from '../../../../_common/localize';
 
-// TODO: move it?
 const columns = [
     {
         title: localize('Date and Time'),
@@ -25,11 +24,6 @@ const columns = [
     {
         title: localize('Status'),
         data_index: 'success',
-        renderCell: (isSuccessful, data_index) => (
-            <td key={data_index} className={data_index}>
-                {isSuccessful ? localize('Successful') : localize('Failed')}
-            </td>
-        ),
     },
 ];
 
@@ -133,7 +127,7 @@ const parseUA = (user_agent) => {
 const parse = (activity) => ({
     time   : `${moment.unix(activity.time).utc().format('YYYY-MM-DD HH:mm:ss')} GMT`,
     action : localize(activity.action),
-    success: activity.status === 1,
+    success: activity.status === 1 ? localize('Successful') : localize('Failed'),
     browser: (() => {
         const browser = parseUA(activity.environment.match('User_AGENT=(.+) LANG')[1]);
         return `${browser.name} v${browser.version}`;
