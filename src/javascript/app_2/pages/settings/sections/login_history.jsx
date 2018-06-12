@@ -24,8 +24,8 @@ const columns = [
     {
         title: 'Status',
         data_index: 'success',
-        renderCell: (isSuccessful) => (
-            <td>
+        renderCell: (isSuccessful, data_index) => (
+            <td key={data_index}>
                 {isSuccessful ? 'Successful' : 'Failed'}
             </td>
         ),
@@ -37,7 +37,7 @@ class LoginHistory extends PureComponent {
         const { title, content, data_source } = this.props;
         console.log(data_source, columns);
         return (
-            <div className='settings__content_container'>
+            <div className='settings__content_container settings__login_history'>
                 <SettingContentHeader title={title} content={content}/>
                 <div className='settings__content_form_container'>
                     <DataTable data_source={data_source} columns={columns} />
@@ -133,11 +133,13 @@ const parseUA = (user_agent) => {
 };
 
 const parse = (activity) => ({
-    time   : `${moment.unix(activity.time).utc().format('YYYY-MM-DD HH:mm:ss').replace(' ', '\n')} GMT`,
+    time   : `${moment.unix(activity.time).utc().format('YYYY-MM-DD HH:mm:ss')} GMT`,
     action : activity.action,
     success: activity.status === 1,
-    browser: 'lol',
-    // browser: parseUA(activity.environment.match('User_AGENT=(.+) LANG')[1]),
+    browser: (() => {
+        const browser = parseUA(activity.environment.match('User_AGENT=(.+) LANG')[1]);
+        return `${browser.name} v${browser.version}`;
+    })(),
     ip_addr: activity.environment.split(' ')[2].split('=')[1],
 });
 

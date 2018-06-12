@@ -172,3 +172,26 @@
         color: $COLOR_LETTER_GRAY;
     }
 }
+
+/*
+    LOGIN HISTORY section
+*/
+.settings__login_history {
+    .table {
+        .time {
+            width: 27.5%;
+        }
+        .action {
+            width: 12.5%;
+        }
+        .browser {
+            width: 25%;
+        }
+        .ip_addr {
+            width: 20%;
+        }
+        .success {
+            width: 15%;
+        }
+    }
+}
