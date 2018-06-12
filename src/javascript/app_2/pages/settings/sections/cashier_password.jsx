@@ -5,8 +5,12 @@ import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 
 class CashierPassword extends PureComponent {
     state = {
-        cashier_pw: { label_name: 'Current Password', value: ''},
-        verified_cashier_pw: { label_name: 'New Password', value: ''},
+        cashier_pw: {
+            type: 'password', label_name: 'Current Password', value: '', helper: 'pw',
+        },
+        verified_cashier_pw: {
+            type: 'password', label_name: 'New Password', value: '', helper: 'pw',
+        },
     }
 
     onChange = (e) => {

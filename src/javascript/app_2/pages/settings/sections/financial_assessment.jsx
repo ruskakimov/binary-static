@@ -5,15 +5,33 @@ import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 
 class FinancialAssessment extends PureComponent {
     state = {
-        income_source: { label_name: 'Income Source', value: ''},
-        employment_status: { label_name: 'Employment Status', value: ''},
-        industry_of_employment: { label_name: 'Industry of Employment', value: ''},
-        occupation: { label_name: 'Occupation', value: ''},
-        source_of_wealth: { label_name: 'Source of Wealth', value: ''},
-        level_of_education: { label_name: 'Level of Education', value: ''},
-        net_annual_income: { label_name: 'Net Annual Income', value: ''},
-        estimated_net_worth: { label_name: 'Estimated Net Worth', value: ''},
-        anticipated_account_turnover: { label_name: 'Anticipated Account Turnover', value: ''},
+        income_source: {
+            type: 'text', label_name: 'Income Source', value: '', helper: 'dropdown',
+        },
+        employment_status: {
+            type: 'text', label_name: 'Employment Status', value: '', helper: 'dropdown',
+        },
+        industry_of_employment: {
+            type: 'text', label_name: 'Industry of Employment', value: '', helper: 'dropdown',
+        },
+        occupation: {
+            type: 'text', label_name: 'Occupation', value: '', helper: 'dropdown',
+        },
+        source_of_wealth: {
+            type: 'text', label_name: 'Source of Wealth', value: '', helper: 'dropdown',
+        },
+        level_of_education: {
+            type: 'text', label_name: 'Level of Education', value: '', helper: 'dropdown',
+        },
+        net_annual_income: {
+            type: 'text', label_name: 'Net Annual Income', value: '', helper: 'dropdown',
+        },
+        estimated_net_worth: {
+            type: 'text', label_name: 'Estimated Net Worth', value: '', helper: 'dropdown',
+        },
+        anticipated_account_turnover: {
+            type: 'text', label_name: 'Anticipated Account Turnover', value: '', helper: 'dropdown',
+        },
     }
 
     onChange = (e) => {

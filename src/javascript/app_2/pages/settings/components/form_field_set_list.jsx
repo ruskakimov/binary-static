@@ -6,14 +6,16 @@ export const FormFieldSetList = ({ data, onChange }) => {
         <div>
             {
                 Object.keys(data).map((key, i) => {
-                    const { label_name, value } = data[key]
+                    const { label_name, value, type, helper } = data[key]
                     return (
                         <FormFieldSet
                             key={i}
+                            type={type}
                             label_name={label_name}
                             onChange={onChange}
                             value={value}
                             name={key}
+                            helper={helper}
                         />
                     );
                 })
