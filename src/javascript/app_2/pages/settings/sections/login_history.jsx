@@ -36,13 +36,10 @@ const columns = [
 class LoginHistory extends PureComponent {
     render() {
         const { title, content, data_source } = this.props;
-        console.log(data_source, columns);
         return (
             <div className='settings__content_container settings__login_history'>
                 <SettingContentHeader title={title} content={content}/>
-                <div className='settings__content_form_container'>
-                    <DataTable data_source={data_source} columns={columns} />
-                </div>
+                <DataTable data_source={data_source} columns={columns} />
             </div>
         );
     }
