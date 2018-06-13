@@ -5,22 +5,14 @@ import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 
 class AccountPassword extends PureComponent {
     state = {
-        current_password: {
-            type: 'password', label_name: 'Current Password', value: '', helper: 'pw',
-        },
-        new_password: {
-            type: 'password', label_name: 'New Password', value: '', helper: 'pw',
-        },
-        verified_password: {
-            type: 'password', label_name: 'Verified Password', value: '', helper: 'pw',
-        },
+        current_password: '',
+        new_password: '',
+        verified_password: '',
     }
 
     onChange = (e) => {
         const { name, value } = e.target;
-        this.setState(prevState => ({
-            [name]: { ...prevState[name], value }
-        }))
+        this.setState({[name]: value});
     }
 
     render() {

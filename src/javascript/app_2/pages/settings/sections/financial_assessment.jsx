@@ -6,52 +6,33 @@ import DAO from '../../../data/dao';
 
 class FinancialAssessment extends PureComponent {
     state = {
-        income_source: {
-            type: 'text', label_name: 'Income Source', value: '', helper: 'dropdown',
-        },
-        employment_status: {
-            type: 'text', label_name: 'Employment Status', value: '', helper: 'dropdown',
-        },
-        industry_of_employment: {
-            type: 'text', label_name: 'Industry of Employment', value: '', helper: 'dropdown',
-        },
-        occupation: {
-            type: 'text', label_name: 'Occupation', value: '', helper: 'dropdown',
-        },
-        source_of_wealth: {
-            type: 'text', label_name: 'Source of Wealth', value: '', helper: 'dropdown',
-        },
-        level_of_education: {
-            type: 'text', label_name: 'Level of Education', value: '', helper: 'dropdown',
-        },
-        net_annual_income: {
-            type: 'text', label_name: 'Net Annual Income', value: '', helper: 'dropdown',
-        },
-        estimated_net_worth: {
-            type: 'text', label_name: 'Estimated Net Worth', value: '', helper: 'dropdown',
-        },
-        anticipated_account_turnover: {
-            type: 'text', label_name: 'Anticipated Account Turnover', value: '', helper: 'dropdown',
-        },
+        income_source: '',
+        employment_status: '',
+        employment_industry: '',
+        occupation: '',
+        source_of_wealth: '',
+        education_level: '',
+        net_income: '',
+        estimated_worth: '',
+        account_turnover: '',
     }
 
     async componentDidMount() {
         let { get_financial_assessment } = await DAO.getFinancialAssessment()
         if( get_financial_assessment ) {
-            const { account_turnover } = get_financial_assessment;
-            this.setState(prevState => ({
-                anticipated_account_turnover: {...prevState.anticipated_account_turnover, value: account_turnover}
-            }));
+            this.setState(get_financial_assessment);
         } else {
+            // To-Do: Show the error page.
             console.log('nope');
         }
     }
 
     onChange = (e) => {
         const { name, value } = e.target;
-        this.setState(prevState => ({
-            [name]: { ...prevState[name], value }
-        }))
+        // this.setState(prevState => ({
+        //     [name]: value
+        // }))
+        this.setState({[name]: value})
     }
 
     render() {
