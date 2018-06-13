@@ -45,7 +45,9 @@ const DAO = (() => {
     });
 
     const sendCashierPassword = async (cashier_pw, callback, errorCallback) => {
-        const response = await BinarySocket.send({ cashier_password: 1, lock_password: cashier_pw });
+        const response = await BinarySocket.send({
+            cashier_password: 1, lock_password   : cashier_pw,
+        });
         if (!response.error) {
             callback();
         } else {
@@ -53,6 +55,15 @@ const DAO = (() => {
         }
     };
 
+    const setSelfExclusion = async(data, callback, errorCallback) => {
+        data.set_self_exclusion = 1;
+        const response = await BinarySocket.send(data);
+        if (!response.error) {
+            callback();
+        } else {
+            errorCallback(response.error.message);
+        }
+    };
 
     // ----- Streaming calls -----
     const subscribeBalance = (cb) =>
@@ -99,6 +110,7 @@ const DAO = (() => {
         getStatement,
         sendLogout,
         sendCashierPassword,
+        setSelfExclusion,
 
         // streams
         sendRequest,

@@ -72,7 +72,7 @@ export const metaData = {
     session_duration_limit: {
         type      : 'number', label_name: 'Session duration limit, in minutes', helper: 'dollar',
     },
-    time_out_until: {
+    timeout_until: {
         type      : 'text', label_name: 'Time out until', helper: 'dollar',
     },
     exclude_until: {
