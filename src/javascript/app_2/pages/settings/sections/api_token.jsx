@@ -8,9 +8,7 @@ const scopes = ['Read', 'Trade', 'Payments', 'Admin'];
 
 class ApiToken extends PureComponent {
     state = {
-        token_name: {
-            type: 'text', label_name: 'Choose Token Name', value: '',
-        }
+        token_name: '',
     }
 
     componentWillMount = () => {
@@ -35,9 +33,7 @@ class ApiToken extends PureComponent {
 
     onChange = (e) => {
         const { name, value } = e.target;
-        this.setState(prevState => ({
-            [name]: { ...prevState[name], value }
-        }))
+        this.setState({[name]: value});
     }
 
     createCheckBox = label => (
