@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import DataTable from '../../../components/elements/data_table.jsx';
 import { localize } from '../../../../_common/localize';
+import { connect } from '../../../store/connect';
 
 const columns = [
     {
@@ -28,8 +29,18 @@ const columns = [
 ];
 
 class LoginHistory extends PureComponent {
+    componentDidMount() {
+        console.log(this.props);
+        this.props.getData();
+    }
+
     render() {
         const { title, content, data_source } = this.props;
+        return (
+            <div>
+                {JSON.stringify(this.props.data)}
+            </div>
+        );
         return (
             <div className='settings__content_container settings__login_history'>
                 <SettingContentHeader title={title} content={content}/>
@@ -95,7 +106,7 @@ const dummy_response = [
 // TODO: move parsing functions somewhere else
 // (copied from iphistory.data.js)
 
-const parseUA = (user_agent) => {
+const parseUserAgent = (user_agent) => {
     // Table of UA-values (and precedences) from:
     //  https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
     // Regexes stolen from:
@@ -129,14 +140,19 @@ const parse = (activity) => ({
     action : localize(activity.action),
     success: activity.status === 1 ? localize('Successful') : localize('Failed'),
     browser: (() => {
-        const browser = parseUA(activity.environment.match('User_AGENT=(.+) LANG')[1]);
+        const browser = parseUserAgent(activity.environment.match('User_AGENT=(.+) LANG')[1]);
         return `${browser.name} v${browser.version}`;
     })(),
     ip_addr: activity.environment.split(' ')[2].split('=')[1],
 });
 
-LoginHistory.defaultProps = {
-    data_source: dummy_response.map(parse),
-};
+// LoginHistory.defaultProps = {
+//     data_source: dummy_response.map(parse),
+// };
 
-export default LoginHistory;
+export default connect(
+    ({ main: {settings} }) => ({
+        data: settings.login_history.data,
+        getData: settings.login_history.getData,
+    })
+)(LoginHistory);
