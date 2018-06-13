@@ -45,38 +45,38 @@ export const metaData = {
         type: 'password', label_name: 'New Password', value: '', helper: 'pw',
     },
     // Self Exclusion
-    maximum_account_cash_balance: {
+    max_balance: {
         type: 'number', label_name: 'Maximum Account Cash Balance', value: '', helper: 'dollar',
     },
-    daily_turnover_limit: {
+    max_turnover: {
         type: 'number', label_name: 'Daily turnover limit', value: '', helper: 'dollar',
     },
-    daily_limit_on_loss: {
+    max_losses: {
         type: 'number', label_name: 'Daily limit on losses', value: '', helper: 'dollar',
     },
-    seven_day_turnover_limit: {
+    max_7day_turnover: {
         type: 'number', label_name: '7-day turnover limit', value: '', helper: 'dollar',
     },
-    seven_day_on_loss: {
+    max_7day_losses: {
         type: 'number', label_name: '7-day limit on losses', value: '', helper: 'dollar',
     },
-    thiry_day_turnover_limit: {
+    max_30day_turnover: {
         type: 'number', label_name: '30-day turnover limit', value: '', helper: 'dollar',
     },
-    thiry_day_on_loss: {
+    max_30day_losses: {
         type: 'number', label_name: '30-day limit on losses', value: '', helper: 'dollar',
     },
-    maximum_number_opern_positions: {
+    max_open_bets: {
         type: 'number', label_name: 'Maximum number of open positions', value: '', helper: 'dollar',
     },
     session_duration_limit: {
         type: 'number', label_name: 'Session duration limit, in minutes', value: '', helper: 'dollar',
     },
     time_out_until: {
-        type: 'number', label_name: 'Time out until', value: '', helper: 'dollar',
+        type: 'text', label_name: 'Time out until', value: '', helper: 'dollar',
     },
-    exclude_me_until: {
-        type: 'number', label_name: 'Exclude me from the website until', value: '', helper: 'dollar',
+    exclude_until: {
+        type: 'text', label_name: 'Exclude me from the website until', value: '', helper: 'dollar',
     },
 
 }
