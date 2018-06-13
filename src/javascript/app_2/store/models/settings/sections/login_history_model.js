@@ -4,7 +4,7 @@ import DAO from '../../../../data/dao';
 import { localize } from '../../../../../_common/localize';
 
 export default class LoginHistoryModel {
-    @observable data       = null;
+    @observable data       = [];
     @observable limit      = 50;
     @observable is_loading = false;
 
@@ -13,7 +13,6 @@ export default class LoginHistoryModel {
         this.is_loading = true;
 
         DAO.getLoginHistory(this.limit).then(response => {
-            console.log(response);
             this.data = response.login_history.map(parse);
             this.is_loading = false;
         });
