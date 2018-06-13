@@ -29,9 +29,6 @@ class FinancialAssessment extends PureComponent {
 
     onChange = (e) => {
         const { name, value } = e.target;
-        // this.setState(prevState => ({
-        //     [name]: value
-        // }))
         this.setState({[name]: value})
     }
 
