@@ -22,7 +22,6 @@ class SelfExclusion extends PureComponent {
 
     async componentDidMount() {
         const { get_self_exclusion } = await DAO.getSelfExclusion();
-        console.log(get_self_exclusion);
         if( get_self_exclusion ) {
             const new_state = this.state;
             Object.entries(this.state).forEach(
@@ -61,8 +60,6 @@ class SelfExclusion extends PureComponent {
     }
 
     render() {
-        console.log('rendering new data');
-        console.log(this.state);
         const { title, content } = this.props;
         return (
             <form className='settings__content_container' onSubmit={this.handleSubmit}>
