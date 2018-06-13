@@ -11,6 +11,7 @@ export default class LoginHistoryModel {
     @action.bound
     getData() {
         this.is_loading = true;
+        this.data = [];
 
         DAO.getLoginHistory(this.limit).then(response => {
             this.data = response.login_history.map(parse);
