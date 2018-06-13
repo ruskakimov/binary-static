@@ -4,9 +4,12 @@ import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 import DAO from '../../../data/dao';
+import Loading from '../../../../../templates/_common/components/loading.jsx';
+
 
 class SelfExclusion extends PureComponent {
     state = {
+        is_loading: true,
         max_balance: '',
         max_turnover: '',
         max_losses: '',
@@ -29,6 +32,7 @@ class SelfExclusion extends PureComponent {
                     new_state[k] = get_self_exclusion[k] ?
                     get_self_exclusion[k] :
                     v);
+            new_state.is_loading = false;
             this.setState(new_state);
             this.forceUpdate();
         } else {
@@ -64,12 +68,16 @@ class SelfExclusion extends PureComponent {
         return (
             <form className='settings__content_container' onSubmit={this.handleSubmit}>
                 <SettingContentHeader title={title} content={content}/>
-                <div className='settings__content_form__container'>
-                    <FormFieldSetList data={this.state} onChange={this.onChange}/>
-                    <div className='settings__content_form__submit_container'>
-                        <FormSubmitButton value='Update Settings'/>
+                {
+                    this.state.is_loading ?
+                    <Loading /> :
+                    <div className='settings__content_form__container'>
+                        <FormFieldSetList data={this.state} onChange={this.onChange}/>
+                        <div className='settings__content_form__submit_container'>
+                            <FormSubmitButton value='Update Settings'/>
+                        </div>
                     </div>
-                </div>
+                }
             </form>
         );
     }
