@@ -22,18 +22,22 @@ class SelfExclusion extends PureComponent {
 
     async componentDidMount() {
         const { get_self_exclusion } = await DAO.getSelfExclusion();
+        console.log(get_self_exclusion);
         if( get_self_exclusion ) {
+            const new_state = this.state;
             Object.entries(this.state).forEach(
                 ([k,v]) =>
-                    this.state[k] = get_self_exclusion[k] ?
+                    new_state[k] = get_self_exclusion[k] ?
                     get_self_exclusion[k] :
                     v);
-            this.setState(get_self_exclusion);
+            this.setState(new_state);
+            this.forceUpdate();
         } else {
             // To-Do: Show the error page.
             console.log('You must login to see this page');
         }
     }
+
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -45,7 +49,7 @@ class SelfExclusion extends PureComponent {
             },
             (message) => {
                 // To-Do: Show the error page.
-                // To-DO: Validation: timeout_until. 
+                // To-DO: Validation: timeout_until.
                 console.log(message);
             },
         );
@@ -57,6 +61,8 @@ class SelfExclusion extends PureComponent {
     }
 
     render() {
+        console.log('rendering new data');
+        console.log(this.state);
         const { title, content } = this.props;
         return (
             <form className='settings__content_container' onSubmit={this.handleSubmit}>
