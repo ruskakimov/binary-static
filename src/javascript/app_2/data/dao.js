@@ -41,6 +41,9 @@ const DAO = (() => {
         ...date_boundaries,
     });
 
+    const getLoginHistory = (limit) =>
+        BinarySocket.send({ login_history: 1, limit });
+
     // ----- Streaming calls -----
     const subscribeBalance = (cb) =>
         SubscriptionManager.subscribe('balance', { balance: 1, subscribe: 1 }, cb);
@@ -77,12 +80,13 @@ const DAO = (() => {
         getActiveSymbols,
         getContractsFor,
         getLandingCompany,
+        getLoginHistory,
         getMt5LoginList,
         getPayoutCurrencies,
         getSelfExclusion,
         getSettings,
-        getWebsiteStatus,
         getStatement,
+        getWebsiteStatus,
         sendLogout,
 
         // streams
