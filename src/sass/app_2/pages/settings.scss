@@ -1,3 +1,19 @@
+@mixin symbol_icon($top, $right, $left) {
+    position: absolute;
+    padding: 0px;
+    pointer-events: none;
+    top: $top;
+    right: $right;
+    left: $left;
+}
+@mixin intput_default($left_padding) {
+    height: 32px;
+    border-radius: 4px;
+    background-color: $COLOR_WHITE;
+    border: solid 1px $COLOR_GRAY;
+    padding: 7px 30px 7px $left_padding;
+}
+
 .settings {
     display: flex;
     flex-direction: row;
@@ -10,6 +26,22 @@
         flex-grow: 1;
         background: $COLOR_WHITE;
         border-left: 1px solid $COLOR_LIGHT_GRAY;
+    }
+    &__content_sub_title {
+        &__container {
+            line-height: 0px;
+            margin-bottom: 8px;
+        }
+        &__text {
+            font-size: 16px;
+            font-weight: bold;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.5;
+            letter-spacing: normal;
+            color: $COLOR_LETTER_GRAY;
+            margin: 0px;
+        }
     }
     &__content_container {
         margin: 48px 24px 0px;
@@ -36,17 +68,19 @@
     }
     &__pw_unhide {
         content: url('../images/settings/ic-see-password.svg');
-        position: absolute;
-        padding: 0px;
-        pointer-events: none;
-        right: 10px;
+        @include symbol_icon(0px, 10px, false);
     }
     &__pw_hide {
         content: url('../images/settings/ic-hide-password.svg');
-        position: absolute;
-        padding: 0px;
-        pointer-events: none;
-        right: 10px;
+        @include symbol_icon(0px, 10px, false);
+    }
+    &__dropdown {
+        content: url('../images/settings/ic-dropdown.svg');
+        @include symbol_icon(12px, 10px, false);
+    }
+    &__dollar {
+        content: url('../images/settings/ic-dollar.svg');
+        @include symbol_icon(7.6px, false, 4px);
     }
     &__section_header {
         width: 100%;
@@ -61,6 +95,15 @@
     }
     &__separator {
         margin: 10px 24px;
+    }
+    &__checkbox_text {
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        color: $COLOR_LETTER_GRAY;
     }
     &__content_form {
         &__input_box {
@@ -79,11 +122,10 @@
             margin-bottom: 8px;
         }
         &__input {
-            height: 32px;
-            border-radius: 4px;
-            background-color: $COLOR_WHITE;
-            border: solid 1px $COLOR_GRAY;
-            padding: 7px 30px 7px 8px;
+            @include intput_default(8px);
+        }
+        &__dollar_input {
+            @include intput_default(20px);
         }
         &__input_wrapper {
             position: relative;

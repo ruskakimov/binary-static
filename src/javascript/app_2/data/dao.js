@@ -33,6 +33,9 @@ const DAO = (() => {
     const sendLogout = () =>
         BinarySocket.send({ logout: 1 });
 
+    const getFinancialAssessment = () =>
+        BinarySocket.send({ get_financial_assessment: 1});
+
     const getStatement = (limit, offset, date_boundaries) => BinarySocket.send({
         statement  : 1,
         description: 1,
@@ -43,6 +46,27 @@ const DAO = (() => {
 
     const getLoginHistory = (limit) =>
         BinarySocket.send({ login_history: 1, limit });
+
+    const sendCashierPassword = async (cashier_pw, callback, errorCallback) => {
+        const response = await BinarySocket.send({
+            cashier_password: 1, lock_password   : cashier_pw,
+        });
+        if (!response.error) {
+            callback();
+        } else {
+            errorCallback(response.error.message);
+        }
+    };
+
+    const setSelfExclusion = async(data, callback, errorCallback) => {
+        data.set_self_exclusion = 1;
+        const response = await BinarySocket.send(data);
+        if (!response.error) {
+            callback();
+        } else {
+            errorCallback(response.error.message);
+        }
+    };
 
     // ----- Streaming calls -----
     const subscribeBalance = (cb) =>
@@ -79,6 +103,7 @@ const DAO = (() => {
         getAccountStatus,
         getActiveSymbols,
         getContractsFor,
+        getFinancialAssessment,
         getLandingCompany,
         getLoginHistory,
         getMt5LoginList,
@@ -87,7 +112,10 @@ const DAO = (() => {
         getSettings,
         getStatement,
         getWebsiteStatus,
+        getWebsiteStatus,
+        sendCashierPassword,
         sendLogout,
+        setSelfExclusion,
 
         // streams
         sendRequest,
