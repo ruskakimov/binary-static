@@ -2,8 +2,9 @@ import moment from 'moment';
 import React, { PureComponent } from 'react';
 import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import DataTable from '../../../components/elements/data_table.jsx';
-import { localize } from '../../../../_common/localize';
 import { connect } from '../../../store/connect';
+import { localize } from '../../../../_common/localize';
+import Loading from '../../../../../templates/_common/components/loading.jsx';
 
 const columns = [
     {
@@ -35,13 +36,12 @@ class LoginHistory extends PureComponent {
 
     render() {
         const { title, content, data, is_loading } = this.props;
-        if (!data) {
-            return <div>loading...</div>
-        }
+        // TODO: show loading on top of table when loading second time?
         return (
             <div className='settings__content_container settings__login_history'>
                 <SettingContentHeader title={title} content={content}/>
                 <DataTable data_source={data} columns={columns} />
+                {is_loading && <Loading />}
             </div>
         );
     }

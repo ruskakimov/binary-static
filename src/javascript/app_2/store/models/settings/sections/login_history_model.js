@@ -4,13 +4,14 @@ import DAO from '../../../../data/dao';
 import { localize } from '../../../../../_common/localize';
 
 export default class LoginHistoryModel {
-    @observable data       = null;
+    @observable data       = [];
     @observable limit      = 50;
     @observable is_loading = false;
 
     @action.bound
     getData() {
         this.is_loading = true;
+        this.data = [];
 
         DAO.getLoginHistory(this.limit).then(response => {
             this.data = response.login_history.map(parse);
