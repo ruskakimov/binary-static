@@ -26,7 +26,7 @@ class SelfExclusion extends PureComponent {
             this.setState(get_self_exclusion);
         } else {
             // To-Do: Show the error page.
-            console.log('nope');
+            console.log('You must login to see this page');
         }
     }
 

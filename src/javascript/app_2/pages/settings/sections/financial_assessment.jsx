@@ -23,7 +23,7 @@ class FinancialAssessment extends PureComponent {
             this.setState(get_financial_assessment);
         } else {
             // To-Do: Show the error page.
-            console.log('nope');
+            console.log('You must login to see this page');
         }
     }
 
