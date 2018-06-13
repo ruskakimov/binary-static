@@ -44,6 +44,16 @@ const DAO = (() => {
         ...date_boundaries,
     });
 
+    const sendCashierPassword = async (cashier_pw, callback, errorCallback) => {
+        const response = await BinarySocket.send({ cashier_password: 1, lock_password: cashier_pw });
+        if (!response.error) {
+            callback();
+        } else {
+            errorCallback(response.error.message);
+        }
+    };
+
+
     // ----- Streaming calls -----
     const subscribeBalance = (cb) =>
         SubscriptionManager.subscribe('balance', { balance: 1, subscribe: 1 }, cb);
@@ -88,6 +98,7 @@ const DAO = (() => {
         getFinancialAssessment,
         getStatement,
         sendLogout,
+        sendCashierPassword,
 
         // streams
         sendRequest,

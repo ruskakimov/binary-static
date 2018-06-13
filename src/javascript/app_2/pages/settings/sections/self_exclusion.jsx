@@ -21,7 +21,7 @@ class SelfExclusion extends PureComponent {
     }
 
     async componentDidMount() {
-        let { get_self_exclusion } = await DAO.getSelfExclusion()
+        let { get_self_exclusion } = await DAO.getSelfExclusion();
         if( get_self_exclusion ) {
             this.setState(get_self_exclusion);
         } else {
