@@ -112,20 +112,19 @@ const DAO = (() => {
         getSettings,
         getStatement,
         getWebsiteStatus,
-        getWebsiteStatus,
         sendCashierPassword,
         sendLogout,
         setSelfExclusion,
 
         // streams
+        forget,
+        forgetAll,
         sendRequest,
         subscribeBalance,
         subscribeProposal,
         subscribeTicks,
         subscribeTicksHistory,
         subscribeWebsiteStatus,
-        forget,
-        forgetAll,
     };
 })();
 

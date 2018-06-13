@@ -13,7 +13,6 @@ export default class LoginHistoryModel {
         this.is_loading = true;
 
         DAO.getLoginHistory(this.limit).then(response => {
-            console.log(response);
             this.data = response.login_history.map(parse);
             this.is_loading = false;
         });

@@ -30,7 +30,6 @@ const columns = [
 
 class LoginHistory extends PureComponent {
     componentDidMount() {
-        console.log(this.props);
         this.props.getData();
     }
 
