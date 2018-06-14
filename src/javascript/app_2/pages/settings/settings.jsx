@@ -7,14 +7,14 @@ import data from './settings_data';
 
 const Settings = ({ match, routes }) => {
     const component_to_path = routes.reduce((map, { component, path }) => {
-        map[component] = path;
+        map[component.displayName || component.name] = path;
         return map;
     }, {});
 
     const all_items = data.reduce((all, section) => [...all, ...section.items], []);
 
     const getFullPath = (component) => {
-        const path = component_to_path[component];
+        const path = component_to_path[component.displayName || component.name];
         const base = match.url[match.url.length - 1] === '/'
             ? match.url.slice(0, -1)
             : match.url;
