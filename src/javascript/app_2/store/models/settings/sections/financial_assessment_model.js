@@ -1,7 +1,7 @@
 import { observable, action } from 'mobx';
 import DAO from '../../../../data/dao';
 
-export default class SelfExclusionModel {
+export default class FinancialAssessmentModel {
     @observable is_loading = true;
 
     @observable data = {
@@ -18,9 +18,8 @@ export default class SelfExclusionModel {
 
     @action.bound
     async getFinancialAssessment() {
-        const { get_financial_assessment } = await DAO.getFinancialAssessment()
+        const { get_financial_assessment } = await DAO.getFinancialAssessment();
         if ( get_financial_assessment ) {
-            this.is_loading = false;
             Object.entries(this.data).forEach(
                 ([k,v]) =>
                     this.data[k] = get_financial_assessment[k] ?
@@ -36,7 +35,7 @@ export default class SelfExclusionModel {
     @action.bound
     handleSubmit = (e) => {
         e.preventDefault();
-        // DAO.setSelfExclusion(
+        // DAO.setFinancialAsessment(
         //     this.data,
         //     ()=> {
         //         // To-Do: Show Success page.
