@@ -3,13 +3,11 @@ import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 import CheckBox from '../components/check_box.jsx';
+import { connect } from '../../../store/connect';
 
 const scopes = ['Read', 'Trade', 'Payments', 'Admin'];
 
 class ApiToken extends PureComponent {
-    state = {
-        token_name: '',
-    }
 
     componentWillMount = () => {
         this.selectedCheckBoxes = new Set();
@@ -31,11 +29,6 @@ class ApiToken extends PureComponent {
         }
     }
 
-    onChange = (e) => {
-        const { name, value } = e.target;
-        this.setState({[name]: value});
-    }
-
     createCheckBox = label => (
         <CheckBox
             label={label}
@@ -49,7 +42,7 @@ class ApiToken extends PureComponent {
     )
 
     render() {
-        const { title, content } = this.props;
+        const { title, content, data, onChange } = this.props;
         return (
             <div className='settings__content_container'>
                 <SettingContentHeader title={title} content={content}/>
@@ -57,7 +50,7 @@ class ApiToken extends PureComponent {
                     <div className='settings__content_sub_title__container'>
                         <p className='settings__content_sub_title__text'>Create New token</p>
                     </div>
-                    <FormFieldSetList data={this.state} onChange={this.onChange}/>
+                    <FormFieldSetList data={data} onChange={onChange}/>
                         <div>
                             <label className='settings__content_form__input_label'>Choose Scopes</label>
                         </div>
@@ -71,4 +64,9 @@ class ApiToken extends PureComponent {
     }
 }
 
-export default ApiToken;
+export default connect(
+    ({ main: { settings: { api_token } } }) => ({
+        data                  : api_token.data,
+        onChange              : api_token.onChange,
+    })
+)(ApiToken);
