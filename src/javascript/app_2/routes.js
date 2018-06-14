@@ -66,6 +66,7 @@ export const isRouteVisible = (path, route = getRouteInfo(path)) =>
 
 export const BinaryLink = ({ to, children, ...props }) => {
     const path  = normalizePath(to);
+    // TODO: Fix bug - Trade header link is now always active
     // Commenting out: BinaryLink checks for "exact" route only.
     // So we're encountering errors from sub routes.
 
