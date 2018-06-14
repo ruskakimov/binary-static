@@ -12072,7 +12072,7 @@ var TimePicker = function () {
     var time_pickers = {};
 
     var init = function init(options) {
-        hide(options.selector);
+        hide(options.selector, options.datepickerDate);
         time_pickers[options.selector] = {};
 
         config(options);
@@ -12081,8 +12081,12 @@ var TimePicker = function () {
         });
     };
 
-    var hide = function hide(selector) {
+    var hide = function hide(selector, datepickerDate) {
         $(selector).timepicker('destroy').removeAttr('data-picker').off('keydown keyup input');
+        if (!datepickerDate) return;
+        if (!moment().isBefore(moment(datepickerDate))) {
+            $(selector).attr('data-value', '').val('');
+        }
     };
 
     var create = function create(selector) {
@@ -12115,6 +12119,7 @@ var TimePicker = function () {
             if (options.minTime.isBefore(time_now) && (!options.maxTime || time_now.unix() !== options.maxTime.unix())) {
                 options.minTime = time_now;
             }
+            if (options.useLocalTime) options.minTime = options.minTime.local();
             obj_config.minTime = { hour: parseInt(options.minTime.hour()), minute: parseInt(options.minTime.minute()) };
         }
 
@@ -28567,6 +28572,8 @@ module.exports = LimitsUI;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var moment = __webpack_require__(9);
 var BinaryPjax = __webpack_require__(12);
 var Client = __webpack_require__(3);
@@ -28789,8 +28796,12 @@ var SelfExclusion = function () {
     };
 
     var initDatePicker = function initDatePicker() {
+        var timeout_time_options = {
+            selector: timeout_time_id
+        };
+
         // timeout_until
-        TimePicker.init({ selector: timeout_time_id });
+        TimePicker.init(timeout_time_options);
         DatePicker.init({
             selector: timeout_date_id,
             minDate: 0,
@@ -28806,7 +28817,21 @@ var SelfExclusion = function () {
 
         $(timeout_date_id + ', ' + exclude_until_id).change(function () {
             dateValueChanged(this, 'date');
-            $('#gamstop_info_bottom').setVisibility(is_gamstop_client && this.getAttribute('data-value'));
+            var date = this.getAttribute('data-value');
+
+            if (timeout_date_id.indexOf(this.id) > 0) {
+                var disabled_time_options = {
+                    minTime: 'now',
+                    useLocalTime: true
+                };
+
+                // reinitialize timepicker on timeout date change
+                TimePicker.init(_extends({}, timeout_time_options, moment().isBefore(moment(date)) ? undefined : disabled_time_options, {
+                    datepickerDate: date
+                }));
+            }
+
+            $('#gamstop_info_bottom').setVisibility(is_gamstop_client && date);
         });
     };
 
