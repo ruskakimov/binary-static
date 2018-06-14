@@ -4,6 +4,7 @@ import SelfExclusionModel from './sections/self_exclusion_model';
 import FinancialAssessmentModel from './sections/financial_assessment_model';
 import CashierPasswordModel from './sections/cashier_password_model';
 import AccountPasswordModel from './sections/account_password_model';
+import ApiTokenModel from './sections/api_token_model';
 
 export default class SettingsModel {
     constructor() {
@@ -12,5 +13,6 @@ export default class SettingsModel {
         this.financial_assessment = new FinancialAssessmentModel();
         this.cashier_password = new CashierPasswordModel();
         this.account_password = new AccountPasswordModel();
+        this.api_token = new ApiTokenModel();
     }
 }
