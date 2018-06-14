@@ -19,7 +19,16 @@ class PersonalDetails extends PureComponent {
                     is_loading ?
                     <Loading /> :
                     <div className='settings__content_form__container'>
+                        <div className='settings__content_sub_title__container'>
+                            <p className='settings__content_sub_title__text'>Details</p>
+                        </div>
                         <FormFieldSetList data={data} onChange={onChange}/>
+                        <div className='settings__content_sub_title__container'>
+                            <p className='settings__content_sub_title__text'>Address</p>
+                        </div>
+                        <div className='settings__content_sub_title__container'>
+                            <p className='settings__content_sub_title__text'>Tax Information</p>
+                        </div>
                         <div className='settings__content_form__submit_container'>
                             <FormSubmitButton value='UPDATE'/>
                         </div>
