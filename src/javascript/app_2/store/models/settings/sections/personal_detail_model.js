@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import DAO from '../../../../data/dao';
+import WS from '../../../../data/ws_methods';
 
 export default class PersonalDetailsModel {
     @observable is_loading = true;
@@ -26,7 +26,7 @@ export default class PersonalDetailsModel {
 
     @action.bound
     async getPersonalDetails() {
-        const { get_settings } = await DAO.getSettings();
+        const { get_settings } = await WS.getSettings();
         if ( get_settings ) {
             Object.entries(this.data).forEach(
                 ([k,v]) =>

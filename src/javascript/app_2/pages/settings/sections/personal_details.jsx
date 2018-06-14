@@ -32,7 +32,7 @@ class PersonalDetails extends PureComponent {
 
 
 export default connect(
-    ({ main: { settings: { personal_details } } }) => ({
+    ({ pages: { settings: { personal_details } } }) => ({
         is_loading            : personal_details.is_loading,
         data                  : personal_details.data,
         getPersonalDetails    : personal_details.getPersonalDetails,
