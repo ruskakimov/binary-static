@@ -6,7 +6,7 @@ import Loading from '../../../../../templates/_common/components/loading.jsx';
 import { connect } from '../../../store/connect';
 
 class FinancialAssessment extends PureComponent {
-    async componentDidMount() {
+    componentDidMount() {
         this.props.getFinancialAssessment();
     }
 
