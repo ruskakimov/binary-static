@@ -48,7 +48,7 @@ class LoginHistory extends PureComponent {
 }
 
 export default connect(
-    ({ main: {settings: {login_history} } }) => ({
+    ({ common: {settings: {login_history} } }) => ({
         data: login_history.data,
         getData: login_history.getData,
         is_loading: login_history.is_loading,

@@ -7,6 +7,7 @@ import { redirectToLogin } from '../_common/base/login';
 import { localize }        from '../_common/localize';
 
 import Settings            from './pages/settings/settings.jsx';
+import Portfolio           from './pages/portfolio/portfolio.jsx';
 import Statement           from './pages/statement/statement.jsx';
 import TradeApp            from './pages/trading/trade_app.jsx';
 
@@ -22,7 +23,8 @@ import PersonalDetails        from './pages/settings/sections/personal_details.j
 import SelfExclusion          from './pages/settings/sections/self_exclusion.jsx';
 
 const routes = [
-    { path: '/',          component: TradeApp,  exact: true },
+    { path: '/',          component: TradeApp, exact: true },
+    { path: '/portfolio', component: Portfolio, is_authenticated: true },
     { path: '/statement', component: Statement, is_authenticated: true },
     {
         path     : '/settings',

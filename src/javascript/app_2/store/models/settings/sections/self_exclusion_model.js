@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import DAO from '../../../../data/dao';
+import WS from '../../../../data/ws_methods';
 
 export default class SelfExclusionModel {
     @observable is_loading = true;
@@ -20,7 +20,7 @@ export default class SelfExclusionModel {
 
     @action.bound
     async getSelfExclusion() {
-        const { get_self_exclusion } = await DAO.getSelfExclusion();
+        const { get_self_exclusion } = await WS.getSelfExclusion();
         if ( get_self_exclusion ) {
             Object.entries(this.data).forEach(
                 ([k,v]) =>
@@ -37,7 +37,7 @@ export default class SelfExclusionModel {
     @action.bound
     handleSubmit = (e) => {
         e.preventDefault();
-        DAO.setSelfExclusion(
+        WS.setSelfExclusion(
             this.data,
             ()=> {
                 // To-Do: Show Success page.
