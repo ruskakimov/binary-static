@@ -32,7 +32,7 @@ class SelfExclusion extends PureComponent {
 }
 
 export default connect(
-    ({ common: { settings: { self_exclusion } } }) => ({
+    ({ pages: { settings: { self_exclusion } } }) => ({
         is_loading      : self_exclusion.is_loading,
         data            : self_exclusion.data,
         getSelfExclusion: self_exclusion.getSelfExclusion,

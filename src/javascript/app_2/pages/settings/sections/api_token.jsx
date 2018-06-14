@@ -65,7 +65,7 @@ class ApiToken extends PureComponent {
 }
 
 export default connect(
-    ({ common: { settings: { api_token } } }) => ({
+    ({ pages: { settings: { api_token } } }) => ({
         data                  : api_token.data,
         onChange              : api_token.onChange,
     })

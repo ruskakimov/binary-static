@@ -26,7 +26,7 @@ class AccountPassword extends PureComponent {
 }
 
 export default connect(
-    ({ common: { settings: { account_password } } }) => ({
+    ({ pages: { settings: { account_password } } }) => ({
         data                  : account_password.data,
         onChange              : account_password.onChange,
     })

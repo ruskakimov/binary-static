@@ -212,14 +212,14 @@ Statement.propTypes = {
 };
 
 export default connect(
-    ({ common }) => ({
+    ({ common, pages }) => ({
         server_time     : common.server_time,
-        data            : common.statement.data,
-        is_loading      : common.statement.is_loading,
-        has_loaded_all  : common.statement.has_loaded_all,
-        date_from       : common.statement.date_from,
-        date_to         : common.statement.date_to,
-        fetchNextBatch  : common.statement.fetchNextBatch,
-        handleDateChange: common.statement.handleDateChange,
+        data            : pages.statement.data,
+        is_loading      : pages.statement.is_loading,
+        has_loaded_all  : pages.statement.has_loaded_all,
+        date_from       : pages.statement.date_from,
+        date_to         : pages.statement.date_to,
+        fetchNextBatch  : pages.statement.fetchNextBatch,
+        handleDateChange: pages.statement.handleDateChange,
     })
 )(Statement);

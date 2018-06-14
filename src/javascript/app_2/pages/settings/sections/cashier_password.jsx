@@ -27,7 +27,7 @@ class CashierPassword extends PureComponent {
 
 
 export default connect(
-    ({ common: { settings: { cashier_password } } }) => ({
+    ({ pages: { settings: { cashier_password } } }) => ({
         data                  : cashier_password.data,
         handleSubmit          : cashier_password.handleSubmit,
         onChange              : cashier_password.onChange,
