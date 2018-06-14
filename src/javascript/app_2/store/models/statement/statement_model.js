@@ -10,7 +10,7 @@ const batch_size = 100; // request response limit
 
 export default class LoginHistoryModel {
     @observable data            = [];
-    @observable pending_request = false;
+    @observable is_loading      = false;
     @observable has_loaded_all  = false;
     @observable date_from       = '';
     @observable date_to         = '';
@@ -19,14 +19,14 @@ export default class LoginHistoryModel {
     clearTable() {
         this.data            = [];
         this.has_loaded_all  = false;
-        this.pending_request = false;
+        this.is_loading      = false;
     }
 
     @action.bound
     fetchNextBatch() {
-        if (this.has_loaded_all || this.pending_request) return;
+        if (this.has_loaded_all || this.is_loading) return;
 
-        this.pending_request = true;
+        this.is_loading = true;
 
         const currency = Client.get('currency');
 
@@ -41,9 +41,9 @@ export default class LoginHistoryModel {
             const formatted_transactions = response.statement.transactions
                 .map(transaction => getStatementData(transaction, currency));
 
-            this.data = [...this.data, ...formatted_transactions];
+            this.data           = [...this.data, ...formatted_transactions];
             this.has_loaded_all = formatted_transactions.length < batch_size;
-            this.pending_request = false;
+            this.is_loading     = false;
         });
     }
 

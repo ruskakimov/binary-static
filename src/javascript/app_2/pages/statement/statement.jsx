@@ -166,8 +166,6 @@ class Statement extends React.PureComponent {
     }
 
     render() {
-        const is_loading = this.props.pending_request && this.props.data.length === 0;
-
         return (
             <div className='statement'>
 
@@ -189,8 +187,8 @@ class Statement extends React.PureComponent {
                             Card={StatementCard}
                         />
                     </div>
-                    {is_loading && <Loading />
-                        || this.props.data.length === 0 && this.renderNoActivityMessage()}
+                    {this.props.is_loading && <Loading />}
+                    {!this.props.is_loading && this.props.data.length === 0 && this.renderNoActivityMessage()}
                 </div>
             </div>
         );
@@ -217,7 +215,7 @@ export default connect(
     ({ main }) => ({
         server_time     : main.server_time,
         data            : main.statement.data,
-        pending_request : main.statement.pending_request,
+        is_loading      : main.statement.is_loading,
         has_loaded_all  : main.statement.has_loaded_all,
         date_from       : main.statement.date_from,
         date_to         : main.statement.date_to,
