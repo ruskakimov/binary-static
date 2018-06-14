@@ -3,11 +3,10 @@ import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 import Loading from '../../../../../templates/_common/components/loading.jsx';
-import DAO from '../../../data/dao';
 import { connect } from '../../../store/connect';
 
 class FinancialAssessment extends PureComponent {
-    async componentDidMount() {
+    componentDidMount() {
         this.props.getFinancialAssessment();
     }
 
