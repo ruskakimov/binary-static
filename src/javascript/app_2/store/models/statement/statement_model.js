@@ -1,6 +1,6 @@
 import { observable, action }     from 'mobx';
 import moment                     from 'moment';
-import DAO                        from '../../../data/dao';
+import WS                         from '../../../data/ws_methods';
 import { formatMoney }            from '../../../../_common/base/currency_base';
 import Client                     from '../../../../_common/base/client_base';
 import { localize }               from '../../../../_common/localize';
@@ -30,7 +30,7 @@ export default class LoginHistoryModel {
 
         const currency = Client.get('currency');
 
-        DAO.getStatement(
+        WS.statement(
             batch_size,
             this.data.length,
             {

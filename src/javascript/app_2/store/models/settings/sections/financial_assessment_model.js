@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import DAO from '../../../../data/dao';
+import WS from '../../../../data/ws_methods';
 
 export default class FinancialAssessmentModel {
     @observable is_loading = true;
@@ -18,7 +18,7 @@ export default class FinancialAssessmentModel {
 
     @action.bound
     async getFinancialAssessment() {
-        const { get_financial_assessment } = await DAO.getFinancialAssessment();
+        const { get_financial_assessment } = await WS.getFinancialAssessment();
         if ( get_financial_assessment ) {
             Object.entries(this.data).forEach(
                 ([k,v]) =>
@@ -35,7 +35,7 @@ export default class FinancialAssessmentModel {
     @action.bound
     handleSubmit = (e) => {
         e.preventDefault();
-        // DAO.setFinancialAsessment(
+        // WS.setFinancialAsessment(
         //     this.data,
         //     ()=> {
         //         // To-Do: Show Success page.

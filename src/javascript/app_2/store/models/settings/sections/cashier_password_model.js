@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import DAO from '../../../../data/dao';
+import WS from '../../../../data/ws_methods';
 
 export default class CashierPasswordModel {
     @observable data = {
@@ -10,7 +10,7 @@ export default class CashierPasswordModel {
     @action.bound
     handleSubmit = (e) => {
         e.preventDefault();
-        DAO.sendCashierPassword(
+        WS.sendCashierPassword(
             this.cashier_pw,
             () => {
                 // To-Do: Render Success Msg

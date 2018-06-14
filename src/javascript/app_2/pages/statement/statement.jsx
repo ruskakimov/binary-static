@@ -1,12 +1,12 @@
 import React              from 'react';
-import moment             from 'moment';
 import classnames         from 'classnames';
+import moment             from 'moment';
 import PropTypes          from 'prop-types';
-import { connect }        from '../../store/connect';
-import { localize }       from '../../../_common/localize';
 import CardList           from '../../components/elements/card_list.jsx';
 import DataTable          from '../../components/elements/data_table.jsx';
 import DatePicker         from '../../components/form/date_picker.jsx';
+import { connect }        from '../../store/connect';
+import { localize }       from '../../../_common/localize';
 import Loading            from '../../../../templates/_common/components/loading.jsx';
 
 /* TODO:
@@ -212,14 +212,14 @@ Statement.propTypes = {
 };
 
 export default connect(
-    ({ main }) => ({
-        server_time     : main.server_time,
-        data            : main.statement.data,
-        is_loading      : main.statement.is_loading,
-        has_loaded_all  : main.statement.has_loaded_all,
-        date_from       : main.statement.date_from,
-        date_to         : main.statement.date_to,
-        fetchNextBatch  : main.statement.fetchNextBatch,
-        handleDateChange: main.statement.handleDateChange,
+    ({ common, pages }) => ({
+        server_time     : common.server_time,
+        data            : pages.statement.data,
+        is_loading      : pages.statement.is_loading,
+        has_loaded_all  : pages.statement.has_loaded_all,
+        date_from       : pages.statement.date_from,
+        date_to         : pages.statement.date_to,
+        fetchNextBatch  : pages.statement.fetchNextBatch,
+        handleDateChange: pages.statement.handleDateChange,
     })
 )(Statement);

@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import moment from 'moment';
-import DAO from '../../../../data/dao';
+import WS from '../../../../data/ws_methods';
 import { localize } from '../../../../../_common/localize';
 
 export default class LoginHistoryModel {
@@ -13,7 +13,7 @@ export default class LoginHistoryModel {
         this.is_loading = true;
         this.data = [];
 
-        DAO.getLoginHistory(this.limit).then(response => {
+        WS.getLoginHistory(this.limit).then(response => {
             this.data = response.login_history.map(parse);
             this.is_loading = false;
         });

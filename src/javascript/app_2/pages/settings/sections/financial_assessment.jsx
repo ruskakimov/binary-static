@@ -31,7 +31,7 @@ class FinancialAssessment extends PureComponent {
 }
 
 export default connect(
-    ({ main: { settings: { financial_assessment } } }) => ({
+    ({ pages: { settings: { financial_assessment } } }) => ({
         is_loading            : financial_assessment.is_loading,
         data                  : financial_assessment.data,
         getFinancialAssessment: financial_assessment.getFinancialAssessment,

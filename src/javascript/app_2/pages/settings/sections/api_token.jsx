@@ -56,7 +56,7 @@ class ApiToken extends PureComponent {
                         </div>
                         {this.createCheckBoxes()}
                     <div className='settings__content_form__submit_container'>
-                        <FormSubmitButton value='UPDATE'/>
+                        <FormSubmitButton value='CREATE'/>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@ class ApiToken extends PureComponent {
 }
 
 export default connect(
-    ({ main: { settings: { api_token } } }) => ({
+    ({ pages: { settings: { api_token } } }) => ({
         data                  : api_token.data,
         onChange              : api_token.onChange,
     })
