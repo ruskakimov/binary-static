@@ -19,13 +19,20 @@
     flex-direction: row;
     flex: 1;
 
+    $sidebar_width: 350px;
+
     &__sidebar {
-        min-width: 350px;
+        width: $sidebar_width;
+        position: fixed;
+        overflow-y: auto;
+        max-height: calc(100vh - #{$HEADER_HEIGHT} - #{$FOOTER_HEIGHT});
+        box-sizing: border-box;
+        border-right: 1px solid $COLOR_LIGHT_GRAY;
     }
     &__content {
         flex-grow: 1;
+        margin-left: $sidebar_width;
         background: $COLOR_WHITE;
-        border-left: 1px solid $COLOR_LIGHT_GRAY;
     }
     &__content_sub_title {
         &__container {
@@ -168,7 +175,6 @@
 /*
     MENU ITEM COMPONENT
 */
-
 .menuitem {
     display: flex;
     height: 48px;
