@@ -202,4 +202,8 @@ export const metaData = {
         type      : 'text',
         label_name: 'Tax residence',
     },
+    full_name: {
+        type      : 'text',
+        label_name: 'Full Name',
+    },
 };

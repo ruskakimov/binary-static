@@ -3,6 +3,7 @@ import WS from '../../../../data/ws_methods';
 
 export default class PersonalDetailsModel {
     @observable is_loading = true;
+    // Note: Details Can't be changed in client side.
     @observable details_data = {
         account_opening_reason: '',
         address_city          : '',
@@ -16,6 +17,7 @@ export default class PersonalDetailsModel {
         last_name             : '',
         place_of_birth        : '',
         salutation            : '',
+        full_name             : '',
     }
     @observable tax_data = {
         tax_identification_number: {},
@@ -31,10 +33,6 @@ export default class PersonalDetailsModel {
     @computed get fullName() {
         const { salutation, first_name, last_name } = this.details_data;
         return `${ salutation } ${ first_name } ${ last_name }`;
-    }
-
-    set fullName(fullName) {
-        this.details_data.first_name = fullName;
     }
 
     // To-Do: Optimize this algorithm

@@ -22,7 +22,12 @@ class PersonalDetails extends PureComponent {
             tax_data,
             address_data,
             email_consent,
-            fullName } = this.props;
+            fullName
+        } = this.props;
+        delete details_data.first_name;
+        delete details_data.last_name;
+        delete details_data.salutation;
+        details_data.full_name = fullName;
         return (
             <div className='settings__content_container'>
                 <SettingContentHeader title={title} content={content}/>
