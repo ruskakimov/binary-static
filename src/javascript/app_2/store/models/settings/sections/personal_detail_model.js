@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import WS from '../../../../data/ws_methods';
 
 export default class PersonalDetailsModel {
@@ -18,8 +18,8 @@ export default class PersonalDetailsModel {
         salutation            : '',
     }
     @observable tax_data = {
-        tax_identiation_number: {},
-        tax_residence         : {},
+        tax_identification_number: {},
+        tax_residence            : {},
     }
     @observable address_data = {
         country     : '',
@@ -28,15 +28,35 @@ export default class PersonalDetailsModel {
     }
     @observable email_consent = 0;
 
+    @computed get fullName() {
+        const { salutation, first_name, last_name } = this.details_data;
+        return `${ salutation } ${ first_name } ${ last_name }`;
+    }
+
+    set fullName(fullName) {
+        this.details_data.first_name = fullName;
+    }
+
+    // To-Do: Optimize this algorithm
     @action.bound
     async getPersonalDetails() {
         const { get_settings } = await WS.getSettings();
         if ( get_settings ) {
-            Object.entries(this.data).forEach(
-                ([k,v]) =>
-                    this.data[k] = get_settings[k] ?
-                    get_settings[k] :
-                    v);
+            Object.entries(this.details_data).forEach(
+                ([k,v]) => {
+                    this.details_data[k] = get_settings[k] ? get_settings[k] : v;
+                }
+            );
+            Object.entries(this.tax_data).forEach(
+                ([k,v]) => {
+                    this.tax_data[k] = get_settings[k] ? get_settings[k] : v;
+                }
+            );
+            Object.entries(this.address_data).forEach(
+                ([k,v]) => {
+                    this.address_data[k] = get_settings[k] ? get_settings[k] : v;
+                }
+            );
             this.is_loading = false;
         } else {
             // To-Do: Show the error page.
