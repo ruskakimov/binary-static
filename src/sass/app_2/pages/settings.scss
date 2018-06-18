@@ -6,12 +6,14 @@
     right: $right;
     left: $left;
 }
-@mixin intput_default($left_padding) {
-    height: 32px;
+@mixin input_default($left_padding) {
     border-radius: 4px;
     background-color: $COLOR_WHITE;
     border: solid 1px $COLOR_GRAY;
     padding: 7px 30px 7px $left_padding;
+    font-size: 14px;
+    display: block;
+    width: 528px;
 }
 
 .settings {
@@ -112,20 +114,23 @@
         &__container {
             padding: 24px;
             border-radius: 4px;
-            background-color: $COLOR_BACKGROUND_ACTIVE_ITEM;
-            border: solid 1px $COLOR_SHADOW_ACTIVE_ITEM;
+            background-color: $COLOR_GHOSTWHITE;
+            border: solid 1px $COLOR_WHISPER;
         }
         &__input_container {
             position: relative;
             border-style: none;
             padding: 0px 0px 15px;
             margin-bottom: 8px;
+            background-color: $COLOR_GHOSTWHITE;
+            background-color: none;
+            border: 0;
         }
         &__input {
-            @include intput_default(8px);
+            @include input_default(8px);
         }
         &__dollar_input {
-            @include intput_default(20px);
+            @include input_default(20px);
         }
         &__input_wrapper {
             position: relative;
@@ -180,7 +185,7 @@
     color: $COLOR_BLACK;
 
     &--active {
-        background-color: $COLOR_BACKGROUND_ACTIVE_ITEM;
+        background-color: $COLOR_GHOSTWHITE;
         box-shadow: inset -4px 0 0 0 $COLOR_GRAY;
     }
     &__img_container {

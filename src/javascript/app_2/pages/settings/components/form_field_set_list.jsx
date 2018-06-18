@@ -4,7 +4,7 @@ import { metaData } from './meta_data';
 
 export const FormFieldSetList = ({ data, onChange }) => {
     return (
-        <div>
+        <div className='settings__fieldset_list'>
             {
                 Object.keys(data).map((key, i) => {
                     if (metaData[key]) {
@@ -20,7 +20,7 @@ export const FormFieldSetList = ({ data, onChange }) => {
                                 helper={helper}
                             />
                         );
-                    } 
+                    }
                 })
             }
         </div>
