@@ -3,26 +3,30 @@ import WS from '../../../../data/ws_methods';
 
 export default class PersonalDetailsModel {
     @observable is_loading = true;
-    @observable data = {
+    @observable details_data = {
         account_opening_reason: '',
         address_city          : '',
         address_line_1        : '',
         address_line_2        : '',
         address_postcode      : '',
         address_state         : '',
-        country               : '',
-        country_code          : '',
         date_of_birth         : 697420800,
         email                 : '',
-        email_consent         : 0,
         first_name            : '',
         last_name             : '',
-        phone                 : '',
         place_of_birth        : '',
         salutation            : '',
+    }
+    @observable tax_data = {
         tax_identiation_number: {},
         tax_residence         : {},
     }
+    @observable address_data = {
+        country     : '',
+        country_code: '',
+        phone       : '',
+    }
+    @observable email_consent = 0;
 
     @action.bound
     async getPersonalDetails() {
