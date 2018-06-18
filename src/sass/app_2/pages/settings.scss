@@ -28,6 +28,10 @@
         color: $COLOR_NAVY_BLUE;
     }
     &__help {
+        &_list {
+            margin: 0px;
+            padding-left: 15px;
+        }
         &_head_text {
             font-size: 10px;
             font-weight: 500;
