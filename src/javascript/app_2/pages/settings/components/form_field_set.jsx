@@ -64,5 +64,8 @@ FormFieldSet.propTypes = {
     name      : PropTypes.string,
     onChange  : PropTypes.func,
     type      : PropTypes.string,
-    value     : PropTypes.string,
+    value     : PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
 };

@@ -49,7 +49,7 @@ class LoginHistory extends PureComponent {
 
 LoginHistory.propTypes = {
     content   : PropTypes.string,
-    data      : PropTypes.object,
+    data      : PropTypes.array,
     getData   : PropTypes.func,
     is_loading: PropTypes.bool,
     title     : PropTypes.string,

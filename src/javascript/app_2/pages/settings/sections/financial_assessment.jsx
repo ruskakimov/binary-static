@@ -42,10 +42,10 @@ class FinancialAssessment extends PureComponent {
 
 FinancialAssessment.propTypes = {
     content               : PropTypes.string,
-    data                  : PropTypes.string,
+    data                  : PropTypes.object,
     getFinancialAssessment: PropTypes.func,
     is_loading            : PropTypes.bool,
-    onChange              : PropTypes.string,
+    onChange              : PropTypes.func,
     title                 : PropTypes.string,
 };
 
