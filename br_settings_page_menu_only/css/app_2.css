@@ -2855,68 +2855,75 @@ a {
 .icon_lbhighlow--light {
   content: url("../images/trading_app/contracts/trade_types/light/ic-light-lbhighlow.svg"); }
 
-.settings {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+.settings__sidebar {
+  width: 350px;
+  position: fixed;
+  overflow-y: auto;
+  height: calc(100vh - 50px - 35px);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-right: 1px solid #e9e9ed; }
+  @media (max-width: 1025px) {
+    .settings__sidebar {
+      height: calc(100vh - 50px);
+      width: 250px; } }
+
+.settings__content {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1; }
-  .settings__sidebar {
-    width: 350px;
-    position: fixed;
-    overflow-y: auto;
-    height: calc(100vh - 50px - 35px);
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    border-right: 1px solid #e9e9ed; }
-  .settings__content {
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
-    margin-left: 350px;
-    background: #fff; }
-  .settings__content_sub_title__container {
-    line-height: 0px;
-    margin-bottom: 8px; }
-  .settings__content_sub_title__text {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.5;
-    color: #333;
-    margin: 0px; }
-  .settings__content_container {
-    padding: 0 24px; }
-  .settings__content_header_title {
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1.25;
-    color: #333;
-    margin-bottom: 0; }
-  .settings__content_header_description {
-    font-size: 12px;
-    line-height: 1.5;
-    color: #333;
-    font-weight: normal;
-    margin: 0;
-    padding: 0; }
-  .settings__section_header {
-    width: 100%;
-    height: 24px;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.5;
-    color: #333;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    margin: 20px 0 10px;
-    padding: 0 24px; }
-  .settings__separator {
-    margin: 10px 24px; }
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-left: 350px;
+  background: #fff; }
+  @media (max-width: 1025px) {
+    .settings__content {
+      margin-left: 250px; } }
+  @media (max-width: 768px) {
+    .settings__content {
+      margin-left: 0; } }
+
+.settings__content_sub_title__container {
+  line-height: 0px;
+  margin-bottom: 8px; }
+
+.settings__content_sub_title__text {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #333;
+  margin: 0px; }
+
+.settings__content_container {
+  padding: 15px 24px; }
+
+.settings__content_header_title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.25;
+  color: #333;
+  margin-bottom: 0; }
+
+.settings__content_header_description {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+  font-weight: normal;
+  margin: 0;
+  padding: 0; }
+
+.settings__section_header {
+  width: 100%;
+  height: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #333;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 20px 0 10px;
+  padding: 0 24px; }
+
+.settings__separator {
+  margin: 10px 24px; }
 
 /*
     MENU ITEM COMPONENT
@@ -2948,28 +2955,105 @@ a {
     margin: 8px 8px 8px 24px; }
   .menuitem__content_container {
     -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
-    margin: 8px 0px; }
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    margin: 8px 0px;
+    overflow: hidden; }
   .menuitem__menu_name {
     font-size: 12px;
     height: 18px;
     font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
     line-height: 1.5;
-    letter-spacing: normal;
     color: #333; }
   .menuitem__menu_content {
     font-size: 10px;
     height: 15px;
-    opacity: 0.5;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
+    padding-right: 5px;
     line-height: 1.5;
-    letter-spacing: normal;
-    color: #333; }
+    color: #b3b2b2;
+    font-weight: 300;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+
+/*
+    MOBILE DROPDOWN MENU
+*/
+.mobile_dropdown {
+  margin: 10px 8px 0; }
+  .mobile_dropdown__button {
+    height: 50px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    margin-bottom: 10px;
+    padding-right: 40px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #e9e9ed;
+    position: relative;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-tap-highlight-color: transparent; }
+    .mobile_dropdown__button .menuitem {
+      height: 100%; }
+  .mobile_dropdown__menu {
+    position: fixed;
+    width: calc(100vw - 8px * 2);
+    max-height: calc(100vh - 50px - 10px - 50px - 10px - 20px);
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #e9e9ed;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none; }
+  .mobile_dropdown--open .mobile_dropdown__button {
+    border: 1px solid #2a3052; }
+  .mobile_dropdown--open .select-arrow.select-arrow {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    color: #2a3052; }
+  .mobile_dropdown .menuitem--active {
+    display: none; }
+  .mobile_dropdown .menuitem__img_container {
+    margin-left: 8px; }
+  .mobile_dropdown .settings__section_header {
+    padding-left: 12px; }
+  .mobile_dropdown .settings__menu > div:first-child .settings__section_header {
+    margin-top: 12px; }
+  .mobile_dropdown .settings__separator {
+    margin-right: 0;
+    margin-left: 0; }
+  .mobile_dropdown .select-arrow {
+    display: inline-block;
+    font-style: normal;
+    vertical-align: baseline;
+    text-align: center;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    position: absolute;
+    pointer-events: none;
+    top: 40%;
+    right: 15px;
+    line-height: 1;
+    -webkit-transition: -webkit-transform 0.3s ease;
+    transition: -webkit-transform 0.3s ease;
+    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    -webkit-transform-origin: 45% 30%;
+            transform-origin: 45% 30%;
+    color: #e9e9ed; }
+    .mobile_dropdown .select-arrow:before {
+      content: '\002303';
+      font-size: 1.1rem; }
 
 .statement-filter {
   -webkit-box-sizing: border-box;
