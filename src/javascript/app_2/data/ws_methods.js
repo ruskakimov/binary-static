@@ -34,27 +34,11 @@ const WS = (() => {
     const getLoginHistory = (limit) =>
         BinarySocket.send({ login_history: 1, limit });
 
-    // TODO: can we return a promise instead, like in others
-    const sendCashierPassword = async (cashier_pw, callback, errorCallback) => {
-        const response = await BinarySocket.send({
-            cashier_password: 1, lock_password   : cashier_pw,
-        });
-        if (!response.error) {
-            callback();
-        } else {
-            errorCallback(response.error.message);
-        }
-    };
+    const sendCashierPassword = (cashier_pw) =>
+        BinarySocket.send({ cashier_password: 1, lock_password: cashier_pw });
 
-    const setSelfExclusion = async(data, callback, errorCallback) => {
-        data.set_self_exclusion = 1;
-        const response = await BinarySocket.send(data);
-        if (!response.error) {
-            callback();
-        } else {
-            errorCallback(response.error.message);
-        }
-    };
+    const setSelfExclusion = (data) =>
+        BinarySocket.send(data);
 
     const mt5LoginList = () =>
         BinarySocket.send({ mt5_login_list: 1 });

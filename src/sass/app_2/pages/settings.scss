@@ -23,6 +23,39 @@
 
     $sidebar_width: 350px;
 
+    &__help {
+        &_head_text {
+            font-size: 10px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.5;
+            letter-spacing: normal;
+            color: $COLOR_LETTER_GRAY;
+        }
+        &_text {
+            font-size: 10px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.5;
+            letter-spacing: normal;
+            color: $COLOR_LETTER_GRAY;
+        }
+        &_container {
+            margin-left: 24px;
+            width: 216px;
+            border-radius: 4px;
+            background-color: $COLOR_GHOSTWHITE;
+            border: solid 1px $COLOR_GRAY;
+            padding: 16px;
+        }
+    }
+    &__container {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+    }
     &__sidebar {
         width: $sidebar_width;
         position: fixed;
@@ -123,6 +156,7 @@
             border-radius: 4px;
             background-color: $COLOR_GHOSTWHITE;
             border: solid 1px $COLOR_WHISPER;
+            width: 576px;
         }
         &__input_container {
             position: relative;

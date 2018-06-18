@@ -8,19 +8,17 @@ export default class CashierPasswordModel {
     }
 
     @action.bound
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        WS.sendCashierPassword(
-            this.cashier_pw,
-            () => {
-                // To-Do: Render Success Msg
-                console.log('Success!')
-            },
-            (error) => {
-                // To-Do: Render Error Msg
-                console.log(error)
-            },
-        );
+        const response = await WS.sendCashierPassword(this.cashier_pw);
+        if (!response.error) {
+            console.log(response);
+            // To-Do: Render Success Msg.
+            console.log('Success!');
+        } else {
+            // To-DO: Render Failed Message.
+            console.log(response.error.message);
+        }
     }
 
     @action.bound

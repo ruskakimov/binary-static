@@ -35,20 +35,18 @@ export default class SelfExclusionModel {
     }
 
     @action.bound
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        WS.setSelfExclusion(
-            this.data,
-            ()=> {
-                // To-Do: Show Success page.
-                console.log('successfully self-excluted!');
-            },
-            (message) => {
-                // To-Do: Show the error page.
-                // To-DO: Validation: timeout_until.
-                console.log(message);
-            },
-        );
+        const data = this.data;
+        data.set_self_exclusion = 1;
+        const response = await WS.setSelfExclusion(data);
+        if (!response.error) {
+            // To-Do: Show Success Submission Msg
+            console.log('Self Exclusion Success');
+        } else {
+            // To-Do: Show Error Msg
+            console.log(response.error.message);
+        }
     }
 
     @action.bound
