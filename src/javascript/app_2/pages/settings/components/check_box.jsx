@@ -19,10 +19,10 @@ class CheckBox extends Component {
         return (
             <label>
                 <input
-                type="checkbox"
-                value={label}
-                checked={isChecked}
-                onChange={this.toggleCheckBoxChange}
+                    type='checkbox'
+                    value={label}
+                    checked={isChecked}
+                    onChange={this.toggleCheckBoxChange}
                 />
                 <span className='settings__checkbox_text'>{label}</span>
             </label>

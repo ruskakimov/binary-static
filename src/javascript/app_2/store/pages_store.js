@@ -1,6 +1,3 @@
-import { observable } from 'mobx';
-import moment         from 'moment';
-
 import SettingsModel from './models/settings/settings_model';
 import StatementModel from './models/statement/statement_model';
 

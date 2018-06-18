@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import { FormFieldSetList } from '../components/form_field_set_list.jsx';
@@ -12,7 +13,7 @@ class AccountPassword extends PureComponent {
 
         return (
 
-            <form  method="get">
+            <form  method='get'>
                 <div className='settings__content_container'>
                     <SettingContentHeader title={title} content={content}/>
                     <div className='settings__container'>
@@ -36,9 +37,16 @@ class AccountPassword extends PureComponent {
     }
 }
 
+AccountPassword.propTypes = {
+    content : PropTypes.string,
+    data    : PropTypes.object,
+    onChange: PropTypes.func,
+    title   : PropTypes.string,
+};
+
 export default connect(
     ({ pages: { settings: { account_password } } }) => ({
-        data                  : account_password.data,
-        onChange              : account_password.onChange,
+        data    : account_password.data,
+        onChange: account_password.onChange,
     })
 )(AccountPassword);

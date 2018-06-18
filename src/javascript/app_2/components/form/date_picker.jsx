@@ -660,7 +660,7 @@ Calendar.propTypes = {
         PropTypes.object,
         PropTypes.string,
     ]),
-    minDate         : PropTypes.oneOfType([
+    minDate: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string,
     ]),
@@ -681,7 +681,7 @@ DatePicker.propTypes = {
         PropTypes.object,
         PropTypes.string,
     ]),
-    minDate        : PropTypes.oneOfType([
+    minDate: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string,
     ]),

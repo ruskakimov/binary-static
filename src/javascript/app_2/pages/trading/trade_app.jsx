@@ -13,8 +13,6 @@ import SmartCharts     from '../../components/charts/smartcharts.jsx';
 import PortfolioDrawer from '../../components/elements/portfolio_drawer.jsx';
 import { connect }     from '../../store/connect';
 
-import { NavLink } from 'react-router-dom';
-
 const form_components = [
     { name: 'start_date', Component: StartDate },
     { name: 'duration',   Component: Duration },

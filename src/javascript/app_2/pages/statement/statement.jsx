@@ -206,9 +206,14 @@ StatementCard.propTypes = {
     refid    : PropTypes.string,
 };
 
-// TODO: add all props
 Statement.propTypes = {
-    server_time: PropTypes.object,
+    data            : PropTypes.object,
+    date_from       : PropTypes.string,
+    date_to         : PropTypes.string,
+    fetchNextBatch  : PropTypes.func,
+    handleDateChange: PropTypes.func,
+    is_loading      : PropTypes.bool,
+    server_time     : PropTypes.string,
 };
 
 export default connect(

@@ -2,8 +2,8 @@ import { observable, action } from 'mobx';
 
 export default class AccountPasswordModel {
     @observable data = {
-        current_password: '',
-        new_password: '',
+        current_password : '',
+        new_password     : '',
         verified_password: '',
     }
 

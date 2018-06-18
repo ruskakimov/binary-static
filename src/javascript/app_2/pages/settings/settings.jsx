@@ -2,8 +2,7 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MenuList from './components/menu_list.jsx';
-
-import data from './settings_data';
+import { data } from './settings_data';
 
 const Settings = ({ match, routes }) => {
     const component_to_path = routes.reduce((map, { component, path }) => {
@@ -19,21 +18,27 @@ const Settings = ({ match, routes }) => {
             ? match.url.slice(0, -1)
             : match.url;
         return `${base}${path}`;
-    }
+    };
 
     return (
         <div className='settings container'>
             <div className='settings__sidebar'>
                 {
-                    data.map(section => {
-                        return (
-                            <div key={section.title}>
-                                <h2 className='settings__section_header'>{section.title}</h2>
-                                <hr className='settings__separator'/>
-                                <MenuList items={section.items.map(item => ({ ...item, path: getFullPath(item.Component) }))} />
-                            </div>
-                        );
-                    })
+                    data.map(section =>
+                        <div key={section.title}>
+                            <h2 className='settings__section_header'>{section.title}</h2>
+                            <hr className='settings__separator'/>
+                            <MenuList
+                                items={
+                                    section.items.map(
+                                        item => (
+                                            { ...item, path: getFullPath(item.Component) }
+                                        )
+                                    )
+                                }
+                            />
+                        </div>
+                    )
                 }
             </div>
             <div className='settings__content'>
@@ -52,11 +57,12 @@ const Settings = ({ match, routes }) => {
             </div>
         </div>
     );
-}
+};
 
 Settings.propTypes = {
     match   : PropTypes.object,
     sections: PropTypes.array,
+    routes  : PropTypes.array,
 };
 
 export default Settings;

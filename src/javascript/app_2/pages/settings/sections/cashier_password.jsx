@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { SettingContentHeader } from '../components/setting_content_header.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { FormFieldSetList } from '../components/form_field_set_list.jsx';
@@ -35,11 +36,18 @@ class CashierPassword extends PureComponent {
     }
 }
 
+CashierPassword.propTypes = {
+    content     : PropTypes.string,
+    data        : PropTypes.object,
+    handleSubmit: PropTypes.func,
+    onChange    : PropTypes.func,
+    title       : PropTypes.string,
+};
 
 export default connect(
     ({ pages: { settings: { cashier_password } } }) => ({
-        data                  : cashier_password.data,
-        handleSubmit          : cashier_password.handleSubmit,
-        onChange              : cashier_password.onChange,
+        data        : cashier_password.data,
+        handleSubmit: cashier_password.handleSubmit,
+        onChange    : cashier_password.onChange,
     })
 )(CashierPassword);

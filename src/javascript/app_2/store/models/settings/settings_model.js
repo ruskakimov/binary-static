@@ -1,4 +1,3 @@
-import { observable } from 'mobx';
 import LoginHistoryModel from './sections/login_history_model';
 import SelfExclusionModel from './sections/self_exclusion_model';
 import FinancialAssessmentModel from './sections/financial_assessment_model';
