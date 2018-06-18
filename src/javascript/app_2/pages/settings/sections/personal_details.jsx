@@ -4,6 +4,7 @@ import { FormFieldSetList } from '../components/form_field_set_list.jsx';
 import { FormSubmitButton } from '../components/form_submit_button.jsx';
 import { connect } from '../../../store/connect';
 import Loading from '../../../../../templates/_common/components/loading.jsx';
+import { SettingsHelpContainer } from '../components/settings_help_container.jsx';
 
 class PersonalDetails extends PureComponent {
     componentDidMount() {
@@ -18,19 +19,27 @@ class PersonalDetails extends PureComponent {
                 {
                     is_loading ?
                     <Loading /> :
-                    <div className='settings__content_form__container'>
-                        <div className='settings__content_sub_title__container'>
-                            <p className='settings__content_sub_title__text'>Details</p>
+                    <div className='settings__container'>
+                        <div className='settings__content_form__container'>
+                            <div className='settings__content_sub_title__container'>
+                                <p className='settings__content_sub_title__text'>Details</p>
+                            </div>
+                            <FormFieldSetList data={data} onChange={onChange}/>
+                            <div className='settings__content_sub_title__container'>
+                                <p className='settings__content_sub_title__text'>Address</p>
+                            </div>
+                            <div className='settings__content_sub_title__container'>
+                                <p className='settings__content_sub_title__text'>Tax Information</p>
+                            </div>
+                            <div className='settings__content_form__submit_container'>
+                                <FormSubmitButton value='UPDATE'/>
+                            </div>
                         </div>
-                        <FormFieldSetList data={data} onChange={onChange}/>
-                        <div className='settings__content_sub_title__container'>
-                            <p className='settings__content_sub_title__text'>Address</p>
-                        </div>
-                        <div className='settings__content_sub_title__container'>
-                            <p className='settings__content_sub_title__text'>Tax Information</p>
-                        </div>
-                        <div className='settings__content_form__submit_container'>
-                            <FormSubmitButton value='UPDATE'/>
+                        <div>
+                            <SettingsHelpContainer>
+                                <p className='settings__help_head_text'>How to change my details?</p>
+                                <p className='settings__help_text'>To change your name, date of birth, country of residence, or email, please Contact <span className='settings_link'>Customer Support</span></p>
+                            </SettingsHelpContainer>
                         </div>
                     </div>
                 }

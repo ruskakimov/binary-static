@@ -27,9 +27,9 @@ class FinancialAssessment extends PureComponent {
                             </div>
                         </div>
                         <div>
-                            <SettingsHelpContainer>    
-                                <p className='settings__help_head_text'>How to change my details?</p>
-                                <p className='settings__help_text'>To change your name, date of birth, country of residence, or email, please Contact <i>Customer Support</i></p>
+                            <SettingsHelpContainer>
+                                <p className='settings__help_head_text'>Why do I need to fill this?</p>
+                                <p className='settings__help_text'>The financial trading services contained within this site are only suitable for customers who are able to bear the loss of all the money they invest and who understand and have experience of the risk involved in the acquisition of financial contracts. Transactions in financial contracts carry a high degree of risk. If purchased contracts expire worthless, you will suffer a total loss of your investment, which consists of the contract premium.</p>
                             </SettingsHelpContainer>
                         </div>
                     </div>

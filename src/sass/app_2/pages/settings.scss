@@ -23,6 +23,10 @@
 
     $sidebar_width: 350px;
 
+    &_link {
+        font-weight: bold;
+        color: $COLOR_NAVY_BLUE;
+    }
     &__help {
         &_head_text {
             font-size: 10px;
