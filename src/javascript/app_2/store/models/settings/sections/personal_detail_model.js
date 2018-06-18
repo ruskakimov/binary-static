@@ -6,11 +6,6 @@ export default class PersonalDetailsModel {
     // Note: Details Can't be changed in client side.
     @observable details_data = {
         account_opening_reason: '',
-        address_city          : '',
-        address_line_1        : '',
-        address_line_2        : '',
-        address_postcode      : '',
-        address_state         : '',
         date_of_birth         : 697420800,
         email                 : '',
         first_name            : '',
@@ -24,9 +19,14 @@ export default class PersonalDetailsModel {
         tax_residence            : {},
     }
     @observable address_data = {
-        country     : '',
-        country_code: '',
-        phone       : '',
+        address_city    : '',
+        address_line_1  : '',
+        address_line_2  : '',
+        address_postcode: '',
+        address_state   : '',
+        country         : '',
+        country_code    : '',
+        phone           : '',
     }
     @observable email_consent = 0;
 
@@ -63,8 +63,18 @@ export default class PersonalDetailsModel {
     }
 
     @action.bound
+    onAddressDataChange = (e) => {
+        const { name, value } = e.target;
+        this.address_data[name] = value;
+    }
+    @action.bound
     onChange = (e) => {
         const { name, value } = e.target;
         this.data[name] = value;
+    }
+    @action.bound
+    onTaxDataChange = (e) => {
+        const { name, value } = e.target;
+        this.tax_data[name] = value;
     }
 }

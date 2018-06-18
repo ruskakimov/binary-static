@@ -22,7 +22,9 @@ class PersonalDetails extends PureComponent {
             tax_data,
             address_data,
             email_consent,
-            fullName
+            fullName,
+            onTaxDataChange,
+            onAddressDataChange,
         } = this.props;
         delete details_data.first_name;
         delete details_data.last_name;
@@ -43,11 +45,11 @@ class PersonalDetails extends PureComponent {
                                 <div className='settings__content_sub_title__container'>
                                     <p className='settings__content_sub_title__text'>Address</p>
                                 </div>
-                                <FormFieldSetList data={address_data} onChange={onChange}/>
+                                <FormFieldSetList data={address_data} onChange={onAddressDataChange}/>
                                 <div className='settings__content_sub_title__container'>
                                     <p className='settings__content_sub_title__text'>Tax Information</p>
                                 </div>
-                                <FormFieldSetList data={tax_data} onChange={onChange}/>
+                                <FormFieldSetList data={tax_data} onChange={onTaxDataChange}/>
                                 <div className='settings__content_form__submit_container'>
                                     <FormSubmitButton value='UPDATE'/>
                                 </div>
@@ -76,13 +78,15 @@ PersonalDetails.propTypes = {
 
 export default connect(
     ({ pages: { settings: { personal_details } } }) => ({
-        is_loading        : personal_details.is_loading,
-        details_data      : personal_details.details_data,
-        tax_data          : personal_details.tax_data,
-        address_data      : personal_details.address_data,
-        email_consent     : personal_details.email_consent,
-        getPersonalDetails: personal_details.getPersonalDetails,
-        onChange          : personal_details.onChange,
-        fullName          : personal_details.fullName,
+        is_loading         : personal_details.is_loading,
+        details_data       : personal_details.details_data,
+        tax_data           : personal_details.tax_data,
+        address_data       : personal_details.address_data,
+        email_consent      : personal_details.email_consent,
+        getPersonalDetails : personal_details.getPersonalDetails,
+        onChange           : personal_details.onChange,
+        fullName           : personal_details.fullName,
+        onAddressDataChange: personal_details.onAddressDataChange,
+        onTaxDataChange    : personal_details.onTaxDataChange,
     })
 )(PersonalDetails);
