@@ -18,6 +18,7 @@ export default class FinancialAssessmentModel {
 
     @action.bound
     async getFinancialAssessment() {
+        // TODO: handle permission denied (virtual account)
         const { get_financial_assessment } = await WS.getFinancialAssessment();
         if ( get_financial_assessment ) {
             Object.entries(this.data).forEach(
