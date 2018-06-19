@@ -8288,12 +8288,12 @@ var data = [{
     items: [{
         title: (0, _localize.localize)('Personal Details'),
         description: (0, _localize.localize)('View your personal information.'),
-        img_src: '../images/trading_app/settings/ic-personal-details.svg',
+        img_src: 'images/trading_app/settings/ic-personal-details.svg',
         Component: _personal_details2.default
     }, {
         title: (0, _localize.localize)('Financial Assessment'),
         description: (0, _localize.localize)('View your financial assessment settings'),
-        img_src: '../images/trading_app/settings/ic-financial-assesment.svg',
+        img_src: 'images/trading_app/settings/ic-financial-assesment.svg',
         Component: _financial_assessment2.default
     }]
 }, {
@@ -8301,37 +8301,37 @@ var data = [{
     items: [{
         title: (0, _localize.localize)('Account Password'),
         description: (0, _localize.localize)('Change your main login password.'),
-        img_src: '../images/trading_app/settings/ic-account-password.svg',
+        img_src: 'images/trading_app/settings/ic-account-password.svg',
         Component: _account_password2.default
     }, {
         title: (0, _localize.localize)('Cashier Password'),
         description: (0, _localize.localize)('Change the password used for deposits and withdrawals'),
-        img_src: '../images/trading_app/settings/ic-cashier-password.svg',
+        img_src: 'images/trading_app/settings/ic-cashier-password.svg',
         Component: _cashier_password2.default
     }, {
         title: (0, _localize.localize)('Self Exclusion'),
         description: (0, _localize.localize)('Facility that allows you to set limits on your account.'),
-        img_src: '../images/trading_app/settings/ic-self-exclusion.svg',
+        img_src: 'images/trading_app/settings/ic-self-exclusion.svg',
         Component: _self_exclusion2.default
     }, {
         title: (0, _localize.localize)('Limits'),
         description: (0, _localize.localize)('View your trading and withdrawal limits'),
-        img_src: '../images/trading_app/settings/ic-limits.svg',
+        img_src: 'images/trading_app/settings/ic-limits.svg',
         Component: _limits2.default
     }, {
         title: (0, _localize.localize)('Login History'),
         description: (0, _localize.localize)('View your login history'),
-        img_src: '../images/trading_app/settings/ic-login-history.svg',
+        img_src: 'images/trading_app/settings/ic-login-history.svg',
         Component: _login_history2.default
     }, {
         title: (0, _localize.localize)('API Token'),
         description: (0, _localize.localize)('API token for third party applications'),
-        img_src: '../images/trading_app/settings/ic-api-token.svg',
+        img_src: 'images/trading_app/settings/ic-api-token.svg',
         Component: _api_token2.default
     }, {
         title: (0, _localize.localize)('Authorized Applications'),
         description: (0, _localize.localize)('Manage your authorised applications'),
-        img_src: '../images/trading_app/settings/ic-authorised-applications.svg',
+        img_src: 'images/trading_app/settings/ic-authorised-applications.svg',
         Component: _authorized_applications2.default
     }]
 }];
