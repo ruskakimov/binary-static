@@ -8089,7 +8089,7 @@ var MobileDropdown = function (_React$PureComponent) {
                     ),
                     _react2.default.createElement('span', { className: 'select-arrow' })
                 ),
-                is_open && _react2.default.createElement(
+                _react2.default.createElement(
                     'div',
                     { className: 'mobile_dropdown__menu' },
                     children
@@ -8103,7 +8103,7 @@ var MobileDropdown = function (_React$PureComponent) {
 
 MobileDropdown.propTypes = {
     all_items: _propTypes2.default.array,
-    children: _propTypes2.default.component
+    children: _propTypes2.default.element
 };
 
 exports.default = MobileDropdown;
