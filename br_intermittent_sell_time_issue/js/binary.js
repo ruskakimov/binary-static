@@ -24972,7 +24972,7 @@ var Highchart = function () {
     var endContract = function endContract() {
         if (chart && !stop_streaming) {
             drawLineX({
-                value: isSoldBeforeExpiry() ? sell_spot_time || sell_time : end_time,
+                value: isSoldBeforeExpiry() ? sell_time || sell_spot_time : end_time,
                 text_left: 'textLeft',
                 dash_style: 'Dash'
             });
