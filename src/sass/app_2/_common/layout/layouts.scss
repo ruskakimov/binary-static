@@ -1,6 +1,6 @@
 @supports (display: grid) {
     #app_contents {
-        margin: 49px 0 40px;
+        margin: 49px 0 35px;
         overflow: auto; // prevent margin collapse
     }
     /* trade-app layout */
@@ -93,11 +93,12 @@
             .offset-container {
                 display: unset;
                 position: absolute;
-                height: 100vh;
+                height: 100%;
                 width: 100%;
                 left: calc(100% + 40px);
                 transition: all 0.25s;
                 grid-column: col-start 11 / span 2;
+                border: 1px solid $COLOR_GRAY;
             }
             &.show {
                 margin-right: 0;
@@ -109,7 +110,7 @@
                     transform: translate(-100%);
                 }
                 .offset-container {
-                    transform: translate(calc(-100% - 20px));
+                    transform: translate(calc(-100% - 29px));
                 }
             }
         }
