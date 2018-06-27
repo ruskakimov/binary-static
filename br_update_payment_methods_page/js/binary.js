@@ -203,7 +203,7 @@ var findParent = function findParent(el, selector) {
 
 var static_hash = void 0;
 var getStaticHash = function getStaticHash() {
-    static_hash = static_hash || (document.querySelector('script[src*="vendor.min.js"]').getAttribute('src') || '').split('?')[1];
+    static_hash = static_hash || (document.querySelector('script[src*="binary.min.js"],script[src*="binary.js"]').getAttribute('src') || '').split('?')[1];
     return static_hash;
 };
 
@@ -4142,6 +4142,7 @@ module.exports = Tick;
 
 
 var moment = __webpack_require__(9);
+var getLanguage = __webpack_require__(16).get;
 var LocalStore = __webpack_require__(6).LocalStore;
 var getPropertyValue = __webpack_require__(1).getPropertyValue;
 var getStaticHash = __webpack_require__(1).getStaticHash;
@@ -4167,10 +4168,12 @@ var isEmptyObject = __webpack_require__(1).isEmptyObject;
 var SocketCache = function () {
     // keys are msg_type
     // expire: how long to keep the value (in minutes)
-    // map_to: if presents, stores the response based on the value of the provided key in the echo_req
+    // map_to: to store different responses of the same key, should be array of:
+    //     string  : the property value from echo_req
+    //     function: return value of the function
     var config = {
         payout_currencies: { expire: 10 },
-        active_symbols: { expire: 10, map_to: ['product_type', 'landing_company'] },
+        active_symbols: { expire: 10, map_to: ['product_type', 'landing_company', getLanguage] },
         contracts_for: { expire: 10, map_to: ['contracts_for', 'product_type', 'currency'] },
         exchange_rates: { expire: 60, map_to: ['base_currency'] }
     };
@@ -4237,7 +4240,8 @@ var SocketCache = function () {
 
         if (key && !isEmptyObject(source_obj)) {
             ((config[key] || {}).map_to || []).forEach(function (map_key) {
-                key += map_key ? '_' + (source_obj[map_key] || '') : '';
+                var value = typeof map_key === 'function' ? map_key() : source_obj[map_key];
+                key += map_key ? '_' + (value || '') : '';
             });
         }
 
@@ -9917,8 +9921,10 @@ var Durations = function () {
         if (CommonFunctions.getElementById('expiry_type').value === 'endtime') {
             var $expiry_date = $('#expiry_date');
             var date_start_val = CommonFunctions.getElementById('date_start').value || 'now';
+            var is_now = isNow(date_start_val);
+            var is_risefall = /risefall/.test(Defaults.get('formname')) || false;
 
-            if (isNow(date_start_val) || /^(risefall|callputequal)$/.test(Defaults.get('formname'))) {
+            if (is_now || !is_risefall) {
                 if (!$expiry_date.is('input')) {
                     $expiry_date.replaceWith($('<input/>', { id: 'expiry_date', type: 'text', readonly: 'readonly', autocomplete: 'off', 'data-value': $expiry_date.attr('data-value') })).val(toReadableFormat($expiry_date.attr('data-value')));
                     $expiry_date = $('#expiry_date');
@@ -13349,9 +13355,9 @@ var Process = function () {
     var setFormName = function setFormName(formname) {
         var formname_to_set = formname;
         var has_callputequal = hasCallPutEqual();
-        if (formname_to_set === 'callputequal' && (!has_callputequal || !+Defaults.get('is_equal'))) {
+        if (/^(callputequal)$/.test(formname_to_set) && (!has_callputequal || !+Defaults.get('is_equal'))) {
             formname_to_set = 'risefall';
-        } else if (formname_to_set === 'risefall' && has_callputequal && +Defaults.get('is_equal')) {
+        } else if (/^(risefall)$/.test(formname_to_set) && has_callputequal && +Defaults.get('is_equal')) {
             formname_to_set = 'callputequal';
         }
         Defaults.set('formname', formname_to_set);
