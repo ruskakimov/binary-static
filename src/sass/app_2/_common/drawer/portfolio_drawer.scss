@@ -70,10 +70,10 @@
                 font-weight: 600;
 
                 &.indicative-positive {
-                    color: #66bb6a; /* stylelint-disable-line color-no-hex */
+                    color: $COLOR_LIGHT_BLUE;
                 }
                 &.indicative-negative {
-                    color: #f44336; /* stylelint-disable-line color-no-hex */
+                    color: $COLOR_LIGHT_RED;
                 }
             }
             .remaining-time {
