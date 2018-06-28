@@ -2,6 +2,7 @@ import moment       from 'moment';
 import React        from 'react';
 import PropTypes    from 'prop-types';
 import { localize } from '../../../_common/localize';
+import Url          from '../../../_common/url';
 
 class PortfolioDrawer extends React.PureComponent {
     state = { is_open: true, width: window.innerWidth };
@@ -20,15 +21,6 @@ class PortfolioDrawer extends React.PureComponent {
 
     handleWindowSizeChange = () => {
         this.setState({ width: window.innerWidth });
-    };
-
-    // TODO: returning correct indicative price & currency
-    getIndicative = (v) => {
-        const sign = v > 0 ? '+' : '-';
-        return {
-            value  : v,
-            display: `${sign}$S${Math.abs(v)}`,
-        };
     };
 
     // TODO: calculate remaining time and render
@@ -69,11 +61,19 @@ class PortfolioDrawer extends React.PureComponent {
                     {
                         this.props.portfolios.map((portfolio, idx) => (
                             <div key={idx} className='portfolio'>
-                                <span className='ic-portfolio' />
+                                <div
+                                    className='trade-type-wrapper'
+                                >
+                                    <img
+                                        className='type'
+                                        src={Url.urlForStatic(`images/trading_app/purchase/trade_types/ic_${portfolio.contract_type.toLowerCase().replace(/\s/g, '_')}_light.svg`) || undefined}
+                                    />
+                                    <h4>{portfolio.contract_type.toLowerCase()}</h4>
+                                </div>
                                 <div className='asset'>
                                     <span className='symbol'>{portfolio.symbol}</span>
-                                    <span className={`indicative-${this.getIndicative(portfolio.buy_price).value > 0 ? 'positive' : 'negative'}`}>
-                                        {this.getIndicative(portfolio.buy_price).display}
+                                    <span className={`indicative-${portfolio.buy_price > 0 ? 'positive' : 'negative'}`}>
+                                        {Math.abs(portfolio.buy_price)}
                                     </span>
                                     <span className='remaining-time'>{moment(this.getRemainingTime(portfolio.expiry_time)).format(is_mobile ? 'HH:mm' : 'HH:mm:ss')}</span>
                                 </div>

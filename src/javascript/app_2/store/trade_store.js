@@ -14,8 +14,8 @@ export default class TradeStore {
         // Update the url's query string by default values of the store
         const queryParams = URLHelper
             .updateQueryString(this, allowed_query_string_variables);
- 
-        // update state values from query string 
+
+        // update state values from query string
         [...queryParams].forEach(param => {
             this[param[0]] = isNaN(param[1]) ? param[1] : +param[1];
         });
@@ -98,11 +98,12 @@ export default class TradeStore {
             transaction_id: 32355620467,
             contract_id   : 478981052055,
             payout        : 10,
-            expiry_time   : 1522886399,
+            expiry_time   : 1530170937,
+            contract_type : 'Does Not Touch',
             longcode      : 'Win payout if AUD/JPY is strictly higher than entry spot at close on 2018-04-04.',
             shortcode     : 'CALL_FRXAUDJPY_10_1520263325_1522886399_S0P_0',
-            currency      : 'USD',
-            buy_price     : 1.06,
+            currency      : 'ETH',
+            buy_price     : 0.06342124,
             app_id        : 1,
             symbol        : 'AUD/JPY',
         },
@@ -110,7 +111,8 @@ export default class TradeStore {
             transaction_id: 47272620508,
             contract_id   : 432523746528,
             payout        : 10,
-            expiry_time   : 15234686345,
+            expiry_time   : 1530170937,
+            contract_type : 'Goes Outside',
             longcode      : 'Win payout if AUD/JPY is strictly higher than entry spot at close on 2018-05-04.',
             shortcode     : 'CALL_FRXAUDJPY_10_1520263325_1522886399_S0P_0',
             currency      : 'USD',
