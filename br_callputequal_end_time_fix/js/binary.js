@@ -1859,7 +1859,10 @@ var Header = function () {
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
         BinarySocket.wait('landing_company', 'get_account_status').then(function () {
             if (MetaTrader.isEligible() && !Client.isJPClient()) {
-                getElementById('user_menu_metatrader').setVisibility(1);
+                var mt_visibility = document.getElementsByClassName('mt_visibility');
+                applyToAllElements(mt_visibility, function (el) {
+                    el.setVisibility(1);
+                });
             }
         });
     };
@@ -6596,7 +6599,10 @@ var ViewPopup = function () {
     };
 
     var contractEnded = function contractEnded() {
-        getElementById('trade_details_live_date').parentNode.setVisibility(0);
+        var el_live_date = getElementById('trade_details_live_date');
+        if (el_live_date.parentNode) {
+            el_live_date.parentNode.setVisibility(0);
+        }
 
         containerSetText('trade_details_current_title', localize(contract.status === 'sold' || contract.sell_spot_time < contract.date_expiry ? 'Contract Sold' : 'Contract Expiry'));
         containerSetText('trade_details_indicative_label', localize('Price'));
@@ -9617,6 +9623,7 @@ var getPropertyValue = __webpack_require__(1).getPropertyValue;
 
 var Durations = function () {
     var selected_duration = {};
+    var smallest_duration = {};
     var has_end_date = 0;
 
     var displayDurations = function displayDurations(time_start_val) {
@@ -9723,6 +9730,11 @@ var Durations = function () {
             return commonTrading.durationOrder(a) > commonTrading.durationOrder(b) ? 1 : -1;
         });
 
+        smallest_duration = {
+            amount: duration_list[list[0]].dataset.minimum,
+            unit: list[0]
+        };
+
         has_end_date = 0;
         for (var k = 0; k < list.length; k++) {
             var d = list[k];
@@ -9771,8 +9783,11 @@ var Durations = function () {
     var displayEndTime = function displayEndTime() {
         var date_start = CommonFunctions.getElementById('date_start').value;
         var now = !date_start || date_start === 'now';
-        var current_moment = moment(now ? window.time : parseInt(date_start) * 1000).add(5, 'minutes').utc();
-        var expiry_date = Defaults.get('expiry_date') ? moment(Defaults.get('expiry_date')) : current_moment;
+        var current_moment = moment(now ? window.time : parseInt(date_start) * 1000);
+        var smallest_end_time = current_moment.add(smallest_duration.amount, smallest_duration.unit);
+        var default_end_time = Defaults.get('expiry_date');
+
+        var expiry_date = default_end_time && moment(default_end_time).isAfter(smallest_end_time) ? moment(default_end_time) : smallest_end_time.add(5, 'minutes').utc();
         var expiry_time = Defaults.get('expiry_time') || current_moment.format('HH:mm');
         var expiry_date_iso = toISOFormat(expiry_date);
 
@@ -9921,10 +9936,8 @@ var Durations = function () {
         if (CommonFunctions.getElementById('expiry_type').value === 'endtime') {
             var $expiry_date = $('#expiry_date');
             var date_start_val = CommonFunctions.getElementById('date_start').value || 'now';
-            var is_now = isNow(date_start_val);
-            var is_risefall = /risefall/.test(Defaults.get('formname')) || false;
 
-            if (is_now || !is_risefall) {
+            if (isNow(date_start_val) || !/^(risefall|callputequal)$/.test(Defaults.get('formname'))) {
                 if (!$expiry_date.is('input')) {
                     $expiry_date.replaceWith($('<input/>', { id: 'expiry_date', type: 'text', readonly: 'readonly', autocomplete: 'off', 'data-value': $expiry_date.attr('data-value') })).val(toReadableFormat($expiry_date.attr('data-value')));
                     $expiry_date = $('#expiry_date');
@@ -9933,7 +9946,7 @@ var Durations = function () {
                 }
                 DatePicker.init({
                     selector: '#expiry_date',
-                    minDate: 0,
+                    minDate: smallest_duration.unit === 'd' ? 1 : 0,
                     maxDate: 365
                 });
             } else {
@@ -9955,25 +9968,30 @@ var Durations = function () {
                         return false;
                     });
                 }
+
+                var default_date = moment(Defaults.get('expiry_date'));
+                var is_default_date_valid = default_date.isSameOrAfter(min_date) && (!max_date || default_date.isSameOrBefore(max_date));
+                var selected_date = is_default_date_valid ? default_date : min_date;
+
                 if (!$expiry_date.is('select')) {
-                    $expiry_date.replaceWith($('<select/>', { id: 'expiry_date', 'data-value': toISOFormat(min_date) }));
+                    $expiry_date.replaceWith($('<select/>', { id: 'expiry_date', 'data-value': toISOFormat(selected_date) }));
                     $expiry_date = $('#expiry_date');
                     expiryDateOnChange($expiry_date);
                 } else {
-                    $expiry_date.empty().attr('data-value', toISOFormat(min_date));
+                    $expiry_date.empty().attr('data-value', toISOFormat(selected_date));
                 }
-                appendExpiryDateValues($expiry_date, min_date);
+                appendExpiryDateValues($expiry_date, min_date, selected_date);
                 if (max_date) {
-                    appendExpiryDateValues($expiry_date, max_date);
+                    appendExpiryDateValues($expiry_date, max_date, selected_date);
                 }
-                requested = selectEndDate(min_date);
+                requested = selectEndDate(selected_date);
             }
         }
         return requested;
     };
 
-    var appendExpiryDateValues = function appendExpiryDateValues($expiry_date, date) {
-        $expiry_date.append($('<option/>', { text: date.format('ddd - DD MMM, YYYY'), 'data-value': toISOFormat(date) }));
+    var appendExpiryDateValues = function appendExpiryDateValues($expiry_date, date, selected_date) {
+        $expiry_date.append($('<option/>', { text: date.format('ddd - DD MMM, YYYY'), 'data-value': toISOFormat(date), 'selected': toISOFormat(selected_date) === toISOFormat(date) }));
     };
 
     var displayExpiryType = function displayExpiryType() {
@@ -10327,6 +10345,7 @@ var TickDisplay = function () {
 
     var initialize = function initialize(data, options) {
         // setting up globals
+        applicable_ticks = [];
         number_of_ticks = parseInt(data.number_of_ticks);
         display_symbol = data.display_symbol;
         contract_start_ms = parseInt(data.contract_start) * 1000;
@@ -13355,9 +13374,9 @@ var Process = function () {
     var setFormName = function setFormName(formname) {
         var formname_to_set = formname;
         var has_callputequal = hasCallPutEqual();
-        if (/^(callputequal)$/.test(formname_to_set) && (!has_callputequal || !+Defaults.get('is_equal'))) {
+        if (formname_to_set === 'callputequal' && (!has_callputequal || !+Defaults.get('is_equal'))) {
             formname_to_set = 'risefall';
-        } else if (/^(risefall)$/.test(formname_to_set) && has_callputequal && +Defaults.get('is_equal')) {
+        } else if (formname_to_set === 'risefall' && has_callputequal && +Defaults.get('is_equal')) {
             formname_to_set = 'callputequal';
         }
         Defaults.set('formname', formname_to_set);
