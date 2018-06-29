@@ -2849,7 +2849,7 @@ var getMinMaxTimeEnd = function getMinMaxTimeEnd() {
     var date_start_val = $date_start.val();
     if (date_start_val === 'now') {
         var min_max_time = getMinMaxTimeStart();
-        min_time = min_max_time.minTime;
+        min_time = min_max_time.minTime.clone().add(1, 'minute'); // round up seconds (previously 9:05 endtime was available, when time is 9:05:12)
         max_time = min_max_time.maxTime;
     } else {
         var expiry_time_val = $expiry_time.val().split(':');
@@ -12322,40 +12322,17 @@ var TimePicker = function () {
     var time_pickers = {};
 
     var init = function init(options) {
-        hide(options.selector, options.datepickerDate);
+        removeJqueryPicker(options.selector, options.datepickerDate);
         time_pickers[options.selector] = {};
 
-        config(options);
+        makeConfig(options);
+        updatePicker(options.selector);
         $(window).resize(function () {
-            checkWidth(options.selector);
+            updatePicker(options.selector);
         });
     };
 
-    var hide = function hide(selector, datepickerDate) {
-        $(selector).timepicker('destroy').removeAttr('data-picker').off('keydown keyup input');
-        if (!datepickerDate) return;
-        if (!moment().isBefore(moment(datepickerDate))) {
-            $(selector).attr('data-value', '').val('');
-        }
-    };
-
-    var create = function create(selector) {
-        var $this = void 0;
-        $(selector).keydown(function (e) {
-            if (e.which === 13) {
-                $this = $(this);
-                e.preventDefault();
-                e.stopPropagation();
-                $this.timepicker('setTime', $this.val());
-                $this.timepicker('hide');
-                $this.blur();
-                return false;
-            }
-            return true;
-        }).timepicker(time_pickers[selector].config_data);
-    };
-
-    var config = function config(options) {
+    var makeConfig = function makeConfig(options) {
         var time_now = moment.utc(window.time).clone();
 
         var obj_config = {
@@ -12370,7 +12347,6 @@ var TimePicker = function () {
                 options.minTime = time_now;
             }
             if (options.useLocalTime) options.minTime = options.minTime.local();
-            options.minTime.add(1, 'minute'); // rounding up seconds
             obj_config.minTime = { hour: parseInt(options.minTime.hour()), minute: parseInt(options.minTime.minute()) };
         }
 
@@ -12386,7 +12362,6 @@ var TimePicker = function () {
 
             obj_config.maxTime = { hour: hour, minute: minute };
         }
-        console.log(obj_config);
 
         var $this = void 0;
         obj_config.onSelect = function (time) {
@@ -12425,8 +12400,6 @@ var TimePicker = function () {
         };
 
         time_pickers[options.selector].config_data = obj_config;
-
-        checkWidth(options.selector);
     };
 
     var formatTime = function formatTime(time) {
@@ -12437,11 +12410,35 @@ var TimePicker = function () {
         return [formatTime(time.hour), formatTime(time.minute), '00'].join(':');
     };
 
-    var checkWidth = function checkWidth(selector) {
+    var removeJqueryPicker = function removeJqueryPicker(selector, datepickerDate) {
+        $(selector).timepicker('destroy').removeAttr('data-picker').off('keydown keyup input');
+        if (!datepickerDate) return;
+        if (!moment().isBefore(moment(datepickerDate))) {
+            $(selector).attr('data-value', '').val('');
+        }
+    };
+
+    var addJqueryPicker = function addJqueryPicker(selector) {
+        var $this = void 0;
+        $(selector).keydown(function (e) {
+            if (e.which === 13) {
+                $this = $(this);
+                e.preventDefault();
+                e.stopPropagation();
+                $this.timepicker('setTime', $this.val());
+                $this.timepicker('hide');
+                $this.blur();
+                return false;
+            }
+            return true;
+        }).timepicker(time_pickers[selector].config_data);
+    };
+
+    var updatePicker = function updatePicker(selector) {
         var $selector = $(selector);
         var time_picker_conf = time_pickers[selector].config_data;
         if ($(window).width() < 770 && checkInput('time', 'not-a-time') && $selector.attr('data-picker') !== 'native') {
-            hide(selector);
+            removeJqueryPicker(selector);
             $selector.attr({ type: 'time', 'data-picker': 'native' }).val($selector.attr('data-value')).removeAttr('readonly').removeClass('clear');
 
             var minTime = time_picker_conf.minTime;
@@ -12457,7 +12454,7 @@ var TimePicker = function () {
             if ($selector.attr('data-value') && $selector.hasClass('clearable') && !$selector.attr('disabled')) {
                 clearable($selector);
             }
-            create(selector);
+            addJqueryPicker(selector);
         }
     };
 
