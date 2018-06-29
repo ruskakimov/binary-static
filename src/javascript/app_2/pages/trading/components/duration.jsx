@@ -1,3 +1,4 @@
+import classNames   from 'classnames';
 import moment       from 'moment';
 import PropTypes    from 'prop-types';
 import React        from 'react';
@@ -79,6 +80,9 @@ const Duration = ({
     } else if (!has_end_time) {
         expiry_list.push({ text: localize('End Time'), value: 'endtime' });
     }
+    const endtime_container_class = classNames('endtime-container', {
+        'date-only': !is_same_day,
+    });
 
     return (
         <Fieldset
@@ -124,7 +128,7 @@ const Duration = ({
                     </div>
                 </React.Fragment> :
                 <React.Fragment>
-                    <div className='endtime-container'>
+                    <div className={endtime_container_class}>
                         <Datepicker
                             name='expiry_date'
                             showTodayBtn

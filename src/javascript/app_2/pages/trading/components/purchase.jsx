@@ -83,7 +83,7 @@ const Purchase = ({
                                 <div className='type-wrapper'>
                                     <img
                                         className='type'
-                                        src={Url.urlForStatic(`images/trading_app/purchase/trade_types/ic_${trade_types[type].toLowerCase().replace(/(\s|-)/, '_')}_light.svg`) || undefined}
+                                        src={Url.urlForStatic(`images/trading_app/purchase/trade_types/ic_${trade_types[type].toLowerCase().replace(/\s/g, '_')}_light.svg`) || undefined}
                                     />
                                 </div>
                                 <h4 className='trade-type'>{trade_types[type]}</h4>

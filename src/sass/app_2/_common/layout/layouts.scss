@@ -81,6 +81,10 @@
                         grid-gap: 8px;
                         grid-template-columns: 1.5fr 1fr;
                         grid-auto-columns: auto;
+
+                        &.date-only {
+                            grid-template-columns: 1fr;
+                        }
                     }
                     @media (min-width: 979px) {
                         div.duration-container {
