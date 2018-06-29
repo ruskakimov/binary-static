@@ -12365,12 +12365,12 @@ var TimePicker = function () {
         };
 
         if (options.minTime) {
-            console.log(options.minTime.format('mm:ss'));
             options.minTime = options.minTime === 'now' ? time_now : moment.utc(options.minTime);
             if (options.minTime.isBefore(time_now) && (!options.maxTime || time_now.unix() !== options.maxTime.unix())) {
                 options.minTime = time_now;
             }
             if (options.useLocalTime) options.minTime = options.minTime.local();
+            options.minTime.add(1, 'minute'); // rounding up seconds
             obj_config.minTime = { hour: parseInt(options.minTime.hour()), minute: parseInt(options.minTime.minute()) };
         }
 
@@ -12386,6 +12386,7 @@ var TimePicker = function () {
 
             obj_config.maxTime = { hour: hour, minute: minute };
         }
+        console.log(obj_config);
 
         var $this = void 0;
         obj_config.onSelect = function (time) {
