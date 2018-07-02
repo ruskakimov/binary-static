@@ -10607,12 +10607,12 @@ var TickDisplay = function () {
                 if (show_contract_result) {
                     $('#' + id_render).css('background-color', winning_color);
                 }
-                updatePurchaseStatus(payout, price, localize('This contract won'));
+                updatePurchaseStatus(payout, price, contract.profit, localize('This contract won'));
             } else if (contract.status === 'lost') {
                 if (show_contract_result) {
                     $('#' + id_render).css('background-color', losing_color);
                 }
-                updatePurchaseStatus(0, -price, localize('This contract lost'));
+                updatePurchaseStatus(0, -price, contract.profit, localize('This contract lost'));
             }
 
             addSellSpot();
@@ -10918,7 +10918,7 @@ var Client = __webpack_require__(3);
 var formatMoney = __webpack_require__(7).formatMoney;
 var localize = __webpack_require__(2).localize;
 
-var updatePurchaseStatus = function updatePurchaseStatus(final_price, pnl, contract_status) {
+var updatePurchaseStatus = function updatePurchaseStatus(final_price, pnl, profit, contract_status) {
     $('#contract_purchase_heading').text(localize(contract_status));
     var $payout = $('#contract_purchase_payout');
     var $cost = $('#contract_purchase_cost');
@@ -10930,7 +10930,7 @@ var updatePurchaseStatus = function updatePurchaseStatus(final_price, pnl, contr
     if (!final_price) {
         $profit.html($('<div/>', { text: localize('Loss') }).append($('<p/>', { html: formatMoney(currency, pnl) })));
     } else {
-        $profit.html($('<div/>', { text: localize('Profit') }).append($('<p/>', { html: formatMoney(currency, final_price - pnl) })));
+        $profit.html($('<div/>', { text: localize('Profit') }).append($('<p/>', { html: formatMoney(currency, profit) })));
         updateContractBalance(Client.get('balance'));
     }
 };
@@ -13497,6 +13497,7 @@ var Purchase = function () {
 
     var payout_value = void 0,
         cost_value = void 0,
+        profit_value = void 0,
         status = void 0;
 
     var display = function display(details) {
@@ -13565,7 +13566,7 @@ var Purchase = function () {
             payout_value = +receipt.payout;
             cost_value = receipt.buy_price;
 
-            var profit_value = payout_value ? formatMoney(currency, payout_value - cost_value) : undefined;
+            var potential_profit_value = payout_value ? formatMoney(currency, payout_value - cost_value) : undefined;
 
             CommonFunctions.elementInnerHtml(cost, localize('Total Cost') + ' <p>' + formatMoney(currency, cost_value) + '</p>');
             if (isLookback(contract_type)) {
@@ -13574,11 +13575,11 @@ var Purchase = function () {
             } else if (isCallputspread(contract_type)) {
                 profit.setVisibility(1);
                 CommonFunctions.elementInnerHtml(payout, localize('Maximum Payout') + ' <p>' + formatMoney(currency, payout_value) + '</p>');
-                CommonFunctions.elementInnerHtml(profit, localize('Maximum Profit') + ' <p>' + profit_value + '</p>');
+                CommonFunctions.elementInnerHtml(profit, localize('Maximum Profit') + ' <p>' + potential_profit_value + '</p>');
             } else {
                 profit.setVisibility(1);
                 CommonFunctions.elementInnerHtml(payout, localize('Potential Payout') + ' <p>' + formatMoney(currency, payout_value) + '</p>');
-                CommonFunctions.elementInnerHtml(profit, localize('Potential Profit') + ' <p>' + profit_value + '</p>');
+                CommonFunctions.elementInnerHtml(profit, localize('Potential Profit') + ' <p>' + potential_profit_value + '</p>');
             }
 
             updateValues.updateContractBalance(receipt.balance_after);
@@ -13665,6 +13666,7 @@ var Purchase = function () {
                     var contract = response.proposal_open_contract;
                     if (contract) {
                         status = contract.status;
+                        profit_value = contract.profit;
                         TickDisplay.setStatus(contract);
                         if (contract.sell_spot_time && +contract.sell_spot_time < contract.date_expiry) {
                             TickDisplay.updateChart({ is_sold: true }, contract);
@@ -13693,9 +13695,9 @@ var Purchase = function () {
             if (!new RegExp(status).test(spots.classList)) {
                 spots.className = status;
                 if (status === 'won') {
-                    updateValues.updatePurchaseStatus(payout_value, cost_value, localize('This contract won'));
+                    updateValues.updatePurchaseStatus(payout_value, cost_value, profit_value, localize('This contract won'));
                 } else if (status === 'lost') {
-                    updateValues.updatePurchaseStatus(0, -cost_value, localize('This contract lost'));
+                    updateValues.updatePurchaseStatus(0, -cost_value, profit_value, localize('This contract lost'));
                 }
                 if (tick_config.is_tick_high || tick_config.is_tick_low) {
                     var is_won = +tick_config.selected_tick_number === +tick_config.winning_tick_number;
