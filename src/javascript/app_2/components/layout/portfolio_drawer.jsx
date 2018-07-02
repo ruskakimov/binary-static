@@ -2,6 +2,7 @@ import moment       from 'moment';
 import React        from 'react';
 import PropTypes    from 'prop-types';
 import { localize } from '../../../_common/localize';
+import { connect }  from '../../store/connect';
 import Url          from '../../../_common/url';
 
 class PortfolioDrawer extends React.PureComponent {
@@ -49,7 +50,7 @@ class PortfolioDrawer extends React.PureComponent {
                     <a
                         href='javascript:;'
                         className='ic-close'
-                        onClick={this.props.onClick}
+                        onClick={this.props.toggleDrawer}
                     />
                 </div>
         );
@@ -87,12 +88,18 @@ class PortfolioDrawer extends React.PureComponent {
 }
 
 PortfolioDrawer.propTypes = {
-    alignment  : PropTypes.string,
-    children   : PropTypes.object,
-    onClick    : PropTypes.func,
-    portfolios : PropTypes.array,
-    server_time: PropTypes.object,
-    subtitle   : PropTypes.number,
+    alignment   : PropTypes.string,
+    portfolios  : PropTypes.array,
+    server_time : PropTypes.object,
+    is_drawer_on: PropTypes.bool,
+    toggleDrawer: PropTypes.func,
 };
 
-export default PortfolioDrawer;
+export default connect(
+    ({ common, trade, ui }) => ({
+        server_time : common.server_time,
+        portfolios  : trade.portfolios,
+        is_drawer_on: ui.is_portfolio_drawer_on,
+        toggleDrawer: ui.togglePortfolioDrawer,
+    })
+)(PortfolioDrawer);

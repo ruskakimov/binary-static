@@ -1,6 +1,5 @@
 import React           from 'react';
 import PropTypes       from 'prop-types';
-import classnames      from 'classnames';
 import Amount          from './components/amount.jsx';
 import Barrier         from './components/barrier.jsx';
 import ContractType    from './components/contract_type.jsx';
@@ -11,7 +10,6 @@ import Purchase        from './components/purchase.jsx';
 import StartDate       from './components/start_date.jsx';
 import Test            from './components/test.jsx';
 import SmartCharts     from '../../components/charts/smartcharts.jsx';
-import PortfolioDrawer from '../../components/elements/portfolio_drawer.jsx';
 import UILoader        from '../../components/elements/ui_loader.jsx';
 import { connect }     from '../../store/connect';
 
@@ -38,9 +36,7 @@ class TradeApp extends React.PureComponent {
         return (
             <div
                 id='trade_container'
-                className={classnames('trade-container', {
-                    show: this.props.is_portfolio_drawer_on,
-                })}
+                className='trade-container'
             >
                 <div className='chart-container notice-msg'>
                     <SmartCharts />
@@ -66,36 +62,23 @@ class TradeApp extends React.PureComponent {
                         {this.renderFormComponents()}
                     </MobileWidget>
                 </div>
-                <div className='offset-container'>
-                    <PortfolioDrawer
-                        onClick={this.props.togglePortfolioDrawer}
-                        portfolios={this.props.portfolios}
-                        server_time={this.props.server_time}
-                    />
-                </div>
             </div>
         );
     }
 }
 
 TradeApp.propTypes = {
-    form_components       : PropTypes.array,
-    is_portfolio_drawer_on: PropTypes.bool,
-    is_purchase_enabled   : PropTypes.bool,
-    is_trade_enabled      : PropTypes.bool,
-    portfolios            : PropTypes.array,
-    server_time           : PropTypes.object,
-    togglePortfolioDrawer : PropTypes.func,
+    form_components    : PropTypes.array,
+    is_purchase_enabled: PropTypes.bool,
+    is_trade_enabled   : PropTypes.bool,
+    server_time        : PropTypes.object,
 };
 
 export default connect(
-    ({ common, trade, ui }) => ({
-        server_time           : common.server_time,
-        is_purchase_enabled   : trade.is_purchase_enabled,
-        is_trade_enabled      : trade.is_trade_enabled,
-        form_components       : trade.form_components,
-        portfolios            : trade.portfolios,
-        is_portfolio_drawer_on: ui.is_portfolio_drawer_on,
-        togglePortfolioDrawer : ui.togglePortfolioDrawer,
+    ({ common, trade }) => ({
+        server_time        : common.server_time,
+        is_purchase_enabled: trade.is_purchase_enabled,
+        is_trade_enabled   : trade.is_trade_enabled,
+        form_components    : trade.form_components,
     })
 )(TradeApp);

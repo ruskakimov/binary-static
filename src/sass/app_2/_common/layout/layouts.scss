@@ -150,37 +150,47 @@
                 }
             }
         }
-        @media (min-width: 1025px) {
-            .offset-container {
-                display: unset;
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                left: calc(100% + 40px);
-                transition: all 0.25s;
-                grid-column: col-start 11 / span 2;
-                border: 1px solid $COLOR_GRAY;
-            }
-            &.show {
-                margin-right: 0;
-
-                .chart-container {
-                    grid-column: col-start 1 / span 8;
-                }
-                .sidebar-container {
-                    transform: translate(-100%);
-                }
-                .offset-container {
-                    transform: translate(calc(-100% - 29px));
-                }
-            }
-        }
         @media (min-width: 979px) and (max-width: 1125px) {
             .chart-container {
                 grid-column: col-start 1 / span 9 !important;
             }
             .sidebar-container {
                 grid-column: col-start 10 / span 3 !important;
+            }
+        }
+    }
+    @media (min-width: 1025px) {
+        .offset-container {
+            display: unset;
+            position: fixed;
+            height: calc(100% - 50px);
+            width: 206px;
+            top: 48px;
+            left: calc(100% + 40px);
+            transition: all 0.25s;
+            grid-column: col-start 11 / span 2;
+            border: 1px solid $COLOR_GRAY;
+            z-index: 3;
+        }
+        .app-contents.show-portfolio {
+            margin-right: 0;
+
+            .chart-container {
+                grid-column: col-start 1 / span 8;
+            }
+            .sidebar-container {
+                transform: translate(-100%);
+            }
+            .statement {
+                .table {
+                    width: calc(100% - 208px);
+                }
+                .statement-filter, .table.table-clone {
+                    z-index: 3;
+                }
+            }
+            & ~ .offset-container {
+                transform: translate(calc(-100% - 40px));
             }
         }
     }

@@ -1,4 +1,5 @@
 // import { configure }              from 'mobx';
+import classNames      from 'classnames';
 import PropTypes                     from 'prop-types';
 import React                         from 'react';
 import { render }                    from 'react-dom';
@@ -8,6 +9,7 @@ import { MobxProvider }              from './store/connect';
 import MainStore                     from './store/index';
 import Footer                        from './components/layout/footer.jsx';
 import Header                        from './components/layout/header.jsx';
+import PortfolioDrawer               from './components/layout/portfolio_drawer.jsx';
 import { BinaryRoutes }              from './routes';
 import Client                        from '../_common/base/client_base';
 import { getAll as getAllLanguages } from '../_common/language';
@@ -60,16 +62,22 @@ const BinaryApp = ({ main_store }) => (
                         ]}
                     />
                 </div>
-                <div id='app_contents' className='app-contents'>
+                <div
+                    id='app_contents'
+                    className={classNames('app-contents', {
+                        'show-portfolio': true,
+                    })}
+                >
                     <BinaryRoutes />
+                </div>
+                <div className='offset-container'>
+                    <PortfolioDrawer />
                 </div>
                 <footer id='trading_footer'>
                     <Footer
                         items={[
-                            { icon: 'ic-statement',   text: localize('Statement'), link_to: 'statement' },
-                            { icon: 'ic-chat-bubble', text: localize('Notification') },
-                            { icon: 'ic-two-step'   , text: localize('Purchase Confirmation') },
-                            { icon: 'ic-lock-open',   text: localize('Purchase Lock') },
+                            { icon: 'ic-two-step',  text: localize('Purchase Confirmation') },
+                            { icon: 'ic-lock-open', text: localize('Purchase Lock') },
                         ]}
                     />
                 </footer>
