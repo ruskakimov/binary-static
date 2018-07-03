@@ -11380,7 +11380,6 @@ var MetaTrader = function () {
                         }
                         BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
                             setAccountDetails(login, acc_type, response_login_list);
-                            MetaTraderUI.restoreUI(acc_type);
                             if (/^(revoke_mam|new_account_mam)/.test(action)) {
                                 MetaTraderUI.showHideMAM(acc_type);
                             }
@@ -30253,7 +30252,7 @@ var MetaTraderUI = function () {
         validations = void 0,
         submit = void 0,
         token = void 0,
-        current_action_UI = void 0;
+        current_action_ui = void 0;
 
     var accounts_info = MetaTraderConfig.accounts_info;
     var actions_info = MetaTraderConfig.actions_info;
@@ -30405,7 +30404,9 @@ var MetaTraderUI = function () {
     var setCurrentAccount = function setCurrentAccount(acc_type) {
         if (Client.get('mt5_account') && Client.get('mt5_account') !== acc_type) return;
 
-        displayAccountDescription(acc_type);
+        if (current_action_ui !== 'new_account') {
+            displayAccountDescription(acc_type);
+        }
 
         if (accounts_info[acc_type].info) {
             // Update account info
@@ -30426,7 +30427,9 @@ var MetaTraderUI = function () {
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
             });
             // $container.find('.act_cashier').setVisibility(!types_info[acc_type].is_demo);
-            $container.find('.has-account').setVisibility(1);
+            if (current_action_ui !== 'new_account') {
+                $container.find('.has-account').setVisibility(1);
+            }
         } else {
             $detail.find('.acc-info, .acc-actions').setVisibility(0);
         }
@@ -30566,10 +30569,9 @@ var MetaTraderUI = function () {
     // -----------------------
     // ----- New Account -----
     // -----------------------
-    var handleNewAccountUI = function handleNewAccountUI(action, acc_type, $clicked_target) {
-        current_action_UI = action;
+    var handleNewAccountUI = function handleNewAccountUI(action, acc_type, $target) {
+        current_action_ui = action;
 
-        var $target = $clicked_target || $('.act_' + action);
         var is_new_account = /new_account/.test(action);
         var $acc_actions = $container.find('.acc-actions');
         $acc_actions.find('.new-account').setVisibility(is_new_account);
@@ -30636,14 +30638,6 @@ var MetaTraderUI = function () {
 
         // Account type selection
         _$form.find('.mt5_type_box').click(selectAccountTypeUI);
-    };
-
-    // restoreUI:
-    // On deposit response setCurrentAccount is called, which updates DOM
-    // So, if you change UI (e.g. to new_account) after triggering deposit and before BE response
-    // -> UI will get messed up, since setCurrentAccount assumes you are still on cashier UI
-    var restoreUI = function restoreUI(acc_type) {
-        handleNewAccountUI(current_action_UI || 'cashier', acc_type);
     };
 
     var newAccountGetType = function newAccountGetType() {
@@ -30812,7 +30806,6 @@ var MetaTraderUI = function () {
         displayPageError: displayPageError,
         disableButton: disableButton,
         enableButton: enableButton,
-        restoreUI: restoreUI,
         showHideMAM: showHideMAM,
 
         $form: function $form() {
