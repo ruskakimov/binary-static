@@ -26672,46 +26672,37 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.stickyHeader = function (position) {
-        var curr = void 0,
-            prev = void 0,
-            next = void 0;
         var market_nodes = _this2.references.market_nodes;
 
         var market_keys = Object.keys(market_nodes);
-        var TITLE_HEIGHT = 40;
-        Object.values(market_nodes).forEach(function (node, idx) {
-            if (node.dataset.offsetTop <= position && +node.dataset.offsetHeight + +node.dataset.offsetTop > position) {
-                curr = node;
-                prev = idx > 0 ? market_nodes[market_keys[idx - 1]] : null;
-                next = idx < market_keys.length ? market_nodes[market_keys[idx + 1]] : null;
-            }
-        });
-
         var class_sticky = 'sticky';
         var class_under = 'put_under';
+        var TITLE_HEIGHT = 40;
         var DEFAULT_TOP = _this2.references.list.offsetTop;
 
-        if (curr) {
-            curr.children[0].removeAttribute('style');
-            curr.removeAttribute('style');
-            curr.children[0].classList.remove(class_under);
-            var diff = +curr.dataset.offsetHeight + +curr.dataset.offsetTop - position;
-            if (diff > 0 && diff < TITLE_HEIGHT) {
-                curr.children[0].style.top = DEFAULT_TOP - (TITLE_HEIGHT - diff) + 'px';
-                curr.children[0].classList.add(class_under);
-            }
-            curr.children[0].classList.add(class_sticky);
-            curr.style.paddingTop = TITLE_HEIGHT + 'px';
+        var current_viewed_node = Object.values(market_nodes).find(function (node) {
+            return node.dataset.offsetTop <= position && +node.dataset.offsetHeight + +node.dataset.offsetTop > position;
+        });
+
+        if (current_viewed_node !== _this2.references.last_viewed_node) {
+            Object.values(market_nodes).forEach(function (node) {
+                node.removeAttribute('style');
+                node.children[0].removeAttribute('style');
+                node.children[0].classList.remove(class_under, class_sticky);
+            });
+            _this2.references.last_viewed_node = current_viewed_node;
         }
-        if (prev) {
-            prev.removeAttribute('style');
-            prev.children[0].removeAttribute('style');
-            prev.children[0].classList.remove(class_under, class_sticky);
+
+        var diff = +current_viewed_node.dataset.offsetHeight + +current_viewed_node.dataset.offsetTop - position;
+        if (diff > 0 && diff < TITLE_HEIGHT) {
+            current_viewed_node.children[0].style.top = DEFAULT_TOP - (TITLE_HEIGHT - diff) + 'px';
+            current_viewed_node.children[0].classList.add(class_under);
+        } else {
+            current_viewed_node.children[0].removeAttribute('style');
+            current_viewed_node.children[0].classList.remove(class_under);
         }
-        if (next) {
-            next.children[0].classList.remove(class_sticky, class_under);
-            next.removeAttribute('style');
-        }
+        current_viewed_node.children[0].classList.add(class_sticky);
+        current_viewed_node.style.paddingTop = TITLE_HEIGHT + 'px';
     };
 
     this.saveMarketRef = function (market, node) {
