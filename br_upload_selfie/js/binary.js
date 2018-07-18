@@ -21455,14 +21455,26 @@ var MetaTrader = __webpack_require__(129);
         - landing company shortcodes
         - 'mtcompany' code that stands for metatrader availability
         - 'default' code that describes logged out users
+        - mt5 rules that are matched against `group` field in `mt5_login_list`
+            starts with 'mt5:'
+            keywords are separated by '+'
+            e.g. 'mt5:real+vanuatu' => matches if client has at least one single mt5 login with 'real' and 'vanuatu' keywords in it
 
     Examples:
         Show only for logged in clients with costarica landing company:
             data-show='costarica'
-        Hide for costarica clients:
+
+        Show for costarica and malta:
+            data-show='costarica, malta'
+
+        Hide for costarica:
             data-show='-costarica'
-        Hide for malta and maltainvest clients:
+
+        Hide for malta and maltainvest:
             data-show='-malta, -maltainvest'
+
+        Show for real\vanuatu MT5 clients with standard account
+            data-show='mt5:real+vanuatu+standard'
 
     Prohibited values:
         Cannot mix includes and excludes:
@@ -21471,11 +21483,14 @@ var MetaTrader = __webpack_require__(129);
             data-show='Costarica'         -> throws error
 */
 
+var visible_classname = 'data-show-visible';
+var mt_company_rule = 'mtcompany';
+
 var ContentVisibility = function () {
     var init = function init() {
         if (Client.isLoggedIn()) {
-            BinarySocket.wait('authorize', 'landing_company').then(function () {
-                controlVisibility(State.getResponse('authorize.landing_company_name'), MetaTrader.isEligible());
+            BinarySocket.wait('authorize', 'landing_company', 'mt5_login_list').then(function () {
+                controlVisibility(State.getResponse('authorize.landing_company_name'), MetaTrader.isEligible(), State.getResponse('mt5_login_list'));
             });
         } else {
             controlVisibility('default', true);
@@ -21487,23 +21502,22 @@ var ContentVisibility = function () {
     };
 
     var parseAttributeString = function parseAttributeString(attr_str) {
-        if (!/^[a-z,-\s]+$/.test(attr_str)) {
-            throw new Error(generateParsingErrorMessage('Invalid characted used.', attr_str));
-        }
         var names = attr_str.split(',').map(function (name) {
             return name.trim();
         });
+
         if (names.some(function (name) {
             return name.length === 0;
         })) {
             throw new Error(generateParsingErrorMessage('No empty names allowed.', attr_str));
         }
         var is_exclude = names.every(function (name) {
-            return name[0] === '-';
+            return name.charAt(0) === '-';
         });
         var is_include = names.every(function (name) {
-            return name[0] !== '-';
+            return name.charAt(0) !== '-';
         });
+
         if (!is_exclude && !is_include) {
             throw new Error(generateParsingErrorMessage('No mixing of includes and excludes allowed.', attr_str));
         }
@@ -21512,33 +21526,74 @@ var ContentVisibility = function () {
                 return name.slice(1);
             });
         }
+
+        var mt5_rules = names.filter(function (name) {
+            return isMT5Rule(name);
+        }).map(function (rule) {
+            return parseMT5Rule(rule);
+        });
+
+        names = names.filter(function (name) {
+            return !isMT5Rule(name);
+        });
+
         return {
             is_exclude: is_exclude,
-            names: names
+            names: names,
+            mt5_rules: mt5_rules
         };
     };
 
-    var controlVisibility = function controlVisibility(current_landing_company_shortcode, client_has_mt_company) {
-        var visible_classname = 'data-show-visible';
-        var mt_company_rule = 'mtcompany';
+    var isMT5Rule = function isMT5Rule(rule) {
+        return (/^mt5:/.test(rule)
+        );
+    };
 
+    var parseMT5Rule = function parseMT5Rule(rule) {
+        return rule.slice(4).split('+');
+    };
+
+    var shouldShowElement = function shouldShowElement(attr_str, current_landing_company_shortcode, client_has_mt_company, mt5_login_list) {
+        var _parseAttributeString = parseAttributeString(attr_str),
+            is_exclude = _parseAttributeString.is_exclude,
+            names = _parseAttributeString.names,
+            mt5_rules = _parseAttributeString.mt5_rules;
+
+        var rule_set = new Set(names);
+
+        var rule_set_has_current = rule_set.has(current_landing_company_shortcode);
+        var rule_set_has_mt = rule_set.has(mt_company_rule);
+
+        var mt5_rules_matches = mt5_rules.map(function (keywords) {
+            var keywords_regex = keywords.map(function (keyword) {
+                return new RegExp(keyword);
+            });
+            return mt5_login_list.some(function (mt5_login) {
+                return keywords_regex.every(function (keyword_regex) {
+                    return keyword_regex.test(mt5_login.group);
+                });
+            });
+        });
+
+        var show_element = false;
+
+        if (client_has_mt_company && rule_set_has_mt) show_element = !is_exclude;else if (is_exclude !== rule_set_has_current) show_element = true;
+
+        if (mt5_rules.length) {
+            if (is_exclude) show_element = mt5_rules_matches.every(function (is_match) {
+                return !is_match;
+            });else show_element = mt5_rules_matches.some(function (is_match) {
+                return is_match;
+            });
+        }
+
+        return show_element;
+    };
+
+    var controlVisibility = function controlVisibility(current_landing_company_shortcode, client_has_mt_company, mt5_login_list) {
         document.querySelectorAll('[data-show]').forEach(function (el) {
             var attr_str = el.dataset.show;
-
-            var _parseAttributeString = parseAttributeString(attr_str),
-                is_exclude = _parseAttributeString.is_exclude,
-                names = _parseAttributeString.names;
-
-            var rule_set = new Set(names);
-
-            var rule_set_has_current = rule_set.has(current_landing_company_shortcode);
-            var rule_set_has_mt = rule_set.has(mt_company_rule);
-
-            var show_element = false;
-
-            if (client_has_mt_company && rule_set_has_mt) show_element = !is_exclude;else if (is_exclude !== rule_set_has_current) show_element = true;
-
-            if (show_element) {
+            if (shouldShowElement(attr_str, current_landing_company_shortcode, client_has_mt_company, mt5_login_list)) {
                 el.classList.add(visible_classname);
             } else {
                 var open_tab_url = new RegExp('\\?.+_tabs=' + el.id, 'i');
@@ -21558,7 +21613,11 @@ var ContentVisibility = function () {
     };
 
     return {
-        init: init
+        init: init,
+        __test__: {
+            parseAttributeString: parseAttributeString,
+            shouldShowElement: shouldShowElement
+        }
     };
 }();
 
@@ -27215,11 +27274,9 @@ var Authenticate = function () {
                     chunkSize: 16384, // any higher than this sends garbage data to websocket currently.
                     class: id,
                     type: type,
-                    name: name
+                    name: name,
+                    page_type: page_type
                 };
-                if (page_type) {
-                    file_obj.page_type = page_type;
-                }
                 if ($inputs.length) {
                     file_obj.id_number = $($inputs[0]).val();
                     file_obj.exp_date = $($inputs[1]).val();
