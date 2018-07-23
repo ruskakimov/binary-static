@@ -2684,13 +2684,13 @@ var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _barrier = __webpack_require__(514);
+var _barrier = __webpack_require__(516);
 
 var _duration = __webpack_require__(252);
 
 var _start_date = __webpack_require__(253);
 
-var _contract = __webpack_require__(511);
+var _contract = __webpack_require__(513);
 
 var _Services = __webpack_require__(64);
 
@@ -3248,16 +3248,7 @@ var BaseStore = (_class = (_temp = _class2 = function () {
 exports.default = BaseStore;
 
 /***/ }),
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3267,7 +3258,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _date_time = __webpack_require__(526);
+var _date_time = __webpack_require__(527);
 
 Object.keys(_date_time).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3280,6 +3271,15 @@ Object.keys(_date_time).forEach(function (key) {
 });
 
 /***/ }),
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
 /* 107 */,
 /* 108 */,
 /* 109 */,
@@ -6269,11 +6269,11 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ui = __webpack_require__(513);
+var _ui = __webpack_require__(515);
 
 var _connect = __webpack_require__(26);
 
-var _component = __webpack_require__(528);
+var _component = __webpack_require__(529);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6972,7 +6972,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _language = __webpack_require__(527);
+var _language = __webpack_require__(528);
 
 Object.keys(_language).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -7112,7 +7112,7 @@ var _network_monitor = __webpack_require__(500);
 
 var _network_monitor2 = _interopRequireDefault(_network_monitor);
 
-var _Stores = __webpack_require__(524);
+var _Stores = __webpack_require__(525);
 
 var _Stores2 = _interopRequireDefault(_Stores);
 
@@ -9914,7 +9914,7 @@ var _Calendar = __webpack_require__(417);
 
 var _Calendar2 = _interopRequireDefault(_Calendar);
 
-var _Date = __webpack_require__(106);
+var _Date = __webpack_require__(97);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10983,7 +10983,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _connect = __webpack_require__(26);
 
-var _Date = __webpack_require__(106);
+var _Date = __webpack_require__(97);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11239,7 +11239,7 @@ var IndicativeCell = function IndicativeCell(_ref) {
 };
 
 IndicativeCell.propTypes = {
-    amount: _propTypes2.default.string,
+    amount: _propTypes2.default.number,
     currency: _propTypes2.default.string,
     status: _propTypes2.default.string
 };
@@ -11324,7 +11324,7 @@ var PortfolioCard = function PortfolioCard(_ref) {
                         payout
                     )
                 ),
-                _react2.default.createElement(
+                !!indicative && _react2.default.createElement(
                     'div',
                     { className: 'portfolio-card__cell portfolio-card__indicative portfolio-card__indicative--' + status },
                     _react2.default.createElement(
@@ -11343,7 +11343,7 @@ PortfolioCard.propTypes = {
     reference: _propTypes2.default.number,
     details: _propTypes2.default.string,
     remaining_time: _propTypes2.default.string,
-    indicative: _propTypes2.default.string,
+    indicative: _propTypes2.default.number,
     payout: _propTypes2.default.number,
     purchase: _propTypes2.default.number,
     currency: _propTypes2.default.string,
@@ -11430,7 +11430,7 @@ var getTableColumnsTemplate = exports.getTableColumnsTemplate = function getTabl
         renderCellContent: function renderCellContent(_ref5) {
             var cell_value = _ref5.cell_value,
                 row_obj = _ref5.row_obj;
-            return _react2.default.createElement(_indicative_cell2.default, { amount: cell_value, currency: currency, status: row_obj.status });
+            return _react2.default.createElement(_indicative_cell2.default, { amount: +cell_value, currency: currency, status: row_obj.status });
         }
     }];
 };
@@ -12859,7 +12859,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Date = __webpack_require__(106);
+var _Date = __webpack_require__(97);
 
 var _localize = __webpack_require__(0);
 
@@ -15247,13 +15247,13 @@ exports.default = SubscriptionManager;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.formatPortfolioData = undefined;
+exports.formatPortfolioResponse = undefined;
 
-var _Date = __webpack_require__(106);
+var _Date = __webpack_require__(97);
 
 var _localize = __webpack_require__(0);
 
-var formatPortfolioData = exports.formatPortfolioData = function formatPortfolioData(portfolio_arr) {
+var formatPortfolioResponse = exports.formatPortfolioResponse = function formatPortfolioResponse(portfolio_arr) {
     return portfolio_arr.map(function (portfolio_item) {
         var moment_obj = (0, _Date.toMoment)(portfolio_item.expiry_time);
         // TODO: fromNow should check against server time not local time
@@ -15269,7 +15269,7 @@ var formatPortfolioData = exports.formatPortfolioData = function formatPortfolio
             purchase: purchase,
             remaining_time: remaining_time,
             id: portfolio_item.contract_id,
-            indicative: ''
+            indicative: 0
         };
     });
 };
@@ -15292,7 +15292,7 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _desc
 
 var _mobx = __webpack_require__(36);
 
-var _process_data = __webpack_require__(503);
+var _format_response = __webpack_require__(503);
 
 var _base_store = __webpack_require__(96);
 
@@ -15410,7 +15410,7 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
                 var portfolio_position = this.data[position_data_index];
 
                 var prev_indicative = portfolio_position.indicative;
-                var new_indicative = proposal.bid_price;
+                var new_indicative = +proposal.bid_price;
 
                 portfolio_position.indicative = new_indicative;
 
@@ -15433,8 +15433,7 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
                 return;
             }
             if (response.portfolio.contracts && response.portfolio.contracts.length !== 0) {
-                this.data = (0, _process_data.formatPortfolioData)(response.portfolio.contracts);
-
+                this.data = (0, _format_response.formatPortfolioResponse)(response.portfolio.contracts);
                 _Services.WS.subscribeProposalOpenContract(this.proposalOpenContractHandler, false);
             }
         }
@@ -15518,6 +15517,276 @@ exports.default = StatementStore;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.formatStatementTransaction = undefined;
+
+var _Date = __webpack_require__(97);
+
+var _currency_base = __webpack_require__(41);
+
+var _localize = __webpack_require__(0);
+
+var _string_util = __webpack_require__(19);
+
+var formatStatementTransaction = exports.formatStatementTransaction = function formatStatementTransaction(transaction, currency) {
+    var moment_obj = (0, _Date.toMoment)(transaction.transaction_time * 1000);
+    var date_str = moment_obj.format('YYYY-MM-DD');
+    var time_str = moment_obj.format('HH:mm:ss') + ' GMT';
+    var payout = parseFloat(transaction.payout);
+    var amount = parseFloat(transaction.amount);
+    var balance = parseFloat(transaction.balance_after);
+    var should_exclude_currency = true;
+
+    return {
+        action: (0, _localize.localize)((0, _string_util.toTitleCase)(transaction.action_type)),
+        date: date_str + '\n' + time_str,
+        refid: transaction.transaction_id,
+        payout: isNaN(payout) ? '-' : (0, _currency_base.formatMoney)(currency, payout, should_exclude_currency),
+        amount: isNaN(amount) ? '-' : (0, _currency_base.formatMoney)(currency, amount, should_exclude_currency),
+        balance: isNaN(balance) ? '-' : (0, _currency_base.formatMoney)(currency, balance, should_exclude_currency),
+        desc: (0, _localize.localize)(transaction.longcode.replace(/\n/g, '<br />')),
+        id: transaction.contract_id,
+        app_id: transaction.app_id
+    };
+};
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+
+var _mobx = __webpack_require__(36);
+
+var _moment = __webpack_require__(9);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _format_response = __webpack_require__(505);
+
+var _base_store = __webpack_require__(96);
+
+var _base_store2 = _interopRequireDefault(_base_store);
+
+var _Services = __webpack_require__(64);
+
+var _client_base = __webpack_require__(22);
+
+var _client_base2 = _interopRequireDefault(_client_base);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
+
+var batch_size = 100; // request response limit
+
+var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
+    _inherits(StatementStore, _BaseStore);
+
+    function StatementStore() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, StatementStore);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = StatementStore.__proto__ || Object.getPrototypeOf(StatementStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'has_loaded_all', _descriptor3, _this), _initDefineProp(_this, 'date_from', _descriptor4, _this), _initDefineProp(_this, 'date_to', _descriptor5, _this), _initDefineProp(_this, 'error', _descriptor6, _this), _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(StatementStore, [{
+        key: 'clearTable',
+        value: function clearTable() {
+            this.data = [];
+            this.has_loaded_all = false;
+            this.is_loading = false;
+        }
+    }, {
+        key: 'clearDateFilter',
+        value: function clearDateFilter() {
+            this.date_from = '';
+            this.date_to = '';
+        }
+    }, {
+        key: 'fetchNextBatch',
+        value: function fetchNextBatch() {
+            var _this2 = this;
+
+            if (this.has_loaded_all || this.is_loading) return;
+
+            this.is_loading = true;
+
+            var currency = _client_base2.default.get('currency');
+
+            _Services.WS.statement(batch_size, this.data.length, _extends({}, this.date_from && { date_from: (0, _moment2.default)(this.date_from).unix() }, this.date_to && { date_to: (0, _moment2.default)(this.date_to).add(1, 'd').subtract(1, 's').unix() })).then(function (response) {
+                if ('error' in response) {
+                    _this2.error = response.error.message;
+                    return;
+                }
+                var formatted_transactions = response.statement.transactions.map(function (transaction) {
+                    return (0, _format_response.formatStatementTransaction)(transaction, currency);
+                });
+
+                _this2.data = [].concat(_toConsumableArray(_this2.data), _toConsumableArray(formatted_transactions));
+                _this2.has_loaded_all = formatted_transactions.length < batch_size;
+                _this2.is_loading = false;
+            });
+        }
+    }, {
+        key: 'handleDateChange',
+        value: function handleDateChange(e) {
+            if (e.target.value !== this[e.target.name]) {
+                this[e.target.name] = e.target.value;
+                this.clearTable();
+                this.fetchNextBatch();
+            }
+        }
+    }, {
+        key: 'handleScroll',
+        value: function handleScroll() {
+            var _document$scrollingEl = document.scrollingElement,
+                scrollTop = _document$scrollingEl.scrollTop,
+                scrollHeight = _document$scrollingEl.scrollHeight,
+                clientHeight = _document$scrollingEl.clientHeight;
+
+            var left_to_scroll = scrollHeight - (scrollTop + clientHeight);
+
+            if (left_to_scroll < 2000) {
+                this.fetchNextBatch();
+            }
+        }
+    }, {
+        key: 'onMount',
+        value: function onMount() {
+            this.fetchNextBatch();
+            window.addEventListener('scroll', this.handleScroll, false);
+        }
+    }, {
+        key: 'onUnmount',
+        value: function onUnmount() {
+            window.removeEventListener('scroll', this.handleScroll, false);
+            this.clearTable();
+            this.clearDateFilter();
+        }
+    }, {
+        key: 'is_empty',
+        get: function get() {
+            return !this.is_loading && this.data.length === 0;
+        }
+    }, {
+        key: 'has_selected_date',
+        get: function get() {
+            return !!(this.date_from || this.date_to);
+        }
+    }]);
+
+    return StatementStore;
+}(_base_store2.default), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'data', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return [];
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'is_loading', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'has_loaded_all', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'date_from', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'date_to', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'error', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearDateFilter', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearDateFilter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchNextBatch', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'fetchNextBatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDateChange', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDateChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleScroll', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'handleScroll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'has_selected_date', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'has_selected_date'), _class.prototype)), _class));
+exports.default = StatementStore;
+
+/***/ }),
+/* 507 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.onChangeContractType = exports.onChangeContractTypeList = undefined;
 
 var _contract_type = __webpack_require__(95);
@@ -15537,7 +15806,7 @@ var onChangeContractType = exports.onChangeContractType = function onChangeContr
 };
 
 /***/ }),
-/* 506 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15550,7 +15819,7 @@ exports.getCurrenciesAsync = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _currency = __webpack_require__(516);
+var _currency = __webpack_require__(518);
 
 var _Services = __webpack_require__(64);
 
@@ -15588,7 +15857,7 @@ var getCurrenciesAsync = exports.getCurrenciesAsync = function () {
 }();
 
 /***/ }),
-/* 507 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15622,7 +15891,7 @@ var onChangeExpiry = exports.onChangeExpiry = function onChangeExpiry(store) {
 };
 
 /***/ }),
-/* 508 */
+/* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15663,7 +15932,7 @@ var processPurchase = exports.processPurchase = function () {
 }();
 
 /***/ }),
-/* 509 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15699,7 +15968,7 @@ var onChangeStartDate = exports.onChangeStartDate = function onChangeStartDate(s
 };
 
 /***/ }),
-/* 510 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15741,7 +16010,7 @@ var onChangeSymbolAsync = exports.onChangeSymbolAsync = function () {
 }();
 
 /***/ }),
-/* 511 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15784,7 +16053,7 @@ var getContractCategoriesConfig = exports.getContractCategoriesConfig = function
 };
 
 /***/ }),
-/* 512 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15797,7 +16066,7 @@ Object.defineProperty(exports, "__esModule", {
 var allowed_query_string_variables = exports.allowed_query_string_variables = ['amount', 'barrier_1', 'barrier_2', 'basis', 'contract_start_type', 'contract_type', 'currency', 'duration', 'duration_unit', 'expiry_date', 'expiry_type', 'last_digit', 'start_date', 'symbol'];
 
 /***/ }),
-/* 513 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15833,7 +16102,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var form_components = exports.form_components = [{ name: 'start_date', Component: _start_date2.default }, { name: 'duration', Component: _duration2.default }, { name: 'barrier', Component: _barrier2.default }, { name: 'last_digit', Component: _last_digit2.default }, { name: 'amount', Component: _amount2.default }];
 
 /***/ }),
-/* 514 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15862,7 +16131,7 @@ var buildBarriersConfig = exports.buildBarriersConfig = function buildBarriersCo
 };
 
 /***/ }),
-/* 515 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16055,7 +16324,7 @@ var CONTRACT_SHADES = {
 };
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16103,7 +16372,7 @@ var getDefaultCurrency = exports.getDefaultCurrency = function getDefaultCurrenc
 };
 
 /***/ }),
-/* 517 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16128,19 +16397,19 @@ var _contract_type = __webpack_require__(95);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _contract_type3 = __webpack_require__(505);
+var _contract_type3 = __webpack_require__(507);
 
 var ContractType = _interopRequireWildcard(_contract_type3);
 
-var _currency = __webpack_require__(506);
+var _currency = __webpack_require__(508);
 
 var Currency = _interopRequireWildcard(_currency);
 
-var _duration = __webpack_require__(507);
+var _duration = __webpack_require__(509);
 
 var Duration = _interopRequireWildcard(_duration);
 
-var _start_date = __webpack_require__(509);
+var _start_date = __webpack_require__(511);
 
 var StartDate = _interopRequireWildcard(_start_date);
 
@@ -16215,7 +16484,7 @@ var extendOrReplace = function extendOrReplace(source, new_values) {
 };
 
 /***/ }),
-/* 518 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16232,7 +16501,7 @@ var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _Date = __webpack_require__(106);
+var _Date = __webpack_require__(97);
 
 var _currency_base = __webpack_require__(41);
 
@@ -16294,7 +16563,7 @@ var createProposalRequestForContract = function createProposalRequestForContract
 };
 
 /***/ }),
-/* 519 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16313,23 +16582,23 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class
 
 var _mobx = __webpack_require__(36);
 
-var _purchase = __webpack_require__(508);
+var _purchase = __webpack_require__(510);
 
-var _symbol = __webpack_require__(510);
+var _symbol = __webpack_require__(512);
 
 var _Symbol = _interopRequireWildcard(_symbol);
 
-var _query_string = __webpack_require__(512);
+var _query_string = __webpack_require__(514);
 
-var _chart = __webpack_require__(515);
+var _chart = __webpack_require__(517);
 
 var _contract_type = __webpack_require__(95);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _process = __webpack_require__(517);
+var _process = __webpack_require__(519);
 
-var _proposal = __webpack_require__(518);
+var _proposal = __webpack_require__(520);
 
 var _base_store = __webpack_require__(96);
 
@@ -16337,7 +16606,7 @@ var _base_store2 = _interopRequireDefault(_base_store);
 
 var _Services = __webpack_require__(64);
 
-var _URL = __webpack_require__(529);
+var _URL = __webpack_require__(530);
 
 var _URL2 = _interopRequireDefault(_URL);
 
@@ -16857,7 +17126,7 @@ exports.default = TradeStore;
 ;
 
 /***/ }),
-/* 520 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16868,7 +17137,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _statement_store = __webpack_require__(521);
+var _statement_store = __webpack_require__(506);
 
 var _statement_store2 = _interopRequireDefault(_statement_store);
 
@@ -16876,7 +17145,7 @@ var _portfolio_store = __webpack_require__(504);
 
 var _portfolio_store2 = _interopRequireDefault(_portfolio_store);
 
-var _trade_store = __webpack_require__(519);
+var _trade_store = __webpack_require__(521);
 
 var _trade_store2 = _interopRequireDefault(_trade_store);
 
@@ -16896,266 +17165,7 @@ exports.default = ModulesStore;
 ;
 
 /***/ }),
-/* 521 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
-
-var _mobx = __webpack_require__(36);
-
-var _moment = __webpack_require__(9);
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _base_store = __webpack_require__(96);
-
-var _base_store2 = _interopRequireDefault(_base_store);
-
-var _Services = __webpack_require__(64);
-
-var _currency_base = __webpack_require__(41);
-
-var _client_base = __webpack_require__(22);
-
-var _client_base2 = _interopRequireDefault(_client_base);
-
-var _localize = __webpack_require__(0);
-
-var _string_util = __webpack_require__(19);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-        enumerable: descriptor.enumerable,
-        configurable: descriptor.configurable,
-        writable: descriptor.writable,
-        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-}
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
-
-var batch_size = 100; // request response limit
-
-var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
-    _inherits(StatementStore, _BaseStore);
-
-    function StatementStore() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, StatementStore);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = StatementStore.__proto__ || Object.getPrototypeOf(StatementStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'has_loaded_all', _descriptor3, _this), _initDefineProp(_this, 'date_from', _descriptor4, _this), _initDefineProp(_this, 'date_to', _descriptor5, _this), _initDefineProp(_this, 'error', _descriptor6, _this), _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(StatementStore, [{
-        key: 'clearTable',
-        value: function clearTable() {
-            this.data = [];
-            this.has_loaded_all = false;
-            this.is_loading = false;
-        }
-    }, {
-        key: 'clearDateFilter',
-        value: function clearDateFilter() {
-            this.date_from = '';
-            this.date_to = '';
-        }
-    }, {
-        key: 'fetchNextBatch',
-        value: function fetchNextBatch() {
-            var _this2 = this;
-
-            if (this.has_loaded_all || this.is_loading) return;
-
-            this.is_loading = true;
-
-            var currency = _client_base2.default.get('currency');
-
-            _Services.WS.statement(batch_size, this.data.length, _extends({}, this.date_from && { date_from: (0, _moment2.default)(this.date_from).unix() }, this.date_to && { date_to: (0, _moment2.default)(this.date_to).add(1, 'd').subtract(1, 's').unix() })).then(function (response) {
-                if ('error' in response) {
-                    _this2.error = response.error.message;
-                    return;
-                }
-                var formatted_transactions = response.statement.transactions.map(function (transaction) {
-                    return getStatementData(transaction, currency);
-                });
-
-                _this2.data = [].concat(_toConsumableArray(_this2.data), _toConsumableArray(formatted_transactions));
-                _this2.has_loaded_all = formatted_transactions.length < batch_size;
-                _this2.is_loading = false;
-            });
-        }
-    }, {
-        key: 'handleDateChange',
-        value: function handleDateChange(e) {
-            if (e.target.value !== this[e.target.name]) {
-                this[e.target.name] = e.target.value;
-                this.clearTable();
-                this.fetchNextBatch();
-            }
-        }
-    }, {
-        key: 'handleScroll',
-        value: function handleScroll() {
-            var _document$scrollingEl = document.scrollingElement,
-                scrollTop = _document$scrollingEl.scrollTop,
-                scrollHeight = _document$scrollingEl.scrollHeight,
-                clientHeight = _document$scrollingEl.clientHeight;
-
-            var left_to_scroll = scrollHeight - (scrollTop + clientHeight);
-
-            if (left_to_scroll < 2000) {
-                this.fetchNextBatch();
-            }
-        }
-    }, {
-        key: 'onMount',
-        value: function onMount() {
-            this.fetchNextBatch();
-            window.addEventListener('scroll', this.handleScroll, false);
-        }
-    }, {
-        key: 'onUnmount',
-        value: function onUnmount() {
-            window.removeEventListener('scroll', this.handleScroll, false);
-            this.clearTable();
-            this.clearDateFilter();
-        }
-    }, {
-        key: 'is_empty',
-        get: function get() {
-            return !this.is_loading && this.data.length === 0;
-        }
-    }, {
-        key: 'has_selected_date',
-        get: function get() {
-            return !!(this.date_from || this.date_to);
-        }
-    }]);
-
-    return StatementStore;
-}(_base_store2.default), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'data', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return [];
-    }
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'is_loading', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return false;
-    }
-}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'has_loaded_all', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return false;
-    }
-}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'date_from', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return '';
-    }
-}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'date_to', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return '';
-    }
-}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'error', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return '';
-    }
-}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearDateFilter', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearDateFilter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchNextBatch', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'fetchNextBatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDateChange', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDateChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleScroll', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'handleScroll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'has_selected_date', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'has_selected_date'), _class.prototype)), _class));
-
-/*
-    RESPONSE PARSING FUNCTION
-*/
-
-exports.default = StatementStore;
-var getStatementData = function getStatementData(statement, currency) {
-    var date_obj = new Date(statement.transaction_time * 1000);
-    var moment_obj = _moment2.default.utc(date_obj);
-    var date_str = moment_obj.format('YYYY-MM-DD');
-    var time_str = moment_obj.format('HH:mm:ss') + ' GMT';
-    var payout = parseFloat(statement.payout);
-    var amount = parseFloat(statement.amount);
-    var balance = parseFloat(statement.balance_after);
-    var should_exclude_currency = true;
-
-    return {
-        action: (0, _localize.localize)((0, _string_util.toTitleCase)(statement.action_type)),
-        date: date_str + '\n' + time_str,
-        refid: statement.transaction_id,
-        payout: isNaN(payout) ? '-' : (0, _currency_base.formatMoney)(currency, payout, should_exclude_currency),
-        amount: isNaN(amount) ? '-' : (0, _currency_base.formatMoney)(currency, amount, should_exclude_currency),
-        balance: isNaN(balance) ? '-' : (0, _currency_base.formatMoney)(currency, balance, should_exclude_currency),
-        desc: (0, _localize.localize)(statement.longcode.replace(/\n/g, '<br />')),
-        id: statement.contract_id,
-        app_id: statement.app_id
-    };
-};
-
-/***/ }),
-/* 522 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17251,7 +17261,7 @@ exports.default = ClientStore;
 ;
 
 /***/ }),
-/* 523 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17360,7 +17370,7 @@ exports.default = CommonStore;
 ;
 
 /***/ }),
-/* 524 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17371,19 +17381,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _client_store = __webpack_require__(522);
+var _client_store = __webpack_require__(523);
 
 var _client_store2 = _interopRequireDefault(_client_store);
 
-var _common_store = __webpack_require__(523);
+var _common_store = __webpack_require__(524);
 
 var _common_store2 = _interopRequireDefault(_common_store);
 
-var _Modules = __webpack_require__(520);
+var _Modules = __webpack_require__(522);
 
 var _Modules2 = _interopRequireDefault(_Modules);
 
-var _ui_store = __webpack_require__(525);
+var _ui_store = __webpack_require__(526);
 
 var _ui_store2 = _interopRequireDefault(_ui_store);
 
@@ -17404,7 +17414,7 @@ exports.default = RootStore;
 ;
 
 /***/ }),
-/* 525 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17676,7 +17686,7 @@ exports.default = UIStore;
 ;
 
 /***/ }),
-/* 526 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17751,7 +17761,7 @@ var daysFromTodayTo = exports.daysFromTodayTo = function daysFromTodayTo(date) {
 };
 
 /***/ }),
-/* 527 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17783,7 +17793,7 @@ var getURL = exports.getURL = function getURL(lang) {
 };
 
 /***/ }),
-/* 528 */
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17831,7 +17841,7 @@ var getPropFromStores = function getPropFromStores(prop) {
 };
 
 /***/ }),
-/* 529 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17841,7 +17851,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _url = __webpack_require__(530);
+var _url = __webpack_require__(531);
 
 Object.defineProperty(exports, 'default', {
   enumerable: true,
@@ -17853,7 +17863,7 @@ Object.defineProperty(exports, 'default', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 530 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17971,7 +17981,7 @@ var URLHelper = function () {
 exports.default = URLHelper;
 
 /***/ }),
-/* 531 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18000,7 +18010,6 @@ window.addEventListener('pageshow', function (e) {
 });
 
 /***/ }),
-/* 532 */,
 /* 533 */,
 /* 534 */,
 /* 535 */,
@@ -18259,11 +18268,12 @@ window.addEventListener('pageshow', function (e) {
 /* 788 */,
 /* 789 */,
 /* 790 */,
-/* 791 */
+/* 791 */,
+/* 792 */
 /***/ (function(module, exports) {
 
 module.exports = CIQ;
 
 /***/ })
-],[531]);
+],[532]);
 //# sourceMappingURL=binary_app.js.map

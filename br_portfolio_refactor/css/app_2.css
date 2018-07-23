@@ -1674,22 +1674,18 @@ div.dropdown-container {
       .btn.primary.orange.effect:focus:not(:active):after {
         border: 0 solid #e98024; }
     .btn.primary.green {
-      background: #4caf50;
-      /* stylelint-disable-line color-no-hex */ }
+      background: #4caf50; }
       .btn.primary.green:hover {
         background: #66bb6a;
         /* stylelint-disable-line color-no-hex */ }
       .btn.primary.green:active {
-        background: #4caf50;
-        /* stylelint-disable-line color-no-hex */ }
+        background: #4caf50; }
       .btn.primary.green.effect:focus:not(:active):after {
-        border: 0 solid #4caf50;
-        /* stylelint-disable-line color-no-hex */ }
+        border: 0 solid #4caf50; }
     .btn.primary:disabled, .btn.primary[disabled] {
       background: #f4f4f6 !important;
       /* stylelint-disable-line color-no-hex */
       color: #e9e9ed !important;
-      /* stylelint-disable-line color-no-hex */
       cursor: not-allowed; }
   .btn.secondary {
     background: transparent; }
@@ -1709,9 +1705,7 @@ div.dropdown-container {
         border: 0 solid #e98024; }
     .btn.secondary.green {
       border: 1px solid #4caf50;
-      /* stylelint-disable-line color-no-hex */
-      color: #4caf50;
-      /* stylelint-disable-line color-no-hex */ }
+      color: #4caf50; }
       .btn.secondary.green:hover {
         border: 1px solid #66bb6a;
         /* stylelint-disable-line color-no-hex */
@@ -1720,18 +1714,14 @@ div.dropdown-container {
         background: rgba(76, 175, 80, 0.1); }
       .btn.secondary.green:active {
         border: 1px solid #4caf50;
-        /* stylelint-disable-line color-no-hex */
-        color: #4caf50;
-        /* stylelint-disable-line color-no-hex */ }
+        color: #4caf50; }
       .btn.secondary.green.effect:focus:not(:active):after {
-        border: 0 solid #4caf50;
-        /* stylelint-disable-line color-no-hex */ }
+        border: 0 solid #4caf50; }
     .btn.secondary:disabled, .btn.secondary[disabled] {
       background: #f4f4f6 !important;
       /* stylelint-disable-line color-no-hex */
       border: 0 !important;
       color: #e9e9ed !important;
-      /* stylelint-disable-line color-no-hex */
       cursor: not-allowed !important; }
   .btn.flat {
     background: #fff;
@@ -1751,7 +1741,6 @@ div.dropdown-container {
       border: 1px solid #e9e9ed !important;
       /* stylelint-disable-line color-no-hex */
       color: #e9e9ed !important;
-      /* stylelint-disable-line color-no-hex */
       cursor: not-allowed !important; }
   .btn.effect:focus:not(:active):after {
     content: '';
