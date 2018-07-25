@@ -1,6 +1,6 @@
 @supports (display: grid) {
-    #app_contents {
-        margin: 49px 0 35px;
+    .app-contents {
+        margin: 49px 0 41px;
         overflow: auto; // prevent margin collapse
     }
     /* trade-app layout */
@@ -150,7 +150,7 @@
                 }
             }
         }
-        @media (min-width: 979px) and (max-width: 1125px) {
+        @media (min-width: 767px) and (max-width: 1125px) {
             .chart-container {
                 grid-column: col-start 1 / span 9 !important;
             }
@@ -168,15 +168,23 @@
             top: 48px;
             left: calc(100% + 40px);
             transition: all 0.25s;
-            grid-column: col-start 11 / span 2;
             border: 1px solid $COLOR_GRAY;
             z-index: 3;
+
+            @media (min-width: 767px) and (max-width: 1125px) {
+                width: 251px;
+                left: calc(100% + 41px);
+            }
         }
         .app-contents.show-portfolio {
             margin-right: 0;
 
             .chart-container {
                 grid-column: col-start 1 / span 8;
+
+                @media (min-width: 767px) and (max-width: 1125px) {
+                    grid-column: col-start 1 / span 6 !important;
+                }
             }
             .sidebar-container {
                 transform: translate(-100%);
