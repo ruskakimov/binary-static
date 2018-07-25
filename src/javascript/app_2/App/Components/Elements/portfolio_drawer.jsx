@@ -66,35 +66,20 @@ class PortfolioDrawer extends React.Component {
     };
 
     render() {
-        const { width, is_open } = this.state;
-        const is_mobile = width <= 1024;
-        const header = (
-            is_mobile ?
-                <div
-                    className='portfolio-drawer-header'
-                    onClick={this.handleVisibility}
-                >
-                    <span className='ic-portfolio' />
-                    <p>{localize('Portfolio')}</p>
-                    <span className={`ic-close ${is_open ? 'open': '' }`} />
-                </div>
-                :
-                <div className='portfolio-drawer-header'>
-                    <span className='ic-portfolio' />
-                    <p>{localize('Portfolio Quick Menu')}</p>
-                    <a
-                        href='javascript:;'
-                        className='ic-close'
-                        onClick={this.props.toggleDrawer}
-                    />
-                </div>
-        );
 
         return (
-            <div className='offset-container'>
+            <div className='offset-container desktop-only'>
                 <div className='portfolio-drawer'>
-                    { header }
-                    <div className={`portfolio-list ${is_open ? 'show': '' }`}>
+                    <div className='portfolio-drawer-header'>
+                        <span className='ic-portfolio' />
+                        <p>{localize('Portfolio Quick Menu')}</p>
+                        <a
+                            href='javascript:;'
+                            className='ic-close'
+                            onClick={this.props.toggleDrawer}
+                        />
+                    </div>
+                    <div className='portfolio-list'>
                         {this.portfolios.map((portfolio, idx) => (
                             <div key={idx} className='portfolio'>
                                 <span className='ic-portfolio' />
@@ -103,7 +88,7 @@ class PortfolioDrawer extends React.Component {
                                     <span className={`indicative-${this.getIndicative(portfolio.buy_price).value > 0 ? 'positive' : 'negative'}`}>
                                         {this.getIndicative(portfolio.buy_price).display}
                                     </span>
-                                    <span className='remaining-time'>{moment(this.getRemainingTime(portfolio.expiry_time)).format(is_mobile ? 'HH:mm' : 'HH:mm:ss')}</span>
+                                    <span className='remaining-time'>{moment(this.getRemainingTime(portfolio.expiry_time)).format('HH:mm:ss')}</span>
                                 </div>
                             </div>
                         ))}
