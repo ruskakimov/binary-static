@@ -27298,7 +27298,9 @@ var Authenticate = function () {
             driverslicense: localize('Driving licence')
         };
 
-        if (!(file.documentFormat || '').match(/^(PNG|JPG|JPEG|GIF|PDF)$/i)) {
+        var accepted_formats_regex = /selfie/.test(file.passthrough.class) ? /^(PNG|JPG|JPEG|GIF)$/i : /^(PNG|JPG|JPEG|GIF|PDF)$/i;
+
+        if (!(file.documentFormat || '').match(accepted_formats_regex)) {
             return localize('Invalid document format: "[_1]"', [file.documentFormat]);
         }
         if (file.buffer && file.buffer.byteLength >= 8 * 1024 * 1024) {
