@@ -384,19 +384,7 @@ span.tooltip {
   margin: 50px auto;
   width: 60px;
   height: 20px;
-  white-space: nowrap;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center; }
+  white-space: nowrap; }
   .barspinner > div {
     margin: 2px;
     border-radius: 20px;
@@ -2417,51 +2405,64 @@ div.contracts-popup-container {
   content: url("../images/app_2/contracts/categories/invert/lb_high_low.svg"); }
 
 .table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   color: #333;
   font-size: 14px;
-  border-collapse: collapse;
-  table-layout: fixed;
-  width: 100%;
-  border: 1px solid #e9e9ed;
-  border-radius: 2px; }
-  .table-row {
+  border: 1px solid #e9e9ed; }
+  .table__head {
+    height: 42px; }
+  .table__head .table__row {
+    height: 100%; }
+  .table__body {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow-y: auto; }
+  .table__row {
+    display: grid;
+    padding: 0 16px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     border-bottom: 1px solid #e9e9ed; }
-  .table-head, .table-foot {
-    font-weight: 600;
-    text-align: left;
-    background-color: #fafafb; }
-  .table th, .table td {
+  .table__body .table__row:hover {
+    background-color: #e9e9ed;
+    cursor: pointer; }
+  .table__body .table__row:last-child {
+    border-bottom: none; }
+  .table__cell {
     padding: 0.75rem;
-    border: none; }
-    .table th:first-child, .table td:first-child {
-      padding-left: 16px; }
-      @media screen and (min-width: 981px) {
-        .table th:first-child, .table td:first-child {
-          padding-left: calc(3.48583878vw - 18.1960784314px); } }
-      @media screen and (min-width: 1440px) {
-        .table th:first-child, .table td:first-child {
-          padding-left: 32px; } }
-    .table th:last-child, .table td:last-child {
-      padding-right: 16px; }
-      @media screen and (min-width: 981px) {
-        .table th:last-child, .table td:last-child {
-          padding-right: calc(3.48583878vw - 18.1960784314px); } }
-      @media screen and (min-width: 1440px) {
-        .table th:last-child, .table td:last-child {
-          padding-right: 32px; } }
-  .table--fixed-header:not(.table-clone) .table-head {
-    visibility: hidden; }
-  .table-body .table-row:hover {
-    background-color: #e9e9ed; }
-  .table.table-clone {
-    position: fixed;
-    z-index: 80;
-    pointer-events: none; }
-    .table.table-clone .table-head {
-      pointer-events: auto;
-      visibility: visible; }
-    .table.table-clone .table-body {
-      visibility: hidden; }
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .table__cell:first-child {
+      padding-left: 0; }
+    .table__cell:last-child {
+      padding-right: 0; }
+  .table__head, .table__foot {
+    font-weight: 600;
+    white-space: nowrap;
+    background-color: #fafafb; }
+  .table__foot .table__row {
+    border-top: 1px solid #e9e9ed;
+    border-bottom: none; }
 
 /* Ant style */
 .pagination {
@@ -3497,19 +3498,21 @@ a {
           flex-direction: column; }
   .portfolio--card-view {
     background: #fafafb; }
-  .portfolio th {
-    white-space: nowrap; }
-  .portfolio .reference, .portfolio .type {
-    width: 6.5rem; }
-  .portfolio .remaining_time {
-    width: 9rem; }
-  .portfolio .payout {
-    width: 6rem; }
-  .portfolio .purchase, .portfolio .indicative {
-    width: 5rem; }
+  .portfolio .table {
+    height: 50px;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .portfolio .table__row {
+    grid-template-columns: 6.5rem 7rem 1fr 6rem 9rem 6rem 5rem; }
   .portfolio .payout, .portfolio .indicative, .portfolio .purchase, .portfolio .remaining_time {
-    text-align: right; }
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end; }
   .portfolio .contract-type {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3895,9 +3898,6 @@ a {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   height: 60px;
-  position: fixed;
-  z-index: 90;
-  background-color: #fff;
   width: 100%;
   font-size: 14px; }
   .statement-filter__content {
@@ -3911,15 +3911,8 @@ a {
             flex-direction: row;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center; }
-    .statement-filter__content {
-      padding-left: 16px; }
-      @media screen and (min-width: 981px) {
-        .statement-filter__content {
-          padding-left: calc(3.48583878vw - 18.1960784314px); } }
-      @media screen and (min-width: 1440px) {
-        .statement-filter__content {
-          padding-left: 32px; } }
+            align-items: center;
+    padding-left: 16px; }
   .statement-filter__label {
     margin-right: 0.6rem; }
   .statement-filter__dash {
@@ -3973,7 +3966,6 @@ a {
 
 .statement {
   padding: 0 12px;
-  overflow: auto;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -3989,8 +3981,6 @@ a {
   .statement--card-view {
     background: #fafafb; }
   .statement__content {
-    padding-top: 60px;
-    overflow: auto;
     -webkit-box-flex: 1;
         -ms-flex-positive: 1;
             flex-grow: 1;
@@ -4001,20 +3991,18 @@ a {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column; }
-  .statement .table-head {
-    white-space: nowrap; }
-  .statement .table-body .table-row {
-    cursor: pointer; }
-  .statement .date, .statement .refid {
-    width: 6.5rem; }
-  .statement .action {
-    width: 5rem; }
-  .statement .payout {
-    width: 7rem; }
-  .statement .amount, .statement .balance {
-    width: 6rem; }
+  .statement .table {
+    height: 50px;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    border-bottom: none; }
+  .statement .table__row {
+    grid-template-columns: 6.5rem 6.5rem 1fr 5rem 7rem 6rem 6rem; }
   .statement .payout, .statement .amount, .statement .balance {
-    text-align: right; }
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end; }
   .statement .amount {
     font-weight: bold; }
     .statement .amount--profit {
