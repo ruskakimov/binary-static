@@ -613,6 +613,32 @@ span.tooltip {
   .mobile-only {
     display: none !important; } }
 
+.error-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: calc(100vh - 90px); }
+  .error-container p {
+    color: #333; }
+    .error-container p {
+      font-size: 14px; }
+      @media screen and (min-width: 320px) {
+        .error-container p {
+          font-size: calc(0.5357142857vw + 12.2857142857px); } }
+      @media screen and (min-width: 1440px) {
+        .error-container p {
+          font-size: 20px; } }
+
 .header {
   position: fixed;
   z-index: 99;
@@ -2211,8 +2237,8 @@ div.contracts-popup-container {
   div.contracts-popup-container.show > .clicked {
     border-color: #2a3052; }
   div.contracts-popup-container.show > .select-arrow {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); }
   div.contracts-popup-container .list-item {
     width: 100%;
     font-size: 1rem;
@@ -4140,7 +4166,7 @@ a {
       display: block;
       text-align: center;
       z-index: 1;
-      color: #2a3052; }
+      color: #333; }
     .binary-app fieldset .clock-header span.field-info, .binary-app fieldset .fieldset-header span.field-info, .binary-app fieldset .stake-wrapper span.field-info {
       position: absolute;
       color: #2a3052;
@@ -4186,15 +4212,18 @@ a {
         font-weight: 300;
         border-radius: 4px; }
     .binary-app fieldset .purchase-info-wrapper {
-      line-height: 1rem;
-      padding-bottom: 1vh; }
-      .binary-app fieldset .purchase-info-wrapper .stake-wrapper {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        height: 1rem; }
-        .binary-app fieldset .purchase-info-wrapper .stake-wrapper span.field-info {
-          margin: 0 0 0 auto; }
+      line-height: 0.9rem;
+      padding-bottom: 1vh;
+      border: 0; }
+      .binary-app fieldset .purchase-info-wrapper .info-wrapper {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex; }
+        .binary-app fieldset .purchase-info-wrapper .info-wrapper div:last-child {
+          margin-left: 4px; }
+      .binary-app fieldset .purchase-info-wrapper .purchase-tooltip {
+        float: right;
+        margin-top: -4px; }
     .binary-app fieldset.trade-types {
       border: 0;
       padding: 0;
@@ -4218,6 +4247,7 @@ a {
     .binary-app div.purchase-wrapper div.purchase-error {
       position: absolute;
       top: 0;
+      min-height: 245px;
       height: calc(100% - 2px);
       width: calc(100% - 6px);
       left: 2px;
@@ -4225,14 +4255,9 @@ a {
       border: 1px solid #e9e9ed;
       border-radius: 4px;
       background: #fafafb; }
-      .binary-app div.purchase-wrapper div.purchase-error .close-btn {
-        position: absolute;
-        padding: 8px;
-        top: 0;
-        right: 0;
+      .binary-app div.purchase-wrapper div.purchase-error .close-btn-container {
+        float: right;
         cursor: pointer; }
-        .binary-app div.purchase-wrapper div.purchase-error .close-btn:before {
-          content: url("../images/app_2/footer/ic_close_blue_light.svg"); }
       .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -4247,7 +4272,7 @@ a {
         -webkit-box-pack: center;
             -ms-flex-pack: center;
                 justify-content: center;
-        margin-top: 25%; }
+        margin-top: 35%; }
         .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper button.btn {
           margin: 0 auto; }
           .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper button.btn span {
@@ -4267,17 +4292,33 @@ a {
           .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:hover, .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:focus, .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:active {
             text-decoration: underline;
             color: #333; }
-      .binary-app div.purchase-wrapper div.purchase-error span.info-text {
+      .binary-app div.purchase-wrapper div.purchase-error div.purchase-error-wrapper {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        padding: 10px;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center;
         -webkit-box-pack: center;
             -ms-flex-pack: center;
-                justify-content: center; }
+                justify-content: center;
+        margin-top: 45%; }
+      .binary-app div.purchase-wrapper div.purchase-error span.info-text {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        padding: 0.5rem 1.5rem;
+        text-align: center; }
     .binary-app div.purchase-wrapper fieldset.purchase-option {
       padding-top: 1.5vh;
       padding-bottom: 1.5vh;
@@ -4386,6 +4427,51 @@ a {
         border: 1px solid #fafafb;
         width: calc(100% - 6px);
         height: calc(100% - 2px); }
+      .binary-app div.purchase-wrapper fieldset.purchase-option div.purchase-lock-container {
+        position: absolute;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        background: #fafafb;
+        opacity: 0.95;
+        min-height: 245px;
+        width: calc(100% - 5px);
+        height: calc(100% - 2px);
+        z-index: 3;
+        top: 0;
+        left: 2px;
+        right: 0;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        bottom: 0;
+        border-radius: 4px;
+        border: 1px solid #e9e9ed; }
+        .binary-app div.purchase-wrapper fieldset.purchase-option div.purchase-lock-container .lock-container svg.ic-lock {
+          width: 64px;
+          height: 64px; }
+        .binary-app div.purchase-wrapper fieldset.purchase-option div.purchase-lock-container button.btn {
+          height: 32px;
+          margin: 0 1rem 1.5rem;
+          width: 90px;
+          line-height: 100%; }
+        .binary-app div.purchase-wrapper fieldset.purchase-option div.purchase-lock-container h4 {
+          margin: 2px 8px 8px;
+          padding: 0;
+          text-transform: capitalize; }
+        .binary-app div.purchase-wrapper fieldset.purchase-option div.purchase-lock-container span.lock-message {
+          background: #e9e9ed;
+          padding: 8px;
+          margin: 1rem 1rem 0;
+          border-radius: 4px;
+          font-size: 10px; }
   .binary-app .calendar {
     width: 187px; }
     .binary-app .calendar .calendar-input, .binary-app .calendar .calendar-footer {
