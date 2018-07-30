@@ -5253,6 +5253,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       2. implement filtering per column
 */
 
+var TableCell = function TableCell(_ref) {
+    var col_index = _ref.col_index,
+        children = _ref.children;
+    return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)('table__cell', col_index) },
+        children
+    );
+};
+
+TableCell.propTypes = {
+    col_index: _propTypes2.default.string,
+    children: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.string])
+};
+
+var TableRow = function TableRow(_ref2) {
+    var columns = _ref2.columns,
+        _ref2$row_obj = _ref2.row_obj,
+        row_obj = _ref2$row_obj === undefined ? {} : _ref2$row_obj,
+        is_header = _ref2.is_header,
+        is_footer = _ref2.is_footer;
+    return _react2.default.createElement(
+        'div',
+        { className: 'table__row' },
+        columns.map(function (_ref3) {
+            var col_index = _ref3.col_index,
+                renderCellContent = _ref3.renderCellContent,
+                title = _ref3.title;
+
+            var cell_value = row_obj[col_index] || '';
+
+            return _react2.default.createElement(
+                TableCell,
+                { col_index: col_index, key: col_index },
+                is_header ? title : renderCellContent ? renderCellContent({ cell_value: cell_value, col_index: col_index, row_obj: row_obj, is_footer: is_footer }) : cell_value
+            );
+        })
+    );
+};
+
+TableRow.propTypes = {
+    columns: _propTypes2.default.array,
+    row_obj: _propTypes2.default.object,
+    is_header: _propTypes2.default.bool,
+    is_footer: _propTypes2.default.bool
+};
+
 var DataTable = function (_React$PureComponent) {
     _inherits(DataTable, _React$PureComponent);
 
@@ -5272,70 +5319,20 @@ var DataTable = function (_React$PureComponent) {
         value: function alignHeader() {
             // scrollbar inside body table can push content (depending on the browser and if mouse is plugged in)
             if (!this.props.data_source.length) return;
-
             var first_body_row = this.el_table_body.firstChild;
-            var body_row_width = first_body_row.offsetWidth;
-            var header_row_width = this.el_header_row.offsetWidth;
-
-            var original_padding_right = parseInt(window.getComputedStyle(first_body_row, null).getPropertyValue('padding-right'));
-            var new_padding_right = header_row_width - body_row_width + original_padding_right;
-
-            this.el_header_row.style.paddingRight = new_padding_right + 'px';
-        }
-    }, {
-        key: 'renderRow',
-        value: function renderRow(row_obj) {
-            var is_footer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-            var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-            if (!row_obj) return null;
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'table__row', key: id },
-                this.props.columns.map(function (_ref) {
-                    var col_index = _ref.col_index,
-                        renderCellContent = _ref.renderCellContent;
-
-                    var cell_value = row_obj[col_index] || '';
-
-                    return _react2.default.createElement(
-                        'div',
-                        { className: (0, _classnames2.default)('table__cell', col_index), key: col_index },
-                        renderCellContent ? renderCellContent({ cell_value: cell_value, col_index: col_index, row_obj: row_obj, is_footer: is_footer }) : cell_value
-                    );
-                })
-            );
-        }
-    }, {
-        key: 'renderBodyRows',
-        value: function renderBodyRows() {
-            var _this2 = this;
-
-            return this.props.data_source.map(function (row_obj, id) {
-                return _this2.renderRow(row_obj, false, id);
-            });
-        }
-    }, {
-        key: 'renderHeaders',
-        value: function renderHeaders() {
-            return this.props.columns.map(function (col) {
-                return _react2.default.createElement(
-                    'div',
-                    { className: (0, _classnames2.default)('table__cell', col.col_index), key: col.col_index },
-                    col.title
-                );
-            });
+            var scrollbar_offset = this.el_table_head.offsetWidth - first_body_row.offsetWidth;
+            this.el_table_head.style.paddingRight = scrollbar_offset + 'px';
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var _props = this.props,
                 children = _props.children,
                 onScroll = _props.onScroll,
-                footer = _props.footer;
+                footer = _props.footer,
+                columns = _props.columns;
 
 
             return _react2.default.createElement(
@@ -5343,14 +5340,10 @@ var DataTable = function (_React$PureComponent) {
                 { className: 'table' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'table__head' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'table__row', ref: function ref(el) {
-                                _this3.el_header_row = el;
-                            } },
-                        this.renderHeaders()
-                    )
+                    { className: 'table__head', ref: function ref(el) {
+                            _this2.el_table_head = el;
+                        } },
+                    _react2.default.createElement(TableRow, { columns: columns, is_header: true })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -5358,16 +5351,18 @@ var DataTable = function (_React$PureComponent) {
                         className: 'table__body',
                         onScroll: onScroll,
                         ref: function ref(el) {
-                            _this3.el_table_body = el;
+                            _this2.el_table_body = el;
                         }
                     },
-                    this.renderBodyRows(),
+                    this.props.data_source.map(function (row_obj, id) {
+                        return _react2.default.createElement(TableRow, { row_obj: row_obj, columns: columns, key: id });
+                    }),
                     children
                 ),
                 this.props.footer && _react2.default.createElement(
                     'div',
                     { className: 'table__foot' },
-                    this.renderRow(footer, true)
+                    _react2.default.createElement(TableRow, { row_obj: footer, columns: columns, is_footer: true })
                 )
             );
         }
@@ -16347,21 +16342,18 @@ function _initializerWarningHelper(descriptor, context) {
 var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(PortfolioStore, _BaseStore);
 
-    function PortfolioStore(root_store) {
+    function PortfolioStore() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, PortfolioStore);
 
-        var _this = _possibleConstructorReturn(this, (PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call(this));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        _initDefineProp(_this, 'data', _descriptor, _this);
-
-        _initDefineProp(_this, 'is_loading', _descriptor2, _this);
-
-        _initDefineProp(_this, 'error', _descriptor3, _this);
-
-        _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this);
-
-        _this.root_store = root_store;
-        return _this;
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'error', _descriptor3, _this), _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(PortfolioStore, [{
@@ -16539,7 +16531,7 @@ var _localize = __webpack_require__(1);
 var _string_util = __webpack_require__(19);
 
 var formatStatementTransaction = exports.formatStatementTransaction = function formatStatementTransaction(transaction, currency) {
-    var moment_obj = (0, _Date.toMoment)(transaction.transaction_time * 1000);
+    var moment_obj = (0, _Date.toMoment)(transaction.transaction_time);
     var date_str = moment_obj.format('YYYY-MM-DD');
     var time_str = moment_obj.format('HH:mm:ss') + ' GMT';
     var payout = parseFloat(transaction.payout);
