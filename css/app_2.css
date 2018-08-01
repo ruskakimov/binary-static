@@ -3891,7 +3891,6 @@ a {
       font-size: 1.1rem; }
 
 .statement {
-  padding: 0 12px;
   height: 100%;
   /*
         TABLE STYLES START
@@ -3910,7 +3909,8 @@ a {
             box-sizing: border-box;
     height: 60px;
     width: 100%;
-    font-size: 14px; }
+    font-size: 14px;
+    padding: 0 12px; }
     .statement-filter__content {
       height: 100%;
       display: -webkit-box;
@@ -3929,7 +3929,8 @@ a {
     .statement-filter__dash {
       margin: 0 0.5rem; }
   .statement__content {
-    height: calc(100% - 60px); }
+    height: calc(100% - 60px);
+    padding: 0 12px; }
   .statement .table {
     height: 100%;
     border-bottom: none; }
@@ -3946,7 +3947,8 @@ a {
     .statement .amount--loss {
       color: #f44336; }
   .statement--card-view {
-    background: #fafafb; }
+    background: #fafafb;
+    overflow: hidden; }
     .statement--card-view .statement-filter {
       position: fixed;
       background-color: #fff;
@@ -3965,7 +3967,11 @@ a {
       .statement--card-view .statement-filter__label {
         display: none; }
     .statement--card-view .statement__content {
-      margin-top: 60px; }
+      margin-top: 60px;
+      padding: 0; }
+    .statement--card-view .card-list {
+      padding: 0 12px;
+      height: 100%; }
   .statement-card__header {
     font-size: 10px;
     padding: 0.5rem;

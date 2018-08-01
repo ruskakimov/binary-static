@@ -12890,6 +12890,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(4);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _statement_card = __webpack_require__(501);
 
 var _statement_card2 = _interopRequireDefault(_statement_card);
@@ -12897,18 +12901,23 @@ var _statement_card2 = _interopRequireDefault(_statement_card);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var StatementCardList = function StatementCardList(_ref) {
-    var data = _ref.data;
+    var data = _ref.data,
+        onScroll = _ref.onScroll,
+        children = _ref.children;
     return _react2.default.createElement(
         'div',
-        { className: 'card-list' },
+        { className: 'card-list', onScroll: onScroll },
         data.map(function (transaction, id) {
             return _react2.default.createElement(_statement_card2.default, _extends({ className: 'card-list__card' }, transaction, { key: id }));
-        })
+        }),
+        children
     );
 };
 
 StatementCardList.propTypes = {
-    data: _mobxReact.PropTypes.arrayOrObservableArray
+    data: _mobxReact.PropTypes.arrayOrObservableArray,
+    onScroll: _propTypes2.default.func,
+    children: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.arrayOf(_propTypes2.default.node)])
 };
 
 exports.default = StatementCardList;
@@ -13066,8 +13075,14 @@ var Statement = function (_React$Component) {
                     should_show_cards ? _react2.default.createElement(
                         _react2.default.Fragment,
                         null,
-                        _react2.default.createElement(_statement_card_list2.default, { data: data }),
-                        renderGUI()
+                        _react2.default.createElement(
+                            _statement_card_list2.default,
+                            {
+                                data: data,
+                                onScroll: handleScroll
+                            },
+                            renderGUI()
+                        )
                     ) : _react2.default.createElement(
                         _DataTable2.default,
                         {
@@ -17008,13 +17023,11 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     }, {
         key: 'onMount',
         value: function onMount() {
-            window.addEventListener('scroll', this.handleWindowScroll, false);
             this.fetchNextBatch();
         }
     }, {
         key: 'onUnmount',
         value: function onUnmount() {
-            window.removeEventListener('scroll', this.handleWindowScroll, false);
             this.clearTable();
             this.clearDateFilter();
         }
