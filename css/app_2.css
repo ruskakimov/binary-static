@@ -432,19 +432,15 @@ span.tooltip {
 @supports (display: grid) {
   .app-contents {
     margin: 50px 0 35px;
-    min-height: calc(100vh - 50px - 35px);
-    overflow: auto;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    height: calc(100vh - 50px - 35px);
+    overflow-y: auto;
+    overflow-x: hidden; }
+    .app-contents--show-portfolio-drawer {
+      margin-right: 228px; }
     @media screen and (max-width: 768px) {
       .app-contents {
         margin-bottom: 0;
-        min-height: calc(100vh - 50px); } }
+        height: calc(100vh - 50px); } }
   /* trade-app layout */
   .trade-container {
     position: relative;
@@ -453,7 +449,6 @@ span.tooltip {
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: 1fr;
     grid-gap: 4px;
-    overflow: hidden;
     min-height: calc(100vh - 105px); }
     .trade-container .chart-container {
       position: relative; }
@@ -474,8 +469,6 @@ span.tooltip {
     .trade-container .sidebar-container, .trade-container .sidebar-items {
       position: relative;
       min-height: 500px; }
-    .trade-container .offset-container {
-      display: none; }
     .trade-container > * {
       grid-column: col-start / span 12; }
     @media (max-width: 768px) {
@@ -552,26 +545,6 @@ span.tooltip {
                 border-bottom-left-radius: 0;
                 border-top-right-radius: 4px;
                 border-bottom-right-radius: 4px; } }
-    @media (min-width: 1025px) {
-      .trade-container .offset-container {
-        display: unset;
-        position: absolute;
-        height: 100vh;
-        width: 100%;
-        left: calc(100% + 40px);
-        -webkit-transition: all 0.25s;
-        transition: all 0.25s;
-        grid-column: col-start 11 / span 2; }
-      .trade-container.show {
-        margin-right: 0; }
-        .trade-container.show .chart-container {
-          grid-column: col-start 1 / span 8; }
-        .trade-container.show .sidebar-container {
-          -webkit-transform: translate(-100%);
-                  transform: translate(-100%); }
-        .trade-container.show .offset-container {
-          -webkit-transform: translate(calc(-100% - 20px));
-                  transform: translate(calc(-100% - 20px)); } }
     @media (min-width: 979px) and (max-width: 1125px) {
       .trade-container .chart-container {
         grid-column: col-start 1 / span 9 !important; }
@@ -642,6 +615,8 @@ span.tooltip {
 .header {
   position: fixed;
   z-index: 99;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   width: 100%;
   height: 50px;
   top: 0;
@@ -761,25 +736,25 @@ span.tooltip {
               height: 0;
               overflow: hidden;
               visibility: hidden; }
-            .header .menu-items .menu-left .menu-links a span.trade:before {
+            .header .menu-items .menu-left .menu-links a span.menu-links__trade:before {
               content: url("../images/app_2/header/icons/ic_trade_normal_light.svg"); }
-            .header .menu-items .menu-left .menu-links a span.portfolio:before {
+            .header .menu-items .menu-left .menu-links a span.menu-links__portfolio:before {
               content: url("../images/app_2/header/icons/ic_portfolio_normal_light.svg"); }
-            .header .menu-items .menu-left .menu-links a span.statement:before {
+            .header .menu-items .menu-left .menu-links a span.menu-links__statement:before {
               content: url("../images/app_2/header/icons/ic_statement_normal_light.svg"); }
-            .header .menu-items .menu-left .menu-links a span.cashier:before {
+            .header .menu-items .menu-left .menu-links a span.menu-links__cashier:before {
               content: url("../images/app_2/header/icons/ic_cashier_normal_light.svg"); }
           .header .menu-items .menu-left .menu-links a:hover {
             background-color: #e9e9ed; }
           .header .menu-items .menu-left .menu-links a.active > span[title] {
             font-weight: 500; }
-          .header .menu-items .menu-left .menu-links a.active > span.trade:before {
+          .header .menu-items .menu-left .menu-links a.active > .menu-links__trade:before {
             content: url("../images/app_2/header/icons/ic_trade_active_light.svg"); }
-          .header .menu-items .menu-left .menu-links a.active > span.portfolio:before {
+          .header .menu-items .menu-left .menu-links a.active > .menu-links__portfolio:before {
             content: url("../images/app_2/header/icons/ic_portfolio_active_light.svg"); }
-          .header .menu-items .menu-left .menu-links a.active > span.statement:before {
+          .header .menu-items .menu-left .menu-links a.active > .menu-links__statement:before {
             content: url("../images/app_2/header/icons/ic_statement_active_light.svg"); }
-          .header .menu-items .menu-left .menu-links a.active > span.cashier:before {
+          .header .menu-items .menu-left .menu-links a.active > .menu-links__cashier:before {
             content: url("../images/app_2/header/icons/ic_cashier_active_light.svg"); }
         @media (max-width: 980px) {
           .header .menu-items .menu-left .menu-links {
@@ -864,15 +839,17 @@ span.tooltip {
       -ms-flex-item-align: center;
           align-self: center; }
 
-.inkbar {
-  display: block;
-  position: absolute;
-  content: '';
-  height: 2px;
-  bottom: 0;
-  background-color: #2a3052;
-  -webkit-transition: left 0.3s;
-  transition: left 0.3s; }
+.has-inkbar {
+  position: relative; }
+  .has-inkbar .inkbar {
+    display: block;
+    position: absolute;
+    content: '';
+    height: 2px;
+    bottom: 0;
+    background-color: #2a3052;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s; }
 
 footer {
   position: fixed;
@@ -884,7 +861,7 @@ footer {
   background-color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  z-index: 3;
+  z-index: 99;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1330,152 +1307,155 @@ hr {
         background: #e9e9ed; }
 
 .portfolio-drawer {
-  -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
-          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
-  height: 100vh;
+  width: 228px;
+  height: calc(100vh - 50px - 35px);
+  position: fixed;
+  z-index: 50;
+  top: 50px;
+  right: 0;
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  -webkit-transition: -webkit-transform 0.25s;
+  transition: -webkit-transform 0.25s;
+  transition: transform 0.25s;
+  transition: transform 0.25s, -webkit-transform 0.25s;
+  border-left: 1px solid #e9e9ed;
+  background-color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  -webkit-transition: -webkit-transform ease 250ms;
-  transition: -webkit-transform ease 250ms;
-  transition: transform ease 250ms;
-  transition: transform ease 250ms, -webkit-transform ease 250ms;
-  background: #fff;
-  padding: 15px; }
-  .portfolio-drawer-header {
+  /*
+        PORTFOLIO DRAWER CARD STARTS
+    */
+  /*
+        PORTFOLIO DRAWER CARD ENDS
+    */ }
+  .portfolio-drawer--open {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  .portfolio-drawer__header {
+    height: 40px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; }
-    .portfolio-drawer-header p {
-      margin: 0;
-      font-size: 0.7rem;
-      font-weight: bold;
-      color: #2a3052; }
-    .portfolio-drawer-header .ic-portfolio {
-      margin-right: 5px; }
-    .portfolio-drawer-header .ic-close {
-      margin-left: auto; }
-      .portfolio-drawer-header .ic-close:before {
-        content: url("../images/app_2/footer/ic_close_blue_light.svg"); }
-  .portfolio-drawer .portfolio {
-    position: relative;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    width: 100%;
-    background: #fff;
-    border: 1px solid #fafafb;
-    border-radius: 4px;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    font-size: 0.7rem;
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    padding: 15px 10px;
-    margin: 15px 0; }
-    .portfolio-drawer .portfolio:hover {
-      border-color: #2a3052; }
-    .portfolio-drawer .portfolio:active, .portfolio-drawer .portfolio:focus {
-      outline: 0;
-      border-radius: 4px;
-      border-color: #2a3052;
-      -webkit-box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2);
-              box-shadow: 0 0 0 2px rgba(42, 48, 82, 0.2); }
-    .portfolio-drawer .portfolio.error {
-      color: #f44336;
-      /* stylelint-disable-line color-no-hex */
-      border: 1px solid #f44336;
-      /* stylelint-disable-line color-no-hex */ }
-    .portfolio-drawer .portfolio .asset {
-      display: grid;
-      grid-gap: 7px; }
-      .portfolio-drawer .portfolio .asset .symbol {
-        font-weight: 300;
-        color: #2a3052; }
-      .portfolio-drawer .portfolio .asset .indicative-positive, .portfolio-drawer .portfolio .asset .indicative-negative {
-        font-weight: 600; }
-        .portfolio-drawer .portfolio .asset .indicative-positive.indicative-positive, .portfolio-drawer .portfolio .asset .indicative-negative.indicative-positive {
-          color: #66bb6a;
-          /* stylelint-disable-line color-no-hex */ }
-        .portfolio-drawer .portfolio .asset .indicative-positive.indicative-negative, .portfolio-drawer .portfolio .asset .indicative-negative.indicative-negative {
-          color: #f44336;
-          /* stylelint-disable-line color-no-hex */ }
-      .portfolio-drawer .portfolio .asset .remaining-time {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        margin: 5px;
-        font-size: 0.7rem;
-        color: #2a3052;
-        font-weight: 300; }
-
-@media (max-width: 1024px) {
-  .portfolio-drawer {
-    -webkit-box-shadow: none;
-            box-shadow: none;
-    padding: 0; }
-    .portfolio-drawer div.portfolio-list {
-      opacity: 0;
-      -webkit-transform: scale(1, 0);
-              transform: scale(1, 0);
-      -webkit-transform-origin: center top;
-              transform-origin: center top;
-      -webkit-transition: all 0.25s;
-      transition: all 0.25s; }
-      .portfolio-drawer div.portfolio-list.show {
-        -webkit-transform: scale(1, 1);
-                transform: scale(1, 1);
-        opacity: 1; }
-      .portfolio-drawer div.portfolio-list .portfolio {
-        -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
-                box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14); }
-        .portfolio-drawer div.portfolio-list .portfolio:hover {
-          border: 0;
-          border-bottom: 2px solid #2a3052;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0; }
-        .portfolio-drawer div.portfolio-list .portfolio:active, .portfolio-drawer div.portfolio-list .portfolio:focus {
-          border: 0; }
-        .portfolio-drawer div.portfolio-list .portfolio .asset {
-          display: -webkit-box;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-box-align: center;
-              -ms-flex-align: center;
-                  align-items: center; }
-          .portfolio-drawer div.portfolio-list .portfolio .asset .indicative-positive, .portfolio-drawer div.portfolio-list .portfolio .asset .indicative-negative {
-            margin-left: auto; }
-          .portfolio-drawer div.portfolio-list .portfolio .asset .remaining-time {
-            position: relative;
-            margin: 0 0 0 40px; }
-    .portfolio-drawer .portfolio-drawer-header p {
-      text-transform: uppercase; }
-    .portfolio-drawer .ic-close {
-      -webkit-transform: rotate(180deg);
-              transform: rotate(180deg);
-      -webkit-transform-origin: 50% 50%;
-              transform-origin: 50% 50%;
-      -webkit-transition: -webkit-transform 0.2s ease;
-      transition: -webkit-transform 0.2s ease;
-      transition: transform 0.2s ease;
-      transition: transform 0.2s ease, -webkit-transform 0.2s ease;
-      text-decoration: none;
-      line-height: 1;
+    padding: 0 10px; }
+  .portfolio-drawer__body {
+    height: calc(100% - 40px);
+    padding: 8px 10px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    overflow-y: auto; }
+  .portfolio-drawer__title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #2a3052; }
+  .portfolio-drawer__icon-main {
+    margin-right: 8px; }
+  .portfolio-drawer__icon-close {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    background-image: url("../images/app_2/footer/ic_close_blue_light.svg");
+    background-size: 16px;
+    margin-left: auto; }
+  .portfolio-drawer-card {
+    height: 60px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr auto;
+    border: 1px solid #e9e9ed;
+    border-radius: 2px; }
+    .portfolio-drawer-card:not(:last-child) {
+      margin-bottom: 16px; }
+    .portfolio-drawer-card__type {
+      font-size: 12px;
+      color: #2a3052; }
+      .portfolio-drawer-card__type .contract-type {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center; }
+        .portfolio-drawer-card__type .contract-type__icon {
+          -webkit-box-sizing: border-box;
+                  box-sizing: border-box;
+          width: 24px;
+          height: 24px;
+          padding: 4px;
+          border-radius: 100%;
+          background-color: #e9e9ed;
+          margin-right: 8px; }
+    .portfolio-drawer-card__symbol {
+      font-size: 10px;
+      color: #2a3052; }
+    .portfolio-drawer-card__indicative {
+      font-size: 12px;
       color: #2a3052;
-      font-size: 1.1rem; }
-      .portfolio-drawer .ic-close.open {
-        -webkit-transform: rotate(0deg);
-                transform: rotate(0deg); }
-      .portfolio-drawer .ic-close:before {
-        content: '\002303'; } }
+      font-weight: bold;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      margin-bottom: auto; }
+      .portfolio-drawer-card__indicative:after {
+        content: '';
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        background-size: 16px 16px;
+        margin-left: 2px; }
+      .portfolio-drawer-card__indicative--price-moved-up {
+        color: #4caf50; }
+        .portfolio-drawer-card__indicative--price-moved-up:after {
+          background-image: url("../images/app_2/portfolio/ic_price_up.svg"); }
+      .portfolio-drawer-card__indicative--price-moved-down {
+        color: #f44336; }
+        .portfolio-drawer-card__indicative--price-moved-down:after {
+          background-image: url("../images/app_2/portfolio/ic_price_down.svg"); }
+      .portfolio-drawer-card__indicative--price-stable {
+        color: #000; }
+        .portfolio-drawer-card__indicative--price-stable:after {
+          background-image: url("../images/app_2/portfolio/ic_price_stable.svg"); }
+      .portfolio-drawer-card__indicative--no-resale {
+        color: #e9e9ed; }
+        .portfolio-drawer-card__indicative--no-resale:after {
+          background-image: url("../images/app_2/portfolio/ic_no_resale.svg"); }
+    .portfolio-drawer-card__remaining-time {
+      font-size: 10px;
+      color: #6e7287;
+      text-align: right; }
+      .portfolio-drawer-card__remaining-time:before {
+        content: '';
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        background-size: 10px 10px;
+        margin-right: 2px;
+        background-image: url("../images/app_2/portfolio/ic_countdown.svg");
+        vertical-align: text-top; }
 
 /* Ant style */
 .input-field {
@@ -3514,23 +3494,11 @@ a {
 
 .portfolio {
   padding: 1.5rem 12px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column; }
+  height: 100%; }
   .portfolio--card-view {
     background: #fafafb; }
   .portfolio .table {
-    height: 50px;
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
+    height: 100%; }
   .portfolio .table__row {
     grid-template-columns: 6.5rem 7rem 1fr 6rem 9rem 6rem 5rem; }
   .portfolio .payout, .portfolio .indicative, .portfolio .purchase, .portfolio .remaining_time {
@@ -3550,7 +3518,8 @@ a {
             flex-direction: column;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center; }
+            align-items: center;
+    text-align: center; }
     .portfolio .contract-type__icon {
       width: 20px;
       height: 20px;
@@ -3559,6 +3528,7 @@ a {
       border-radius: 100%;
       background-color: #e9e9ed; }
   .portfolio .indicative {
+    text-align: right;
     font-weight: bold; }
     .portfolio .indicative--price-moved-up {
       color: #4caf50; }
@@ -3570,9 +3540,7 @@ a {
       font-size: 10px;
       font-weight: 400; }
   .portfolio-empty {
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    height: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3631,25 +3599,25 @@ a {
     vertical-align: middle;
     margin-right: 5px; }
   .portfolio-card__purchase:before {
-    background-image: url("../images/app_2/statement/ic_purchase.svg"); }
+    background-image: url("../images/app_2/portfolio/ic_purchase.svg"); }
   .portfolio-card__payout:before {
     background-image: url("../images/app_2/statement/ic_payout.svg"); }
   .portfolio-card__indicative--price-moved-up {
     color: #4caf50; }
     .portfolio-card__indicative--price-moved-up:before {
-      background-image: url("../images/app_2/statement/ic_price_up.svg"); }
+      background-image: url("../images/app_2/portfolio/ic_price_up.svg"); }
   .portfolio-card__indicative--price-moved-down {
     color: #f44336; }
     .portfolio-card__indicative--price-moved-down:before {
-      background-image: url("../images/app_2/statement/ic_price_down.svg"); }
+      background-image: url("../images/app_2/portfolio/ic_price_down.svg"); }
   .portfolio-card__indicative--price-stable {
     color: #000; }
     .portfolio-card__indicative--price-stable:before {
-      background-image: url("../images/app_2/statement/ic_price_stable.svg"); }
+      background-image: url("../images/app_2/portfolio/ic_price_stable.svg"); }
   .portfolio-card__indicative--no-resale {
     color: #e9e9ed; }
     .portfolio-card__indicative--no-resale:before {
-      background-image: url("../images/app_2/statement/ic_no_resale.svg"); }
+      background-image: url("../images/app_2/portfolio/ic_no_resale.svg"); }
 
 .asianu-icon--light {
   content: url("../images/app_2/contracts/types/light/ic_asianu.svg"); }
@@ -3924,16 +3892,7 @@ a {
 
 .statement {
   padding: 0 12px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  height: 100%;
   /*
         TABLE STYLES START
     */
@@ -3970,21 +3929,9 @@ a {
     .statement-filter__dash {
       margin: 0 0.5rem; }
   .statement__content {
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column; }
+    height: calc(100% - 60px); }
   .statement .table {
-    height: 50px;
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    height: 100%;
     border-bottom: none; }
   .statement .table__row {
     grid-template-columns: 6.5rem 6.5rem 1fr 5rem 7rem 6rem 6rem; }
