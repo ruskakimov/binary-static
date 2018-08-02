@@ -9541,6 +9541,25 @@ var PortfolioDrawer = function (_React$Component) {
                 toggleDrawer = _props.toggleDrawer;
 
 
+            var body_content = void 0;
+
+            if (error) {
+                body_content = _react2.default.createElement(
+                    'p',
+                    null,
+                    error
+                );
+            } else if (is_empty) {
+                body_content = _react2.default.createElement(_empty_portfolio_message2.default, null);
+            } else {
+                body_content = data.map(function (portfolio_position, id) {
+                    return _react2.default.createElement(_portfolio_drawer_card2.default, _extends({
+                        key: id,
+                        currency: currency
+                    }, portfolio_position));
+                });
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: (0, _classnames2.default)('portfolio-drawer', { 'portfolio-drawer--open': is_portfolio_drawer_on }) },
@@ -9562,16 +9581,7 @@ var PortfolioDrawer = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'portfolio-drawer__body' },
-                    error ? _react2.default.createElement(
-                        'p',
-                        null,
-                        error
-                    ) : is_empty ? _react2.default.createElement(_empty_portfolio_message2.default, null) : data.map(function (portfolio_position, id) {
-                        return _react2.default.createElement(_portfolio_drawer_card2.default, _extends({
-                            key: id,
-                            currency: currency
-                        }, portfolio_position));
-                    })
+                    body_content
                 )
             );
         }
