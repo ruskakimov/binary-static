@@ -9541,14 +9541,6 @@ var PortfolioDrawer = function (_React$Component) {
                 toggleDrawer = _props.toggleDrawer;
 
 
-            if (error) {
-                return _react2.default.createElement(
-                    'p',
-                    null,
-                    error
-                );
-            }
-
             return _react2.default.createElement(
                 'div',
                 { className: (0, _classnames2.default)('portfolio-drawer', { 'portfolio-drawer--open': is_portfolio_drawer_on }) },
@@ -9570,7 +9562,11 @@ var PortfolioDrawer = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'portfolio-drawer__body' },
-                    is_empty ? _react2.default.createElement(_empty_portfolio_message2.default, null) : data.map(function (portfolio_position, id) {
+                    error ? _react2.default.createElement(
+                        'p',
+                        null,
+                        error
+                    ) : is_empty ? _react2.default.createElement(_empty_portfolio_message2.default, null) : data.map(function (portfolio_position, id) {
                         return _react2.default.createElement(_portfolio_drawer_card2.default, _extends({
                             key: id,
                             currency: currency
@@ -16938,25 +16934,17 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     _inherits(StatementStore, _BaseStore);
 
     function StatementStore() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, StatementStore);
 
-        // for mobile cards view
-        var _this = _possibleConstructorReturn(this, (StatementStore.__proto__ || Object.getPrototypeOf(StatementStore)).call(this));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        _initDefineProp(_this, 'data', _descriptor, _this);
-
-        _initDefineProp(_this, 'is_loading', _descriptor2, _this);
-
-        _initDefineProp(_this, 'has_loaded_all', _descriptor3, _this);
-
-        _initDefineProp(_this, 'date_from', _descriptor4, _this);
-
-        _initDefineProp(_this, 'date_to', _descriptor5, _this);
-
-        _initDefineProp(_this, 'error', _descriptor6, _this);
-
-        _this.handleWindowScroll = _this.handleScroll.bind(null, { target: document.scrollingElement });
-        return _this;
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = StatementStore.__proto__ || Object.getPrototypeOf(StatementStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'has_loaded_all', _descriptor3, _this), _initDefineProp(_this, 'date_from', _descriptor4, _this), _initDefineProp(_this, 'date_to', _descriptor5, _this), _initDefineProp(_this, 'error', _descriptor6, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(StatementStore, [{
