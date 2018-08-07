@@ -982,7 +982,8 @@ var Url = function () {
 module.exports = Url;
 
 /***/ }),
-/* 11 */
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1008,7 +1009,6 @@ module.exports = Object.assign({
 }, CurrencyBase);
 
 /***/ }),
-/* 12 */,
 /* 13 */,
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3195,7 +3195,7 @@ var Symbols = __webpack_require__(100);
 var Tick = __webpack_require__(81);
 var contractsElement = __webpack_require__(397);
 var marketsElement = __webpack_require__(400);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var ActiveSymbols = __webpack_require__(160);
 var elementInnerHtml = __webpack_require__(5).elementInnerHtml;
 var getElementById = __webpack_require__(5).getElementById;
@@ -4258,8 +4258,8 @@ module.exports = {
 
 
 var Dropdown = __webpack_require__(32).selectDropdown;
-var addComma = __webpack_require__(11).addComma;
-var getDecimalPlaces = __webpack_require__(11).getDecimalPlaces;
+var addComma = __webpack_require__(12).addComma;
+var getDecimalPlaces = __webpack_require__(12).getDecimalPlaces;
 var Client = __webpack_require__(6);
 var Password = __webpack_require__(355);
 var localize = __webpack_require__(2).localize;
@@ -7218,9 +7218,9 @@ var ViewPopup = function () {
         viewButtonOnClick: viewButtonOnClick
     };
 }();
-var addComma = __webpack_require__(11).addComma;
+var addComma = __webpack_require__(12).addComma;
 
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 
 module.exports = ViewPopup;
 
@@ -7895,7 +7895,7 @@ module.exports = MBNotifications;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 
 var constants = {
     slider: {
@@ -8279,7 +8279,7 @@ var Defaults = __webpack_require__(30);
 var getLookBackFormula = __webpack_require__(80).getFormula;
 var isLookback = __webpack_require__(80).isLookback;
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var CommonFunctions = __webpack_require__(5);
 var localize = __webpack_require__(2).localize;
 var getPropertyValue = __webpack_require__(4).getPropertyValue;
@@ -9232,7 +9232,7 @@ var redrawChart = __webpack_require__(113).redrawChart;
 var ViewPopup = __webpack_require__(114);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var GTM = __webpack_require__(62);
 var localize = __webpack_require__(2).localize;
 var isEmptyObject = __webpack_require__(4).isEmptyObject;
@@ -11254,7 +11254,7 @@ module.exports = TickDisplay;
 
 
 var Client = __webpack_require__(6);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var localize = __webpack_require__(2).localize;
 
 var updatePurchaseStatus = function updatePurchaseStatus(final_price, pnl, profit, contract_status) {
@@ -11295,7 +11295,7 @@ var ViewPopup = __webpack_require__(114);
 var Client = __webpack_require__(6);
 var toJapanTimeIfNeeded = __webpack_require__(34).toJapanTimeIfNeeded;
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var GetAppDetails = __webpack_require__(78);
 var localize = __webpack_require__(2).localize;
 var urlParam = __webpack_require__(10).param;
@@ -11752,7 +11752,7 @@ module.exports = MetaTrader;
 
 
 var moment = __webpack_require__(9);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var localize = __webpack_require__(2).localize;
 var LocalStore = __webpack_require__(7).LocalStore;
 
@@ -12894,7 +12894,7 @@ var commonTrading = __webpack_require__(43);
 var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
 var getLanguage = __webpack_require__(14).get;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
@@ -13463,8 +13463,8 @@ var StartDates = __webpack_require__(401).StartDates;
 var Symbols = __webpack_require__(100);
 var Tick = __webpack_require__(81);
 var BinarySocket = __webpack_require__(8);
-var getMinPayout = __webpack_require__(11).getMinPayout;
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
+var getMinPayout = __webpack_require__(12).getMinPayout;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
 var elementInnerHtml = __webpack_require__(5).elementInnerHtml;
 var getElementById = __webpack_require__(5).getElementById;
 var getVisibleElement = __webpack_require__(5).getVisibleElement;
@@ -13832,7 +13832,7 @@ var TickDisplay = __webpack_require__(167);
 var updateValues = __webpack_require__(168);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var CommonFunctions = __webpack_require__(5);
 var localize = __webpack_require__(2).localize;
 var padLeft = __webpack_require__(19).padLeft;
@@ -14254,7 +14254,7 @@ var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var Header = __webpack_require__(35);
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var FormManager = __webpack_require__(22);
 var Geocoder = __webpack_require__(214);
 var CommonFunctions = __webpack_require__(5);
@@ -14778,7 +14778,7 @@ var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
 var Dialog = __webpack_require__(96);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 var GTM = __webpack_require__(62);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
@@ -21369,7 +21369,7 @@ var Header = __webpack_require__(35);
 var BinarySocket = __webpack_require__(8);
 var Dialog = __webpack_require__(96);
 var showPopup = __webpack_require__(162);
-var setCurrencies = __webpack_require__(11).setCurrencies;
+var setCurrencies = __webpack_require__(12).setCurrencies;
 var SessionDurationLimit = __webpack_require__(375);
 var updateBalance = __webpack_require__(442);
 var GTM = __webpack_require__(62);
@@ -22401,8 +22401,8 @@ module.exports = KnowledgeTestUI;
 var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
-var getMinWithdrawal = __webpack_require__(11).getMinWithdrawal;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
+var getMinWithdrawal = __webpack_require__(12).getMinWithdrawal;
 var FormManager = __webpack_require__(22);
 var elementTextContent = __webpack_require__(5).elementTextContent;
 var getElementById = __webpack_require__(5).getElementById;
@@ -22631,7 +22631,7 @@ var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var Header = __webpack_require__(35);
 var BinarySocket = __webpack_require__(8);
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
 var getElementById = __webpack_require__(5).getElementById;
 var urlFor = __webpack_require__(10).urlFor;
 var getPropertyValue = __webpack_require__(4).getPropertyValue;
@@ -22720,7 +22720,7 @@ var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
 var showPopup = __webpack_require__(162);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 var FormManager = __webpack_require__(22);
 var validEmailToken = __webpack_require__(77).validEmailToken;
 var getElementById = __webpack_require__(5).getElementById;
@@ -23103,8 +23103,8 @@ module.exports = PaymentAgentList;
 
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var getDecimalPlaces = __webpack_require__(11).getDecimalPlaces;
-var getPaWithdrawalLimit = __webpack_require__(11).getPaWithdrawalLimit;
+var getDecimalPlaces = __webpack_require__(12).getDecimalPlaces;
+var getPaWithdrawalLimit = __webpack_require__(12).getPaWithdrawalLimit;
 var FormManager = __webpack_require__(22);
 var validEmailToken = __webpack_require__(77).validEmailToken;
 var localize = __webpack_require__(2).localize;
@@ -23326,7 +23326,7 @@ module.exports = Endpoint;
 var MBContract = __webpack_require__(98);
 var MBDefaults = __webpack_require__(51);
 var isJPClient = __webpack_require__(6).isJPClient;
-var formatCurrency = __webpack_require__(11).formatCurrency;
+var formatCurrency = __webpack_require__(12).formatCurrency;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
 
@@ -23394,7 +23394,7 @@ var MBSymbols = __webpack_require__(226);
 var TradingAnalysis = __webpack_require__(112);
 var debounce = __webpack_require__(43).debounce;
 var Client = __webpack_require__(6);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 var onlyNumericOnKeypress = __webpack_require__(221);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
@@ -23702,7 +23702,7 @@ var cleanupChart = __webpack_require__(113).cleanupChart;
 var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var getDecimalPlaces = __webpack_require__(11).getDecimalPlaces;
+var getDecimalPlaces = __webpack_require__(12).getDecimalPlaces;
 var JapanPortfolio = __webpack_require__(224);
 var getElementById = __webpack_require__(5).getElementById;
 var getLanguage = __webpack_require__(14).get;
@@ -24707,7 +24707,7 @@ var Reset = __webpack_require__(99);
 var ViewPopupUI = __webpack_require__(172);
 var isJPClient = __webpack_require__(6).isJPClient;
 var BinarySocket = __webpack_require__(8);
-var addComma = __webpack_require__(11).addComma;
+var addComma = __webpack_require__(12).addComma;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
 var getPropertyValue = __webpack_require__(4).getPropertyValue;
@@ -25389,7 +25389,7 @@ module.exports = Highchart;
 
 var isCallputspread = __webpack_require__(127).isCallputspread;
 var isReset = __webpack_require__(99).isReset;
-var addComma = __webpack_require__(11).addComma;
+var addComma = __webpack_require__(12).addComma;
 var localize = __webpack_require__(2).localize;
 
 var HighchartUI = function () {
@@ -25871,7 +25871,7 @@ exports.default = init;
 
 
 var Defaults = __webpack_require__(30);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 var State = __webpack_require__(7).State;
 
 /*
@@ -25921,8 +25921,8 @@ var Process = __webpack_require__(229);
 var Purchase = __webpack_require__(230);
 var Tick = __webpack_require__(81);
 var BinarySocket = __webpack_require__(8);
-var getDecimalPlaces = __webpack_require__(11).getDecimalPlaces;
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
+var getDecimalPlaces = __webpack_require__(12).getDecimalPlaces;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
 var onlyNumericOnKeypress = __webpack_require__(221);
 var TimePicker = __webpack_require__(223);
 var GTM = __webpack_require__(62);
@@ -27666,7 +27666,7 @@ module.exports = ChangePassword;
 var PaymentAgentTransferUI = __webpack_require__(406);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var getDecimalPlaces = __webpack_require__(11).getDecimalPlaces;
+var getDecimalPlaces = __webpack_require__(12).getDecimalPlaces;
 var FormManager = __webpack_require__(22);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
@@ -27900,7 +27900,7 @@ module.exports = PaymentAgentTransferUI;
 "use strict";
 
 
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 
 var Portfolio = function () {
     var getBalance = function getBalance(balance, currency) {
@@ -28127,7 +28127,7 @@ module.exports = ProfitTableInit;
 
 var moment = __webpack_require__(9);
 var Client = __webpack_require__(6);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 
 var ProfitTable = function () {
     var getProfitTabletData = function getProfitTabletData(transaction) {
@@ -28171,7 +28171,7 @@ var ProfitTable = __webpack_require__(409);
 var Client = __webpack_require__(6);
 var toJapanTimeIfNeeded = __webpack_require__(34).toJapanTimeIfNeeded;
 var Table = __webpack_require__(97);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var showTooltip = __webpack_require__(78).showTooltip;
 var localize = __webpack_require__(2).localize;
 
@@ -29017,7 +29017,7 @@ module.exports = IPHistoryUI;
 
 var LimitsUI = __webpack_require__(421);
 var Client = __webpack_require__(6);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var elementInnerHtml = __webpack_require__(5).elementInnerHtml;
 var elementTextContent = __webpack_require__(5).elementTextContent;
 var getElementById = __webpack_require__(5).getElementById;
@@ -29131,7 +29131,7 @@ module.exports = Limits;
 
 var Client = __webpack_require__(6);
 var Table = __webpack_require__(97);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var elementInnerHtml = __webpack_require__(5).elementInnerHtml;
 var getElementById = __webpack_require__(5).getElementById;
 var localize = __webpack_require__(2).localize;
@@ -29234,7 +29234,7 @@ var Client = __webpack_require__(6);
 var Header = __webpack_require__(35);
 var BinarySocket = __webpack_require__(8);
 var Dialog = __webpack_require__(96);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 var FormManager = __webpack_require__(22);
 var DatePicker = __webpack_require__(111);
 var TimePicker = __webpack_require__(223);
@@ -29880,8 +29880,8 @@ module.exports = StatementInit;
 var moment = __webpack_require__(9);
 var Client = __webpack_require__(6);
 var toJapanTimeIfNeeded = __webpack_require__(34).toJapanTimeIfNeeded;
-var formatCurrency = __webpack_require__(11).formatCurrency;
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatCurrency = __webpack_require__(12).formatCurrency;
+var formatMoney = __webpack_require__(12).formatMoney;
 var localize = __webpack_require__(2).localize;
 var toTitleCase = __webpack_require__(19).toTitleCase;
 
@@ -30049,7 +30049,7 @@ module.exports = StatementUI;
 
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var localize = __webpack_require__(2).localize;
 
 var TopUpVirtual = function () {
@@ -30105,7 +30105,7 @@ var getCurrencies = __webpack_require__(429).getCurrencies;
 var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var getCurrencyList = __webpack_require__(11).getCurrencyList;
+var getCurrencyList = __webpack_require__(12).getCurrencyList;
 var FormManager = __webpack_require__(22);
 var getElementById = __webpack_require__(5).getElementById;
 var localize = __webpack_require__(2).localize;
@@ -30315,7 +30315,7 @@ module.exports = Accounts;
 
 
 var Client = __webpack_require__(6);
-var Currency = __webpack_require__(11);
+var Currency = __webpack_require__(12);
 
 var GetCurrency = function () {
     var getCurrenciesOfOtherAccounts = function getCurrenciesOfOtherAccounts() {
@@ -30439,7 +30439,7 @@ module.exports = LostPassword;
 
 var MetaTraderConfig = __webpack_require__(234);
 var Client = __webpack_require__(6);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var Validation = __webpack_require__(77);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
@@ -31762,8 +31762,8 @@ var BinaryPjax = __webpack_require__(16);
 var Client = __webpack_require__(6);
 var Header = __webpack_require__(35);
 var BinarySocket = __webpack_require__(8);
-var getCurrencyName = __webpack_require__(11).getCurrencyName;
-var isCryptocurrency = __webpack_require__(11).isCryptocurrency;
+var getCurrencyName = __webpack_require__(12).getCurrencyName;
+var isCryptocurrency = __webpack_require__(12).isCryptocurrency;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(7).State;
 var Url = __webpack_require__(10);
@@ -31925,7 +31925,7 @@ var PortfolioInit = __webpack_require__(169);
 var updateContractBalance = __webpack_require__(168).updateContractBalance;
 var Client = __webpack_require__(6);
 var BinarySocket = __webpack_require__(8);
-var formatMoney = __webpack_require__(11).formatMoney;
+var formatMoney = __webpack_require__(12).formatMoney;
 var getPropertyValue = __webpack_require__(4).getPropertyValue;
 
 var updateBalance = function updateBalance(response) {

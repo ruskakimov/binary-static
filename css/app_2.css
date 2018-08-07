@@ -385,6 +385,20 @@ span.tooltip {
       border-top-color: transparent;
       border-bottom-color: rgba(21, 33, 45, 0.96); }
 
+.theme-wrapper.dark span.tooltip {
+  color: #fff; }
+  .theme-wrapper.dark span.tooltip:before {
+    background: rgba(255, 255, 255, 0.88);
+    -webkit-box-shadow: 0 2px 8px 0 rgba(20, 20, 20, 0.2);
+            box-shadow: 0 2px 8px 0 rgba(20, 20, 20, 0.2);
+    color: #2a3052; }
+  .theme-wrapper.dark span.tooltip[data-tooltip-pos=right]:after {
+    border-right-color: rgba(255, 255, 255, 0.88); }
+  .theme-wrapper.dark span.tooltip[data-tooltip-pos=left]:after {
+    border-left-color: rgba(255, 255, 255, 0.88); }
+  .theme-wrapper.dark span.tooltip[data-tooltip-pos=bottom]:after {
+    border-bottom-color: rgba(255, 255, 255, 0.88); }
+
 .barspinner {
   margin: 50px auto;
   width: 60px;
@@ -774,23 +788,6 @@ span.tooltip {
             background-color: #e9e9ed; }
           .header .menu-items .menu-left .menu-links a.active > span[title] {
             font-weight: 500; }
-          .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__trade g, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__trade g {
-            stroke: #2a3052; }
-          .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__trade path, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__trade path {
-            fill: #2a3052; }
-          .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__portfolio .stroke-only, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only {
-            stroke: #fff;
-            fill: #2a3052; }
-            .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__portfolio .stroke-only:nth-child(2), .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only:nth-child(2) {
-              fill: none;
-              stroke: #2a3052; }
-            .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__portfolio .stroke-only:first-child, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only:first-child {
-              stroke: #2a3052; }
-          .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__statement .fill-only, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__statement .fill-only {
-            fill: #fff; }
-          .header .menu-items .menu-left .menu-links a:hover .inline-icon.ic-header__statement .no-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__statement .no-fill {
-            fill: #2a3052;
-            stroke: #fff; }
           .header .menu-items .menu-left .menu-links a .inline-icon {
             position: absolute;
             left: 10px;
@@ -971,15 +968,12 @@ footer {
         color: #15212d;
         vertical-align: middle;
         display: inline-block; }
-      footer .footer-links a:hover, footer .footer-links a:focus {
+      footer .footer-links a:hover {
         background: #f4f4f6; }
       footer .footer-links a.disabled {
         cursor: not-allowed; }
-        footer .footer-links a.disabled svg path {
-          fill: #e9e9ed;
-          stroke: #e9e9ed; }
         footer .footer-links a.disabled:hover, footer .footer-links a.disabled:focus {
-          background: none; }
+          background: none !important; }
   @media (max-width: 768px) {
     footer {
       display: none; } }
@@ -1443,7 +1437,7 @@ hr {
   width: 228px;
   height: calc(100vh - 48px - 35px);
   position: fixed;
-  z-index: 50;
+  z-index: 2;
   top: 48px;
   right: 0;
   -webkit-transform: translateX(100%);
@@ -1503,7 +1497,7 @@ hr {
             box-sizing: border-box;
     padding: 8px;
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
     border: 1px solid #e9e9ed;
     border-radius: 2px; }
@@ -1525,6 +1519,8 @@ hr {
                 align-items: center; }
         .portfolio-drawer-card__type .contract-type .type-wrapper {
           margin: 0 4px 4px 0; }
+        .portfolio-drawer-card__type .contract-type span {
+          width: 30px; }
     .portfolio-drawer-card__symbol {
       font-size: 10px;
       color: #2a3052; }
@@ -1564,7 +1560,7 @@ hr {
       .portfolio-drawer-card__indicative--price-stable {
         color: #000; }
         .portfolio-drawer-card__indicative--price-stable:after {
-          background-image: url("../images/app_2/portfolio/ic_price_stable.svg"); }
+          background-image: url("../images/app_2/portfolio/ic_price_stable_light.svg"); }
       .portfolio-drawer-card__indicative--no-resale {
         color: #e9e9ed; }
         .portfolio-drawer-card__indicative--no-resale:after {
@@ -1601,6 +1597,8 @@ hr {
       color: #aaacba; }
     .theme-wrapper.dark .portfolio-drawer-card__indicative--price-stable {
       color: #fff; }
+      .theme-wrapper.dark .portfolio-drawer-card__indicative--price-stable:after {
+        background-image: url("../images/app_2/portfolio/ic_price_stable_dark.svg"); }
   .theme-wrapper.dark .portfolio-drawer__body .portfolio-empty, .theme-wrapper.dark .portfolio-drawer__body p {
     color: #fff; }
 
@@ -1963,7 +1961,7 @@ div.dropdown-container {
       left: unset;
       right: 0; } }
   .calendar .calendar-input {
-    margin: 0 !important;
+    margin: 0;
     border: none;
     outline: none;
     width: 100%;
@@ -1978,24 +1976,21 @@ div.dropdown-container {
       cursor: default; }
   .calendar .calendar-footer {
     font-size: 14px;
-    font-weight: 300;
-    border-top: 1px solid #e8e8e8;
-    /* stylelint-disable-line color-no-hex */
+    border-top: 1px solid #e9e9ed;
     display: grid;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
     line-height: 38px;
     padding: 0 12px;
-    color: rgba(0, 0, 0, 0.65); }
+    color: #333;
+    font-weight: 500; }
     .calendar .calendar-footer .calendar-footer-extra + .calendar-footer-btn {
-      border-top: 1px solid #e8e8e8;
-      /* stylelint-disable-line color-no-hex */
+      border-top: 1px solid #e9e9ed;
       margin: 0 -12px; }
     .calendar .calendar-footer .calendar-footer-btn {
       cursor: pointer;
-      color: #4c5794;
-      /* stylelint-disable-line color-no-hex */
+      color: #2a3052;
       text-align: center; }
   .calendar .calendar-header {
     display: -webkit-box;
@@ -2006,16 +2001,14 @@ div.dropdown-container {
             justify-content: center;
     height: 32px;
     line-height: 32px;
-    border-top: 1px solid #e8e8e8;
-    /* stylelint-disable-line color-no-hex */
-    border-bottom: 1px solid #e8e8e8;
-    /* stylelint-disable-line color-no-hex */ }
+    border-top: 1px solid #e9e9ed;
+    border-bottom: 1px solid #e9e9ed;
+    font-weight: 500; }
     .calendar .calendar-header .calendar-select-month-btn, .calendar .calendar-header .calendar-select-year-btn, .calendar .calendar-header .calendar-select-decade-btn, .calendar .calendar-header .calendar-select-century-btn {
       padding: 0 4px;
       cursor: pointer; }
       .calendar .calendar-header .calendar-select-month-btn:hover, .calendar .calendar-header .calendar-select-year-btn:hover, .calendar .calendar-header .calendar-select-decade-btn:hover, .calendar .calendar-header .calendar-select-century-btn:hover {
-        color: #4c5794;
-        /* stylelint-disable-line color-no-hex */ }
+        color: #2a3052; }
       .calendar .calendar-header .calendar-select-month-btn.calendar-select-century-btn, .calendar .calendar-header .calendar-select-year-btn.calendar-select-century-btn, .calendar .calendar-header .calendar-select-decade-btn.calendar-select-century-btn, .calendar .calendar-header .calendar-select-century-btn.calendar-select-century-btn {
         cursor: default; }
     .calendar .calendar-header .calendar-prev-year-btn, .calendar .calendar-header .calendar-next-year-btn, .calendar .calendar-header .calendar-prev-month-btn, .calendar .calendar-header .calendar-next-month-btn {
@@ -2026,8 +2019,7 @@ div.dropdown-container {
       line-height: 32px;
       cursor: pointer; }
       .calendar .calendar-header .calendar-prev-year-btn:hover, .calendar .calendar-header .calendar-next-year-btn:hover, .calendar .calendar-header .calendar-prev-month-btn:hover, .calendar .calendar-header .calendar-next-month-btn:hover {
-        color: #4c5794;
-        /* stylelint-disable-line color-no-hex */ }
+        color: #2a3052; }
       .calendar .calendar-header .calendar-prev-year-btn.calendar-prev-year-btn, .calendar .calendar-header .calendar-next-year-btn.calendar-prev-year-btn, .calendar .calendar-header .calendar-prev-month-btn.calendar-prev-year-btn, .calendar .calendar-header .calendar-next-month-btn.calendar-prev-year-btn {
         left: 7%; }
         .calendar .calendar-header .calendar-prev-year-btn.calendar-prev-year-btn:after, .calendar .calendar-header .calendar-next-year-btn.calendar-prev-year-btn:after, .calendar .calendar-header .calendar-prev-month-btn.calendar-prev-year-btn:after, .calendar .calendar-header .calendar-next-month-btn.calendar-prev-year-btn:after {
@@ -2064,7 +2056,7 @@ div.dropdown-container {
       border: 1px solid transparent;
       border-radius: 4px;
       padding: 0;
-      color: rgba(0, 0, 0, 0.65);
+      color: #333;
       text-align: center;
       background: transparent;
       -webkit-transition: all 0.3s;
@@ -2072,7 +2064,8 @@ div.dropdown-container {
       font-size: 14px;
       line-height: 24px; }
       .calendar .calendar-date-panel .calendar-date.calendar-date, .calendar .calendar-date-panel .calendar-month.calendar-date, .calendar .calendar-date-panel .calendar-year.calendar-date, .calendar .calendar-date-panel .calendar-decade.calendar-date, .calendar .calendar-month-panel .calendar-date.calendar-date, .calendar .calendar-month-panel .calendar-month.calendar-date, .calendar .calendar-month-panel .calendar-year.calendar-date, .calendar .calendar-month-panel .calendar-decade.calendar-date, .calendar .calendar-year-panel .calendar-date.calendar-date, .calendar .calendar-year-panel .calendar-month.calendar-date, .calendar .calendar-year-panel .calendar-year.calendar-date, .calendar .calendar-year-panel .calendar-decade.calendar-date, .calendar .calendar-decade-panel .calendar-date.calendar-date, .calendar .calendar-decade-panel .calendar-month.calendar-date, .calendar .calendar-decade-panel .calendar-year.calendar-date, .calendar .calendar-decade-panel .calendar-decade.calendar-date, .calendar .calendar-century-panel .calendar-date.calendar-date, .calendar .calendar-century-panel .calendar-month.calendar-date, .calendar .calendar-century-panel .calendar-year.calendar-date, .calendar .calendar-century-panel .calendar-decade.calendar-date {
-        width: 24px; }
+        width: 24px;
+        color: #2a3052; }
       .calendar .calendar-date-panel .calendar-date.calendar-month, .calendar .calendar-date-panel .calendar-date.calendar-year, .calendar .calendar-date-panel .calendar-month.calendar-month, .calendar .calendar-date-panel .calendar-month.calendar-year, .calendar .calendar-date-panel .calendar-year.calendar-month, .calendar .calendar-date-panel .calendar-year.calendar-year, .calendar .calendar-date-panel .calendar-decade.calendar-month, .calendar .calendar-date-panel .calendar-decade.calendar-year, .calendar .calendar-month-panel .calendar-date.calendar-month, .calendar .calendar-month-panel .calendar-date.calendar-year, .calendar .calendar-month-panel .calendar-month.calendar-month, .calendar .calendar-month-panel .calendar-month.calendar-year, .calendar .calendar-month-panel .calendar-year.calendar-month, .calendar .calendar-month-panel .calendar-year.calendar-year, .calendar .calendar-month-panel .calendar-decade.calendar-month, .calendar .calendar-month-panel .calendar-decade.calendar-year, .calendar .calendar-year-panel .calendar-date.calendar-month, .calendar .calendar-year-panel .calendar-date.calendar-year, .calendar .calendar-year-panel .calendar-month.calendar-month, .calendar .calendar-year-panel .calendar-month.calendar-year, .calendar .calendar-year-panel .calendar-year.calendar-month, .calendar .calendar-year-panel .calendar-year.calendar-year, .calendar .calendar-year-panel .calendar-decade.calendar-month, .calendar .calendar-year-panel .calendar-decade.calendar-year, .calendar .calendar-decade-panel .calendar-date.calendar-month, .calendar .calendar-decade-panel .calendar-date.calendar-year, .calendar .calendar-decade-panel .calendar-month.calendar-month, .calendar .calendar-decade-panel .calendar-month.calendar-year, .calendar .calendar-decade-panel .calendar-year.calendar-month, .calendar .calendar-decade-panel .calendar-year.calendar-year, .calendar .calendar-decade-panel .calendar-decade.calendar-month, .calendar .calendar-decade-panel .calendar-decade.calendar-year, .calendar .calendar-century-panel .calendar-date.calendar-month, .calendar .calendar-century-panel .calendar-date.calendar-year, .calendar .calendar-century-panel .calendar-month.calendar-month, .calendar .calendar-century-panel .calendar-month.calendar-year, .calendar .calendar-century-panel .calendar-year.calendar-month, .calendar .calendar-century-panel .calendar-year.calendar-year, .calendar .calendar-century-panel .calendar-decade.calendar-month, .calendar .calendar-century-panel .calendar-decade.calendar-year {
         padding: 0 8px; }
       .calendar .calendar-date-panel .calendar-date.calendar-decade, .calendar .calendar-date-panel .calendar-month.calendar-decade, .calendar .calendar-date-panel .calendar-year.calendar-decade, .calendar .calendar-date-panel .calendar-decade.calendar-decade, .calendar .calendar-month-panel .calendar-date.calendar-decade, .calendar .calendar-month-panel .calendar-month.calendar-decade, .calendar .calendar-month-panel .calendar-year.calendar-decade, .calendar .calendar-month-panel .calendar-decade.calendar-decade, .calendar .calendar-year-panel .calendar-date.calendar-decade, .calendar .calendar-year-panel .calendar-month.calendar-decade, .calendar .calendar-year-panel .calendar-year.calendar-decade, .calendar .calendar-year-panel .calendar-decade.calendar-decade, .calendar .calendar-decade-panel .calendar-date.calendar-decade, .calendar .calendar-decade-panel .calendar-month.calendar-decade, .calendar .calendar-decade-panel .calendar-year.calendar-decade, .calendar .calendar-decade-panel .calendar-decade.calendar-decade, .calendar .calendar-century-panel .calendar-date.calendar-decade, .calendar .calendar-century-panel .calendar-month.calendar-decade, .calendar .calendar-century-panel .calendar-year.calendar-decade, .calendar .calendar-century-panel .calendar-decade.calendar-decade {
@@ -2085,21 +2078,27 @@ div.dropdown-container {
         text-align: center;
         -ms-flex-item-align: center;
             align-self: center;
-        color: rgba(0, 0, 0, 0.65); }
+        font-weight: 500;
+        color: #333; }
       .calendar .calendar-date-panel .calendar-date.today, .calendar .calendar-date-panel .calendar-month.today, .calendar .calendar-date-panel .calendar-year.today, .calendar .calendar-date-panel .calendar-decade.today, .calendar .calendar-month-panel .calendar-date.today, .calendar .calendar-month-panel .calendar-month.today, .calendar .calendar-month-panel .calendar-year.today, .calendar .calendar-month-panel .calendar-decade.today, .calendar .calendar-year-panel .calendar-date.today, .calendar .calendar-year-panel .calendar-month.today, .calendar .calendar-year-panel .calendar-year.today, .calendar .calendar-year-panel .calendar-decade.today, .calendar .calendar-decade-panel .calendar-date.today, .calendar .calendar-decade-panel .calendar-month.today, .calendar .calendar-decade-panel .calendar-year.today, .calendar .calendar-decade-panel .calendar-decade.today, .calendar .calendar-century-panel .calendar-date.today, .calendar .calendar-century-panel .calendar-month.today, .calendar .calendar-century-panel .calendar-year.today, .calendar .calendar-century-panel .calendar-decade.today {
-        background: #fff;
+        font-weight: 400;
         border: 1px solid #2a3052; }
+        .calendar .calendar-date-panel .calendar-date.today.disabled, .calendar .calendar-date-panel .calendar-month.today.disabled, .calendar .calendar-date-panel .calendar-year.today.disabled, .calendar .calendar-date-panel .calendar-decade.today.disabled, .calendar .calendar-month-panel .calendar-date.today.disabled, .calendar .calendar-month-panel .calendar-month.today.disabled, .calendar .calendar-month-panel .calendar-year.today.disabled, .calendar .calendar-month-panel .calendar-decade.today.disabled, .calendar .calendar-year-panel .calendar-date.today.disabled, .calendar .calendar-year-panel .calendar-month.today.disabled, .calendar .calendar-year-panel .calendar-year.today.disabled, .calendar .calendar-year-panel .calendar-decade.today.disabled, .calendar .calendar-decade-panel .calendar-date.today.disabled, .calendar .calendar-decade-panel .calendar-month.today.disabled, .calendar .calendar-decade-panel .calendar-year.today.disabled, .calendar .calendar-decade-panel .calendar-decade.today.disabled, .calendar .calendar-century-panel .calendar-date.today.disabled, .calendar .calendar-century-panel .calendar-month.today.disabled, .calendar .calendar-century-panel .calendar-year.today.disabled, .calendar .calendar-century-panel .calendar-decade.today.disabled {
+          color: #e9e9ed;
+          border: 1px solid #e9e9ed; }
       .calendar .calendar-date-panel .calendar-date.active, .calendar .calendar-date-panel .calendar-month.active, .calendar .calendar-date-panel .calendar-year.active, .calendar .calendar-date-panel .calendar-decade.active, .calendar .calendar-month-panel .calendar-date.active, .calendar .calendar-month-panel .calendar-month.active, .calendar .calendar-month-panel .calendar-year.active, .calendar .calendar-month-panel .calendar-decade.active, .calendar .calendar-year-panel .calendar-date.active, .calendar .calendar-year-panel .calendar-month.active, .calendar .calendar-year-panel .calendar-year.active, .calendar .calendar-year-panel .calendar-decade.active, .calendar .calendar-decade-panel .calendar-date.active, .calendar .calendar-decade-panel .calendar-month.active, .calendar .calendar-decade-panel .calendar-year.active, .calendar .calendar-decade-panel .calendar-decade.active, .calendar .calendar-century-panel .calendar-date.active, .calendar .calendar-century-panel .calendar-month.active, .calendar .calendar-century-panel .calendar-year.active, .calendar .calendar-century-panel .calendar-decade.active {
         background: #2a3052;
-        color: #fff; }
+        color: #fff;
+        font-weight: 300; }
+        .calendar .calendar-date-panel .calendar-date.active.disabled, .calendar .calendar-date-panel .calendar-month.active.disabled, .calendar .calendar-date-panel .calendar-year.active.disabled, .calendar .calendar-date-panel .calendar-decade.active.disabled, .calendar .calendar-month-panel .calendar-date.active.disabled, .calendar .calendar-month-panel .calendar-month.active.disabled, .calendar .calendar-month-panel .calendar-year.active.disabled, .calendar .calendar-month-panel .calendar-decade.active.disabled, .calendar .calendar-year-panel .calendar-date.active.disabled, .calendar .calendar-year-panel .calendar-month.active.disabled, .calendar .calendar-year-panel .calendar-year.active.disabled, .calendar .calendar-year-panel .calendar-decade.active.disabled, .calendar .calendar-decade-panel .calendar-date.active.disabled, .calendar .calendar-decade-panel .calendar-month.active.disabled, .calendar .calendar-decade-panel .calendar-year.active.disabled, .calendar .calendar-decade-panel .calendar-decade.active.disabled, .calendar .calendar-century-panel .calendar-date.active.disabled, .calendar .calendar-century-panel .calendar-month.active.disabled, .calendar .calendar-century-panel .calendar-year.active.disabled, .calendar .calendar-century-panel .calendar-decade.active.disabled {
+          color: #e9e9ed;
+          border: 1px solid #e9e9ed; }
       .calendar .calendar-date-panel .calendar-date.disabled, .calendar .calendar-date-panel .calendar-month.disabled, .calendar .calendar-date-panel .calendar-year.disabled, .calendar .calendar-date-panel .calendar-decade.disabled, .calendar .calendar-month-panel .calendar-date.disabled, .calendar .calendar-month-panel .calendar-month.disabled, .calendar .calendar-month-panel .calendar-year.disabled, .calendar .calendar-month-panel .calendar-decade.disabled, .calendar .calendar-year-panel .calendar-date.disabled, .calendar .calendar-year-panel .calendar-month.disabled, .calendar .calendar-year-panel .calendar-year.disabled, .calendar .calendar-year-panel .calendar-decade.disabled, .calendar .calendar-decade-panel .calendar-date.disabled, .calendar .calendar-decade-panel .calendar-month.disabled, .calendar .calendar-decade-panel .calendar-year.disabled, .calendar .calendar-decade-panel .calendar-decade.disabled, .calendar .calendar-century-panel .calendar-date.disabled, .calendar .calendar-century-panel .calendar-month.disabled, .calendar .calendar-century-panel .calendar-year.disabled, .calendar .calendar-century-panel .calendar-decade.disabled {
-        background: #fff !important;
-        color: #e9e9ed !important;
+        color: #e9e9ed;
         cursor: default; }
-      .calendar .calendar-date-panel .calendar-date:hover, .calendar .calendar-date-panel .calendar-month:hover, .calendar .calendar-date-panel .calendar-year:hover, .calendar .calendar-date-panel .calendar-decade:hover, .calendar .calendar-month-panel .calendar-date:hover, .calendar .calendar-month-panel .calendar-month:hover, .calendar .calendar-month-panel .calendar-year:hover, .calendar .calendar-month-panel .calendar-decade:hover, .calendar .calendar-year-panel .calendar-date:hover, .calendar .calendar-year-panel .calendar-month:hover, .calendar .calendar-year-panel .calendar-year:hover, .calendar .calendar-year-panel .calendar-decade:hover, .calendar .calendar-decade-panel .calendar-date:hover, .calendar .calendar-decade-panel .calendar-month:hover, .calendar .calendar-decade-panel .calendar-year:hover, .calendar .calendar-decade-panel .calendar-decade:hover, .calendar .calendar-century-panel .calendar-date:hover, .calendar .calendar-century-panel .calendar-month:hover, .calendar .calendar-century-panel .calendar-year:hover, .calendar .calendar-century-panel .calendar-decade:hover {
+      .calendar .calendar-date-panel .calendar-date:hover:not(.disabled), .calendar .calendar-date-panel .calendar-month:hover:not(.disabled), .calendar .calendar-date-panel .calendar-year:hover:not(.disabled), .calendar .calendar-date-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-month-panel .calendar-date:hover:not(.disabled), .calendar .calendar-month-panel .calendar-month:hover:not(.disabled), .calendar .calendar-month-panel .calendar-year:hover:not(.disabled), .calendar .calendar-month-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-year-panel .calendar-date:hover:not(.disabled), .calendar .calendar-year-panel .calendar-month:hover:not(.disabled), .calendar .calendar-year-panel .calendar-year:hover:not(.disabled), .calendar .calendar-year-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-date:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-month:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-year:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-century-panel .calendar-date:hover:not(.disabled), .calendar .calendar-century-panel .calendar-month:hover:not(.disabled), .calendar .calendar-century-panel .calendar-year:hover:not(.disabled), .calendar .calendar-century-panel .calendar-decade:hover:not(.disabled) {
+        cursor: pointer;
         background: #e9e9ed; }
-        .calendar .calendar-date-panel .calendar-date:hover:not(.disabled), .calendar .calendar-date-panel .calendar-month:hover:not(.disabled), .calendar .calendar-date-panel .calendar-year:hover:not(.disabled), .calendar .calendar-date-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-month-panel .calendar-date:hover:not(.disabled), .calendar .calendar-month-panel .calendar-month:hover:not(.disabled), .calendar .calendar-month-panel .calendar-year:hover:not(.disabled), .calendar .calendar-month-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-year-panel .calendar-date:hover:not(.disabled), .calendar .calendar-year-panel .calendar-month:hover:not(.disabled), .calendar .calendar-year-panel .calendar-year:hover:not(.disabled), .calendar .calendar-year-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-date:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-month:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-year:hover:not(.disabled), .calendar .calendar-decade-panel .calendar-decade:hover:not(.disabled), .calendar .calendar-century-panel .calendar-date:hover:not(.disabled), .calendar .calendar-century-panel .calendar-month:hover:not(.disabled), .calendar .calendar-century-panel .calendar-year:hover:not(.disabled), .calendar .calendar-century-panel .calendar-decade:hover:not(.disabled) {
-          cursor: pointer; }
 
 div.datepicker-container {
   position: relative; }
@@ -2203,47 +2202,51 @@ div.datepicker-container {
     border-color: #fff; }
 
 .theme-wrapper.dark .calendar {
-  background: #2a3052;
+  background: #353b5b;
   border: 1px solid #4a4f6c; }
-  .theme-wrapper.dark .calendar input {
+  .theme-wrapper.dark .calendar input.calendar-input {
     border-radius: 0;
-    background: #2a3052;
+    background: #353b5b;
     border-color: #4a4f6c;
     color: #fff; }
-    .theme-wrapper.dark .calendar input:hover, .theme-wrapper.dark .calendar input:focus, .theme-wrapper.dark .calendar input:active {
+    .theme-wrapper.dark .calendar input.calendar-input:hover, .theme-wrapper.dark .calendar input.calendar-input:focus, .theme-wrapper.dark .calendar input.calendar-input:active {
       border-color: #fff; }
   .theme-wrapper.dark .calendar .calendar-header, .theme-wrapper.dark .calendar .calendar-footer {
     border-color: #4a4f6c;
-    color: #aaacba; }
+    color: #fff; }
     .theme-wrapper.dark .calendar .calendar-header .calendar-prev-year-btn, .theme-wrapper.dark .calendar .calendar-header .calendar-prev-month-btn, .theme-wrapper.dark .calendar .calendar-header .calendar-next-month-btn, .theme-wrapper.dark .calendar .calendar-header .calendar-next-year-btn, .theme-wrapper.dark .calendar .calendar-footer .calendar-prev-year-btn, .theme-wrapper.dark .calendar .calendar-footer .calendar-prev-month-btn, .theme-wrapper.dark .calendar .calendar-footer .calendar-next-month-btn, .theme-wrapper.dark .calendar .calendar-footer .calendar-next-year-btn {
       color: #aaacba; }
       .theme-wrapper.dark .calendar .calendar-header .calendar-prev-year-btn:hover, .theme-wrapper.dark .calendar .calendar-header .calendar-prev-month-btn:hover, .theme-wrapper.dark .calendar .calendar-header .calendar-next-month-btn:hover, .theme-wrapper.dark .calendar .calendar-header .calendar-next-year-btn:hover, .theme-wrapper.dark .calendar .calendar-footer .calendar-prev-year-btn:hover, .theme-wrapper.dark .calendar .calendar-footer .calendar-prev-month-btn:hover, .theme-wrapper.dark .calendar .calendar-footer .calendar-next-month-btn:hover, .theme-wrapper.dark .calendar .calendar-footer .calendar-next-year-btn:hover {
         color: #fff; }
-  .theme-wrapper.dark .calendar .calendar-header span:hover {
-    color: #aaacba; }
+    .theme-wrapper.dark .calendar .calendar-header span a, .theme-wrapper.dark .calendar .calendar-footer span a {
+      color: #fff; }
+  .theme-wrapper.dark .calendar .calendar-header {
+    background: #2a3052; }
+    .theme-wrapper.dark .calendar .calendar-header span:hover {
+      color: #aaacba; }
   .theme-wrapper.dark .calendar span.calendar-date-header {
-    color: #aaacba; }
-  .theme-wrapper.dark .calendar span.calendar-date {
-    background: #2a3052;
-    color: #aaacba; }
-    .theme-wrapper.dark .calendar span.calendar-date.active {
+    color: #fff; }
+  .theme-wrapper.dark .calendar span.calendar-date, .theme-wrapper.dark .calendar span.calendar-month, .theme-wrapper.dark .calendar span.calendar-year {
+    color: #aaacba;
+    background: #353b5b; }
+    .theme-wrapper.dark .calendar span.calendar-date.active, .theme-wrapper.dark .calendar span.calendar-month.active, .theme-wrapper.dark .calendar span.calendar-year.active {
       font-weight: 600;
       color: #2a3052;
-      background: #fff !important; }
-    .theme-wrapper.dark .calendar span.calendar-date:hover:not(.active) {
-      background: #4a4f6c !important; }
-    .theme-wrapper.dark .calendar span.calendar-date.disabled {
-      background: #2a3052 !important;
-      color: #60647e !important;
+      background: #fff; }
+    .theme-wrapper.dark .calendar span.calendar-date:hover:not(.active), .theme-wrapper.dark .calendar span.calendar-month:hover:not(.active), .theme-wrapper.dark .calendar span.calendar-year:hover:not(.active) {
+      background: #4a4f6c; }
+    .theme-wrapper.dark .calendar span.calendar-date.disabled, .theme-wrapper.dark .calendar span.calendar-month.disabled, .theme-wrapper.dark .calendar span.calendar-year.disabled {
+      color: #60647e;
       pointer-events: none; }
-    .theme-wrapper.dark .calendar span.calendar-date.today {
-      background: #2a3052;
+    .theme-wrapper.dark .calendar span.calendar-date.today, .theme-wrapper.dark .calendar span.calendar-month.today, .theme-wrapper.dark .calendar span.calendar-year.today {
       border: 1px solid #fff;
-      color: #fff !important; }
-      .theme-wrapper.dark .calendar span.calendar-date.today.disabled {
-        background: #2a3052 !important;
+      color: #fff; }
+      .theme-wrapper.dark .calendar span.calendar-date.today.disabled, .theme-wrapper.dark .calendar span.calendar-month.today.disabled, .theme-wrapper.dark .calendar span.calendar-year.today.disabled {
+        background: #2a3052;
         border: 1px solid #60647e;
-        color: #60647e !important; }
+        color: #60647e; }
+      .theme-wrapper.dark .calendar span.calendar-date.today.active, .theme-wrapper.dark .calendar span.calendar-month.today.active, .theme-wrapper.dark .calendar span.calendar-year.today.active {
+        color: #2a3052; }
   .theme-wrapper.dark .calendar div.calendar-footer span.calendar-footer-btn {
     color: #aaacba; }
 
@@ -2262,7 +2265,7 @@ div.datepicker-container {
     padding: 0 8px;
     border-radius: 4px;
     -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+            box-sizing: border-box;
     font-size: 16px;
     font-weight: 300;
     margin: 0;
@@ -2351,7 +2354,10 @@ div.datepicker-container {
         overflow: hidden;
         text-align: center; }
         .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-title, .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-title {
-          margin-top: 10px; }
+          margin-top: 10px;
+          color: #333; }
+          .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-title strong, .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-title strong {
+            font-weight: 400; }
         .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-container .list-item, .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-container .list-item {
           display: inline-block;
           margin: 3px;
@@ -2380,18 +2386,22 @@ div.datepicker-container {
     border-color: #4a4f6c; }
     .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes {
       color: #aaacba;
-      background: #2a3052;
+      background: #353b5b;
       border-color: #4a4f6c; }
+      .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-title, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-title, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-title, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-title {
+        color: #fff; }
       .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-item, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-item, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-item, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-item {
         color: #aaacba; }
         .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-item.disabled, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-item.disabled, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-item.disabled, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-item.disabled {
-          background: #4a4f6c;
-          color: #15212d; }
+          color: #60647e;
+          pointer-events: none; }
         .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-item.selected, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-item.selected, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-item.selected, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-item.selected {
-          background: #4a4f6c;
-          color: #fff; }
-        .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-item:hover, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-item:hover, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-item:hover, .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-item:hover {
+          background: #fff;
+          color: #2a3052; }
+        .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-hours .list-item:hover:not(.selected):not(.disabled), .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel .time-picker-minutes .list-item:hover:not(.selected):not(.disabled), .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-hours .list-item:hover:not(.selected):not(.disabled), .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-selector .time-picker-minutes .list-item:hover:not(.selected):not(.disabled) {
           background: #4a4f6c; }
+  .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel {
+    color: #aaacba; }
 
 .card-list {
   overflow: auto; }
@@ -3550,6 +3560,63 @@ a {
     -webkit-animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite;
             animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite; }
 
+/*
+    to use styles without modifier class on .inline-icon
+    use @extend
+
+    e.g. style icon on parent hover:
+        a:hover .inline-icon {
+            @extend .inline-icon.active;
+        }
+*/
+.inline-icon .color1-fill {
+  fill: #2a3052; }
+
+.inline-icon .color1-stroke {
+  stroke: #2a3052; }
+
+.inline-icon .color2-fill {
+  fill: none; }
+
+.inline-icon .color2-stroke {
+  stroke: none; }
+
+.inline-icon.active .color1-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, footer .footer-links a:hover .inline-icon .color1-fill {
+  fill: #fff; }
+
+.inline-icon.active .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, footer .footer-links a:hover .inline-icon .color1-stroke {
+  stroke: #fff; }
+
+.inline-icon.active .color2-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, footer .footer-links a:hover .inline-icon .color2-fill {
+  fill: #2a3052; }
+
+.inline-icon.active .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, footer .footer-links a:hover .inline-icon .color2-stroke {
+  stroke: #2a3052; }
+
+.inline-icon.active .color3-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, footer .footer-links a:hover .inline-icon .color3-fill {
+  fill: #2a3052; }
+
+.inline-icon.active .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, footer .footer-links a:hover .inline-icon .color3-stroke {
+  stroke: #2a3052; }
+
+.inline-icon.active .color4-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-fill, footer .footer-links a:hover .inline-icon .color4-fill {
+  fill: none; }
+
+.inline-icon.active .color4-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-stroke, footer .footer-links a:hover .inline-icon .color4-stroke {
+  stroke: none; }
+
+.inline-icon.disabled .color1-fill, footer .footer-links a.disabled .inline-icon .color1-fill {
+  fill: #e9e9ed; }
+
+.inline-icon.disabled .color1-stroke, footer .footer-links a.disabled .inline-icon .color1-stroke {
+  stroke: #e9e9ed; }
+
+.inline-icon.disabled .color2-fill, footer .footer-links a.disabled .inline-icon .color2-fill {
+  fill: none; }
+
+.inline-icon.disabled .color2-stroke, footer .footer-links a.disabled .inline-icon .color2-stroke {
+  stroke: none; }
+
 .fullscreen-dialog {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -4408,16 +4475,20 @@ a {
             font-size: 0.875rem;
             /* stylelint-disable-line number-max-precision */
             text-transform: uppercase; }
+        .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper .info-text {
+          font-weight: 300; }
         .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper p {
           line-height: 100%;
           margin-bottom: 0;
-          font-size: 10px; }
+          font-size: 10px;
+          font-weight: 300; }
         .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a {
           text-decoration: none;
-          color: #333;
-          font-weight: 500; }
+          color: #333; }
           .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a span.info-text {
-            padding: 5px 10px 10px; }
+            padding: 5px 10px 10px;
+            font-weight: 500;
+            color: #2196f3; }
           .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:hover, .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:focus, .binary-app div.purchase-wrapper div.purchase-error div.purchase-login-wrapper a:active {
             text-decoration: underline;
             color: #333; }
@@ -4481,7 +4552,8 @@ a {
           text-transform: capitalize;
           text-align: center;
           top: 24px;
-          line-height: 12px;
+          margin-top: 0.7rem;
+          line-height: 16px;
           max-width: 50px;
           word-spacing: 0; }
         .binary-app div.purchase-wrapper fieldset.purchase-option div.box div.amount {
@@ -4627,39 +4699,12 @@ a {
     background: #2a3052; }
   .theme-wrapper.dark header {
     border-color: #4a4f6c; }
-    .theme-wrapper.dark header .menu-items .menu-links a .inline-icon.ic-header__trade .stroke-fill {
-      stroke: #aaacba;
-      fill: #2a3052; }
-    .theme-wrapper.dark header .menu-items .menu-links a.active span, .theme-wrapper.dark header .menu-items .menu-links a:hover span {
+    .theme-wrapper.dark header .menu-items .menu-links a.active span {
       color: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__trade .stroke-fill, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__trade .stroke-fill {
-        fill: #fff;
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only, .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .stroke-only, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .stroke-only, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__statement .stroke-only {
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .fill-only, .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .fill-only, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .fill-only, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__statement .fill-only {
-        fill: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:first-child, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .stroke-only:first-child {
-        fill: #fff;
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:nth-child(2), .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .stroke-only:nth-child(2) {
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:nth-child(3), .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .stroke-only:nth-child(3) {
-        stroke: #2a3052;
-        fill: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:last-child, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__portfolio .stroke-only:last-child {
-        stroke: #2a3052; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .no-fill, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__statement .no-fill {
-        fill: #fff;
-        stroke: #2a3052; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .fill-only, .theme-wrapper.dark header .menu-items .menu-links a:hover span .inline-icon.ic-header__statement .fill-only {
-        fill: #2a3052; }
-    .theme-wrapper.dark header .menu-items .menu-links a.active:after, .theme-wrapper.dark header .menu-items .menu-links a:hover:after {
+    .theme-wrapper.dark header .menu-items .menu-links a.active:after {
       background-color: #fff; }
     .theme-wrapper.dark header .menu-items .menu-links a:hover {
       background-color: #4a4f6c; }
-      .theme-wrapper.dark header .menu-items .menu-links a:hover span {
-        color: #fff; }
     .theme-wrapper.dark header .menu-items .menu-links a span {
       color: #aaacba; }
     .theme-wrapper.dark header .menu-items .menu-left .binary-logo, .theme-wrapper.dark header .menu-items .menu-right {
@@ -4709,6 +4754,8 @@ a {
         color: #fff; }
         .theme-wrapper.dark .app-contents div.purchase-wrapper div.purchase-error div.purchase-result-wrapper span.label {
           color: #aaacba; }
+      .theme-wrapper.dark .app-contents div.purchase-wrapper div.purchase-error div.purchase-login-wrapper {
+        color: #fff; }
     .theme-wrapper.dark .app-contents div.purchase-wrapper fieldset.purchase-option div.box .left-column .type-wrapper {
       background: #60647e; }
       .theme-wrapper.dark .app-contents div.purchase-wrapper fieldset.purchase-option div.box .left-column .type-wrapper .type path, .theme-wrapper.dark .app-contents div.purchase-wrapper fieldset.purchase-option div.box .left-column .type-wrapper .type rect {
@@ -4805,6 +4852,8 @@ a {
           color: #aaacba; }
       .theme-wrapper.dark .app-contents .mobile-widget:hover, .theme-wrapper.dark .app-contents .mobile-widget:focus, .theme-wrapper.dark .app-contents .mobile-widget:active {
         border-color: #fff; }
+    .theme-wrapper.dark .app-contents .error-container p {
+      color: #aaacba; }
   .theme-wrapper.dark footer {
     border-color: #4a4f6c;
     color: #aaacba; }
@@ -4812,17 +4861,6 @@ a {
       color: #aaacba; }
     .theme-wrapper.dark footer .footer-links a.active, .theme-wrapper.dark footer .footer-links a:hover, .theme-wrapper.dark footer .footer-links a:focus {
       background: #4a4f6c; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon path, .theme-wrapper.dark footer .footer-links a:hover .footer-icon path, .theme-wrapper.dark footer .footer-links a:focus .footer-icon path {
-        fill: #fff; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .stroke-only, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .stroke-only, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .stroke-only {
-        stroke: #fff;
-        fill: none; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .fill-only, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .fill-only, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .fill-only {
-        fill: #fff;
-        stroke: none; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .stroke-fill, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .stroke-fill, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .stroke-fill {
-        stroke: #fff;
-        fill: #fff; }
       .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after, .theme-wrapper.dark footer .footer-links a:focus:after {
         background: #fff; }
     .theme-wrapper.dark footer .server-time {
@@ -4835,21 +4873,34 @@ a {
         fill: #60647e; }
     .theme-wrapper.dark .type-wrapper .type .stroke-white {
       stroke: #fff; }
-  .theme-wrapper.dark .inline-icon path {
+  .theme-wrapper.dark .inline-icon .color1-fill {
     fill: #aaacba; }
-  .theme-wrapper.dark .inline-icon .stroke-only {
-    stroke: #aaacba;
+  .theme-wrapper.dark .inline-icon .color1-stroke {
+    stroke: #aaacba; }
+  .theme-wrapper.dark .inline-icon .color2-fill {
     fill: none; }
-  .theme-wrapper.dark .inline-icon .fill-only {
-    fill: #aaacba;
+  .theme-wrapper.dark .inline-icon .color2-stroke {
     stroke: none; }
-  .theme-wrapper.dark .inline-icon .stroke-fill {
-    stroke: #aaacba;
-    fill: #aaacba; }
-  .theme-wrapper.dark .inline-icon .no-stroke {
-    stroke: none; }
-  .theme-wrapper.dark .inline-icon .no-fill {
+  .theme-wrapper.dark .inline-icon.active .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-fill {
+    fill: #2a3052; }
+  .theme-wrapper.dark .inline-icon.active .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke {
+    stroke: #2a3052; }
+  .theme-wrapper.dark .inline-icon.active .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-fill {
+    fill: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke {
+    stroke: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-fill {
+    fill: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke {
+    stroke: #fff; }
+  .theme-wrapper.dark .inline-icon.disabled .color1-fill, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color1-fill, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color1-fill {
+    fill: #60647e; }
+  .theme-wrapper.dark .inline-icon.disabled .color1-stroke, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color1-stroke, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color1-stroke {
+    stroke: #60647e; }
+  .theme-wrapper.dark .inline-icon.disabled .color2-fill, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color2-fill, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color2-fill {
     fill: none; }
+  .theme-wrapper.dark .inline-icon.disabled .color2-stroke, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color2-stroke, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color2-stroke {
+    stroke: none; }
   .theme-wrapper.dark .acc-switcher-header {
     border-color: #4a4f6c; }
   .theme-wrapper.dark .acc-switcher-list {
