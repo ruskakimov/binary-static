@@ -972,7 +972,14 @@ footer {
         vertical-align: middle;
         display: inline-block; }
       footer .footer-links a:hover, footer .footer-links a:focus {
-        background: #e9e9ed; }
+        background: #f4f4f6; }
+      footer .footer-links a.disabled {
+        cursor: not-allowed; }
+        footer .footer-links a.disabled svg path {
+          fill: #e9e9ed;
+          stroke: #e9e9ed; }
+        footer .footer-links a.disabled:hover, footer .footer-links a.disabled:focus {
+          background: none; }
   @media (max-width: 768px) {
     footer {
       display: none; } }
@@ -2700,12 +2707,23 @@ div.contracts-popup-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
+  .please-login__icon {
+    height: 64px;
+    width: 64px;
+    margin-bottom: 1rem; }
+    .please-login__icon svg {
+      height: 100%;
+      width: 100%; }
   .please-login__message {
     font-size: 14px; }
 

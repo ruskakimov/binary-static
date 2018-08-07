@@ -2694,105 +2694,7 @@ Button.propTypes = {
 exports.default = Button;
 
 /***/ }),
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classnames = __webpack_require__(12);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _tooltip = __webpack_require__(247);
-
-var _tooltip2 = _interopRequireDefault(_tooltip);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Fieldset = function Fieldset(_ref) {
-    var children = _ref.children,
-        className = _ref.className,
-        header = _ref.header,
-        icon = _ref.icon,
-        onMouseEnter = _ref.onMouseEnter,
-        onMouseLeave = _ref.onMouseLeave,
-        tooltip = _ref.tooltip;
-
-    var field_left_class = (0, _classnames2.default)('field-info left', { icon: icon }, icon);
-
-    return _react2.default.createElement(
-        'fieldset',
-        { className: className, onMouseEnter: onMouseEnter, onMouseLeave: onMouseLeave },
-        !!header && _react2.default.createElement(
-            'div',
-            { className: 'fieldset-header' },
-            _react2.default.createElement(
-                'span',
-                { className: field_left_class },
-                header
-            )
-        ),
-        !!tooltip && _react2.default.createElement(
-            'span',
-            { className: 'field-info right' },
-            _react2.default.createElement(_tooltip2.default, {
-                alignment: 'left',
-                icon: 'info',
-                message: tooltip || 'Message goes here.'
-            })
-        ),
-        children
-    );
-};
-
-// ToDo:
-// - Refactor Last Digit to keep the children as array type.
-//   Currently last_digit.jsx returns object (React-Element) as 'children'
-//   props type.
-Fieldset.propTypes = {
-    children: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object]),
-    className: _propTypes2.default.string,
-    header: _propTypes2.default.string,
-    icon: _propTypes2.default.string,
-    onMouseEnter: _propTypes2.default.func,
-    onMouseLeave: _propTypes2.default.func,
-    tooltip: _propTypes2.default.string
-};
-
-exports.default = Fieldset;
-
-/***/ }),
-/* 101 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2873,6 +2775,104 @@ Object.keys(_icon_trade).forEach(function (key) {
     }
   });
 });
+
+/***/ }),
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(12);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _tooltip = __webpack_require__(247);
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Fieldset = function Fieldset(_ref) {
+    var children = _ref.children,
+        className = _ref.className,
+        header = _ref.header,
+        icon = _ref.icon,
+        onMouseEnter = _ref.onMouseEnter,
+        onMouseLeave = _ref.onMouseLeave,
+        tooltip = _ref.tooltip;
+
+    var field_left_class = (0, _classnames2.default)('field-info left', { icon: icon }, icon);
+
+    return _react2.default.createElement(
+        'fieldset',
+        { className: className, onMouseEnter: onMouseEnter, onMouseLeave: onMouseLeave },
+        !!header && _react2.default.createElement(
+            'div',
+            { className: 'fieldset-header' },
+            _react2.default.createElement(
+                'span',
+                { className: field_left_class },
+                header
+            )
+        ),
+        !!tooltip && _react2.default.createElement(
+            'span',
+            { className: 'field-info right' },
+            _react2.default.createElement(_tooltip2.default, {
+                alignment: 'left',
+                icon: 'info',
+                message: tooltip || 'Message goes here.'
+            })
+        ),
+        children
+    );
+};
+
+// ToDo:
+// - Refactor Last Digit to keep the children as array type.
+//   Currently last_digit.jsx returns object (React-Element) as 'children'
+//   props type.
+Fieldset.propTypes = {
+    children: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object]),
+    className: _propTypes2.default.string,
+    header: _propTypes2.default.string,
+    icon: _propTypes2.default.string,
+    onMouseEnter: _propTypes2.default.func,
+    onMouseLeave: _propTypes2.default.func,
+    tooltip: _propTypes2.default.string
+};
+
+exports.default = Fieldset;
 
 /***/ }),
 /* 102 */
@@ -6087,7 +6087,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
 
 var _please_login_message = __webpack_require__(478);
 
@@ -6119,13 +6119,11 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
             }
             result = _react2.default.createElement(_reactRouterDom.Redirect, { to: to });
         } else {
-            var should_show_login_msg = route.is_authenticated && !_client_base2.default.isLoggedIn();
-
-            result = should_show_login_msg && route.keep_component && _react2.default.createElement(
-                route.component,
-                _extends({}, props, { routes: route.routes }),
-                _react2.default.createElement(_please_login_message2.default, { onLogin: _login.redirectToLogin })
-            ) || should_show_login_msg && _react2.default.createElement(_please_login_message2.default, { onLogin: _login.redirectToLogin }) || _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
+            result = route.is_authenticated && !_client_base2.default.isLoggedIn() ? _react2.default.createElement(
+                _please_login_message2.default,
+                { onClick: _login.redirectToLogin },
+                _react2.default.createElement(route.icon_component, { stroke_color: '#e9e9ed' })
+            ) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
         }
 
         return result;
@@ -6151,11 +6149,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _reactRouterDom = __webpack_require__(94);
-
-var _PortfolioDrawer = __webpack_require__(470);
-
-var _PortfolioDrawer2 = _interopRequireDefault(_PortfolioDrawer);
+var _reactRouterDom = __webpack_require__(95);
 
 var _Constants = __webpack_require__(257);
 
@@ -6174,6 +6168,8 @@ var _Statement2 = _interopRequireDefault(_Statement);
 var _Trading = __webpack_require__(562);
 
 var _Trading2 = _interopRequireDefault(_Trading);
+
+var _NavBar = __webpack_require__(83);
 
 var _account_password = __webpack_require__(266);
 
@@ -6213,7 +6209,7 @@ var _self_exclusion2 = _interopRequireDefault(_self_exclusion);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var routes_config = [{ path: _Constants.routes.root, component: _PortfolioDrawer2.default, is_authenticated: true, keep_component: true }, { path: _Constants.routes.root, component: _reactRouterDom.Redirect, exact: true, to: '/trade' }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, to: '/trade' }, { path: _Constants.routes.trade, component: _Trading2.default, exact: true }, { path: _Constants.routes.portfolio, component: _Portfolio2.default, is_authenticated: true }, { path: _Constants.routes.statement, component: _Statement2.default, is_authenticated: true }, {
+var routes_config = [{ path: _Constants.routes.root, component: _reactRouterDom.Redirect, exact: true, to: '/trade' }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, to: '/trade' }, { path: _Constants.routes.trade, component: _Trading2.default, exact: true }, { path: _Constants.routes.portfolio, component: _Portfolio2.default, is_authenticated: true, icon_component: _NavBar.IconPortfolio }, { path: _Constants.routes.statement, component: _Statement2.default, is_authenticated: true, icon_component: _NavBar.IconStatement }, {
     path: _Constants.routes.settings,
     component: _settings2.default,
     is_authenticated: true,
@@ -6471,7 +6467,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 var _localize = __webpack_require__(2);
 
@@ -6790,7 +6786,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
 
 var _url = __webpack_require__(10);
 
@@ -7528,7 +7524,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(152);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
+
+var _PortfolioDrawer = __webpack_require__(470);
+
+var _PortfolioDrawer2 = _interopRequireDefault(_PortfolioDrawer);
 
 var _app_contents = __webpack_require__(495);
 
@@ -7546,7 +7546,7 @@ var _theme_wrapper = __webpack_require__(498);
 
 var _theme_wrapper2 = _interopRequireDefault(_theme_wrapper);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 var _routes = __webpack_require__(499);
 
@@ -7576,6 +7576,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // configure({ enforceActions: true }); // disabled for SmartCharts compatibility
 
+// import { configure }              from 'mobx';
 var initApp = function initApp() {
     _client_base2.default.init();
 
@@ -7596,7 +7597,6 @@ var initApp = function initApp() {
  *
  * @return {string} returns the basename of current url
  */
-// import { configure }              from 'mobx';
 var getBasename = function getBasename() {
     var regex_string = '(.*(' + Object.keys((0, _language.getAll)()).join('|') + ')/app(/index\\.html)?).*';
     var basename = new RegExp(regex_string, 'ig').exec(window.location.pathname);
@@ -7643,6 +7643,7 @@ var BinaryApp = function BinaryApp(_ref) {
                     null,
                     _react2.default.createElement(_routes2.default, null)
                 ),
+                _react2.default.createElement(_PortfolioDrawer2.default, null),
                 _react2.default.createElement(
                     'footer',
                     { id: 'footer' },
@@ -9646,7 +9647,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Drawer = __webpack_require__(131);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 var _localize = __webpack_require__(2);
 
@@ -9946,9 +9947,27 @@ var PortfolioDrawer = function (_React$Component) {
                 currency = _props.currency,
                 is_empty = _props.is_empty,
                 is_portfolio_drawer_on = _props.is_portfolio_drawer_on,
-                toggleDrawer = _props.toggleDrawer,
-                children = _props.children;
+                toggleDrawer = _props.toggleDrawer;
 
+
+            var body_content = void 0;
+
+            if (error) {
+                body_content = _react2.default.createElement(
+                    'p',
+                    null,
+                    error
+                );
+            } else if (is_empty) {
+                body_content = _react2.default.createElement(_empty_portfolio_message2.default, null);
+            } else {
+                body_content = data.map(function (portfolio_position, id) {
+                    return _react2.default.createElement(_portfolio_drawer_card2.default, _extends({
+                        key: id,
+                        currency: currency
+                    }, portfolio_position));
+                });
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -9974,16 +9993,7 @@ var PortfolioDrawer = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'portfolio-drawer__body' },
-                    children || error && _react2.default.createElement(
-                        'p',
-                        null,
-                        error
-                    ) || is_empty && _react2.default.createElement(_empty_portfolio_message2.default, null) || data.map(function (portfolio_position, id) {
-                        return _react2.default.createElement(_portfolio_drawer_card2.default, _extends({
-                            key: id,
-                            currency: currency
-                        }, portfolio_position));
-                    })
+                    body_content
                 )
             );
         }
@@ -10685,10 +10695,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var PleaseLoginMessage = function PleaseLoginMessage(_ref) {
     var onLogin = _ref.onLogin,
-        onSignup = _ref.onSignup;
+        onSignup = _ref.onSignup,
+        children = _ref.children;
     return _react2.default.createElement(
         'div',
         { className: 'please-login' },
+        _react2.default.createElement(
+            'div',
+            { className: 'please-login__icon' },
+            children
+        ),
         _react2.default.createElement(
             'div',
             { className: 'please-login__message' },
@@ -10714,6 +10730,7 @@ var PleaseLoginMessage = function PleaseLoginMessage(_ref) {
 };
 
 PleaseLoginMessage.propTypes = {
+    children: _propTypes2.default.any,
     onLogin: _propTypes2.default.func,
     onSignup: _propTypes2.default.func
 };
@@ -11229,24 +11246,27 @@ var _Footer = __webpack_require__(175);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TogglePortfolio = function TogglePortfolio(_ref) {
-    var is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
+    var is_disabled = _ref.is_disabled,
+        is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
         togglePortfolioDrawer = _ref.togglePortfolioDrawer;
 
-    var toggle_portfolio_class = (0, _classnames2.default)('footer-icon', 'ic-portfolio', {
-        'active': is_portfolio_drawer_on
+    var toggle_portfolio_class = (0, _classnames2.default)('ic-portfolio', {
+        'active': is_portfolio_drawer_on,
+        'disabled': is_disabled
     });
     return _react2.default.createElement(
         'a',
         {
             href: 'javascript:;',
             className: toggle_portfolio_class,
-            onClick: togglePortfolioDrawer
+            onClick: is_disabled ? undefined : togglePortfolioDrawer
         },
         _react2.default.createElement(_Footer.IconQuickPortfolio, { className: 'footer-icon' })
     );
 };
 
 TogglePortfolio.propTypes = {
+    is_disabled: _propTypes2.default.bool,
     is_portfolio_drawer_on: _propTypes2.default.bool,
     togglePortfolioDrawer: _propTypes2.default.func
 };
@@ -11604,7 +11624,7 @@ var _Drawer = __webpack_require__(131);
 
 var _menu_drawer = __webpack_require__(494);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11643,7 +11663,7 @@ var _Notifications = __webpack_require__(466);
 
 var _Drawer = __webpack_require__(131);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11727,7 +11747,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
 
 var _helpers = __webpack_require__(251);
 
@@ -11828,7 +11848,7 @@ var _Drawer = __webpack_require__(131);
 
 var _Drawer2 = __webpack_require__(512);
 
-var _NavBar = __webpack_require__(101);
+var _NavBar = __webpack_require__(83);
 
 var _Services = __webpack_require__(65);
 
@@ -12015,7 +12035,8 @@ var _connect = __webpack_require__(21);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Footer = function Footer(_ref) {
-    var is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
+    var is_logged_in = _ref.is_logged_in,
+        is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
         is_language_dialog_visible = _ref.is_language_dialog_visible,
         is_settings_dialog_on = _ref.is_settings_dialog_on,
         toggleSettingsDialog = _ref.toggleSettingsDialog,
@@ -12028,6 +12049,7 @@ var Footer = function Footer(_ref) {
             'div',
             { className: 'footer-links' },
             _react2.default.createElement(_Footer.TogglePortfolio, {
+                is_disabled: !is_logged_in,
                 is_portfolio_drawer_on: is_portfolio_drawer_on,
                 togglePortfolioDrawer: togglePortfolioDrawer
             }),
@@ -12042,6 +12064,7 @@ var Footer = function Footer(_ref) {
 };
 
 Footer.propTypes = {
+    is_logged_in: _propTypes2.default.bool,
     is_language_dialog_visible: _propTypes2.default.bool,
     is_portfolio_drawer_on: _propTypes2.default.bool,
     is_settings_dialog_on: _propTypes2.default.bool,
@@ -12050,8 +12073,10 @@ Footer.propTypes = {
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
-    var ui = _ref2.ui;
+    var client = _ref2.client,
+        ui = _ref2.ui;
     return {
+        is_logged_in: client.is_logged_in,
         is_language_dialog_visible: ui.is_language_dialog_on,
         is_portfolio_drawer_on: ui.is_portfolio_drawer_on,
         is_settings_dialog_on: ui.is_settings_dialog_on,
@@ -13095,26 +13120,32 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IconPortfolio = function IconPortfolio(_ref) {
-    var className = _ref.className;
+    var className = _ref.className,
+        _ref$stroke_color = _ref.stroke_color,
+        stroke_color = _ref$stroke_color === undefined ? '#2A3052' : _ref$stroke_color,
+        _ref$fill_color = _ref.fill_color,
+        fill_color = _ref$fill_color === undefined ? 'none' : _ref$fill_color;
     return _react2.default.createElement(
         'svg',
-        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16' },
+        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
             { fill: 'none', fillRule: 'evenodd', stroke: 'none', strokeWidth: '1' },
             _react2.default.createElement(
                 'g',
                 null,
-                _react2.default.createElement('path', { className: 'stroke-only', fill: 'none', stroke: '#2A3052', d: 'M1.5 14.5h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-13a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1z' }),
-                _react2.default.createElement('path', { className: 'stroke-only', stroke: '#2A3052', d: 'M5.5 3v-.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V3' }),
-                _react2.default.createElement('path', { className: 'stroke-only scale-fix', stroke: '#2A3052', strokeLinecap: 'square', d: 'M0 8l4.047 2.248a2 2 0 0 0 .971.252h5.964a2 2 0 0 0 .971-.252L16 8' }),
-                _react2.default.createElement('path', { className: 'stroke-only', stroke: '#2A3052', strokeLinecap: 'round', d: 'M6.5 8.5h3' })
+                _react2.default.createElement('path', { className: 'stroke-only', fill: fill_color, stroke: stroke_color, d: 'M1.5 14.5h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-13a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1z' }),
+                _react2.default.createElement('path', { className: 'stroke-only', stroke: stroke_color, d: 'M5.5 3v-.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V3' }),
+                _react2.default.createElement('path', { className: 'stroke-only scale-fix', stroke: stroke_color, strokeLinecap: 'square', d: 'M0 8l4.047 2.248a2 2 0 0 0 .971.252h5.964a2 2 0 0 0 .971-.252L16 8' }),
+                _react2.default.createElement('path', { className: 'stroke-only', stroke: stroke_color, strokeLinecap: 'round', d: 'M6.5 8.5h3' })
             )
         )
     );
 };
 
 IconPortfolio.propTypes = {
+    stroke_color: _propTypes2.default.string,
+    fill_color: _propTypes2.default.string,
     className: _propTypes2.default.string
 };
 
@@ -13147,24 +13178,30 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IconStatement = function IconStatement(_ref) {
-    var className = _ref.className;
+    var className = _ref.className,
+        _ref$stroke_color = _ref.stroke_color,
+        stroke_color = _ref$stroke_color === undefined ? '#2A3052' : _ref$stroke_color,
+        _ref$fill_color = _ref.fill_color,
+        fill_color = _ref$fill_color === undefined ? 'none' : _ref$fill_color;
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
         _react2.default.createElement(
             'g',
-            { fill: 'none', fillRule: 'evenodd' },
+            { fill: fill_color, fillRule: 'evenodd' },
             _react2.default.createElement(
                 'g',
-                { className: 'stroke-only', stroke: '#2A3052' },
+                { className: 'stroke-only', stroke: stroke_color },
                 _react2.default.createElement('path', { className: 'no-fill', d: 'M12.5 15.5V4.207L8.79.5H1a.5.5 0 0 0-.5.5v14a.5.5 0 0 0 .5.5h11.5zM12.5 6.5v9H14a1.5 1.5 0 0 0 1.5-1.5V7a.5.5 0 0 0-.5-.5h-2.5z' })
             ),
-            _react2.default.createElement('path', { className: 'fill-only', d: 'M3.5 5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z', fill: '#2A3052' })
+            _react2.default.createElement('path', { className: 'fill-only', d: 'M3.5 5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z', fill: stroke_color })
         )
     );
 };
 
 IconStatement.propTypes = {
+    stroke_color: _propTypes2.default.string,
+    fill_color: _propTypes2.default.string,
     className: _propTypes2.default.string
 };
 
@@ -16036,7 +16073,7 @@ var _dropdown = __webpack_require__(132);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -16160,7 +16197,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -16276,7 +16313,7 @@ var _dropdown = __webpack_require__(132);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -16495,7 +16532,7 @@ var _dropdown = __webpack_require__(132);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -16576,7 +16613,7 @@ var _dropdown = __webpack_require__(132);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -16862,7 +16899,7 @@ var _button = __webpack_require__(82);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _fieldset = __webpack_require__(100);
+var _fieldset = __webpack_require__(101);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -17390,7 +17427,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
 
 var _menu_item = __webpack_require__(265);
 
@@ -17512,7 +17549,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(94);
+var _reactRouterDom = __webpack_require__(95);
 
 var _propTypes = __webpack_require__(1);
 
