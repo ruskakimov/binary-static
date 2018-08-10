@@ -14516,7 +14516,11 @@ var MetaTraderConfig = function () {
     };
 
     // currency equivalent to 1 USD
+    // or 1 of donor currency if both accounts have the same currency
     var getMinMT5TransferValue = function getMinMT5TransferValue(currency) {
+        var client_currency = Client.get('currency');
+        var mt5_currency = MetaTraderConfig.getCurrency(Client.get('mt5_account'));
+        if (client_currency === mt5_currency) return 1;
         return (+State.getResponse('exchange_rates.rates.' + currency) || 1).toFixed(Currency.getDecimalPlaces(currency));
     };
 
@@ -14831,7 +14835,9 @@ var MetaTraderConfig = function () {
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: ['req'] }, { selector: fields.password_reset.txt_new_password.id, validations: ['req', ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: ['req', ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
                         return getMinMT5TransferValue(Client.get('currency'));
-                    }, max: Math.min(State.getResponse('get_limits.remainder') || getMaxMT5TransferValue(Client.get('currency')), getMaxMT5TransferValue(Client.get('currency'))).toFixed(Currency.getDecimalPlaces(Client.get('currency'))), decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
+                    }, max: function max() {
+                        return Math.min(State.getResponse('get_limits.remainder') || getMaxMT5TransferValue(Client.get('currency')), getMaxMT5TransferValue(Client.get('currency'))).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                    }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', [urlFor('cashier')]) }]] }],
             withdrawal: [{ selector: fields.withdrawal.txt_main_pass.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
