@@ -8421,10 +8421,25 @@ var Price = function () {
                 middle: false,
                 bottom: false
             };
+            var setPriceContainersVisibility = function setPriceContainersVisibility() {
+                Object.keys(position_is_visible).forEach(function (position) {
+                    var container = CommonFunctions.getElementById('price_container_' + position);
+                    if (position_is_visible[position]) {
+                        $(container).fadeIn(0);
+                    } else {
+                        $(container).fadeOut(0);
+                    }
+                });
+            };
+            var first_price_proposal = true;
             Object.keys(types || {}).forEach(function (type_of_contract) {
                 var position = commonTrading.contractTypeDisplayMapping(type_of_contract);
                 position_is_visible[position] = true;
                 BinarySocket.send(Price.proposal(type_of_contract), { callback: function callback(response) {
+                        if (first_price_proposal) {
+                            setPriceContainersVisibility();
+                            first_price_proposal = false;
+                        }
                         if (response.error && response.error.code === 'AlreadySubscribed') {
                             BinarySocket.send({ forget_all: 'proposal' });
                         } else if (response.echo_req && response.echo_req !== null && response.echo_req.passthrough && response.echo_req.passthrough.form_id === form_id) {
@@ -8433,14 +8448,6 @@ var Price = function () {
                         commonTrading.hideOverlayContainer();
                         commonTrading.hidePriceOverlay();
                     } });
-            });
-            Object.keys(position_is_visible).forEach(function (position) {
-                var container = CommonFunctions.getElementById('price_container_' + position);
-                if (position_is_visible[position]) {
-                    $(container).fadeIn(0);
-                } else {
-                    $(container).fadeOut(0);
-                }
             });
         });
     };
