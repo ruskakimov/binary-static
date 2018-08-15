@@ -8416,8 +8416,14 @@ var Price = function () {
 
         processForgetProposalOpenContract();
         processForgetProposals().then(function () {
-            $('.price_container').hide();
+            var position_is_visible = {
+                top: false,
+                middle: false,
+                bottom: false
+            };
             Object.keys(types || {}).forEach(function (type_of_contract) {
+                var position = commonTrading.contractTypeDisplayMapping(type_of_contract);
+                position_is_visible[position] = true;
                 BinarySocket.send(Price.proposal(type_of_contract), { callback: function callback(response) {
                         if (response.error && response.error.code === 'AlreadySubscribed') {
                             BinarySocket.send({ forget_all: 'proposal' });
@@ -8427,6 +8433,14 @@ var Price = function () {
                         commonTrading.hideOverlayContainer();
                         commonTrading.hidePriceOverlay();
                     } });
+            });
+            Object.keys(position_is_visible).forEach(function (position) {
+                var container = CommonFunctions.getElementById('price_container_' + position);
+                if (position_is_visible[position]) {
+                    $(container).fadeIn(0);
+                } else {
+                    $(container).fadeOut(0);
+                }
             });
         });
     };
