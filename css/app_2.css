@@ -961,10 +961,6 @@ footer {
         display: inline-block; }
       footer .footer-links a:hover {
         background: #f4f4f6; }
-      footer .footer-links a.disabled {
-        cursor: not-allowed; }
-        footer .footer-links a.disabled:hover, footer .footer-links a.disabled:focus {
-          background: none !important; }
   @media (max-width: 768px) {
     footer {
       display: none; } }
@@ -3616,16 +3612,16 @@ a {
 .inline-icon.active .color4-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-stroke, footer .footer-links a:hover .inline-icon .color4-stroke {
   stroke: none; }
 
-.inline-icon.disabled .color1-fill, footer .footer-links a.disabled .inline-icon .color1-fill {
+.inline-icon.disabled .color1-fill {
   fill: #e9e9ed; }
 
-.inline-icon.disabled .color1-stroke, footer .footer-links a.disabled .inline-icon .color1-stroke {
+.inline-icon.disabled .color1-stroke {
   stroke: #e9e9ed; }
 
-.inline-icon.disabled .color2-fill, footer .footer-links a.disabled .inline-icon .color2-fill {
+.inline-icon.disabled .color2-fill {
   fill: none; }
 
-.inline-icon.disabled .color2-stroke, footer .footer-links a.disabled .inline-icon .color2-stroke {
+.inline-icon.disabled .color2-stroke {
   stroke: none; }
 
 .fullscreen-dialog {
@@ -5107,9 +5103,9 @@ a {
     color: #aaacba; }
     .theme-wrapper.dark footer .footer-links a span {
       color: #aaacba; }
-    .theme-wrapper.dark footer .footer-links a.active, .theme-wrapper.dark footer .footer-links a:hover, .theme-wrapper.dark footer .footer-links a:focus {
+    .theme-wrapper.dark footer .footer-links a.active, .theme-wrapper.dark footer .footer-links a:hover {
       background: #4a4f6c; }
-      .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after, .theme-wrapper.dark footer .footer-links a:focus:after {
+      .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after {
         background: #fff; }
     .theme-wrapper.dark footer .server-time {
       border-color: #4a4f6c; }
@@ -5141,13 +5137,13 @@ a {
     fill: #fff; }
   .theme-wrapper.dark .inline-icon.active .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke {
     stroke: #fff; }
-  .theme-wrapper.dark .inline-icon.disabled .color1-fill, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color1-fill, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color1-fill {
+  .theme-wrapper.dark .inline-icon.disabled .color1-fill {
     fill: #60647e; }
-  .theme-wrapper.dark .inline-icon.disabled .color1-stroke, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color1-stroke, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color1-stroke {
+  .theme-wrapper.dark .inline-icon.disabled .color1-stroke {
     stroke: #60647e; }
-  .theme-wrapper.dark .inline-icon.disabled .color2-fill, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color2-fill, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color2-fill {
+  .theme-wrapper.dark .inline-icon.disabled .color2-fill {
     fill: none; }
-  .theme-wrapper.dark .inline-icon.disabled .color2-stroke, .theme-wrapper.dark footer .footer-links a.disabled .inline-icon .color2-stroke, footer .footer-links a.disabled .theme-wrapper.dark .inline-icon .color2-stroke {
+  .theme-wrapper.dark .inline-icon.disabled .color2-stroke {
     stroke: none; }
   .theme-wrapper.dark .acc-switcher-header {
     border-color: #4a4f6c; }
