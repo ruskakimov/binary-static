@@ -8421,16 +8421,6 @@ var Price = function () {
                 middle: false,
                 bottom: false
             };
-            var setPriceContainersVisibility = function setPriceContainersVisibility() {
-                Object.keys(position_is_visible).forEach(function (position) {
-                    var container = CommonFunctions.getElementById('price_container_' + position);
-                    if (position_is_visible[position]) {
-                        $(container).fadeIn(0);
-                    } else {
-                        $(container).fadeOut(0);
-                    }
-                });
-            };
             var first_price_proposal = true;
             Object.keys(types || {}).forEach(function (type_of_contract) {
                 var position = commonTrading.contractTypeDisplayMapping(type_of_contract);
@@ -8444,11 +8434,22 @@ var Price = function () {
                         if (first_price_proposal) {
                             commonTrading.hideOverlayContainer();
                             commonTrading.hidePriceOverlay();
-                            setPriceContainersVisibility();
+                            setPriceContainersVisibility(position_is_visible);
                             first_price_proposal = false;
                         }
                     } });
             });
+        });
+    };
+
+    var setPriceContainersVisibility = function setPriceContainersVisibility(position_is_visible) {
+        Object.keys(position_is_visible).forEach(function (position) {
+            var container = CommonFunctions.getElementById('price_container_' + position);
+            if (position_is_visible[position]) {
+                $(container).fadeIn(0);
+            } else {
+                $(container).fadeOut(0);
+            }
         });
     };
 
