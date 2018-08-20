@@ -7491,11 +7491,6 @@ var EmptyPortfolioMessage = function EmptyPortfolioMessage() {
             _react2.default.createElement(_NavBar.IconPortfolio, { className: 'portfolio-empty__icon' }),
             _react2.default.createElement(
                 'span',
-                { className: 'portfolio-empty__title' },
-                (0, _localize.localize)('No Portfolio')
-            ),
-            _react2.default.createElement(
-                'span',
                 { className: 'portfolio-empty__text' },
                 (0, _localize.localize)('No open positions.')
             )
@@ -16472,11 +16467,6 @@ var EmptyStatementMessage = function EmptyStatementMessage(_ref) {
         'div',
         { className: 'statement-empty' },
         _react2.default.createElement(_NavBar.IconStatement, { className: 'statement-empty__icon' }),
-        _react2.default.createElement(
-            'span',
-            { className: 'statement-empty__title' },
-            (0, _localize.localize)('No Statement')
-        ),
         _react2.default.createElement(
             'span',
             { className: 'statement-empty__text' },

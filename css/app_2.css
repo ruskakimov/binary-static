@@ -414,7 +414,7 @@ span.tooltip {
     animation: sk-stretchdelay 1.2s infinite ease-in-out; }
   .barspinner.dark > div {
     background-color: #2a3052; }
-  .barspinner.white > div {
+  .barspinner.white > div, .theme-wrapper.dark .barspinner > div {
     background-color: #fff; }
   .barspinner .rect1 {
     -webkit-animation-delay: -1.2s;
@@ -1437,6 +1437,7 @@ hr {
   background-color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  color: #2a3052;
   /*
         PORTFOLIO DRAWER CARD STARTS
     */
@@ -1467,8 +1468,7 @@ hr {
     overflow-y: auto; }
   .portfolio-drawer__title {
     font-size: 12px;
-    font-weight: bold;
-    color: #2a3052; }
+    font-weight: bold; }
   .portfolio-drawer__icon-main {
     margin-right: 8px; }
   .portfolio-drawer__icon-close {
@@ -1479,13 +1479,13 @@ hr {
       height: 16px;
       width: 16px; }
   .portfolio-drawer-card {
-    height: 60px;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     padding: 8px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
+    row-gap: 5px;
     border: 1px solid #e9e9ed;
     border-radius: 2px;
     cursor: pointer; }
@@ -1494,8 +1494,7 @@ hr {
     .portfolio-drawer-card:not(:last-child) {
       margin-bottom: 16px; }
     .portfolio-drawer-card__type {
-      font-size: 12px;
-      color: #2a3052; }
+      font-size: 12px; }
       .portfolio-drawer-card__type .contract-type {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -1513,10 +1512,11 @@ hr {
           width: 30px; }
     .portfolio-drawer-card__symbol {
       font-size: 10px;
-      color: #2a3052; }
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; }
     .portfolio-drawer-card__indicative {
       font-size: 12px;
-      color: #2a3052;
       font-weight: bold;
       display: -webkit-box;
       display: -ms-flexbox;
@@ -1573,14 +1573,11 @@ hr {
 
 .theme-wrapper.dark .portfolio-drawer {
   background: #2a3052;
-  border-color: #4a4f6c; }
-  .theme-wrapper.dark .portfolio-drawer__title {
-    color: #fff; }
+  border-color: #4a4f6c;
+  color: #fff; }
   .theme-wrapper.dark .portfolio-drawer-card {
     background: #2a3052;
     border-color: #4a4f6c; }
-    .theme-wrapper.dark .portfolio-drawer-card .contract-type, .theme-wrapper.dark .portfolio-drawer-card__symbol {
-      color: #fff; }
     .theme-wrapper.dark .portfolio-drawer-card__remaining-time {
       color: #aaacba; }
     .theme-wrapper.dark .portfolio-drawer-card:hover {
@@ -1833,17 +1830,17 @@ div.dropdown-container {
     color: #fff; }
     .btn.primary.orange {
       background: #e98024; }
-      .btn.primary.orange:hover {
+      .btn.primary.orange:hover:not([disabled]) {
         background: #ee9e58; }
-      .btn.primary.orange:active {
+      .btn.primary.orange:active:not([disabled]) {
         background: #e98024; }
       .btn.primary.orange.effect:focus:not(:active):after {
         border: 0 solid #e98024; }
     .btn.primary.green {
       background: #4caf50; }
-      .btn.primary.green:hover {
+      .btn.primary.green:hover:not([disabled]) {
         background: #66bb6a; }
-      .btn.primary.green:active {
+      .btn.primary.green:active:not([disabled]) {
         background: #4caf50; }
       .btn.primary.green.effect:focus:not(:active):after {
         border: 0 solid #4caf50; }
@@ -1856,11 +1853,11 @@ div.dropdown-container {
     .btn.secondary.orange {
       border: 1px solid #e98024;
       color: #e98024; }
-      .btn.secondary.orange:hover {
+      .btn.secondary.orange:hover:not([disabled]) {
         border: 1px solid #ee9e58;
         color: #ee9e58;
         background: rgba(233, 128, 36, 0.1); }
-      .btn.secondary.orange:active {
+      .btn.secondary.orange:active:not([disabled]) {
         border: 1px solid #e98024;
         color: #e98024; }
       .btn.secondary.orange.effect:focus:not(:active):after {
@@ -1868,11 +1865,11 @@ div.dropdown-container {
     .btn.secondary.green {
       border: 1px solid #4caf50;
       color: #4caf50; }
-      .btn.secondary.green:hover {
+      .btn.secondary.green:hover:not([disabled]) {
         border: 1px solid #66bb6a;
         color: #66bb6a;
         background: rgba(76, 175, 80, 0.1); }
-      .btn.secondary.green:active {
+      .btn.secondary.green:active:not([disabled]) {
         border: 1px solid #4caf50;
         color: #4caf50; }
       .btn.secondary.green.effect:focus:not(:active):after {
@@ -1886,10 +1883,10 @@ div.dropdown-container {
     background: #fff;
     color: #4c5794;
     /* stylelint-disable-line color-no-hex */ }
-    .btn.flat:hover {
+    .btn.flat:hover:not([disabled]) {
       background: #f2f3f8;
       /* stylelint-disable-line color-no-hex */ }
-    .btn.flat:active {
+    .btn.flat:active:not([disabled]) {
       color: #4c5794;
       /* stylelint-disable-line color-no-hex */ }
     .btn.flat.effect:focus:not(:active):after {
@@ -3588,28 +3585,28 @@ a {
 .inline-icon .color2-stroke {
   stroke: none; }
 
-.inline-icon.active .color1-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, footer .footer-links a:hover .inline-icon .color1-fill {
+.inline-icon.active .color1-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, footer .footer-links a:hover .inline-icon .color1-fill, .ic-settings.active .inline-icon .color1-fill {
   fill: #fff; }
 
-.inline-icon.active .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, footer .footer-links a:hover .inline-icon .color1-stroke {
+.inline-icon.active .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, footer .footer-links a:hover .inline-icon .color1-stroke, .ic-settings.active .inline-icon .color1-stroke {
   stroke: #fff; }
 
-.inline-icon.active .color2-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, footer .footer-links a:hover .inline-icon .color2-fill {
+.inline-icon.active .color2-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, footer .footer-links a:hover .inline-icon .color2-fill, .ic-settings.active .inline-icon .color2-fill {
   fill: #2a3052; }
 
-.inline-icon.active .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, footer .footer-links a:hover .inline-icon .color2-stroke {
+.inline-icon.active .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, footer .footer-links a:hover .inline-icon .color2-stroke, .ic-settings.active .inline-icon .color2-stroke {
   stroke: #2a3052; }
 
-.inline-icon.active .color3-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, footer .footer-links a:hover .inline-icon .color3-fill {
+.inline-icon.active .color3-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, footer .footer-links a:hover .inline-icon .color3-fill, .ic-settings.active .inline-icon .color3-fill {
   fill: #2a3052; }
 
-.inline-icon.active .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, footer .footer-links a:hover .inline-icon .color3-stroke {
+.inline-icon.active .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, footer .footer-links a:hover .inline-icon .color3-stroke, .ic-settings.active .inline-icon .color3-stroke {
   stroke: #2a3052; }
 
-.inline-icon.active .color4-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-fill, footer .footer-links a:hover .inline-icon .color4-fill {
+.inline-icon.active .color4-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-fill, footer .footer-links a:hover .inline-icon .color4-fill, .ic-settings.active .inline-icon .color4-fill {
   fill: none; }
 
-.inline-icon.active .color4-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-stroke, footer .footer-links a:hover .inline-icon .color4-stroke {
+.inline-icon.active .color4-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-stroke, footer .footer-links a:hover .inline-icon .color4-stroke, .ic-settings.active .inline-icon .color4-stroke {
   stroke: none; }
 
 .inline-icon.disabled .color1-fill {
@@ -3999,10 +3996,6 @@ a {
     .portfolio-empty__icon {
       height: 64px;
       width: 64px;
-      margin-bottom: 16px; }
-    .portfolio-empty__title {
-      font-size: 16px;
-      font-weight: bold;
       margin-bottom: 8px; }
     .portfolio-empty__text {
       font-size: 14px; }
@@ -4050,10 +4043,8 @@ a {
     color: #f44336; }
     .portfolio-card__indicative--price-moved-down:before {
       background-image: url("../images/app_2/portfolio/ic_price_down.svg"); }
-  .portfolio-card__indicative--price-stable {
-    color: #000; }
-    .portfolio-card__indicative--price-stable:before {
-      background-image: url("../images/app_2/portfolio/ic_price_stable.svg"); }
+  .portfolio-card__indicative--price-stable:before {
+    background-image: url("../images/app_2/portfolio/ic_price_stable_light.svg"); }
   .portfolio-card__indicative--no-resale {
     color: #e9e9ed; }
     .portfolio-card__indicative--no-resale:before {
@@ -4499,11 +4490,7 @@ a {
     .statement-empty__icon {
       height: 64px;
       width: 64px;
-      margin-bottom: 16px; }
-    .statement-empty__title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 8px; }
+      margin-bottom: 14px; }
     .statement-empty__text {
       font-size: 14px; }
 
@@ -5075,6 +5062,13 @@ a {
             color: #2196f3; }
           .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row:hover {
             background: #4a4f6c; }
+    .theme-wrapper.dark .app-contents .card-list__card {
+      background-color: #2a3052;
+      border-color: #4a4f6c; }
+    .theme-wrapper.dark .app-contents .statement-card__header, .theme-wrapper.dark .app-contents .portfolio-card__header {
+      border-color: #4a4f6c; }
+    .theme-wrapper.dark .app-contents .portfolio-card__indicative--price-stable:before {
+      background-image: url("../images/app_2/portfolio/ic_price_stable_dark.svg"); }
     .theme-wrapper.dark .app-contents .login-message-wrapper .message a {
       color: #aaacba; }
       .theme-wrapper.dark .app-contents .login-message-wrapper .message a:hover {
@@ -5125,17 +5119,17 @@ a {
     fill: none; }
   .theme-wrapper.dark .inline-icon .color2-stroke {
     stroke: none; }
-  .theme-wrapper.dark .inline-icon.active .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-fill {
+  .theme-wrapper.dark .inline-icon.active .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark .ic-settings.active .inline-icon .color1-fill, .ic-settings.active .theme-wrapper.dark .inline-icon .color1-fill {
     fill: #2a3052; }
-  .theme-wrapper.dark .inline-icon.active .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke {
+  .theme-wrapper.dark .inline-icon.active .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark .ic-settings.active .inline-icon .color1-stroke, .ic-settings.active .theme-wrapper.dark .inline-icon .color1-stroke {
     stroke: #2a3052; }
-  .theme-wrapper.dark .inline-icon.active .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-fill {
+  .theme-wrapper.dark .inline-icon.active .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark .ic-settings.active .inline-icon .color2-fill, .ic-settings.active .theme-wrapper.dark .inline-icon .color2-fill {
     fill: #fff; }
-  .theme-wrapper.dark .inline-icon.active .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke {
+  .theme-wrapper.dark .inline-icon.active .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark .ic-settings.active .inline-icon .color2-stroke, .ic-settings.active .theme-wrapper.dark .inline-icon .color2-stroke {
     stroke: #fff; }
-  .theme-wrapper.dark .inline-icon.active .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-fill {
+  .theme-wrapper.dark .inline-icon.active .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark .ic-settings.active .inline-icon .color3-fill, .ic-settings.active .theme-wrapper.dark .inline-icon .color3-fill {
     fill: #fff; }
-  .theme-wrapper.dark .inline-icon.active .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke {
+  .theme-wrapper.dark .inline-icon.active .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .ic-settings.active .inline-icon .color3-stroke, .ic-settings.active .theme-wrapper.dark .inline-icon .color3-stroke {
     stroke: #fff; }
   .theme-wrapper.dark .inline-icon.disabled .color1-fill {
     fill: #60647e; }
