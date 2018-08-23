@@ -2782,7 +2782,10 @@ div.contracts-popup-container {
     padding: 0 16px;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-    border-bottom: 1px solid #e9e9ed; }
+    border-bottom: 1px solid #e9e9ed;
+    text-decoration: none; }
+    .table__row, .table__row:active, .table__row:visited {
+      color: #333; }
   .table__head {
     height: 42px;
     border-bottom: 1px solid #e9e9ed; }
@@ -4198,9 +4201,10 @@ a {
   .portfolio .reference a {
     color: #1565c0;
     text-decoration: none; }
-  .portfolio .indicative {
-    text-align: right;
+  .portfolio .table__body .indicative {
     font-weight: bold; }
+  .portfolio .indicative {
+    text-align: right; }
     .portfolio .indicative--price-moved-up {
       color: #4caf50; }
     .portfolio .indicative--price-moved-down {
@@ -4625,9 +4629,6 @@ a {
       color: #4caf50; }
     .statement .amount--loss {
       color: #f44336; }
-  .statement .refid a {
-    color: #1565c0;
-    text-decoration: none; }
   .statement--card-view {
     background: #fafafb;
     overflow: hidden; }
@@ -5245,29 +5246,6 @@ body.dark, .theme-wrapper.dark {
       color: #fff; }
     body.dark .app-contents .portfolio.container, .theme-wrapper.dark .app-contents .portfolio.container {
       background: #2a3052; }
-      body.dark .app-contents .portfolio.container .table, .theme-wrapper.dark .app-contents .portfolio.container .table {
-        color: #aaacba;
-        border-color: #4a4f6c; }
-        body.dark .app-contents .portfolio.container .table .table__head, body.dark .app-contents .portfolio.container .table .table__foot, .theme-wrapper.dark .app-contents .portfolio.container .table .table__head, .theme-wrapper.dark .app-contents .portfolio.container .table .table__foot {
-          border-color: #4a4f6c;
-          background-color: #353b5b; }
-          body.dark .app-contents .portfolio.container .table .table__head .table__row, body.dark .app-contents .portfolio.container .table .table__foot .table__row, .theme-wrapper.dark .app-contents .portfolio.container .table .table__head .table__row, .theme-wrapper.dark .app-contents .portfolio.container .table .table__foot .table__row {
-            border-color: #4a4f6c; }
-        body.dark .app-contents .portfolio.container .table .table__body .table__cell.reference, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.reference {
-          color: #2196f3; }
-        body.dark .app-contents .portfolio.container .table .table__body .table__cell.details, body.dark .app-contents .portfolio.container .table .table__body .table__cell.payout, body.dark .app-contents .portfolio.container .table .table__body .table__cell.purchase, body.dark .app-contents .portfolio.container .table .table__body .table__cell.remaining_time, body.dark .app-contents .portfolio.container .table .table__body .table__cell.indicative, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.details, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.payout, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.purchase, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.remaining_time, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__cell.indicative {
-          color: #aaacba; }
-        body.dark .app-contents .portfolio.container .table .table__body .table__row, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__row {
-          background: #2a3052;
-          border-color: #4a4f6c; }
-          body.dark .app-contents .portfolio.container .table .table__body .table__row .table__cell.payout span.symbol, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__row .table__cell.payout span.symbol {
-            background: #2a3052; }
-          body.dark .app-contents .portfolio.container .table .table__body .table__row:hover, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__row:hover {
-            background: #4a4f6c; }
-            body.dark .app-contents .portfolio.container .table .table__body .table__row:hover td.payout span.symbol, .theme-wrapper.dark .app-contents .portfolio.container .table .table__body .table__row:hover td.payout span.symbol {
-              background: #4a4f6c; }
-        body.dark .app-contents .portfolio.container .table .table__foot, .theme-wrapper.dark .app-contents .portfolio.container .table .table__foot {
-          color: #fff; }
     body.dark .app-contents .portfolio-empty span, body.dark .app-contents .statement-empty span, .theme-wrapper.dark .app-contents .portfolio-empty span, .theme-wrapper.dark .app-contents .statement-empty span {
       color: #aaacba; }
     body.dark .app-contents .portfolio-empty button.btn span, body.dark .app-contents .statement-empty button.btn span, .theme-wrapper.dark .app-contents .portfolio-empty button.btn span, .theme-wrapper.dark .app-contents .statement-empty button.btn span {
@@ -5278,22 +5256,18 @@ body.dark, .theme-wrapper.dark {
       border-color: #4a4f6c; }
     body.dark .app-contents .statement.container .statement__content, .theme-wrapper.dark .app-contents .statement.container .statement__content {
       background: #2a3052; }
-      body.dark .app-contents .statement.container .statement__content .table, .theme-wrapper.dark .app-contents .statement.container .statement__content .table {
+    body.dark .app-contents .table, .theme-wrapper.dark .app-contents .table {
+      border-color: #4a4f6c; }
+      body.dark .app-contents .table__head, body.dark .app-contents .table__foot, .theme-wrapper.dark .app-contents .table__head, .theme-wrapper.dark .app-contents .table__foot {
+        background: #353b5b; }
+      body.dark .app-contents .table__head, body.dark .app-contents .table__foot, body.dark .app-contents .table__row, .theme-wrapper.dark .app-contents .table__head, .theme-wrapper.dark .app-contents .table__foot, .theme-wrapper.dark .app-contents .table__row {
         border-color: #4a4f6c; }
-        body.dark .app-contents .statement.container .statement__content .table .table__head, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__head {
-          background: #353b5b;
-          border-color: #4a4f6c; }
-          body.dark .app-contents .statement.container .statement__content .table .table__head .table__row, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__head .table__row {
-            border-color: #4a4f6c;
-            color: #aaacba; }
-        body.dark .app-contents .statement.container .statement__content .table .table__body .table__row, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row {
-          border-color: #4a4f6c; }
-          body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.date, body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.desc, body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.action, body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.payout, body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.balance, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.date, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.desc, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.action, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.payout, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.balance {
-            color: #aaacba; }
-          body.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.refid, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row .table__cell.refid {
-            color: #2196f3; }
-          body.dark .app-contents .statement.container .statement__content .table .table__body .table__row:hover, .theme-wrapper.dark .app-contents .statement.container .statement__content .table .table__body .table__row:hover {
-            background: #4a4f6c; }
+      body.dark .app-contents .table__body .table__row:hover, .theme-wrapper.dark .app-contents .table__body .table__row:hover {
+        background: #4a4f6c; }
+      body.dark .app-contents .table__body .table__row, body.dark .app-contents .table__body .table__row:active, body.dark .app-contents .table__body .table__row:visited, .theme-wrapper.dark .app-contents .table__body .table__row, .theme-wrapper.dark .app-contents .table__body .table__row:active, .theme-wrapper.dark .app-contents .table__body .table__row:visited {
+        color: #aaacba; }
+      body.dark .app-contents .table__cell, .theme-wrapper.dark .app-contents .table__cell {
+        color: #aaacba; }
     body.dark .app-contents .card-list__card, .theme-wrapper.dark .app-contents .card-list__card {
       background-color: #2a3052;
       border-color: #4a4f6c; }
