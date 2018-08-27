@@ -2505,7 +2505,8 @@ exports.WS = _ws_methods2.default;
 /* 62 */,
 /* 63 */,
 /* 64 */,
-/* 65 */
+/* 65 */,
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2562,7 +2563,7 @@ Money.propTypes = {
 exports.default = Money;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2621,7 +2622,7 @@ Object.keys(_icon_exclamation).forEach(function (key) {
 });
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2671,7 +2672,6 @@ Section.propTypes = {
 exports.default = Section;
 
 /***/ }),
-/* 68 */,
 /* 69 */,
 /* 70 */,
 /* 71 */,
@@ -3132,7 +3132,7 @@ var BaseStore = (_class = (_temp = _class2 = function () {
     }, {
         key: 'validateProperty',
         value: function validateProperty(property, value) {
-            var validator = new _Validator2.default(_defineProperty({}, property, value !== undefined ? value : this[property]), _defineProperty({}, property, this.validation_rules[property]));
+            var validator = new _Validator2.default(_defineProperty({}, property, value !== undefined ? value : this[property]), _defineProperty({}, property, this.validation_rules[property]), this);
 
             validator.isPassed();
             this.setValidationErrorMessages(property, validator.errors.get(property));
@@ -4010,7 +4010,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4905,8 +4905,10 @@ var InputField = function InputField(_ref) {
     var className = _ref.className,
         error_messages = _ref.error_messages,
         helper = _ref.helper,
-        is_float = _ref.is_float,
         is_disabled = _ref.is_disabled,
+        is_float = _ref.is_float,
+        _ref$is_signed = _ref.is_signed,
+        is_signed = _ref$is_signed === undefined ? false : _ref$is_signed,
         label = _ref.label,
         name = _ref.name,
         onChange = _ref.onChange,
@@ -4919,18 +4921,39 @@ var InputField = function InputField(_ref) {
         value = _ref.value;
 
     var has_error = error_messages && error_messages.length;
+
+    var changeValue = function changeValue(e) {
+        if (type === 'number') {
+            var is_empty = !e.target.value || e.target.value === '';
+            var signed_regex = is_signed ? '[\\+-]?' : '';
+
+            var is_number = new RegExp('^' + signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '(?<=\\d)(?<!-0)$').test(e.target.value);
+
+            var is_not_completed_number = is_float && new RegExp('^' + signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
+
+            if (is_number || is_empty) {
+                e.target.value = is_empty || is_signed ? e.target.value : +e.target.value;
+            } else if (!is_not_completed_number) {
+                e.target.value = value;
+                return;
+            }
+        }
+
+        onChange(e);
+    };
+
     var input = _react2.default.createElement('input', {
         className: (0, _classnames2.default)({ error: has_error }),
-        type: type,
-        name: name,
-        step: is_float ? step : undefined,
-        placeholder: placeholder || undefined,
         disabled: is_disabled,
-        value: value,
-        onChange: onChange,
-        required: required || undefined,
+        'data-for': 'error_tooltip_' + name,
         'data-tip': true,
-        'data-for': 'error_tooltip_' + name
+        name: name,
+        onChange: changeValue,
+        placeholder: placeholder || undefined,
+        required: required || undefined,
+        step: is_float ? step : undefined,
+        type: type === 'number' ? 'text' : type,
+        value: value
     });
 
     return _react2.default.createElement(
@@ -4964,14 +4987,13 @@ var InputField = function InputField(_ref) {
 // ToDo: Refactor input_field
 // supports more than two different types of 'value' as a prop.
 // Quick Solution - Pass two different props to input field.
-
-// import ReactTooltip              from 'react-tooltip';
 InputField.propTypes = {
     className: _propTypes2.default.string,
     error_messages: _mobxReact.PropTypes.arrayOrObservableArray,
     helper: _propTypes2.default.bool,
     is_float: _propTypes2.default.bool,
     is_disabled: _propTypes2.default.string,
+    is_signed: _propTypes2.default.bool,
     label: _propTypes2.default.string,
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
@@ -5885,7 +5907,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 var _localize = __webpack_require__(2);
 
@@ -6136,7 +6158,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 var _localize = __webpack_require__(2);
 
@@ -7316,7 +7338,7 @@ var _sell_info = __webpack_require__(544);
 
 var _sell_info2 = _interopRequireDefault(_sell_info);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -7760,7 +7782,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8271,7 +8293,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8309,7 +8331,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8347,7 +8369,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8385,7 +8407,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8423,7 +8445,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8461,7 +8483,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8499,7 +8521,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8537,7 +8559,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -8575,7 +8597,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _section = __webpack_require__(67);
+var _section = __webpack_require__(68);
 
 var _section2 = _interopRequireDefault(_section);
 
@@ -11119,7 +11141,7 @@ var _empty_portfolio_message = __webpack_require__(274);
 
 var _empty_portfolio_message2 = _interopRequireDefault(_empty_portfolio_message);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11263,7 +11285,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -11356,7 +11378,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 var _localize = __webpack_require__(2);
 
@@ -11724,7 +11746,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactPerfectScrollbar = __webpack_require__(886);
+var _reactPerfectScrollbar = __webpack_require__(887);
 
 var _reactPerfectScrollbar2 = _interopRequireDefault(_reactPerfectScrollbar);
 
@@ -11987,7 +12009,7 @@ var _date_picker_input = __webpack_require__(489);
 
 var _date_picker_input2 = _interopRequireDefault(_date_picker_input);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 var _Calendar = __webpack_require__(460);
 
@@ -12734,7 +12756,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var LoginButton = function LoginButton() {
     return _react2.default.createElement(_button2.default, {
-        className: 'primary orange',
+        className: 'secondary orange',
         has_effect: true,
         text: (0, _localize.localize)('Log in'),
         onClick: _login.redirectToLogin
@@ -15679,7 +15701,7 @@ var _contract_sell = __webpack_require__(547);
 
 var _contract_sell2 = _interopRequireDefault(_contract_sell);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -15861,7 +15883,7 @@ var _localize = __webpack_require__(259);
 
 var _localize2 = _interopRequireDefault(_localize);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -15923,7 +15945,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16235,7 +16257,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -16290,7 +16312,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(42);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -16410,7 +16432,7 @@ var _indicative_cell = __webpack_require__(550);
 
 var _indicative_cell2 = _interopRequireDefault(_indicative_cell);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -16597,7 +16619,6 @@ var Portfolio = function (_React$Component) {
                     data_source: active_positions,
                     footer: totals,
                     has_fixed_header: true,
-                    onRowClick: this.redirectToContract,
                     getRowLink: function getRowLink(row_obj) {
                         return (0, _helpers.getContractPath)(row_obj.id);
                     }
@@ -17999,7 +18020,7 @@ var _contract_type_list = __webpack_require__(573);
 
 var _contract_type_list2 = _interopRequireDefault(_contract_type_list);
 
-var _Common = __webpack_require__(66);
+var _Common = __webpack_require__(67);
 
 var _Categories = __webpack_require__(267);
 
@@ -18668,7 +18689,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -18906,7 +18927,7 @@ var Amount = function Amount(_ref) {
                 is_nativepicker: is_nativepicker
             }),
             _react2.default.createElement(_input_field2.default, {
-                type: 'text',
+                type: 'number',
                 name: 'amount',
                 value: amount,
                 onChange: onChange,
@@ -19007,19 +19028,22 @@ var Barrier = function Barrier(_ref) {
             icon: 'barriers'
         },
         _react2.default.createElement(_input_field2.default, {
-            type: 'text',
+            type: 'number',
             name: 'barrier_1',
             value: barrier_1,
             onChange: onChange,
-            error_messages: validation_errors.barrier_1 || []
+            error_messages: validation_errors.barrier_1 || [],
+            is_float: true,
+            is_signed: true
         }),
         barrier_count === 2 && _react2.default.createElement(_input_field2.default, {
-            type: 'text',
+            type: 'number',
             name: 'barrier_2',
             value: barrier_2,
             onChange: onChange,
+            error_messages: validation_errors.barrier_2,
             is_float: true,
-            error_messages: validation_errors.barrier_2
+            is_signed: true
         })
     );
 };
@@ -19204,7 +19228,7 @@ var Duration = function Duration(_ref) {
                     is_nativepicker: is_nativepicker,
                     footer: (0, _localize.localize)('The minimum duration is 1 day')
                 }) : _react2.default.createElement(_input_field2.default, {
-                    type: 'text',
+                    type: 'number',
                     name: 'duration',
                     value: duration,
                     onChange: onChange,
@@ -19742,7 +19766,7 @@ var Test = function (_React$Component) {
                         k = _ref3[0],
                         v = _ref3[1];
 
-                    return k !== 'root_store' && _react2.default.createElement(
+                    return k !== 'root_store' && typeof v !== 'function' && _react2.default.createElement(
                         'div',
                         { key: k },
                         _react2.default.createElement(
@@ -20795,8 +20819,13 @@ var SubscriptionManager = function () {
         // callback subscribers
         var subscribers = sub_info.subscribers;
         if (subscribers.length) {
-            if (!sub_info.stream_id) {
-                // first response returned error or not a subscription (i.e. subscribed proposal_open_contract for an expired contract)
+            if (
+            // remove subscription info when first response returned error
+            // or not a subscription (i.e. subscribed proposal_open_contract for an expired contract)
+            // check msg_type to filter out those calls which don't return stream `id` on first response (tick_history, ...)
+            !sub_info.stream_id && (response.error || response.msg_type === sub_info.msg_type) ||
+            // remove when response isn't first and response has no stream_id
+            !stream_id && sub_info.stream_id) {
                 delete subscriptions[sub_id];
             }
             sub_info.subscribers.forEach(function (fnc) {
@@ -21074,7 +21103,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(65);
+var _money = __webpack_require__(66);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -22908,8 +22937,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 var validation_rules = {
     amount: [['req', { message: 'The amount is a required field.' }], ['number', { min: 0, type: 'float' }]],
-    barrier_1: ['barrier'],
-    barrier_2: ['barrier'],
+    barrier_1: [['req', { condition: function condition(store) {
+            return store.barrier_count;
+        }, message: 'The barrier is a required field.' }], ['barrier', { condition: function condition(store) {
+            return store.contract_expiry_type !== 'daily' && store.barrier_count;
+        } }], ['number', { condition: function condition(store) {
+            return store.contract_expiry_type === 'daily' && store.barrier_count;
+        }, type: 'float' }]],
+    barrier_2: [['req', { condition: function condition(store) {
+            return store.barrier_count;
+        }, message: 'The barrier is a required field.' }], ['barrier', { condition: function condition(store) {
+            return store.contract_expiry_type !== 'daily' && store.barrier_count;
+        } }], ['number', { condition: function condition(store) {
+            return store.contract_expiry_type === 'daily' && store.barrier_count;
+        }, type: 'float' }]],
     duration: [['req', { message: 'The duration is a required field.' }]]
 };
 
@@ -23265,6 +23306,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31, _descriptor32;
 
+var _lodash = __webpack_require__(880);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _mobx = __webpack_require__(29);
 
 var _purchase = __webpack_require__(620);
@@ -23309,9 +23354,9 @@ var _client_base2 = _interopRequireDefault(_client_base);
 
 var _utility = __webpack_require__(3);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -23371,16 +23416,20 @@ function _initializerWarningHelper(descriptor, context) {
 var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(TradeStore, _BaseStore);
 
-    // Last Digit
+    // Chart
 
 
-    // Start Time
+    // Purchase
+    // Number(0) refers to 'now'
 
 
-    // Duration
+    // Barrier
 
 
-    // Underlying
+    // Amount
+
+
+    // Contract Type
     function TradeStore(_ref) {
         var root_store = _ref.root_store;
 
@@ -23462,6 +23511,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         _initDefineProp(_this, 'purchase_info', _descriptor32, _this);
 
         _this.chart_id = 1;
+        _this.debouncedProposal = (0, _lodash2.default)(_this.requestProposal, 500);
         _this.proposal_requests = {};
 
 
@@ -23484,20 +23534,16 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         return _this;
     }
 
-    // Chart
+    // Last Digit
 
 
-    // Purchase
-    // Number(0) refers to 'now'
+    // Start Time
 
 
-    // Barrier
+    // Duration
 
 
-    // Amount
-
-
-    // Contract Type
+    // Underlying
 
 
     _createClass(TradeStore, [{
@@ -23557,14 +23603,13 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         value: function onChange(e) {
             var _e$target = e.target,
                 name = _e$target.name,
-                value = _e$target.value,
-                type = _e$target.type;
+                value = _e$target.value;
 
             if (!(name in this)) {
                 throw new Error('Invalid Argument: ' + name);
             }
 
-            this.processNewValuesAsync(_defineProperty({}, name, type === 'number' ? +value : value), true);
+            this.processNewValuesAsync(_defineProperty({}, name, value), true);
         }
     }, {
         key: 'onHoverPurchase',
@@ -23678,7 +23723,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
                                 this.is_query_string_applied = true;
 
-                                this.requestProposal();
+                                this.debouncedProposal();
 
                             case 15:
                             case 'end':
@@ -25142,7 +25187,7 @@ var validNumber = function validNumber(value, opts) {
         options.max = options.max();
     }
 
-    if (!(options.type === 'float' ? /^\d+(\.\d+)?$/ : /^\d+$/).test(value) || isNaN(value)) {
+    if (!(options.type === 'float' ? /^\d*(\.\d+)?$/ : /^\d+$/).test(value) || isNaN(value)) {
         is_ok = false;
         message = (0, _localize.localize)('Should be a valid number.');
     } else if (options.type === 'float' && options.decimals && !new RegExp('^\\d+(\\.\\d{0,' + options.decimals + '})?$').test(value)) {
@@ -25308,11 +25353,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Validator = function () {
     function Validator(input, rules) {
+        var store = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
         _classCallCheck(this, Validator);
 
         this.input = input;
         this.rules = rules;
+        this.store = store;
         this.errors = new _errors2.default();
+
         this.error_count = 0;
     }
 
@@ -25364,6 +25413,10 @@ var Validator = function () {
                         return;
                     }
 
+                    if (ruleObject.options.condition && !ruleObject.options.condition(_this.store)) {
+                        return;
+                    }
+
                     if (_this.input[attribute] === '' && ruleObject.name !== 'req') {
                         return;
                     }
@@ -25400,15 +25453,13 @@ var Validator = function () {
     }], [{
         key: 'getRuleObject',
         value: function getRuleObject(rule) {
-            var rule_object = {};
-            if (typeof rule === 'string') {
-                rule_object.name = rule;
-            } else {
-                rule_object.name = rule[0];
-            }
+            var is_rule_string = typeof rule === 'string';
+            var rule_object = {
+                name: is_rule_string ? rule : rule[0],
+                options: is_rule_string ? {} : rule[1] || {}
+            };
 
             rule_object.validator = rule_object.name === 'custom' ? rule[1].func : _declarative_validation_rules.pre_build_dvrs[rule_object.name].func;
-            rule_object.options = rule[1] || {};
 
             return rule_object;
         }
@@ -25710,7 +25761,8 @@ window.addEventListener('pageshow', function (e) {
 /* 908 */,
 /* 909 */,
 /* 910 */,
-/* 911 */
+/* 911 */,
+/* 912 */
 /***/ (function(module, exports) {
 
 module.exports = CIQ;

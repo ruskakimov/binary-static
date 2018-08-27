@@ -4063,7 +4063,8 @@ module.exports = GTM;
 /* 61 */,
 /* 62 */,
 /* 63 */,
-/* 64 */
+/* 64 */,
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4239,7 +4240,6 @@ module.exports = {
 };
 
 /***/ }),
-/* 65 */,
 /* 66 */,
 /* 67 */,
 /* 68 */,
@@ -4968,8 +4968,8 @@ module.exports = Lookback;
 
 
 var moment = __webpack_require__(9);
-var countDecimalPlaces = __webpack_require__(64).countDecimalPlaces;
-var displayPriceMovement = __webpack_require__(64).displayPriceMovement;
+var countDecimalPlaces = __webpack_require__(65).countDecimalPlaces;
+var displayPriceMovement = __webpack_require__(65).displayPriceMovement;
 var elementTextContent = __webpack_require__(5).elementTextContent;
 var getElementById = __webpack_require__(5).getElementById;
 var isVisible = __webpack_require__(5).isVisible;
@@ -6396,7 +6396,7 @@ var WebtraderChart = function () {
         if (!is_initialized) {
             __webpack_require__.e/* require.ensure */(0).then((function () {
                 __webpack_require__.e/* require.ensure */(4).then((function (require) {
-                    WebtraderCharts = __webpack_require__(914);
+                    WebtraderCharts = __webpack_require__(915);
                     WebtraderCharts.init({
                         server: Config.getSocketURL(),
                         appId: Config.getAppId(),
@@ -8275,9 +8275,9 @@ module.exports = GetTicks;
 
 var moment = __webpack_require__(9);
 var commonTrading = __webpack_require__(44);
-var displayPriceMovement = __webpack_require__(64).displayPriceMovement;
-var getStartDateNode = __webpack_require__(64).getStartDateNode;
-var getTradingTimes = __webpack_require__(64).getTradingTimes;
+var displayPriceMovement = __webpack_require__(65).displayPriceMovement;
+var getStartDateNode = __webpack_require__(65).getStartDateNode;
+var getTradingTimes = __webpack_require__(65).getTradingTimes;
 var Contract = __webpack_require__(80);
 var Defaults = __webpack_require__(32);
 var getLookBackFormula = __webpack_require__(81).getFormula;
@@ -9947,7 +9947,7 @@ module.exports = MBTick;
 
 
 var moment = __webpack_require__(9);
-var countDecimalPlaces = __webpack_require__(64).countDecimalPlaces;
+var countDecimalPlaces = __webpack_require__(65).countDecimalPlaces;
 var Contract = __webpack_require__(80);
 var Defaults = __webpack_require__(32);
 var Tick = __webpack_require__(82);
@@ -10167,7 +10167,7 @@ var Dropdown = __webpack_require__(34).selectDropdown;
 var moment = __webpack_require__(9);
 var Barriers = __webpack_require__(170);
 var commonTrading = __webpack_require__(44);
-var commonIndependent = __webpack_require__(64);
+var commonIndependent = __webpack_require__(65);
 var Contract = __webpack_require__(80);
 var Defaults = __webpack_require__(32);
 var Price = __webpack_require__(133);
@@ -20473,7 +20473,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var Client = __webpack_require__(6);
 var getLanguage = __webpack_require__(15).get;
 var urlForStatic = __webpack_require__(11).urlForStatic;
-var Pushwoosh = __webpack_require__(909).Pushwoosh;
+var Pushwoosh = __webpack_require__(910).Pushwoosh;
 
 var BinaryPushwoosh = function () {
     var pw = new Pushwoosh();
@@ -25923,7 +25923,7 @@ var moment = __webpack_require__(9);
 var TradingAnalysis = __webpack_require__(113);
 var Barriers = __webpack_require__(170);
 var CommonTrading = __webpack_require__(44);
-var CommonIndependent = __webpack_require__(64);
+var CommonIndependent = __webpack_require__(65);
 var Defaults = __webpack_require__(32);
 var Durations = __webpack_require__(171);
 var GetTicks = __webpack_require__(132);
@@ -26954,7 +26954,7 @@ exports.default = init;
 
 var Dropdown = __webpack_require__(34).selectDropdown;
 var moment = __webpack_require__(9);
-var CommonIndependent = __webpack_require__(64);
+var CommonIndependent = __webpack_require__(65);
 var Contract = __webpack_require__(80);
 var Defaults = __webpack_require__(32);
 var Durations = __webpack_require__(171);
@@ -33222,13 +33222,14 @@ module.exports = WhyUs;
 /* 909 */,
 /* 910 */,
 /* 911 */,
-/* 912 */
+/* 912 */,
+/* 913 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 913 */
+/* 914 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
