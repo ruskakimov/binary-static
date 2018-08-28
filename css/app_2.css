@@ -455,10 +455,11 @@ span.tooltip {
     overflow-y: auto;
     overflow-x: hidden; }
     .app-contents--show-portfolio-drawer {
-      margin-right: 228px; }
+      padding-right: 228px; }
       .app-contents--show-portfolio-drawer .trade-container {
         -webkit-transform: translateX(-228px);
-                transform: translateX(-228px); }
+                transform: translateX(-228px);
+        margin-right: -228px; }
       .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-top-ui-widgets, .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-chart-controls {
         -webkit-transform: translateX(228px);
                 transform: translateX(228px); }
@@ -544,7 +545,7 @@ span.tooltip {
           pointer-events: none; }
   /* trade-app layout */
   .trade-container {
-    position: absolute;
+    position: relative;
     padding: 8px 12px 0;
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);

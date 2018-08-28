@@ -23199,7 +23199,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var getProposalInfo = exports.getProposalInfo = function getProposalInfo(store, response) {
     var proposal = response.proposal || {};
     var profit = proposal.payout - proposal.ask_price || 0;
-    var returns = profit * 100 / (proposal.payout || 1);
+    var returns = profit * 100 / (proposal.ask_price || 1);
 
     return {
         profit: profit.toFixed((0, _currency_base.getDecimalPlaces)(store.currency)),
