@@ -3469,7 +3469,7 @@ var ContractType = function () {
                 var config = available_contract_types[type].config || {};
 
                 // set config values
-                config.has_spot = contract.start_type === 'spot';
+                config.has_spot = config.has_spot || contract.start_type === 'spot';
                 config.durations = (0, _duration.buildDurationConfig)(contract, config.durations);
                 config.trade_types = buildTradeTypesConfig(contract, config.trade_types);
                 config.barriers = (0, _barrier.buildBarriersConfig)(contract, config.barriers);
@@ -5529,7 +5529,8 @@ var buildDurationConfig = function buildDurationConfig(contract) {
         }
     } else {
         Object.keys(duration_maps).forEach(function (u) {
-            if (arr_units.indexOf(u) === -1 && duration_maps[u].order >= duration_maps[obj_min.unit].order && duration_maps[u].order <= duration_maps[obj_max.unit].order) {
+            if (u !== 'd' && // when the expiray_type is intraday, the supported units are seconds, minutes and hours.
+            arr_units.indexOf(u) === -1 && duration_maps[u].order >= duration_maps[obj_min.unit].order && duration_maps[u].order <= duration_maps[obj_max.unit].order) {
                 arr_units.push(u);
             }
         });
@@ -13918,9 +13919,9 @@ var App = function App(_ref) {
                 _react2.default.createElement(
                     _app_contents2.default,
                     null,
-                    _react2.default.createElement(_routes2.default, null)
+                    _react2.default.createElement(_routes2.default, null),
+                    _react2.default.createElement(_PortfolioDrawer2.default, null)
                 ),
-                _react2.default.createElement(_PortfolioDrawer2.default, null),
                 _react2.default.createElement(
                     'footer',
                     { id: 'footer' },
@@ -21122,10 +21123,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var getDetailsInfo = exports.getDetailsInfo = function getDetailsInfo(contract_info) {
     var _ref;
 
-    var contract_type = contract_info.contract_type,
+    var buy_price = contract_info.buy_price,
+        contract_type = contract_info.contract_type,
+        currency = contract_info.currency,
         date_start = contract_info.date_start,
-        sell_time = contract_info.sell_time,
-        entry_spot = contract_info.entry_spot;
+        entry_spot = contract_info.entry_spot,
+        sell_time = contract_info.sell_time;
 
     // if a forward starting contract was sold before starting
     // API will still send entry spot when start time is passed
@@ -21136,7 +21139,7 @@ var getDetailsInfo = exports.getDetailsInfo = function getDetailsInfo(contract_i
     var txt_entry_spot = entry_spot && !is_sold_before_start ? (0, _currency_base.addComma)(entry_spot) : '-';
 
     // TODO: don't localize on every call
-    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Contract Type'), _contract.contract_type_display[contract_type]), _defineProperty(_ref, (0, _localize.localize)('Start Time'), txt_start_time), _defineProperty(_ref, (0, _localize.localize)('Entry Spot'), txt_entry_spot), _ref;
+    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Contract Type'), _contract.contract_type_display[contract_type]), _defineProperty(_ref, (0, _localize.localize)('Start Time'), txt_start_time), _defineProperty(_ref, (0, _localize.localize)('Entry Spot'), txt_entry_spot), _defineProperty(_ref, (0, _localize.localize)('Purchase Price'), _react2.default.createElement(_money2.default, { amount: buy_price, currency: currency })), _ref;
 };
 
 var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(store) {
@@ -21145,6 +21148,7 @@ var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(stor
     if (!store.is_ended) return {};
 
     var contract_info = store.contract_info,
+        currency = store.currency,
         end_spot = store.end_spot,
         end_spot_time = store.end_spot_time,
         indicative_price = store.indicative_price,
@@ -21154,7 +21158,7 @@ var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(stor
     // for user sold contracts sell spot can get updated when the next tick becomes available
     // so we only show end time instead of any spot information
 
-    return _extends({}, is_user_sold ? _defineProperty({}, (0, _localize.localize)('End Time'), contract_info.date_expiry && (0, _Date.toGMTFormat)(+contract_info.date_expiry * 1000)) : (_ref3 = {}, _defineProperty(_ref3, (0, _localize.localize)('Exit Spot'), end_spot ? (0, _currency_base.addComma)(end_spot) : '-'), _defineProperty(_ref3, (0, _localize.localize)('Exit Spot Time'), end_spot_time ? (0, _Date.toGMTFormat)(+end_spot_time * 1000) : '-'), _ref3), _defineProperty({}, (0, _localize.localize)('Payout'), _react2.default.createElement(_money2.default, { amount: indicative_price, currency: 'USD' })));
+    return _extends({}, is_user_sold ? _defineProperty({}, (0, _localize.localize)('End Time'), contract_info.date_expiry && (0, _Date.toGMTFormat)(+contract_info.date_expiry * 1000)) : (_ref3 = {}, _defineProperty(_ref3, (0, _localize.localize)('Exit Spot'), end_spot ? (0, _currency_base.addComma)(end_spot) : '-'), _defineProperty(_ref3, (0, _localize.localize)('Exit Spot Time'), end_spot_time ? (0, _Date.toGMTFormat)(+end_spot_time * 1000) : '-'), _ref3), _defineProperty({}, (0, _localize.localize)('Payout'), _react2.default.createElement(_money2.default, { amount: indicative_price, currency: currency })));
 };
 
 /***/ }),

@@ -453,20 +453,12 @@ span.tooltip {
     margin: 48px 0 35px;
     height: calc(100vh - 48px - 35px);
     overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-transition: -webkit-transform 0.25s ease;
-    transition: -webkit-transform 0.25s ease;
-    transition: transform 0.25s ease;
-    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
-    will-change: transform; }
-    .app-contents > .container:not(.trade-container) {
-      -webkit-transition: -webkit-transform 0.25s ease;
-      transition: -webkit-transform 0.25s ease;
-      transition: transform 0.25s ease;
-      transition: transform 0.25s ease, -webkit-transform 0.25s ease; }
+    overflow-x: hidden; }
     .app-contents--show-portfolio-drawer {
-      -webkit-transform: translateX(-228px);
-              transform: translateX(-228px); }
+      margin-right: 228px; }
+      .app-contents--show-portfolio-drawer .trade-container {
+        -webkit-transform: translateX(-228px);
+                transform: translateX(-228px); }
       .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-top-ui-widgets, .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-chart-controls {
         -webkit-transform: translateX(228px);
                 transform: translateX(228px); }
@@ -484,12 +476,6 @@ span.tooltip {
       .app-contents--show-portfolio-drawer .chart-container .cq-chart-control-left .info-box {
         -webkit-transform: translateX(-228px) !important;
                 transform: translateX(-228px) !important; }
-      .app-contents--show-portfolio-drawer > .container:not(.trade-container) {
-        -webkit-transform: translateX(228px);
-                transform: translateX(228px);
-        padding-right: 228px; }
-        .app-contents--show-portfolio-drawer > .container:not(.trade-container).portfolio {
-          padding-right: calc(228px + 12px); }
     .app-contents .chart-container .cq-chart-control-left .cq-chart-controls {
       -webkit-transform: translateX(0);
               transform: translateX(0);
@@ -558,13 +544,18 @@ span.tooltip {
           pointer-events: none; }
   /* trade-app layout */
   .trade-container {
-    position: relative;
+    position: absolute;
     padding: 8px 12px 0;
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: 1fr;
     grid-gap: 4px;
-    min-height: calc(100vh - 91px); }
+    min-height: calc(100vh - 91px);
+    -webkit-transition: -webkit-transform 0.25s ease;
+    transition: -webkit-transform 0.25s ease;
+    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+    will-change: transform; }
     .trade-container .chart-container {
       position: relative; }
       .trade-container .chart-container .cq-context {
@@ -1554,6 +1545,10 @@ hr {
       .acc-switcher-container .acc-switcher-list .acc-switcher-account:hover {
         background: #e9e9ed; }
 
+.trade-container + .portfolio-drawer {
+  -webkit-transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease; }
+
 .portfolio-drawer {
   width: 228px;
   height: calc(100vh - 48px - 35px);
@@ -1561,16 +1556,19 @@ hr {
   z-index: 2;
   top: 48px;
   right: 0;
-  -webkit-transform: translateX(100%);
-          transform: translateX(100%);
-  -webkit-transition: opacity 0.4s linear;
-  transition: opacity 0.4s linear;
   border-left: 1px solid #e9e9ed;
   background-color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   opacity: 0;
   color: #2a3052;
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  will-change: transform, opacity;
+  -webkit-transition: opacity 0.25s ease, -webkit-transform 0.25s ease;
+  transition: opacity 0.25s ease, -webkit-transform 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease, -webkit-transform 0.25s ease;
   /*
         PORTFOLIO DRAWER CARD STARTS
     */
@@ -4678,10 +4676,8 @@ a {
     background: #fafafb;
     overflow: hidden; }
     .statement--card-view .statement-filter {
-      position: fixed;
       background-color: #fff;
       padding: 0 12px;
-      left: 0;
       border-bottom: 1px solid #e9e9ed; }
       .statement--card-view .statement-filter__content {
         padding: 0;
@@ -4695,7 +4691,6 @@ a {
       .statement--card-view .statement-filter__label {
         display: none; }
     .statement--card-view .statement__content {
-      margin-top: 60px;
       padding: 0; }
     .statement--card-view .card-list {
       padding: 0 12px;
