@@ -13919,9 +13919,9 @@ var App = function App(_ref) {
                 _react2.default.createElement(
                     _app_contents2.default,
                     null,
-                    _react2.default.createElement(_routes2.default, null),
-                    _react2.default.createElement(_PortfolioDrawer2.default, null)
+                    _react2.default.createElement(_routes2.default, null)
                 ),
+                _react2.default.createElement(_PortfolioDrawer2.default, null),
                 _react2.default.createElement(
                     'footer',
                     { id: 'footer' },
@@ -17244,9 +17244,10 @@ var StatementCard = function StatementCard(_ref) {
         id = _ref.id,
         payout = _ref.payout,
         refid = _ref.refid;
-    return _react2.default.createElement(
-        _reactRouterDom.NavLink,
-        { className: (0, _classnames2.default)('statement-card', className), activeClassName: 'active', to: (0, _helpers.getContractPath)(id) },
+
+    var content = _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
         _react2.default.createElement(
             'div',
             { className: 'statement-card__header' },
@@ -17301,6 +17302,18 @@ var StatementCard = function StatementCard(_ref) {
                 )
             )
         )
+    );
+
+    var class_name = (0, _classnames2.default)('statement-card', className);
+
+    return id ? _react2.default.createElement(
+        _reactRouterDom.NavLink,
+        { className: class_name, activeClassName: 'active', to: (0, _helpers.getContractPath)(id) },
+        content
+    ) : _react2.default.createElement(
+        'div',
+        { className: class_name },
+        content
     );
 };
 
@@ -17541,7 +17554,7 @@ var Statement = function (_React$Component) {
                             columns: columns,
                             onScroll: handleScroll,
                             getRowLink: function getRowLink(row_obj) {
-                                return (0, _helpers.getContractPath)(row_obj.id);
+                                return row_obj.id ? (0, _helpers.getContractPath)(row_obj.id) : undefined;
                             }
                         },
                         renderGUI()
