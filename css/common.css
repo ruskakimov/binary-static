@@ -841,7 +841,7 @@ label + input {
   padding-top: 10px;
   padding-bottom: 14px; }
 
-#footer .regulation-logos > *:not(:last-child) {
+#footer .regulation-logos > * {
   margin-right: 20px; }
 
 #footer #end-note {
