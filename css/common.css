@@ -736,6 +736,9 @@ label + input {
 #reality_check_content [data-balloon] {
   border-bottom: none; }
 
+#footer .container {
+  max-width: 1200px; }
+
 #footer #footer-menu h4 {
   font-size: 0.8695652174rem; }
 
