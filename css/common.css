@@ -840,8 +840,9 @@ label + input {
 #footer .icon-row {
   padding-top: 10px;
   padding-bottom: 14px; }
-  #footer .icon-row > *:not(:last-child) {
-    margin-right: 20px; }
+
+#footer .regulation-logos > *:not(:last-child) {
+  margin-right: 20px; }
 
 #footer #end-note {
   line-height: 25px;
