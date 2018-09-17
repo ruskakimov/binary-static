@@ -298,7 +298,8 @@ span.tooltip {
     vertical-align: middle; }
   span.tooltip[data-tooltip] {
     position: relative;
-    cursor: help; }
+    cursor: help;
+    display: block; }
     span.tooltip[data-tooltip]:hover:after, span.tooltip[data-tooltip]:hover:before {
       opacity: 0.96;
       pointer-events: auto;
@@ -396,6 +397,8 @@ span.tooltip {
     -webkit-box-shadow: 0 2px 8px 0 rgba(20, 20, 20, 0.2);
             box-shadow: 0 2px 8px 0 rgba(20, 20, 20, 0.2);
     color: #2a3052; }
+  .theme-wrapper.dark span.tooltip[data-tooltip-pos=top]:after {
+    border-top-color: rgba(255, 255, 255, 0.88); }
   .theme-wrapper.dark span.tooltip[data-tooltip-pos=right]:after {
     border-right-color: rgba(255, 255, 255, 0.88); }
   .theme-wrapper.dark span.tooltip[data-tooltip-pos=left]:after {
@@ -577,6 +580,8 @@ span.tooltip {
           .trade-container .chart-container .cq-context div.ciq-chart div.cq-chart-controls {
             -webkit-box-shadow: none;
                     box-shadow: none; }
+          .trade-container .chart-container .cq-context div.ciq-chart div.ciq-asset-information {
+            z-index: 0; }
         .trade-container .chart-container .cq-context div.cq-chart-controls {
           border-right: 1px solid #e9e9ed; }
         .trade-container .chart-container .cq-context div.cq-chart-control-left .cq-chart-controls {
@@ -929,81 +934,6 @@ span.tooltip {
       display: -ms-inline-flexbox;
       display: inline-flex;
       border-right: 1px solid #e9e9ed; }
-      .header .menu-items .menu-right .acc-balance-container {
-        display: -webkit-inline-box;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center; }
-        .header .menu-items .menu-right .acc-balance-container .acc-balance {
-          display: -webkit-box;
-          display: -ms-flexbox;
-          display: flex;
-          height: 100%;
-          -webkit-box-orient: horizontal;
-          -webkit-box-direction: normal;
-              -ms-flex-direction: row;
-                  flex-direction: row;
-          -webkit-box-align: center;
-              -ms-flex-align: center;
-                  align-items: center;
-          -webkit-box-pack: center;
-              -ms-flex-pack: center;
-                  justify-content: center; }
-          .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            height: 100%;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-                -ms-flex-direction: column;
-                    flex-direction: column;
-            -webkit-box-align: end;
-                -ms-flex-align: end;
-                    align-items: flex-end;
-            -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                    justify-content: center;
-            border-right: 1px solid #e9e9ed; }
-            .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-accountid, .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-currency {
-              line-height: 0.5;
-              color: #333;
-              font-size: 0.875rem;
-              margin: 0.5em 1rem;
-              font-weight: 400;
-              text-align: center; }
-              @media (max-width: 768px) {
-                .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-accountid, .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-currency {
-                  font-size: 10px; } }
-  @media screen and (max-width: 768px) and (min-width: 320px) {
-    .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-accountid, .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-currency {
-      font-size: calc(0.3571428571vw + 8.8571428571px); } }
-  @media screen and (max-width: 768px) and (min-width: 1440px) {
-    .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-accountid, .header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p.acc-balance-currency {
-      font-size: 14px; } }
-          .header .menu-items .menu-right .acc-balance-container .acc-balance p.acc-balance-amount {
-            line-height: 100%;
-            color: #333;
-            font-size: 1rem;
-            margin: 0.5rem 1rem;
-            font-weight: 600;
-            text-align: center; }
-            @media (max-width: 768px) {
-              .header .menu-items .menu-right .acc-balance-container .acc-balance p.acc-balance-amount {
-                font-size: 10px; } }
-  @media screen and (max-width: 768px) and (min-width: 320px) {
-    .header .menu-items .menu-right .acc-balance-container .acc-balance p.acc-balance-amount {
-      font-size: calc(0.3571428571vw + 8.8571428571px); } }
-  @media screen and (max-width: 768px) and (min-width: 1440px) {
-    .header .menu-items .menu-right .acc-balance-container .acc-balance p.acc-balance-amount {
-      font-size: 14px; } }
-        .header .menu-items .menu-right .acc-balance-container button.btn {
-          margin: 0 16px 0 4px; }
-          @media (max-width: 768px) {
-            .header .menu-items .menu-right .acc-balance-container button.btn {
-              margin: 0 8px 0 4px; } }
     .header .menu-items .notifications-toggle {
       -webkit-box-pack: end;
           -ms-flex-pack: end;
@@ -1094,6 +1024,23 @@ footer {
   @media (max-width: 768px) {
     footer {
       display: none; } }
+
+.network-status-wrapper {
+  border-left: 1px solid #ccc;
+  height: 14px; }
+
+.network-status-circle {
+  background: #d8d8d8;
+  width: 10px;
+  height: 10px;
+  margin: 2px 16px;
+  border-radius: 50%; }
+  .network-status-circle.online {
+    background: #4caf50; }
+  .network-status-circle.offline {
+    background: #f44336; }
+  .network-status-circle.blinker {
+    background: #d8d8d8; }
 
 .ic-settings.active {
   background: #e9e9ed; }
@@ -1440,115 +1387,6 @@ hr {
       border-color: #4a4f6c; }
     .theme-wrapper.dark .drawer-bg .drawer.left .drawer-header .icons.brand-logo div.img:before, .theme-wrapper.dark .drawer-bg .drawer.left .drawer-footer .icons.brand-logo div.img:before, .theme-wrapper.dark .drawer-bg .drawer.right .drawer-header .icons.brand-logo div.img:before, .theme-wrapper.dark .drawer-bg .drawer.right .drawer-footer .icons.brand-logo div.img:before {
       background-image: url("../images/app_2/header/binary_logo_dark.svg"); }
-
-.acc-switcher-container {
-  position: static; }
-  .acc-switcher-container .acc-switcher-header {
-    cursor: pointer;
-    border-bottom: 1px solid #e9e9ed;
-    z-index: 3;
-    position: relative; }
-    .acc-switcher-container .acc-switcher-header .acc-switcher-active-login {
-      padding: 10px 16px; }
-      .acc-switcher-container .acc-switcher-header .acc-switcher-active-login.collapsed:after {
-        -webkit-transform: rotate(180deg);
-                transform: rotate(180deg); }
-      .acc-switcher-container .acc-switcher-header .acc-switcher-active-login p.acc-switcher-accountid {
-        font-size: 0.75rem;
-        font-weight: 300;
-        line-height: 0.5;
-        padding-left: 3.5rem; }
-      .acc-switcher-container .acc-switcher-header .acc-switcher-active-login p.acc-switcher-currency {
-        font-size: 0.875rem;
-        /* stylelint-disable-line number-max-precision */
-        line-height: 0.5;
-        color: #e98024;
-        padding-left: 3.5rem; }
-      .acc-switcher-container .acc-switcher-header .acc-switcher-active-login:before {
-        content: '\25EF';
-        font-size: 3rem;
-        top: 0;
-        left: 0;
-        position: absolute;
-        height: 100%;
-        width: 75px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center; }
-      .acc-switcher-container .acc-switcher-header .acc-switcher-active-login:after {
-        content: '\0025BE';
-        font-size: 1.5rem;
-        position: absolute;
-        font-weight: 300;
-        -webkit-transform-origin: 50% 55%;
-                transform-origin: 50% 55%;
-        top: 25%;
-        right: 16px;
-        -webkit-transition: -webkit-transform 0.25s;
-        transition: -webkit-transform 0.25s;
-        transition: transform 0.25s;
-        transition: transform 0.25s, -webkit-transform 0.25s;
-        -webkit-transform: none;
-                transform: none; }
-  .acc-switcher-container .acc-switcher-list {
-    z-index: 2;
-    position: absolute;
-    width: 100%;
-    background-color: #fff;
-    -webkit-transition: all 0.25s;
-    transition: all 0.25s;
-    opacity: 0;
-    -webkit-transform: scale(1, 0);
-            transform: scale(1, 0);
-    -webkit-transform-origin: top;
-            transform-origin: top;
-    overflow: hidden;
-    height: 0; }
-    .acc-switcher-container .acc-switcher-list.collapsed {
-      opacity: 1;
-      -webkit-transform: scale(1, 1);
-              transform: scale(1, 1);
-      height: 100%;
-      max-height: calc(100% - 123px); }
-    .acc-switcher-container .acc-switcher-list .acc-switcher-account {
-      cursor: pointer;
-      padding: 4px 16px;
-      position: relative; }
-      .acc-switcher-container .acc-switcher-list .acc-switcher-account:before {
-        content: '\25EF';
-        font-size: 2.5rem;
-        top: 0;
-        position: absolute;
-        left: 0;
-        height: 100%;
-        width: 75px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center; }
-      .acc-switcher-container .acc-switcher-list .acc-switcher-account p.acc-switcher-accountid {
-        font-weight: 300;
-        font-size: 0.75rem;
-        line-height: 0.5;
-        padding-left: 3rem; }
-      .acc-switcher-container .acc-switcher-list .acc-switcher-account p.acc-switcher-currency {
-        font-size: 0.875rem;
-        /* stylelint-disable-line number-max-precision */
-        line-height: 0.5;
-        padding-left: 3rem; }
-      .acc-switcher-container .acc-switcher-list .acc-switcher-account:hover {
-        background: #e9e9ed; }
 
 .trade-container + .portfolio-drawer {
   -webkit-transition: opacity 0.4s ease;
@@ -2126,7 +1964,7 @@ a.btn {
         -ms-flex-align: center;
             align-items: center;
     line-height: 38px;
-    padding: 0 12px;
+    padding: 0 8px;
     color: #333;
     font-weight: 500; }
     .calendar .calendar-footer .calendar-footer-extra + .calendar-footer-btn {
@@ -2546,6 +2384,242 @@ div.datepicker-container {
           background: #4a4f6c; }
   .theme-wrapper.dark .time-picker .time-picker-dropdown .time-picker-panel {
     color: #aaacba; }
+
+.acc-balance-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative; }
+  .acc-balance-container .acc-balance {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    .acc-balance-container .acc-balance .acc-switcher-container {
+      position: relative;
+      height: 100%; }
+    .acc-balance-container .acc-balance .acc-info {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 100%;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: end;
+          -ms-flex-align: end;
+              align-items: flex-end;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      cursor: pointer; }
+      .acc-balance-container .acc-balance .acc-info:hover:not(.show) {
+        background: #f4f4f6; }
+      .acc-balance-container .acc-balance .acc-info.show .select-arrow {
+        -webkit-transform: rotate(180deg);
+                transform: rotate(180deg); }
+      .acc-balance-container .acc-balance .acc-info.show p.acc-balance-id, .acc-balance-container .acc-balance .acc-info.show p.acc-balance-type {
+        font-weight: 500; }
+      .acc-balance-container .acc-balance .acc-info.show:after {
+        content: '';
+        height: 2px;
+        width: 100%;
+        background: #2a3052;
+        position: absolute;
+        top: calc(100% - 2px);
+        left: 0; }
+      .acc-balance-container .acc-balance .acc-info p.acc-balance-id, .acc-balance-container .acc-balance .acc-info p.acc-balance-type {
+        pointer-events: none;
+        line-height: 0.5;
+        color: #333;
+        font-size: 0.875rem;
+        margin: 0.5em 1rem;
+        font-weight: 300;
+        text-align: center;
+        padding-right: 16px; }
+        @media (max-width: 768px) {
+          .acc-balance-container .acc-balance .acc-info p.acc-balance-id, .acc-balance-container .acc-balance .acc-info p.acc-balance-type {
+            font-size: 10px; } }
+  @media screen and (max-width: 768px) and (min-width: 320px) {
+    .acc-balance-container .acc-balance .acc-info p.acc-balance-id, .acc-balance-container .acc-balance .acc-info p.acc-balance-type {
+      font-size: calc(0.3571428571vw + 8.8571428571px); } }
+  @media screen and (max-width: 768px) and (min-width: 1440px) {
+    .acc-balance-container .acc-balance .acc-info p.acc-balance-id, .acc-balance-container .acc-balance .acc-info p.acc-balance-type {
+      font-size: 14px; } }
+      .acc-balance-container .acc-balance .acc-info .select-arrow {
+        pointer-events: none;
+        position: absolute;
+        top: 16px;
+        right: 8px;
+        line-height: 1;
+        -webkit-transition: -webkit-transform 0.25s ease;
+        transition: -webkit-transform 0.25s ease;
+        transition: transform 0.25s ease;
+        transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+        -webkit-transform: rotate(0);
+                transform: rotate(0);
+        -webkit-transform-origin: 50% 45%;
+                transform-origin: 50% 45%;
+        color: #e9e9ed;
+        font-size: 1.1rem; }
+    .acc-balance-container .acc-balance p.acc-balance-amount {
+      line-height: 100%;
+      color: #333;
+      font-size: 1rem;
+      padding: 8px 1rem;
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+      border-left: 1px solid #e9e9ed; }
+      @media (max-width: 768px) {
+        .acc-balance-container .acc-balance p.acc-balance-amount {
+          font-size: 10px; } }
+  @media screen and (max-width: 768px) and (min-width: 320px) {
+    .acc-balance-container .acc-balance p.acc-balance-amount {
+      font-size: calc(0.3571428571vw + 8.8571428571px); } }
+  @media screen and (max-width: 768px) and (min-width: 1440px) {
+    .acc-balance-container .acc-balance p.acc-balance-amount {
+      font-size: 14px; } }
+  .acc-balance-container button.btn {
+    margin: 0 16px 0 4px; }
+    @media (max-width: 768px) {
+      .acc-balance-container button.btn {
+        margin: 0 8px 0 4px; } }
+
+.acc-switcher-wrapper {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  background: #fff;
+  border: 1px solid #e9e9ed;
+  -webkit-transform: translateY(-20px);
+          transform: translateY(-20px);
+  -webkit-transition: opacity 0.25s linear, -webkit-transform 0.25s ease;
+  transition: opacity 0.25s linear, -webkit-transform 0.25s ease;
+  transition: transform 0.25s ease, opacity 0.25s linear;
+  transition: transform 0.25s ease, opacity 0.25s linear, -webkit-transform 0.25s ease;
+  right: 0;
+  top: calc(100% + 4px);
+  width: 185px;
+  border-radius: 4px; }
+  .acc-switcher-wrapper-enter, .acc-switcher-wrapper-enter-done {
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
+  .acc-switcher-wrapper-exit {
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transform: translateY(-20px);
+            transform: translateY(-20px); }
+
+.acc-switcher-list {
+  height: 100%;
+  border-radius: 4px; }
+  .acc-switcher-list .acc-switcher-account {
+    cursor: pointer;
+    padding: 12px 16px;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    .acc-switcher-list .acc-switcher-account .acc-switcher-id {
+      font-weight: 300;
+      font-size: 0.75rem;
+      line-height: 0.5; }
+    .acc-switcher-list .acc-switcher-account .acc-switcher-type {
+      font-size: 10px;
+      line-height: 0.5;
+      text-transform: uppercase;
+      background: #e9e9ed;
+      border-radius: 4px;
+      text-align: center;
+      padding: 5px 0;
+      width: 32px; }
+    .acc-switcher-list .acc-switcher-account:hover {
+      background: #f4f4f6; }
+    .acc-switcher-list .acc-switcher-account:nth-last-child(2) {
+      border-bottom: 1px solid #e9e9ed; }
+  .acc-switcher-list .acc-button {
+    padding: 8px;
+    border-bottom: 1px solid #e9e9ed; }
+    .acc-switcher-list .acc-button button.btn {
+      margin: 0;
+      width: 100%;
+      font-size: 14px; }
+  .acc-switcher-list .acc-logout {
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px 16px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end; }
+    .acc-switcher-list .acc-logout .inline-icon {
+      width: 16px;
+      height: auto;
+      margin-left: 8px; }
+    .acc-switcher-list .acc-logout:hover {
+      background: #f4f4f6; }
+
+.theme-wrapper.dark .acc-switcher-wrapper {
+  background: #353b5b;
+  border-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-items {
+  background: #353b5b;
+  border-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-account:hover {
+  background-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-list .acc-switcher-account {
+  border-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-list .acc-switcher-id {
+  color: #aaacba; }
+
+.theme-wrapper.dark .acc-switcher-list .acc-switcher-type {
+  color: #fff;
+  background: #60647e; }
+
+.theme-wrapper.dark .acc-switcher-list .acc-button {
+  border-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-list .acc-logout {
+  border-color: #4a4f6c; }
+  .theme-wrapper.dark .acc-switcher-list .acc-logout span {
+    color: #aaacba; }
+  .theme-wrapper.dark .acc-switcher-list .acc-logout:hover {
+    background-color: #4a4f6c; }
+
+.theme-wrapper.dark .acc-switcher-header {
+  color: #aaacba; }
 
 .card-list {
   overflow: auto; }
@@ -5217,11 +5291,16 @@ body.dark, .theme-wrapper.dark {
       color: #aaacba; }
     body.dark header .menu-items .menu-left .binary-logo, body.dark header .menu-items .menu-right, .theme-wrapper.dark header .menu-items .menu-left .binary-logo, .theme-wrapper.dark header .menu-items .menu-right {
       border-color: #4a4f6c; }
-    body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info {
-      border-color: #4a4f6c; }
-      body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p {
-        color: #aaacba; }
+    body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info p {
+      color: #aaacba; }
+    body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info:hover:not(.show), .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info:hover:not(.show) {
+      background-color: #4a4f6c; }
+    body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info.show p, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info.show p {
+      color: #fff; }
+    body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info.show:after, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-info.show:after {
+      background: #fff; }
     body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-balance-amount, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-balance-amount {
+      border-color: #4a4f6c;
       color: #fff; }
       body.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-balance-amount .symbols, .theme-wrapper.dark header .menu-items .menu-right .acc-balance-container .acc-balance .acc-balance-amount .symbols {
         background: #2a3052; }
@@ -5359,7 +5438,7 @@ body.dark, .theme-wrapper.dark {
       background: #4a4f6c; }
       body.dark footer .footer-links a.active:after, body.dark footer .footer-links a:hover:after, .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after {
         background: #fff; }
-    body.dark footer .server-time, .theme-wrapper.dark footer .server-time {
+    body.dark footer .server-time, body.dark footer .network-status-wrapper, .theme-wrapper.dark footer .server-time, .theme-wrapper.dark footer .network-status-wrapper {
       border-color: #4a4f6c; }
   body.dark .type-wrapper, .theme-wrapper.dark .type-wrapper {
     background: #60647e; }
@@ -5399,14 +5478,6 @@ body.dark, .theme-wrapper.dark {
     fill: none; }
   body.dark .inline-icon.disabled .color2-stroke, .theme-wrapper.dark .inline-icon.disabled .color2-stroke {
     stroke: none; }
-  body.dark .acc-switcher-header, .theme-wrapper.dark .acc-switcher-header {
-    border-color: #4a4f6c; }
-  body.dark .acc-switcher-list, .theme-wrapper.dark .acc-switcher-list {
-    background: #2a3052; }
-    body.dark .acc-switcher-list .acc-switcher-items, .theme-wrapper.dark .acc-switcher-list .acc-switcher-items {
-      color: #aaacba; }
-      body.dark .acc-switcher-list .acc-switcher-items .acc-switcher-account:hover, .theme-wrapper.dark .acc-switcher-list .acc-switcher-items .acc-switcher-account:hover {
-        background: #4a4f6c; }
   body.dark .card-list__card, .theme-wrapper.dark .card-list__card {
     background: #2a3052;
     border-color: #4a4f6c; }
