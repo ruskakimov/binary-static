@@ -31426,9 +31426,19 @@ var Contact = function () {
 
         Dropdown('#cs_telephone_number');
         $('#cs_telephone_number').on('change.cs', function () {
-            var val = $(this).val().split(',');
+            var val = $(this).val().split(',').map(function (raw_str) {
+                return wrapNumberInLink(raw_str);
+            });
             $('#display_cs_telephone').html(val[0] + (val.length > 1 ? '<br />' + val[1] : ''));
         });
+    };
+
+    var wrapNumberInLink = function wrapNumberInLink(raw_str) {
+        var str = raw_str.trim();
+        var m = str.match(/ \(Toll Free\)/i);
+        var number = m ? str.slice(0, m.index) : str;
+        var append = m ? str.slice(m.index) : '';
+        return '<a href="tel:' + number + '">' + number + '</a>' + append;
     };
 
     var isWeekday = function isWeekday(moment_obj) {
