@@ -11063,29 +11063,34 @@ var Contract = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Contract.__proto__ || Object.getPrototypeOf(Contract)).call(this, props));
 
         _this.updateChartType = function (chart_type) {
-            _this.setState({ chart: _extends({}, _this.state.chart, { chart_type: chart_type }) });
+            _this.setState({ chart_config: _extends({}, _this.state.chart_config, { chart_type: chart_type }) });
         };
 
         _this.updateGranularity = function (granularity) {
-            _this.setState({ chart: _extends({}, _this.state.chart, { granularity: granularity }) });
+            _this.setState({ chart_config: _extends({}, _this.state.chart_config, { granularity: granularity }) });
         };
 
         _this.state = {
-            chart: _extends({}, _this.props.chart_config)
+            chart_config: _extends({}, _this.props.chart_config)
         };
         return _this;
     }
 
     _createClass(Contract, [{
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps, nextState) {
-            return !(0, _utility.isDeepEqual)(nextProps, this.props) || !(0, _utility.isDeepEqual)(nextState, this.state);
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.props.onMount(this.props.match.params.contract_id);
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.props.onUnmount();
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            if (!(0, _utility.isDeepEqual)(this.props.chart_config, this.state.chart)) {
-                this.setState({ chart: _extends({}, this.props.chart_config) });
+            if (!(0, _utility.isDeepEqual)(this.props.chart_config, this.state.chart_config)) {
+                this.setState({ chart_config: _extends({}, this.props.chart_config) });
             }
         }
     }, {
@@ -11107,10 +11112,10 @@ var Contract = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'chart-container notice-msg' },
-                        symbol && _react2.default.createElement(_SmartChart2.default, _extends({
+                        symbol && this.state.chart_config.chart_type && _react2.default.createElement(_SmartChart2.default, _extends({
                             InfoBox: _react2.default.createElement(_info_box2.default, null),
                             symbol: symbol
-                        }, this.state.chart, {
+                        }, this.state.chart_config, {
                             updateChartType: this.updateChartType,
                             updateGranularity: this.updateGranularity
                         }))
@@ -11159,7 +11164,9 @@ exports.default = (0, _connect.connect)(function (_ref) {
         chart_config: modules.contract.chart_config,
         has_error: modules.contract.has_error,
         is_mobile: ui.is_mobile,
-        symbol: modules.contract.contract_info.underlying
+        symbol: modules.contract.contract_info.underlying,
+        onMount: modules.contract.onMount,
+        onUnmount: modules.contract.onUnmount
     };
 })(Contract);
 
@@ -11229,16 +11236,6 @@ var ContractDetails = function (_React$Component) {
     }
 
     _createClass(ContractDetails, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.props.onMount(this.props.contract_id);
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            this.props.onUnmount();
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _props$contract_info = this.props.contract_info,
@@ -11298,9 +11295,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
         contract_info: modules.contract.contract_info,
         details_info: modules.contract.details_info,
         details_expiry: modules.contract.details_expiry,
-        display_status: modules.contract.display_status,
-        onMount: modules.contract.onMount,
-        onUnmount: modules.contract.onUnmount
+        display_status: modules.contract.display_status
     };
 })(ContractDetails);
 
@@ -18471,6 +18466,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             this.digits_info = {};
             this.sell_info = {};
             this.is_sell_requested = false;
+            this.has_error = false;
 
             this.smart_chart.removeBarriers();
             this.smart_chart.removeMarkers();
@@ -18479,15 +18475,15 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     }, {
         key: 'updateProposal',
         value: function updateProposal(response) {
-            this.contract_info = response.proposal_open_contract;
-
-            if ((0, _utility.isEmptyObject)(this.contract_info)) {
+            if ('error' in response) {
                 this.has_error = true;
-            } else {
-                (0, _chart_barriers.createChartBarrier)(this.smart_chart, this.contract_info);
-                (0, _chart_markers.createChartMarkers)(this.smart_chart, this.contract_info, this);
-                this.handleDigits();
+                this.contract_info = {};
+                return;
             }
+            this.contract_info = response.proposal_open_contract;
+            (0, _chart_barriers.createChartBarrier)(this.smart_chart, this.contract_info);
+            (0, _chart_markers.createChartMarkers)(this.smart_chart, this.contract_info, this);
+            this.handleDigits();
         }
     }, {
         key: 'handleDigits',
@@ -18543,6 +18539,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     }, {
         key: 'chart_config',
         get: function get() {
+            // TODO: currently this runs on each response, even if contract_info is deep equal previous one
             return (0, _logic.getChartConfig)(this.contract_info);
         }
     }, {
@@ -18995,6 +18992,23 @@ var BARRIER_LINE_STYLES = exports.BARRIER_LINE_STYLES = {
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Stores/Modules/SmartChart/Constants/chart.js":
+/*!***************************************************************************!*\
+  !*** ./src/javascript/app_2/Stores/Modules/SmartChart/Constants/chart.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var tick_chart_types = exports.tick_chart_types = ['mountain', 'line', 'colored_line', 'spline', 'baseline'];
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Stores/Modules/SmartChart/Constants/markers.js":
 /*!*****************************************************************************!*\
   !*** ./src/javascript/app_2/Stores/Modules/SmartChart/Constants/markers.js ***!
@@ -19415,6 +19429,8 @@ var _chart_barrier_store = __webpack_require__(/*! ./chart_barrier_store */ "./s
 
 var _chart_marker_store = __webpack_require__(/*! ./chart_marker_store */ "./src/javascript/app_2/Stores/Modules/SmartChart/chart_marker_store.js");
 
+var _chart = __webpack_require__(/*! ./Constants/chart */ "./src/javascript/app_2/Stores/Modules/SmartChart/Constants/chart.js");
+
 var _barriers = __webpack_require__(/*! ./Helpers/barriers */ "./src/javascript/app_2/Stores/Modules/SmartChart/Helpers/barriers.js");
 
 var _base_store = __webpack_require__(/*! ../../base_store */ "./src/javascript/app_2/Stores/base_store.js");
@@ -19474,8 +19490,6 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var tick_chart_types = ['mountain', 'line', 'colored_line', 'spline', 'baseline'];
-
 var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(SmartChartStore, _BaseStore);
 
@@ -19509,7 +19523,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
         key: 'updateGranularity',
         value: function updateGranularity(granularity) {
             this.granularity = granularity;
-            if (granularity === 0 && !tick_chart_types.includes(this.chart_type)) {
+            if (granularity === 0 && !_chart.tick_chart_types.includes(this.chart_type)) {
                 this.chart_type = 'mountain';
             }
         }
