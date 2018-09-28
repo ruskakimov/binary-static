@@ -6920,6 +6920,10 @@ var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javasc
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _gtm = __webpack_require__(/*! ../../../Utils/gtm */ "./src/javascript/app_2/Utils/gtm.js");
+
+var _gtm2 = _interopRequireDefault(_gtm);
+
 var _login_prompt = __webpack_require__(/*! ../Elements/login_prompt.jsx */ "./src/javascript/app_2/App/Components/Elements/login_prompt.jsx");
 
 var _login_prompt2 = _interopRequireDefault(_login_prompt);
@@ -6947,6 +6951,7 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
 
         var title = route.title ? (0, _localize.localize)(route.title) + ' | ' : '';
         document.title = '' + title + _app_config.default_title;
+        _gtm2.default.pushDataLayer({ event: 'page_load' });
         return result;
     };
 
@@ -7603,10 +7608,6 @@ var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
-var _gtm = __webpack_require__(/*! ../../../Utils/gtm */ "./src/javascript/app_2/Utils/gtm.js");
-
-var _gtm2 = _interopRequireDefault(_gtm);
-
 var _Errors = __webpack_require__(/*! ../../Components/Elements/Errors */ "./src/javascript/app_2/App/Components/Elements/Errors/index.js");
 
 var _Errors2 = _interopRequireDefault(_Errors);
@@ -7621,8 +7622,6 @@ var Routes = function Routes(props) {
     if (props.has_error) {
         return _react2.default.createElement(_Errors2.default, props.error);
     }
-
-    _gtm2.default.pushDataLayer({ event: 'page_load' });
 
     return _react2.default.createElement(_Routes2.default, null);
 };
@@ -11012,8 +11011,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -11025,8 +11022,6 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _utility = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js");
 
 var _Errors = __webpack_require__(/*! ../../../App/Components/Elements/Errors */ "./src/javascript/app_2/App/Components/Elements/Errors/index.js");
 
@@ -11048,106 +11043,57 @@ var _SmartChart2 = _interopRequireDefault(_SmartChart);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Contract = function Contract(_ref) {
+    var is_mobile = _ref.is_mobile,
+        has_error = _ref.has_error,
+        match = _ref.match,
+        symbol = _ref.symbol,
+        chart_config = _ref.chart_config,
+        updateChartType = _ref.updateChartType,
+        updateGranularity = _ref.updateGranularity;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Contract = function (_React$Component) {
-    _inherits(Contract, _React$Component);
-
-    function Contract(props) {
-        _classCallCheck(this, Contract);
-
-        var _this = _possibleConstructorReturn(this, (Contract.__proto__ || Object.getPrototypeOf(Contract)).call(this, props));
-
-        _this.updateChartType = function (chart_type) {
-            _this.setState({ chart_config: _extends({}, _this.state.chart_config, { chart_type: chart_type }) });
-        };
-
-        _this.updateGranularity = function (granularity) {
-            _this.setState({ chart_config: _extends({}, _this.state.chart_config, { granularity: granularity }) });
-        };
-
-        _this.state = {
-            chart_config: _extends({}, _this.props.chart_config)
-        };
-        return _this;
-    }
-
-    _createClass(Contract, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.props.onMount(this.props.match.params.contract_id);
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            this.props.onUnmount();
-        }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            if (!(0, _utility.isDeepEqual)(this.props.chart_config, this.state.chart_config)) {
-                this.setState({ chart_config: _extends({}, this.props.chart_config) });
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _props = this.props,
-                is_mobile = _props.is_mobile,
-                has_error = _props.has_error,
-                match = _props.match,
-                symbol = _props.symbol;
-
-            var form_wrapper_class = is_mobile ? 'mobile-wrapper' : 'sidebar-container desktop-only';
-            return _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
-                has_error ? _react2.default.createElement(_Errors2.default, { message: (0, _localize.localize)('Unknown Error!') }) : _react2.default.createElement(
-                    'div',
-                    { className: 'trade-container' },
+    var form_wrapper_class = is_mobile ? 'mobile-wrapper' : 'sidebar-container desktop-only';
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        has_error ? _react2.default.createElement(_Errors2.default, { message: (0, _localize.localize)('Unknown Error!') }) : _react2.default.createElement(
+            'div',
+            { className: 'trade-container' },
+            _react2.default.createElement(
+                'div',
+                { className: 'chart-container notice-msg' },
+                symbol && _react2.default.createElement(_SmartChart2.default, _extends({
+                    InfoBox: _react2.default.createElement(_info_box2.default, null),
+                    symbol: symbol
+                }, chart_config, {
+                    updateChartType: updateChartType,
+                    updateGranularity: updateGranularity
+                }))
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: form_wrapper_class },
+                _react2.default.createElement(
+                    _reactTransitionGroup.CSSTransition,
+                    {
+                        'in': !has_error,
+                        timeout: 400,
+                        classNames: 'contract-wrapper',
+                        unmountOnExit: true
+                    },
                     _react2.default.createElement(
                         'div',
-                        { className: 'chart-container notice-msg' },
-                        symbol && this.state.chart_config.chart_type && _react2.default.createElement(_SmartChart2.default, _extends({
-                            InfoBox: _react2.default.createElement(_info_box2.default, null),
-                            symbol: symbol
-                        }, this.state.chart_config, {
-                            updateChartType: this.updateChartType,
-                            updateGranularity: this.updateGranularity
-                        }))
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: form_wrapper_class },
-                        _react2.default.createElement(
-                            _reactTransitionGroup.CSSTransition,
-                            {
-                                'in': !has_error,
-                                timeout: 400,
-                                classNames: 'contract-wrapper',
-                                unmountOnExit: true
-                            },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'contract-wrapper' },
-                                _react2.default.createElement(_contract_details2.default, {
-                                    contract_id: match.params.contract_id,
-                                    key: match.params.contract_id
-                                })
-                            )
-                        )
+                        { className: 'contract-wrapper' },
+                        _react2.default.createElement(_contract_details2.default, {
+                            contract_id: match.params.contract_id,
+                            key: match.params.contract_id
+                        })
                     )
                 )
-            );
-        }
-    }]);
-
-    return Contract;
-}(_react2.default.Component);
+            )
+        )
+    );
+};
 
 Contract.propTypes = {
     chart_config: _propTypes2.default.object,
@@ -11157,16 +11103,16 @@ Contract.propTypes = {
     symbol: _propTypes2.default.string
 };
 
-exports.default = (0, _connect.connect)(function (_ref) {
-    var modules = _ref.modules,
-        ui = _ref.ui;
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules,
+        ui = _ref2.ui;
     return {
         chart_config: modules.contract.chart_config,
         has_error: modules.contract.has_error,
+        updateChartType: modules.contract.updateChartType,
+        updateGranularity: modules.contract.updateGranularity,
         is_mobile: ui.is_mobile,
-        symbol: modules.contract.contract_info.underlying,
-        onMount: modules.contract.onMount,
-        onUnmount: modules.contract.onUnmount
+        symbol: modules.contract.contract_info.underlying
     };
 })(Contract);
 
@@ -11236,6 +11182,16 @@ var ContractDetails = function (_React$Component) {
     }
 
     _createClass(ContractDetails, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.props.onMount(this.props.contract_id);
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.props.onUnmount();
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _props$contract_info = this.props.contract_info,
@@ -11295,7 +11251,9 @@ exports.default = (0, _connect.connect)(function (_ref) {
         contract_info: modules.contract.contract_info,
         details_info: modules.contract.details_info,
         details_expiry: modules.contract.details_expiry,
-        display_status: modules.contract.display_status
+        display_status: modules.contract.display_status,
+        onMount: modules.contract.onMount,
+        onUnmount: modules.contract.onUnmount
     };
 })(ContractDetails);
 
@@ -18264,8 +18222,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var getChartConfig = exports.getChartConfig = function getChartConfig(contract_info) {
-    if (!isEnded(contract_info)) return {}; // don't limit the range for ongoing contracts until smartchart supports it
-
     var start = contract_info.date_start;
     var end = contract_info.date_expiry;
     var granularity = calculateGranularity(end - start);
@@ -18350,7 +18306,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -18423,7 +18379,7 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
+var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(ContractStore, _BaseStore);
 
     function ContractStore() {
@@ -18437,16 +18393,26 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'has_error', _descriptor5, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor6, _this), _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'chart_config', _descriptor5, _this), _initDefineProp(_this, 'has_error', _descriptor6, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor7, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ContractStore, [{
-        key: 'onMount',
+        key: 'updateChartType',
 
 
         // -------------------
         // ----- Actions -----
         // -------------------
+        value: function updateChartType(chart_type) {
+            this.chart_config.chart_type = chart_type;
+        }
+    }, {
+        key: 'updateGranularity',
+        value: function updateGranularity(granularity) {
+            this.chart_config.granularity = granularity;
+        }
+    }, {
+        key: 'onMount',
         value: function onMount(contract_id) {
             this.contract_id = contract_id;
             this.smart_chart = this.root_store.modules.smart_chart;
@@ -18466,7 +18432,6 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             this.digits_info = {};
             this.sell_info = {};
             this.is_sell_requested = false;
-            this.has_error = false;
 
             this.smart_chart.removeBarriers();
             this.smart_chart.removeMarkers();
@@ -18481,6 +18446,9 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
                 return;
             }
             this.contract_info = response.proposal_open_contract;
+            if ((0, _logic.isEnded)(this.contract_info)) {
+                this.chart_config = (0, _logic.getChartConfig)(this.contract_info);
+            }
             (0, _chart_barriers.createChartBarrier)(this.smart_chart, this.contract_info);
             (0, _chart_markers.createChartMarkers)(this.smart_chart, this.contract_info, this);
             this.handleDigits();
@@ -18535,13 +18503,8 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         // ---------------------------
         // ----- Computed values -----
         // ---------------------------
+        // TODO: currently this runs on each response, even if contract_info is deep equal previous one
 
-    }, {
-        key: 'chart_config',
-        get: function get() {
-            // TODO: currently this runs on each response, even if contract_info is deep equal previous one
-            return (0, _logic.getChartConfig)(this.contract_info);
-        }
     }, {
         key: 'details_expiry',
         get: function get() {
@@ -18623,17 +18586,22 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     initializer: function initializer() {
         return _mobx.observable.object({});
     }
-}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'has_error', [_mobx.observable], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'chart_config', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return _mobx.observable.object({});
+    }
+}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'has_error', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'is_sell_requested', [_mobx.observable], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'is_sell_requested', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateProposal', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'updateProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDigits', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDigits'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickSell', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleSell', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'handleSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeSellError', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'removeSellError'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'chart_config', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'chart_config'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_expiry', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_expiry'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_info', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_info'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display_status', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'display_status'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot_time', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot_time'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'final_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'final_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'indicative_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'indicative_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_ended', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_ended'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_sold_before_start', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_sold_before_start'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_started', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_started'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_user_sold', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_user_sold'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_valid_to_sell', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_valid_to_sell'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'updateChartType', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'updateChartType'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateGranularity', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'updateGranularity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateProposal', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'updateProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDigits', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDigits'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickSell', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleSell', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'handleSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeSellError', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'removeSellError'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_expiry', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_expiry'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_info', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_info'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display_status', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'display_status'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot_time', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot_time'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'final_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'final_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'indicative_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'indicative_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_ended', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_ended'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_sold_before_start', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_sold_before_start'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_started', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_started'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_user_sold', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_user_sold'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_valid_to_sell', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_valid_to_sell'), _class.prototype)), _class));
 exports.default = ContractStore;
 
 /***/ }),
@@ -19493,25 +19461,47 @@ function _initializerWarningHelper(descriptor, context) {
 var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(SmartChartStore, _BaseStore);
 
-    function SmartChartStore() {
-        var _ref;
-
-        var _temp, _this, _ret;
+    function SmartChartStore(_ref) {
+        var root_store = _ref.root_store;
 
         _classCallCheck(this, SmartChartStore);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+        var local_storage_properties = ['chart_type', 'granularity'];
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'symbol', _descriptor, _this), _initDefineProp(_this, 'barriers', _descriptor2, _this), _initDefineProp(_this, 'markers', _descriptor3, _this), _initDefineProp(_this, 'is_title_enabled', _descriptor4, _this), _initDefineProp(_this, 'is_contract_mode', _descriptor5, _this), _initDefineProp(_this, 'chart_type', _descriptor6, _this), _initDefineProp(_this, 'granularity', _descriptor7, _this), _initDefineProp(_this, 'onUnmount', _descriptor8, _this), _initDefineProp(_this, 'createBarriers', _descriptor9, _this), _this.wsSubscribe = function (request_object, callback) {
+        var _this = _possibleConstructorReturn(this, (SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call(this, { root_store: root_store, local_storage_properties: local_storage_properties }));
+
+        _initDefineProp(_this, 'symbol', _descriptor, _this);
+
+        _initDefineProp(_this, 'barriers', _descriptor2, _this);
+
+        _initDefineProp(_this, 'markers', _descriptor3, _this);
+
+        _initDefineProp(_this, 'is_title_enabled', _descriptor4, _this);
+
+        _initDefineProp(_this, 'is_contract_mode', _descriptor5, _this);
+
+        _initDefineProp(_this, 'chart_type', _descriptor6, _this);
+
+        _initDefineProp(_this, 'granularity', _descriptor7, _this);
+
+        _initDefineProp(_this, 'onUnmount', _descriptor8, _this);
+
+        _initDefineProp(_this, 'createBarriers', _descriptor9, _this);
+
+        _this.wsSubscribe = function (request_object, callback) {
             if (request_object.subscribe !== 1) return;
             _Services.WS.subscribeTicksHistory(_extends({}, request_object), callback); // use a copy of the request_object to prevent updating the source
-        }, _this.wsForget = function (match_values, callback) {
+        };
+
+        _this.wsForget = function (match_values, callback) {
             return _Services.WS.forget('ticks_history', callback, match_values);
-        }, _this.wsSendRequest = function (request_object) {
+        };
+
+        _this.wsSendRequest = function (request_object) {
             return _Services.WS.sendRequest(request_object);
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+        };
+
+        return _this;
     }
 
     _createClass(SmartChartStore, [{
@@ -22092,10 +22082,7 @@ var ModulesStore = function ModulesStore(root_store) {
 
     this.contract = new _contract_store2.default({ root_store: root_store });
     this.portfolio = new _portfolio_store2.default({ root_store: root_store });
-    this.smart_chart = new _smart_chart_store2.default({
-        root_store: root_store,
-        local_storage_properties: ['chart_type', 'granularity']
-    });
+    this.smart_chart = new _smart_chart_store2.default({ root_store: root_store });
     this.statement = new _statement_store2.default();
     this.trade = new _trade_store2.default({ root_store: root_store });
 };
