@@ -531,8 +531,6 @@ a.previous-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex; }
-  #mt_account_management [data-balloon]:before {
-    max-width: 100%; }
   #mt_account_management .get-started-link {
     display: block;
     padding: 10px 20px;
