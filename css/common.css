@@ -683,6 +683,117 @@ label + input {
   .show_mobile[data-balloon-length=medium]:before {
     width: 120px; } }
 
+/* TODO: remove when UX research is finished */
+#interview_popup_container {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.5); }
+  #interview_popup_container .popup {
+    width: calc(100vw - 20px);
+    max-width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    background: #fff;
+    -webkit-box-shadow: 0 2px 31px 0 rgba(0, 0, 0, 0.82);
+            box-shadow: 0 2px 31px 0 rgba(0, 0, 0, 0.82);
+    border-radius: 10px;
+    overflow: hidden; }
+    #interview_popup_container .popup__head {
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      padding: 20px 25px;
+      background-image: url("../images/interview_popup/bg-shape.svg");
+      background-size: 100%;
+      background-position: bottom;
+      background-repeat: no-repeat; }
+      #interview_popup_container .popup__head h1 {
+        color: #fff;
+        margin: 0; }
+    #interview_popup_container .popup__present_img {
+      margin: 0 auto 20px;
+      height: 130px;
+      display: block;
+      -webkit-transform: translateX(-10px);
+              transform: translateX(-10px); }
+    #interview_popup_container .popup__body {
+      padding: 20px 35px 30px; }
+    #interview_popup_container .popup__options {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between; }
+      #interview_popup_container .popup__options * {
+        margin: 0; }
+      #interview_popup_container .popup__options #interview_no_thanks {
+        color: #a1aab3;
+        /* stylelint-disable color-no-hex */ }
+    #interview_popup_container .popup__secondary_options {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      line-height: 20px; }
+    #interview_popup_container .popup__separator {
+      display: inline-block;
+      vertical-align: text-bottom;
+      width: 2px;
+      height: 20px;
+      margin: 0 15px;
+      background: #a1aab3; }
+  #interview_popup_container h1, #interview_popup_container h2 {
+    text-align: center;
+    line-height: 1.15; }
+  #interview_popup_container b {
+    font-weight: bold; }
+  @media screen and (max-width: 768px) {
+    #interview_popup_container h1 {
+      font-size: 24px; }
+    #interview_popup_container h2 {
+      font-size: 18px; }
+    #interview_popup_container .popup {
+      max-width: 340px; }
+      #interview_popup_container .popup__present_img {
+        height: 100px; }
+      #interview_popup_container .popup__head {
+        padding: 20px 15px; }
+      #interview_popup_container .popup__body {
+        padding: 20px 15px 7px; }
+      #interview_popup_container .popup__options {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+                flex-direction: column-reverse;
+        font-size: 16px; }
+      #interview_popup_container .popup__secondary_options {
+        font-size: 12px; }
+      #interview_popup_container .popup #interview_interested {
+        font-size: 20px;
+        margin: 5px 0 30px; }
+    #interview_popup_container p {
+      font-size: 14px; } }
+  @media screen and (max-width: 360px) {
+    #interview_popup_container .popup__head {
+      background-size: 120%; } }
+
 /* main style */
 #androidApp, #appstore {
   width: 100px;
@@ -707,17 +818,26 @@ label + input {
     padding-bottom: 10px;
     float: none; } }
 
-.chart-delay {
+.highcharts-container .highcharts-subtitle > div:not(.delay) {
+  display: inline-block; }
+
+.highcharts-container .highcharts-subtitle > div .chart-delay {
   display: block;
   text-align: center;
   margin-bottom: 0.2em;
   color: #c03; }
 
-.chart-payout-range {
-  margin-left: 10px; }
-  .chart-payout-range:before {
+.highcharts-container .highcharts-subtitle > div .chart-payout-range {
+  margin-left: 10px;
+  margin-right: 5px; }
+  .highcharts-container .highcharts-subtitle > div .chart-payout-range:before {
     content: url("../images/pages/trade/chart_payout_range.svg");
     display: inline-block; }
+
+.highcharts-container .highcharts-tooltip span {
+  background-color: #fff; }
+  .highcharts-container .highcharts-tooltip span span:first-child {
+    height: 30px; }
 
 .lightbox {
   display: -webkit-box;
@@ -778,15 +898,20 @@ label + input {
 
 #footer #footer-regulatory {
   padding-bottom: 30px; }
+  #footer #footer-regulatory a, #footer #footer-regulatory p, #footer #footer-regulatory .fld-risk-warning legend {
+    font-size: 13px !important; }
   #footer #footer-regulatory a, #footer #footer-regulatory p {
-    font-size: 13px !important;
     font-weight: 100; }
   #footer #footer-regulatory a {
     color: #dedede; }
-  #footer #footer-regulatory p {
+  #footer #footer-regulatory p, #footer #footer-regulatory .fld-risk-warning legend {
     color: #a8a8a8;
     text-align: justify;
     margin: 0 0 10px; }
+  #footer #footer-regulatory .fld-risk-warning {
+    border-color: #44484c; }
+    #footer #footer-regulatory .fld-risk-warning legend {
+      text-transform: uppercase; }
   #footer #footer-regulatory .about-binary {
     border-top: 1px solid #44484c;
     border-bottom: 1px solid #44484c;
@@ -857,6 +982,19 @@ label + input {
 
 #footer .regulation-logos > * {
   margin-right: 20px; }
+
+#footer .regulation-logos .vanuatu-icon {
+  width: 160px;
+  margin-left: -30px;
+  margin-right: 0; }
+
+#footer .regulation-logos .bvi-icon {
+  width: 115px;
+  margin-left: -30px;
+  margin-right: 0; }
+
+#footer .regulation-logos .labuan-icon {
+  width: 120px; }
 
 #footer #end-note {
   line-height: 25px;
@@ -1245,7 +1383,7 @@ body .app-store-badge, body .google-play-badge {
   display: inline-block;
   background-size: contain; }
 
-body.EN .calls_recording {
+body.EN .calls_recording, body.ID .calls_recording, body.RU .calls_recording {
   display: block !important; }
 
 /*Vietnamese Language */
@@ -1274,20 +1412,6 @@ body.FR #trading_socket_container #contract_form_name_nav {
 
 body.FR #header .account-type {
   font-size: 0.8695652174rem; }
-
-/*Indonesian Language */
-body.ID .calls_recording {
-  display: block !important; }
-
-body.ID .regulatory-logo {
-  display: none !important; }
-
-body.ID #regulatory-text {
-  margin-top: 10px;
-  margin-bottom: 10px; }
-
-body.ID .id-hide {
-  display: none !important; }
 
 body.IT #legal-tab li.tm-li-2, body.DE #legal-tab li.tm-li-2 {
   margin-right: 0 !important;
@@ -1320,9 +1444,6 @@ body.RU #trading_socket_container .contract_heading {
 
 body.RU #trading_socket_container #expiry_type {
   max-width: 185px; }
-
-body.RU .calls_recording {
-  display: block !important; }
 
 body.RU .ru-hide {
   display: none !important; }
