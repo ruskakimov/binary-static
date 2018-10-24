@@ -3490,14 +3490,12 @@ var GTM = function () {
         }
 
         // check if there are any transactions in the last 30 days for UX interview selection
-        if (/id|ru|bo|ng/i.test(get_settings.country_code)) {
-            BinarySocket.send({ statement: 1, limit: 1 }).then(function (response) {
-                var last_transaction_timestamp = getPropertyValue(response, ['statement', 'transactions', '0', 'transaction_time']);
-                pushDataLayer({
-                    bom_transaction_in_last_30d: !!last_transaction_timestamp && moment(last_transaction_timestamp * 1000).isAfter(moment().subtract(30, 'days'))
-                });
+        BinarySocket.send({ statement: 1, limit: 1 }).then(function (response) {
+            var last_transaction_timestamp = getPropertyValue(response, ['statement', 'transactions', '0', 'transaction_time']);
+            pushDataLayer({
+                bom_transaction_in_last_30d: !!last_transaction_timestamp && moment(last_transaction_timestamp * 1000).isAfter(moment().subtract(30, 'days'))
             });
-        }
+        });
     };
 
     var pushPurchaseData = function pushPurchaseData(response) {
