@@ -741,8 +741,7 @@ label + input {
       #interview_popup_container .popup__options * {
         margin: 0; }
       #interview_popup_container .popup__options #interview_no_thanks {
-        color: #a1aab3;
-        /* stylelint-disable color-no-hex */ }
+        color: #a1aab3; }
     #interview_popup_container .popup__secondary_options {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -762,8 +761,6 @@ label + input {
   #interview_popup_container h1, #interview_popup_container h2 {
     text-align: center;
     line-height: 1.15; }
-  #interview_popup_container b {
-    font-weight: bold; }
   @media screen and (max-width: 768px) {
     #interview_popup_container h1 {
       font-size: 24px; }
