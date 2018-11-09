@@ -771,12 +771,12 @@ var getElementById = __webpack_require__(/*! ../common_functions */ "./src/javas
 var isVisible = __webpack_require__(/*! ../common_functions */ "./src/javascript/_common/common_functions.js").isVisible;
 var getLanguage = __webpack_require__(/*! ../language */ "./src/javascript/_common/language.js").get;
 var State = __webpack_require__(/*! ../storage */ "./src/javascript/_common/storage.js").State;
-var getAppId = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").getAppId;
+// const getAppId       = require('../../config').getAppId;
 
 var GTM = function () {
+    // const isGtmApplicable = () => (/^(1|1098|14473)$/.test(getAppId()));
     var isGtmApplicable = function isGtmApplicable() {
-        return (/^(1|1098|14473)$/.test(getAppId())
-        );
+        return true;
     };
 
     var getCommonVariables = function getCommonVariables() {
@@ -9223,6 +9223,7 @@ module.exports = BinaryPjax;
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var RealityCheckData = __webpack_require__(/*! ../pages/user/reality_check/reality_check.data */ "./src/javascript/app/pages/user/reality_check/reality_check.data.js");
 var ClientBase = __webpack_require__(/*! ../../_common/base/client_base */ "./src/javascript/_common/base/client_base.js");
+var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var SocketCache = __webpack_require__(/*! ../../_common/base/socket_cache */ "./src/javascript/_common/base/socket_cache.js");
 var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var urlLang = __webpack_require__(/*! ../../_common/language */ "./src/javascript/_common/language.js").urlLang;
@@ -9292,7 +9293,11 @@ var Client = function () {
         if (show_login_page) {
             sessionStorage.setItem('showLoginPage', 1);
         }
-        BinarySocket.send({ logout: '1' });
+        BinarySocket.send({ logout: '1' }).then(function (response) {
+            if (response.logout === 1) {
+                GTM.pushDataLayer({ event: 'log_out' });
+            }
+        });
     };
 
     var doLogout = function doLogout(response) {
