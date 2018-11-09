@@ -17801,6 +17801,10 @@ var _ws_methods = __webpack_require__(/*! ./ws_methods */ "./src/javascript/app_
 
 var _ws_methods2 = _interopRequireDefault(_ws_methods);
 
+var _gtm = __webpack_require__(/*! ../Utils/gtm */ "./src/javascript/app_2/Utils/gtm.js");
+
+var _gtm2 = _interopRequireDefault(_gtm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var client_store = void 0,
@@ -17880,7 +17884,7 @@ var BinarySocketGeneral = function () {
                 if (response.get_settings) {
                     setResidence(response.get_settings.country_code);
                     _client_base2.default.set('email', response.get_settings.email);
-                    // GTM.eventHandler(response.get_settings);
+                    _gtm2.default.eventHandler(response.get_settings);
                     // if (response.get_settings.is_authenticated_payment_agent) {
                     //     $('#topMenuPaymentAgent').setVisibility(1);
                     // }
