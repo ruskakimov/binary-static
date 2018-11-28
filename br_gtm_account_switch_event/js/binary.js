@@ -802,7 +802,7 @@ var Elevio = function () {
         if (!window._elev) return; // eslint-disable-line no-underscore-dangle
         window._elev.on('load', function (elev) {
             // eslint-disable-line no-underscore-dangle
-            var available_elev_languages = ['id'];
+            var available_elev_languages = ['id', 'ru'];
             var current_language = getLanguage().toLowerCase();
             if (available_elev_languages.indexOf(current_language) !== -1) {
                 window._elev.setLanguage(current_language); // eslint-disable-line no-underscore-dangle
@@ -925,8 +925,7 @@ var GTM = function () {
 
     var eventHandler = function eventHandler(get_settings) {
         if (!isGtmApplicable()) return;
-        var is_login = localStorage.getItem('GTM_login') === '1';
-        var is_account_switch = localStorage.getItem('GTM_login') === '2';
+        var login_event = localStorage.getItem('GTM_login');
         var is_new_account = localStorage.getItem('GTM_new_account') === '1';
 
         localStorage.removeItem('GTM_login');
@@ -948,11 +947,7 @@ var GTM = function () {
             bom_today: Math.floor(Date.now() / 1000)
         };
 
-        if (is_login) {
-            data.event = 'log_in';
-        } else if (is_account_switch) {
-            data.event = 'account_switch';
-        } else if (is_new_account) {
+        if (is_new_account) {
             data.event = 'new_account';
             data.bom_date_joined = data.bom_today;
         }
@@ -964,7 +959,8 @@ var GTM = function () {
             data.bom_phone = get_settings.phone;
         }
 
-        if (is_login || is_account_switch) {
+        if (login_event) {
+            data.event = login_event;
             BinarySocket.wait('mt5_login_list').then(function (response) {
                 (response.mt5_login_list || []).forEach(function (obj) {
                     var acc_type = (ClientBase.getMT5AccountType(obj.group) || '').replace('real_vanuatu', 'financial').replace('vanuatu_', '').replace('costarica', 'gaming'); // i.e. financial_cent, demo_cent, demo_gaming, real_gaming
@@ -1053,8 +1049,8 @@ var GTM = function () {
         eventHandler: eventHandler,
         pushPurchaseData: pushPurchaseData,
         mt5NewAccount: mt5NewAccount,
-        setLoginFlag: function setLoginFlag(flag) {
-            if (isGtmApplicable()) localStorage.setItem('GTM_login', flag);
+        setLoginFlag: function setLoginFlag(event_name) {
+            if (isGtmApplicable()) localStorage.setItem('GTM_login', event_name);
         }
     };
 }();
@@ -10039,7 +10035,7 @@ var Header = function () {
 
         sessionStorage.setItem('active_tab', '1');
         // set local storage
-        GTM.setLoginFlag('2');
+        GTM.setLoginFlag('account_switch');
         Client.set('cashier_confirmed', 0);
         Client.set('accepted_bch', 0);
         Client.set('loginid', loginid);
@@ -10457,7 +10453,7 @@ var LoggedInHandler = function () {
         }
 
         if (Client.isLoggedIn()) {
-            GTM.setLoginFlag('1');
+            GTM.setLoginFlag('log_in');
             Client.set('session_start', parseInt(moment().valueOf() / 1000));
             // Remove cookies that were set by the old code
             removeCookies('email', 'login', 'loginid', 'loginid_list', 'residence');
@@ -14066,6 +14062,18 @@ var Cashier = function () {
             $toggler = $(e.target).closest('.toggler');
             $toggler.children().toggleClass('active');
             $toggler.toggleClass('open');
+        });
+        showCashierNote();
+    };
+
+    var showCashierNote = function showCashierNote() {
+        // TODO: remove `wait` & residence check to release to all countries
+        BinarySocket.wait('authorize').then(function () {
+            $('.cashier_note').setVisibility(Client.isLoggedIn() && // only show to logged-in clients
+            !Client.get('is_virtual') && // only show to real accounts
+            !isCryptocurrency(Client.get('currency')) && // only show to fiat currencies
+            /^(vn|ng|lk|id)$/.test(Client.get('residence')) // only show to Vietnam, Nigeria, Sri Lanka, Indonesia
+            );
         });
     };
 
