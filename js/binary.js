@@ -892,12 +892,12 @@ var isVisible = __webpack_require__(/*! ../common_functions */ "./src/javascript
 var getLanguage = __webpack_require__(/*! ../language */ "./src/javascript/_common/language.js").get;
 var State = __webpack_require__(/*! ../storage */ "./src/javascript/_common/storage.js").State;
 var getPropertyValue = __webpack_require__(/*! ../utility */ "./src/javascript/_common/utility.js").getPropertyValue;
-var getAppId = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").getAppId;
+// const getAppId         = require('../../config').getAppId;
 
 var GTM = function () {
+    // const isGtmApplicable = () => (/^(1|1098|14473)$/.test(getAppId()));
     var isGtmApplicable = function isGtmApplicable() {
-        return (/^(1|1098|14473)$/.test(getAppId())
-        );
+        return true;
     };
 
     var getCommonVariables = function getCommonVariables() {
