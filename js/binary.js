@@ -33900,7 +33900,11 @@ var Home = function () {
         } else {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
             $('#social-signup').setVisibility(0);
-            GTM.pushDataLayer({ event: 'email_submit', input_email: response.echo_req.verify_email });
+            GTM.pushDataLayer({
+                event: 'email_submit',
+                input_email: response.echo_req.verify_email,
+                date_first_contact: localStorage.getItem('date_first_contact')
+            });
         }
     };
 
