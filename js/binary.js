@@ -33838,6 +33838,7 @@ module.exports = {
 "use strict";
 
 
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var Login = __webpack_require__(/*! ../../_common/base/login */ "./src/javascript/_common/base/login.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -33897,13 +33898,20 @@ var Home = function () {
             $('#signup_error').setVisibility(1).text(error.message);
         } else if (isBinaryApp()) {
             BinaryPjax.load(urlFor('new_account/virtualws'));
+            GTM.pushDataLayer({
+                event: 'email_submit',
+                input_email: response.echo_req.verify_email,
+                date_first_contact: moment().diff(moment(localStorage.getItem('date_first_contact')), 'days'),
+                source: 'desktop app'
+            });
         } else {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
             $('#social-signup').setVisibility(0);
             GTM.pushDataLayer({
                 event: 'email_submit',
                 input_email: response.echo_req.verify_email,
-                date_first_contact: localStorage.getItem('date_first_contact')
+                date_first_contact: moment().diff(moment(localStorage.getItem('date_first_contact')), 'days'),
+                source: 'binary.com'
             });
         }
     };
