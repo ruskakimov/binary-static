@@ -33903,11 +33903,15 @@ var Home = function () {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
             $('#social-signup').setVisibility(0);
         }
-        GTM.pushDataLayer({
-            event: 'email_submit',
-            email_submit_input: response.echo_req.verify_email,
-            email_submit_days_passed: moment.utc().diff(moment.utc(localStorage.getItem('date_first_contact')), 'days'),
-            email_submit_source: isBinaryApp() ? 'desktop app' : 'binary.com'
+        BinarySocket.wait('time').then(function (_ref) {
+            var server_time = _ref.server_time;
+
+            GTM.pushDataLayer({
+                event: 'email_submit',
+                email_submit_input: response.echo_req.verify_email,
+                email_submit_days_passed: moment(server_time * 1000).utc().diff(moment.utc(localStorage.getItem('date_first_contact')), 'days'),
+                email_submit_source: isBinaryApp() ? 'desktop app' : 'binary.com'
+            });
         });
     };
 
