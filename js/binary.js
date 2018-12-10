@@ -33904,12 +33904,12 @@ var Home = function () {
             $('#social-signup').setVisibility(0);
         }
         BinarySocket.wait('time').then(function (_ref) {
-            var server_time = _ref.server_time;
+            var time = _ref.time;
 
             GTM.pushDataLayer({
                 event: 'email_submit',
                 email_submit_input: response.echo_req.verify_email,
-                email_submit_days_passed: moment(server_time * 1000).utc().diff(moment.utc(localStorage.getItem('date_first_contact')), 'days'),
+                email_submit_days_passed: moment(time * 1000).utc().diff(moment.utc(localStorage.getItem('date_first_contact')), 'days'),
                 email_submit_source: isBinaryApp() ? 'desktop app' : 'binary.com'
             });
         });
